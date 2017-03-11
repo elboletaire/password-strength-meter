@@ -1,9 +1,8 @@
 /**
  * Password Strength Meter for jQuery
- * v. 0.1 2010-02-07
- * @author Òscar Casajuana a.k.a. elboletaire <elboletaire at underave {dot} net>
  *
- * Based on the script written by Firas Kassem [2007.04.05]
+ * @author Òscar Casajuana a.k.a. elboletaire <elboletaire at underave {dot} net>
+ *         Based on the script written by Firas Kassem [2007-04-05]
  */
 ;(function($) {
   'use strict';
@@ -19,6 +18,7 @@
       showPercent: false,
       showText: true,
       animate: true,
+      animateSpeed: 'fast',
       username: false,
       usernamePartialMatch: true,
       minimumLength: 4
@@ -196,9 +196,11 @@
         $graybar.append($colorbar)
       );
 
+      $object.parent().addClass('pass-strength-visible');
       if (options.animate) {
         $insert.css('display', 'none');
         shown = false;
+        $object.parent().removeClass('pass-strength-visible');
       }
 
       if (options.showPercent) {
@@ -244,15 +246,19 @@
       if (options.animate) {
         $object.focus(function() {
           if (!shown) {
-            $insert.slideDown('fast');
-            shown = true;
+            $insert.slideDown('fast', function () {
+              shown = true;
+              $object.parent().addClass('pass-strength-visible');
+            });
           }
         });
 
         $object.blur(function() {
           if (!$object.val().length && shown) {
-            $insert.slideUp();
-            shown = false;
+            $insert.slideUp('fast', function () {
+              shown = false;
+              $object.parent().removeClass('pass-strength-visible')
+            });
           }
         });
       }
@@ -261,6 +267,7 @@
     return init();
   }
 
+  // Bind to jquery
   $.fn.password = function(options) {
     return this.each(function() {
       new Password($(this), options);

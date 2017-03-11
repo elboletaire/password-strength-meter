@@ -3,15 +3,16 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-    <script language="javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script language="javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script language="javascript" src="https://code.jquery.com/jquery-migrate-git.min.js"></script>
 
     <!-- emojis 😁! -->
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <script src="svg4everybody.min.js"></script>
     <script language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/lib/js/emojione.min.js"></script>
 
-    <link type="text/css" rel="stylesheet" href="./jquery.password.css" />
-    <script language="javascript" src="./jquery.password.js"></script>
+    <link type="text/css" rel="stylesheet" href="./password.css" />
+    <script language="javascript" src="./password.js"></script>
     <script type="text/javascript">
         jQuery(document).ready(function($) {
           // emojis 😁! See #password5 for more details
@@ -27,17 +28,17 @@
           });
 
           // Default behavior
-          $('#password2').password();
+          $('#default').password();
 
           // Linked to username input
-          $('#password3').password({
+          $('#linked').password({
             username: '#username',
             showPercent: true
           });
 
           // Custom events (enables button on certain score)
           $('#submit').attr('disabled', true);
-          $('#password4').password().on('password.score', function (e, score) {
+          $('#events').password().on('password.score', function (e, score) {
             if (score > 75) {
               $('#submit').removeAttr('disabled');
             } else {
@@ -46,7 +47,7 @@
           });
 
           // Change translations
-          $('#password5').password({
+          $('#translations').password({
             animate: false,
             minimumLength: 6,
             enterPass: emojione.unicodeToImage('Type your password 🔜'),
@@ -65,70 +66,97 @@
       input {
         width: 300px;
       }
-      form {
+      #main {
         margin: 40px auto;
-        width: 60%;
+        width: 90%;
+      }
+      @media (min-width: 600px) {
+        #main {
+          width: 60%;
+        }
       }
       .emojione {
         width: 20px;
         height: 20px;
       }
+
+      /* better progress bar styles for the bootstrap demo */
+      .pass-strength-visible input.form-control {
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+
+      .pass-strength-visible .pass-graybar {
+        border-bottom-right-radius: 4px;
+        border-bottom-left-radius: 4px;
+      }
     </style>
 </head>
 <body>
-    <form action="javascript:void(0)">
-        <fieldset>
-            <legend>Just the password input, with the progress shown since the very first moment</legend>
-            <div class="form-group">
-                <label for="password">
-                    Password
-                </label>
-                <input id="password" type="password" class="form-control" />
-            </div>
-        </fieldset>
-        <fieldset>
-            <legend>Default behavior (progress bar animated on focus/blur)</legend>
-            <div class="form-group">
-                <label for="password2">
-                    Password
-                </label>
-                <input id="password2" type="password" class="form-control" />
-            </div>
-        </fieldset>
-        <fieldset>
-            <legend>Linked to username input</legend>
-            <div class="form-group">
-                <label for="username">
-                    Username
-                </label>
-                <input id="username" type="text" placeholder="John Doe" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label for="password3">
-                    Password
-                </label>
-                <input id="password3" type="password" class="form-control" />
-            </div>
-        </fieldset>
-        <fieldset>
-            <legend>Custom events (button enabled when score > 75%)</legend>
-            <div class="form-group">
-                <label for="password4">
-                    Password
-                </label>
-                <input id="password4" type="password" class="form-control" />
-            </div>
-            <button id="submit" onclick="return false" class="btn btn-info">Send</button>
-        </fieldset>
-        <fieldset>
-            <legend>Change translations</legend>
-            <div class="form-group">
-                <label for="password5">
-                    Password
-                </label>
-                <input id="password5" type="password" class="form-control" />
-            </div>
-        </fieldset>
-    </form>
+    <div id="main">
+        <h1>Password Strength Meter - jQuery plugin</h1>
+        <p>
+            <a href="https://github.com/elboletaire/password-strength-meter">Password Strength Meter</a>
+            is a jQuery plugin that allows you to easily bind a strength meter to
+            your password inputs with multiple options.
+        </p>
+        <p>
+            <a href="https://github.com/elboletaire/password-strength-meter">Check the docs for more info.</a>
+        </p>
+        <form action="#">
+            <fieldset>
+                <legend>Just the password input, with the progress shown since the very first moment</legend>
+                <div class="form-group">
+                    <label for="password">
+                        Password
+                    </label>
+                    <input id="password" type="password" class="form-control" />
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Default behavior (progress bar animated on focus/blur)</legend>
+                <div class="form-group">
+                    <label for="default">
+                        Password
+                    </label>
+                    <input id="default" type="password" class="form-control" />
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Linked to username input (password cannot contain username)</legend>
+                <div class="form-group">
+                    <label for="username">
+                        Username
+                    </label>
+                    <input id="username" type="text" placeholder="John Doe" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="linked">
+                        Password
+                    </label>
+                    <input id="linked" type="password" class="form-control" />
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Change translations</legend>
+                <div class="form-group">
+                    <label for="translations">
+                        Password
+                    </label>
+                    <input id="translations" type="password" class="form-control" />
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Custom events (button enabled when score > 75%)</legend>
+                <div class="form-group">
+                    <label for="events">
+                        Password
+                    </label>
+                    <input id="events" type="password" class="form-control" />
+                </div>
+                <button id="submit" onclick="return false" class="btn btn-info">Send</button>
+            </fieldset>
+        </form>
+    </div>
 </body>
 </html>

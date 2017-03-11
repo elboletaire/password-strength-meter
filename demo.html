@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script language="javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+    <!-- emojis 😁! -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <script src="svg4everybody.min.js"></script>
+    <script language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/lib/js/emojione.min.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="./jquery.password.css" />
+    <script language="javascript" src="./jquery.password.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+          // emojis 😁! See #password5 for more details
+          emojione.imageType = 'svg';
+          emojione.sprints = true;
+          emojione.imagePathSVGSprites = 'https://github.com/Ranks/emojione/raw/master/assets/sprites/emojione.sprites.svg';
+
+          // Showing the progress bar since the first moment.
+          $('#password').password({
+            animate: false
+            // Check out the readme or directly jquery.password.js
+            // for a detailed list of properties.
+          });
+
+          // Default behavior
+          $('#password2').password();
+
+          // Linked to username input
+          $('#password3').password({
+            username: '#username',
+            showPercent: true
+          });
+
+          // Custom events (enables button on certain score)
+          $('#submit').attr('disabled', true);
+          $('#password4').password().on('password.score', function (e, score) {
+            if (score > 75) {
+              $('#submit').removeAttr('disabled');
+            } else {
+              $('#submit').attr('disabled', true);
+            }
+          });
+
+          // Change translations
+          $('#password5').password({
+            animate: false,
+            minimumLength: 6,
+            enterPass: emojione.unicodeToImage('Type your password 🔜'),
+            shortPass: emojione.unicodeToImage('You can do it better, dude! 🤕'),
+            badPass: emojione.unicodeToImage('Still needs improvement! 😷'),
+            goodPass: emojione.unicodeToImage('Yeah! That\'s better! 👍'),
+            strongPass: emojione.unicodeToImage('Yup, you did it 🙃'),
+          });
+        });
+    </script>
+
+    <style type="text/css">
+      label {
+        display: block;
+      }
+      input {
+        width: 300px;
+      }
+      form {
+        margin: 40px auto;
+        width: 60%;
+      }
+      .emojione {
+        width: 20px;
+        height: 20px;
+      }
+    </style>
+</head>
+<body>
+    <form action="javascript:void(0)">
+        <fieldset>
+            <legend>Just the password input, with the progress shown since the very first moment</legend>
+            <div class="form-group">
+                <label for="password">
+                    Password
+                </label>
+                <input id="password" type="password" class="form-control" />
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Default behavior (progress bar animated on focus/blur)</legend>
+            <div class="form-group">
+                <label for="password2">
+                    Password
+                </label>
+                <input id="password2" type="password" class="form-control" />
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Linked to username input</legend>
+            <div class="form-group">
+                <label for="username">
+                    Username
+                </label>
+                <input id="username" type="text" placeholder="John Doe" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="password3">
+                    Password
+                </label>
+                <input id="password3" type="password" class="form-control" />
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Custom events (button enabled when score > 75%)</legend>
+            <div class="form-group">
+                <label for="password4">
+                    Password
+                </label>
+                <input id="password4" type="password" class="form-control" />
+            </div>
+            <button id="submit" onclick="return false" class="btn btn-info">Send</button>
+        </fieldset>
+        <fieldset>
+            <legend>Change translations</legend>
+            <div class="form-group">
+                <label for="password5">
+                    Password
+                </label>
+                <input id="password5" type="password" class="form-control" />
+            </div>
+        </fieldset>
+    </form>
+</body>
+</html>

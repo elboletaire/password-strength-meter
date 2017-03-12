@@ -8,6 +8,7 @@
 
     <!-- emojis 😁! -->
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="svg4everybody.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/lib/js/emojione.min.js"></script>
 
@@ -67,9 +68,8 @@
       input {
         width: 300px;
       }
-      #main {
-        margin: 40px auto;
-        width: 90%;
+      .container {
+        margin-top: 30px;
       }
       @media (min-width: 600px) {
         #main {
@@ -94,8 +94,12 @@
     </style>
 </head>
 <body>
-    <div id="main">
-        <h1>Password Strength Meter - jQuery plugin</h1>
+    <div class="container">
+        <h1>
+            <a href="https://github.com/elboletaire/password-strength-meter">
+                Password Strength Meter - jQuery plugin
+            </a>
+        </h1>
         <p>
             <a href="https://github.com/elboletaire/password-strength-meter">Password Strength Meter</a>
             is a jQuery plugin that allows you to easily bind a strength meter to

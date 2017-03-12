@@ -1,0 +1,19 @@
+engines:
+  eslint:
+    enabled: true
+  csslint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
+      - css
+  fixme:
+    enabled: true
+ratings:
+  paths:
+  - "password.js"
+exclude_paths:
+- "password.min.js"
+- "demo.html"

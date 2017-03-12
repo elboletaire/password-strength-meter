@@ -1,0 +1,24 @@
+language: node_js
+node_js:
+- "6"
+
+git:
+  depth: 1
+
+branches:
+  except:
+  - gh-pages
+
+env:
+  global:
+  - DEFAULT=1
+  - secure: YIIpFV5hgzQf8uUzbb8KdS2u7gOh80i0tVJbg+nRAVLF83tF2fA7wMFFSTpTUGAJyaoQQt40pkCPqLTUAR1hj/P0EltAdeSSlKRy3od9z668wW/9SemZHhpxQ3kDHEHT4xetzsw9o5T3xvHCH3pRh8dPa23arhvJ60X0URW+KyU=
+
+install:
+- npm install
+
+script:
+- npm test
+
+after_success:
+- if [ $TRAVIS_BRANCH = 'master' ]; then sh build.sh; fi

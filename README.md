@@ -113,6 +113,6 @@ by Amin Rajaee in 2009.
 
 This code is licensed under a [GPL 3.0 license][license].
 
-[example]: example.png
+[example]: src/example.png
 [firas]: https://phiras.wordpress.com/2009/07/29/password-strength-meter-v-2/
 [license]: ./LICENSE.md

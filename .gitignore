@@ -2,3 +2,4 @@
 /dist
 *.log
 /bower_components
+/coverage

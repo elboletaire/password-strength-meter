@@ -4,7 +4,8 @@
   "description": "A password strength meter plugin for jQuery",
   "main": "jquery.password.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- --reporter lcovonly -R spec"
   },
   "repository": {
     "type": "git",

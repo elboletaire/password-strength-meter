@@ -19,7 +19,7 @@ git push origin master -q > /dev/null
 
 # prepare gh-pages
 git clone --branch gh-pages --depth 1 \
-    https://${GH_TOKEN}@github.com/elboletaire/password-strength-meter.git \
+    https://${GH_TOKEN}:@github.com/elboletaire/password-strength-meter.git \
     ../gh-pages
 
 # remove all its content

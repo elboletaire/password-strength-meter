@@ -23,6 +23,11 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "gulpfile.js",
+    ".editorconfig",
+    "demo.html",
+    ".codeclimate.yml",
+    "example.png"
   ]
 }

@@ -1,3 +1,4 @@
 /node_modules
 *.log
 password.min.js
+/bower_components

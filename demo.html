@@ -37,6 +37,7 @@
           });
 
           // Custom events (enables button on certain score)
+          // Check the readme for a detailed list of events
           $('#submit').attr('disabled', true);
           $('#events').password().on('password.score', function (e, score) {
             if (score > 75) {

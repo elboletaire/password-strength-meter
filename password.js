@@ -242,8 +242,10 @@
           if (!$object.val().length && score <= 0) {
             text = options.enterPass;
           }
-          $text.html(text);
-          $object.trigger('password.text', [text, score]);
+          if ($text.html() !== $('<div>').html(text).html()) {
+            $text.html(text);
+            $object.trigger('password.text', [text, score]);
+          }
         }
       });
 

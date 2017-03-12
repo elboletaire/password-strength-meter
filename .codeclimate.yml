@@ -17,4 +17,5 @@ ratings:
   - "src/password.css"
 exclude_paths:
 - "dist/**/*"
+- "test/**/*"
 - "src/index.html"

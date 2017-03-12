@@ -5,7 +5,7 @@
   "main": "jquery.password.js",
   "scripts": {
     "test": "mocha",
-    "coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- --reporter lcovonly -R spec"
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- --reporter lcovonly -R spec"
   },
   "repository": {
     "type": "git",
@@ -37,6 +37,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
     "gulp-uglify": "^2.1.0",
+    "istanbul": "^0.4.5",
     "jquery": "^3.1.1",
     "jsdom": "^9.11.0",
     "mocha": "^3.2.0",

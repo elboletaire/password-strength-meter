@@ -1,17 +1,18 @@
 Password Strength Meter plugin for jQuery
 =========================================
 
-A password strength meter for jQuery.
+[![Build status][build svg]][build status]
+[![Code coverage][coverage svg]][coverage]
+[![License][license svg]][license]
+[![Latest stable version][releases svg]][releases]
+[![Total downloads][downloads svg]][downloads]
+[![Code climate][climate svg]][climate]
+
+
+A password strength meter for jQuery. [Give it a try!][web]
 
 ![password example][example]
 
-Why?
-----
-
-Why another library? Well, I found this on March 11th (of 2017) cleaning up my
-documents folder and noticed I made it in 2010 and never published it, so I
-decided to refactor it "a bit" (simply remade it from the ground-up) and publish
-it, so others can use it.
 
 Installation
 ------------
@@ -103,6 +104,15 @@ has been tested under jQuery 1, 2 & 3.
 
 It should work in all browswers (even IE 666).
 
+
+Why?
+----
+
+Why another library? Well, I found this on March 11th (of 2017) cleaning up my
+documents folder and noticed I made it in 2010 and never published it, so I
+decided to refactor it "a bit" (simply remade it from the ground-up) and publish
+it, so others can use it.
+
 Credits
 -------
 
@@ -115,4 +125,19 @@ This code is licensed under a [GPL 3.0 license][license].
 
 [example]: src/example.png
 [firas]: https://phiras.wordpress.com/2009/07/29/password-strength-meter-v-2/
-[license]: ./LICENSE.md
+[license]: LICENSE.md
+[web]: https://elboletaire.github.io/password-strength-meter/
+
+[build status]: https://travis-ci.org/elboletaire/password-strength-meter
+[coverage]: https://codecov.io/gh/elboletaire/password-strength-meter
+[license]: https://github.com/elboletaire/password-strength-meter/blob/master/LICENSE.md
+[releases]: https://github.com/elboletaire/password-strength-meter/releases
+[downloads]: https://www.npmjs.com/package/password-strength-meter
+[climate]: https://codeclimate.com/github/elboletaire/password-strength-meter
+
+[build svg]: https://img.shields.io/travis/elboletaire/password-strength-meter/master.svg?style=flat-square
+[coverage svg]: https://img.shields.io/codecov/c/github/elboletaire/password-strength-meter/master.svg?style=flat-square
+[license svg]: https://img.shields.io/github/license/elboletaire/password-strength-meter.svg?style=flat-square
+[releases svg]: https://img.shields.io/github/release/elboletaire/password-strength-meter.svg?style=flat-square
+[downloads svg]: https://img.shields.io/npm/dt/password-strength-meter.svg
+[climate svg]: https://img.shields.io/codeclimate/github/elboletaire/password-strength-meter.svg?style=flat-square

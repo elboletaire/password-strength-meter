@@ -30,7 +30,11 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "gulp": "^3.9.1",
+    "gulp-chmod": "^2.0.0",
+    "gulp-clean": "^0.3.2",
+    "gulp-clean-css": "^3.0.3",
     "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
     "gulp-uglify": "^2.1.0",
     "jquery": "^3.1.1",
     "jsdom": "^9.11.0",

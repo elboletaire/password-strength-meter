@@ -252,7 +252,7 @@
       if (options.animate) {
         $object.focus(function() {
           if (!shown) {
-            $insert.slideDown(settings.animateSpeed, function () {
+            $insert.slideDown(options.animateSpeed, function () {
               shown = true;
               $object.parent().addClass('pass-strength-visible');
             });
@@ -261,7 +261,7 @@
 
         $object.blur(function() {
           if (!$object.val().length && shown) {
-            $insert.slideUp(settings.animateSpeed, function () {
+            $insert.slideUp(options.animateSpeed, function () {
               shown = false;
               $object.parent().removeClass('pass-strength-visible')
             });

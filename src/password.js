@@ -38,7 +38,7 @@
         return options.containsUsername;
       }
 
-      score = percent(score);
+      score = score < 0 ? 0 : score;
 
       if (score < 34) {
         return options.badPass;
@@ -48,25 +48,6 @@
       }
 
       return options.strongPass;
-    }
-
-    /**
-     * Ensures that the score passed is between 0 and
-     * 100 for its correct display.
-     *
-     * @param  int score The incoming score, calculated by calculateScore
-     * @return int
-     */
-    function percent(score) {
-      if (score < 0) {
-        score = 0;
-      }
-
-      if (score > 100) {
-        score = 100;
-      }
-
-      return score;
     }
 
     /**
@@ -226,7 +207,7 @@
 
         var score = calculateScore($object.val(), username);
         $object.trigger('password.score', [score]);
-        var perc = percent(score);
+        var perc = score < 0 ? 0 : score;
         $colorbar.css({
           backgroundPosition: "0px -" + perc + "px",
           width: perc + '%'

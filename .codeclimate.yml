@@ -13,7 +13,8 @@ engines:
     enabled: true
 ratings:
   paths:
-  - "password.js"
+  - "src/password.js"
+  - "src/password.css"
 exclude_paths:
-- "password.min.js"
-- "demo.html"
+- "dist/**/*"
+- "src/index.html"

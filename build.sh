@@ -16,6 +16,8 @@ git config --global user.name "Travis"
 git remote remove origin
 git remote add origin https://${GH_TOKEN}@github.com/elboletaire/password-strength-meter.git
 git fetch origin
+# Ensure we're not on a detached branch
+git checkout master
 # Commit and push
 git add -f dist
 git commit -m "Update dist files [skip ci]"

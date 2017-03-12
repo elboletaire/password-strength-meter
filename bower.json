@@ -1,0 +1,28 @@
+{
+  "name": "password-strength-meter",
+  "description": "A password strength meter plugin for jQuery",
+  "main": "jquery.password.js",
+  "authors": [
+    "Òscar Casajuana <elboletaire@gmail.com> (https://github.com/elboletaire)"
+  ],
+  "license": "GPL-3.0",
+  "keywords": [
+    "jquery-plugin",
+    "ecosystem:jquery",
+    "jquery",
+    "plugin",
+    "password",
+    "strength",
+    "meter",
+    "form",
+    "forms"
+  ],
+  "homepage": "https://github.com/elboletaire/password-strength-meter",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

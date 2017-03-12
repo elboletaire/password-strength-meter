@@ -186,6 +186,12 @@
       return res;
     }
 
+    /**
+     * Initializes the plugin creating and binding the
+     * required layers and events.
+     *
+     * @return void
+     */
     function init() {
       var shown = true;
       var $text = options.showText;
@@ -246,7 +252,7 @@
       if (options.animate) {
         $object.focus(function() {
           if (!shown) {
-            $insert.slideDown('fast', function () {
+            $insert.slideDown(options.animateSpeed, function () {
               shown = true;
               $object.parent().addClass('pass-strength-visible');
             });
@@ -255,7 +261,7 @@
 
         $object.blur(function() {
           if (!$object.val().length && shown) {
-            $insert.slideUp('fast', function () {
+            $insert.slideUp(options.animateSpeed, function () {
               shown = false;
               $object.parent().removeClass('pass-strength-visible')
             });

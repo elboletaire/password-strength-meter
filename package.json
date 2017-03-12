@@ -2,7 +2,7 @@
   "name": "password-strength-meter",
   "version": "1.0.0",
   "description": "A password strength meter plugin for jQuery",
-  "main": "jquery.password.js",
+  "main": "dist/password.min.js",
   "scripts": {
     "test": "mocha",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- --reporter lcovonly -R spec"

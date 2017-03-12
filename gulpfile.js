@@ -4,13 +4,13 @@ var gulp = require('gulp'),
 ;
 
 gulp.task('default', () => {
-  return gulp.src('password.js')
+  return gulp.src('src/password.js')
     .pipe(uglify({
       preserveComments: 'license'
     }))
     .pipe(rename({
       extname: '.min.js'
     }))
-    .pipe(gulp.dest('.'))
+    .pipe(gulp.dest('./dist'))
   ;
 });

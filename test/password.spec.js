@@ -19,7 +19,7 @@ let input = () => $('<div>').append(
 )
 $('body').append(input())
 
-require('../password.js')
+require('../src/password.js')
 
 describe('$.fn.password', () => {
   beforeEach(() => {

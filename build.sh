@@ -4,10 +4,6 @@ if [[ ${TRAVIS_BRANCH} != 'develop' && ${TRAVIS_BRANCH} != 'master' && ${TRAVIS_
   exit 0
 fi
 
-# Install dev dependencies
-npm install
-
-
 # Set identity
 git config --global user.email "travis@travis-ci.org"
 git config --global user.name "Travis"

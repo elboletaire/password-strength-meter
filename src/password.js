@@ -99,7 +99,6 @@
         }
       }
 
-
       // password length
       score += password.length * 4;
       score += checkRepetition(1, password).length - password.length;

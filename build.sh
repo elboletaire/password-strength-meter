@@ -21,7 +21,7 @@ git checkout master
 # Commit and push
 git add -f dist
 git commit -m "Update dist files [skip ci]"
-git push origin master -q > /dev/null
+git push origin master
 
 # prepare gh-pages
 git clone --branch gh-pages --depth 1 \
@@ -38,4 +38,4 @@ cd ../gh-pages/
 # Push generated files
 git add .
 git commit -m "Update gh-pages [skip ci]"
-git push origin gh-pages -q > /dev/null
+git push origin gh-pages

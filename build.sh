@@ -7,21 +7,24 @@ fi
 # Set identity
 git config --global user.email "travis@travis-ci.org"
 git config --global user.name "Travis"
-git config --global credential.helper cache
-
-# prepare gh-pages + login
-git clone --branch gh-pages --depth 1 \
-    https://${GH_TOKEN}@github.com/elboletaire/password-strength-meter.git \
-    ../gh-pages
 
 # Update dist files
 ./node_modules/.bin/gulp clean
 ./node_modules/.bin/gulp
 
+# Change remote
+git remote remove origin
+git remote add origin https://${GH_TOKEN}@github.com/elboletaire/password-strength-meter.git
+git fetch origin
 # Commit and push
 git add -f dist
 git commit -m "Update dist files [skip ci]"
 git push origin master -q > /dev/null
+
+# prepare gh-pages
+git clone --branch gh-pages --depth 1 \
+    https://${GH_TOKEN}@github.com/elboletaire/password-strength-meter.git \
+    ../gh-pages
 
 # remove all its content
 rm -frv ../gh-pages/*

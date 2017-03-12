@@ -1,13 +1,6 @@
 /**
-<<<<<<< HEAD
- * Password Strength Meter for jQuery
- *
- * @author Òscar Casajuana a.k.a. elboletaire <elboletaire at underave {dot} net>
- *         Based on the script written by Firas Kassem [2007-04-05]
-=======
  * @author Òscar Casajuana a.k.a. elboletaire <elboletaire at underave dot net>
  * @link https://github.com/elboletaire/password-strength-meter
->>>>>>> origin/master
  */
 ;(function($) {
   'use strict';
@@ -276,9 +269,11 @@
           }
         });
       }
+
+      return this;
     }
 
-    return init();
+    return init.call(this);
   }
 
   // Bind to jquery

@@ -5,7 +5,9 @@
   "main": "dist/password.min.js",
   "scripts": {
     "test": "mocha",
-    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- --reporter lcovonly -R spec"
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- --reporter lcovonly -R spec",
+    "preversion": "npm test",
+    "postversion": "git push && git push --tags && npm publish",
   },
   "repository": {
     "type": "git",

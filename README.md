@@ -102,8 +102,24 @@ Compatiblity
 This plugin was originally created in 2010 for jQuery 1.14, and the current relase
 has been tested under jQuery 1, 2 & 3.
 
-It should work in all browswers (even IE 666).
+It should work in all browsers (even IE 666).
 
+Testing
+-------
+
+First you'll need to grab the code, as the npm version does not come with the
+source files:
+
+~~~bash
+git clone https://github.com/elboletaire/password-strength-meter.git
+cd password-strength-meter
+npm install
+npm test
+# or with coverage...
+npm run coverage
+~~~
+
+> Note: tests are just run using jQuery 3.
 
 Why?
 ----

@@ -1,6 +1,6 @@
 {
   "name": "password-strength-meter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A password strength meter plugin for jQuery",
   "main": "dist/password.min.js",
   "scripts": {

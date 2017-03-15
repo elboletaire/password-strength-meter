@@ -154,6 +154,6 @@ This code is licensed under a [GPL 3.0 license][license].
 [build svg]: https://img.shields.io/travis/elboletaire/password-strength-meter/master.svg?style=flat-square
 [coverage svg]: https://img.shields.io/codecov/c/github/elboletaire/password-strength-meter/master.svg?style=flat-square
 [license svg]: https://img.shields.io/github/license/elboletaire/password-strength-meter.svg?style=flat-square
-[releases svg]: https://img.shields.io/github/release/elboletaire/password-strength-meter.svg?style=flat-square
-[downloads svg]: https://img.shields.io/npm/dt/password-strength-meter.svg
+[releases svg]: https://img.shields.io/npm/v/password-strength-meter.svg?style=flat-square
+[downloads svg]: https://img.shields.io/npm/dt/password-strength-meter.svg?style=flat-square
 [climate svg]: https://img.shields.io/codeclimate/github/elboletaire/password-strength-meter.svg?style=flat-square

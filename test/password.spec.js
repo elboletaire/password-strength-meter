@@ -62,7 +62,7 @@ describe('$.fn.password', () => {
     })
 
     it('shows the wrapper on focus', (done) => {
-      $('input').password({ animate: true })
+      $('input').password({ animate: true, animateSpeed: 0 })
       assert.isNotOk($('.pass-strength-visible').length)
 
       $('input').trigger('focus')
@@ -72,7 +72,7 @@ describe('$.fn.password', () => {
     })
 
     it('hides the wrapper again on blur after the value has been removed from input', (done) => {
-      $('input').password({ animate: true })
+      $('input').password({ animate: true, animateSpeed: 0 })
       assert.isNotOk($('.pass-strength-visible').length)
 
       $('input').val('124123123').trigger('keyup').trigger('focus')
@@ -85,7 +85,7 @@ describe('$.fn.password', () => {
     })
 
     it('hides the wrapper on blur, if there\'s no text in it', (done) => {
-      $('input').password({ animate: true })
+      $('input').password({ animate: true, animateSpeed: 0 })
       assert.isNotOk($('.pass-strength-visible').length)
       $('input').trigger('focus')
       assert.isOk($('.pass-strength-visible').length)

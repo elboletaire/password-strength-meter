@@ -13,6 +13,12 @@ env:
   global:
     secure: HKj9fYsVi+mDtbbI/wuX/NoEOnHiSseH+2jF/PewdaEtiolqH1zWO5eiD27uFYxT/Z5a2woTfKS1f/4ugkSYFGqOT+PfwSkQy/s/XyZJ0c2nUMd3Xvo/7KnrRytgnQ8m1cPdwglXGZbzQD0O66A6gkkzjsuGDtYQAwybcf1+a5T0I29j/7sOTJt8r6Xg690OXDKLi/j7gf2N7gqL5HMGxt1i2Dm3fZYOvGaUUkL/JrDSlQyhGOHncq/8rmhXVMJWKU5faGEDWF9HC4W2tj5UBKbX4CUn5EVWbPRVuiVGBe/TTzW68GAdHjZ7Oi49N7vt7DWAn1vffDj6zl6A+ZQowjG6fKpkKBVWjpOUgF/ErAtbovMC55i2I9BwGI1d9B+q1ksDh5u8esCVsbUIu+dpnO1gdIBBhb/p3ci5K5oE971SkpEowlN06+ijihY2XIJptNeMQJVW+RXdv1mJ/PNaVX5KCRuu7s+pbkiuPyzb3/C7fs2ix+XftleB3Oqfi2w7/MiUGdkpoyniVzwTsTZmGJWFBSztbFWA5tT5SOEc54iFWS4NUGMMsEEKwVykWPbxIH0QUZLLuEPl7EPDCl0wZYxi+jMbk3OiwN+hbpN6xDbduCryFWcDZsnuU4PjgoIU1XWTrDEvfocMk1+dfBqVJuB0zTbyef+bJteB5yxIKGM=
 
+addons:
+  sauce_connect:
+    username: elboletaire
+  jwt:
+    secure: V0XYfAwjPJ3harMYxmjUds1e3fCvR4Xq8/4j6AhWeXhtlS3nF4mYNI5weo6ezS7FUPzetlu1EOeTAfACApqdO2Y/GMI1LPziL9xHpsWqzqRzhS1QMPHEtSs3tDHVOeODMsCXfTVA2gDm7Zd7cWEnoxkDE6gjIZjEWvzR6AAtQNR3AprtX4P8wSB3Ebo8IYgcV23Ta2pdiVeSdM1odbgH6877Do9Sj3LeEEVDlgCvX1vJ7syVqEJMQ4f2uOgN7S08szgaFoljUx+neLGn7ZoP5M7V7ITe0fz7lBvyIG+fd+LKO0uBk45wgqOzb+Tf7cAb0LmnG1A1MnYF06gBpFCnZ550HsHPO8O5guU98q8GyYckDG+u/+4d0g4vu11GlwwIuhJ6HmBF3Tw7GYrLbddYELoY7GfKfNWBXSzHCakrVY+vZHygZT8C7tI99vfgm37zgHLuAO4AQijTQWRjI23s64ozQGAwt6JA74jMG+rVl7hg4Sx+PcMmCSUJ2YncM5vvbQyQ6T6EX6k+1HFvDSpaxB70q0m3PD8phEDAdr0wH1+KteDhBRJ/pVFMGmpMEvbeiMl7culwTFBlCfeYf54L5QaIDAiKO1+BmJVbXDq3jFmTrgNdAKCF4Xd/g1R2A/bvExjThVX0YfVNT/u8WLUOZugAQjypYR6wQvjEoMRMtJM=
+
 install:
 - npm install
 - npm install -g codecov
@@ -21,5 +27,6 @@ script:
 - npm run coverage
 
 after_success:
+- cat coverage/*/lcov.info > coverage/lcov.info
 - codecov
 - if [ $TRAVIS_BRANCH = 'master' ]; then sh build.sh; fi

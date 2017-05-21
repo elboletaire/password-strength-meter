@@ -1,7 +1,21 @@
-// Karma configuration
-// Generated on Sun May 21 2017 03:05:26 GMT+0200 (CEST)
+const brfs = require('brfs'),
+      istanbul = require('browserify-istanbul')
 
 module.exports = function(config) {
+  const launchers = {
+    chrome_win_7: {
+      base: 'SauceLabs',
+      browserName: 'chrome',
+      platform: 'Windows 7',
+      version: '58'
+    },
+    firefox_win_7: {
+      base: 'SauceLabs',
+      browserName: 'firefox',
+      platform: 'Windows 7',
+      version: '53'
+    },
+  }
   config.set({
     client: {
       jasmine: {
@@ -9,33 +23,39 @@ module.exports = function(config) {
       }
     },
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: './',
+    basePath: '../../',
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['browserify', 'jasmine-jquery', 'jasmine'],
-
     // list of files / patterns to load in the browser
     files: [
       'src/*.js',
       'test/*.js',
       'test/*.html',
     ],
-
     // list of files to exclude
     exclude: [
     ],
-
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      './test/*.spec.js': ['browserify']
+      './test/*.spec.js': ['browserify'],
+      './src/*.js': ['coverage']
+    },
+    browserify: {
+      transform: [brfs, 'browserify-shim', istanbul({
+        ignore: ['**/node_modules/**', '**/test/**'],
+      })]
+    },
+    coverageReporter: {
+      type: 'lcov'
     },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['progress', 'coverage'],
 
     // web server port
     port: 9876,
@@ -52,6 +72,8 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+    customLaunchers: launchers,
+    // browsers: Object.keys(launchers),
     browsers: ['Firefox', 'Chrome'],
 
     // Continuous Integration mode

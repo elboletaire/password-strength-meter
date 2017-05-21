@@ -1,0 +1,16 @@
+browsers:
+  - name: chrome
+    version: latest
+  - name: ie
+    version: '8,9,10,11'
+  - name: firefox
+    version: 25..latest
+    platform: 'Linux'
+  - name: safari
+    version: 5..latest
+  - name: iphone
+    version: '7.1,latest'
+  - name: ipad
+    version: oldest
+  - name: android
+    version: ..latest

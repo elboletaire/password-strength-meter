@@ -4,8 +4,7 @@
   "description": "A password strength meter plugin for jQuery",
   "main": "dist/password.min.js",
   "scripts": {
-    "test": "jasmine --config=test/support/jasmine.json",
-    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- --reporter lcovonly -R spec",
+    "test": "karma start test/support/karma.conf.js",
     "preversion": "npm test",
     "postversion": "git push && git push --tags && npm publish"
   },
@@ -31,7 +30,10 @@
   },
   "homepage": "https://github.com/elboletaire/password-strength-meter#readme",
   "devDependencies": {
+    "brfs": "^1.4.3",
     "browserify": "^14.3.0",
+    "browserify-istanbul": "^2.0.0",
+    "browserify-shim": "^3.8.14",
     "gulp": "^3.9.1",
     "gulp-chmod": "^2.0.0",
     "gulp-clean": "^0.3.2",
@@ -45,9 +47,11 @@
     "karma": "^1.7.0",
     "karma-browserify": "^5.1.1",
     "karma-chrome-launcher": "^2.1.1",
+    "karma-coverage": "^1.1.1",
     "karma-firefox-launcher": "^1.0.1",
     "karma-jasmine": "^1.1.0",
     "karma-jasmine-jquery": "^0.1.1",
+    "karma-sauce-launcher": "^1.1.0",
     "watchify": "^3.9.0"
   },
   "dependencies": {
@@ -57,5 +61,6 @@
     "dist",
     "LICENSE.md",
     "src/example.png"
-  ]
+  ],
+  "browserify-shim": {}
 }

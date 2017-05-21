@@ -10,26 +10,26 @@ module.exports = function(config) {
       version: 'latest',
     },
     firefox_win_8: {
-      base: 'SauceLabs',
-      browserName: 'firefox',
+      base: 'firefox_win_7',
       platform: 'Windows 8.1',
       version: 'latest',
     },
-    chrome_win_10: {
-      base: 'SauceLabs',
-      browserName: 'chrome',
-      platform: 'Windows 10',
-      version: 'latest',
-    },
     firefox_win_10: {
-      base: 'SauceLabs',
-      browserName: 'firefox',
+      base: 'firefox_win_7',
       platform: 'Windows 10',
-      version: 'latest',
     },
-    ie_win_10: {
+    chrome_win_10: {
+      base: 'firefox_win_10',
+      browserName: 'chrome',
+    },
+    ie_win_7: {
       base: 'SauceLabs',
       browserName: 'internet explorer',
+      platform: 'Windows 7',
+      version: '9.0',
+    },
+    ie_win_10: {
+      base: 'ie_win_xp',
       platform: 'Windows 10',
       version: '11.103',
     },
@@ -45,7 +45,7 @@ module.exports = function(config) {
       platform: 'macOS 10.12',
       version: 'latest',
     },
-    android: {
+    chrome_android_6: {
       base: 'SauceLabs',
       browserName: 'Android',
       appiumVersion: '1.6.4',
@@ -55,6 +55,31 @@ module.exports = function(config) {
       platformVersion: '6.0',
       platformName: 'Android',
     }
+  }
+
+  const localLaunchers = {
+    phantom: { base: 'PhantomJS' },
+    firefox: { base: 'Firefox' },
+    chrome: { base: 'Chrome' },
+  }
+
+  if (!process.env.CI) {
+    localLaunchers.ie8_virtual = {
+      base: 'VirtualBoxAny',
+      config: {
+        vm_name: 'IE8 - Win7',
+        use_gui: false,
+        cmd: 'C:\\Program Files\\Internet Explorer\\iexplore.exe',
+        shutdown: false,
+      }
+    }
+  }
+
+  const customLaunchers = Object.assign({}, launchers, localLaunchers)
+
+  let browsers = Object.keys(localLaunchers)
+  if (process.env.CI) {
+    browsers = Object.keys(launchers)
   }
 
   const saucelabs = {
@@ -128,8 +153,8 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    customLaunchers: launchers,
-    browsers: process.env.TRAVIS ? Object.keys(launchers) : ['Firefox', 'Chrome'],
+    customLaunchers: customLaunchers,
+    browsers: browsers,
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

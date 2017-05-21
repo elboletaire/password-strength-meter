@@ -28,7 +28,7 @@ before_script:
 - yarn add codecov -g
 
 script:
-- yarn run coverage
+- yarn test
 
 after_success:
 - cat coverage/*/lcov.info > coverage/lcov.info

@@ -3,28 +3,73 @@ const brfs = require('brfs'),
 
 module.exports = function(config) {
   const launchers = {
-    chrome_win_7: {
-      base: 'SauceLabs',
-      browserName: 'chrome',
-      platform: 'Windows 7',
-      version: '58'
-    },
     firefox_win_7: {
       base: 'SauceLabs',
       browserName: 'firefox',
       platform: 'Windows 7',
-      version: '53'
+      version: 'latest',
     },
-  }
-  let browsers = ['Firefox', 'Chrome']
-  if (process.env.CI !== 'true') {
-    browsers = Object.keys(launchers)
+    firefox_win_8: {
+      base: 'SauceLabs',
+      browserName: 'firefox',
+      platform: 'Windows 8.1',
+      version: 'latest',
+    },
+    chrome_win_10: {
+      base: 'SauceLabs',
+      browserName: 'chrome',
+      platform: 'Windows 10',
+      version: 'latest',
+    },
+    firefox_win_10: {
+      base: 'SauceLabs',
+      browserName: 'firefox',
+      platform: 'Windows 10',
+      version: 'latest',
+    },
+    ie_win_10: {
+      base: 'SauceLabs',
+      browserName: 'internet explorer',
+      platform: 'Windows 10',
+      version: '11.103',
+    },
+    edge_win_10: {
+      base: 'SauceLabs',
+      browserName: 'MicrosoftEdge',
+      platform: 'Windows 10',
+      version: '14.14393',
+    },
+    safari_sierra: {
+      base: 'SauceLabs',
+      browserName: 'safari',
+      platform: 'macOS 10.12',
+      version: 'latest',
+    },
+    iphone: {
+      base: 'SauceLabs',
+      browserName: 'Safari',
+      appiumVersion: '1.6.4',
+      deviceName: 'iPhone Simulator',
+      deviceOrientation: 'portrait',
+      platformVersion: '10.3',
+      platformName: 'iOS',
+    },
+    android: {
+      base: 'SauceLabs',
+      browserName: 'Android',
+      appiumVersion: '1.6.4',
+      deviceName: 'Android Emulator',
+      deviceOrientation: 'portrait',
+      browserName: 'Chrome',
+      platformVersion: '6.0',
+      platformName: 'Android',
+    }
   }
 
   config.set({
     client: {
       jasmine: {
-        config: './test/support/jasmine.json'
+        config: './test/support/jasmine.json',
       }
     },
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -46,15 +91,21 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       './test/*.spec.js': ['browserify'],
-      './src/*.js': ['coverage']
+      './src/*.js': ['coverage'],
     },
     browserify: {
-      transform: [brfs, 'browserify-shim', istanbul({
+      debug: true,
+      transform: [brfs, 'browserify-shim', 'es6-arrow-function', istanbul({
         ignore: ['**/node_modules/**', '**/test/**'],
-      })]
+      })],
     },
     coverageReporter: {
-      type: 'lcov'
+      type: 'lcov',
+    },
+    sauceLabs: {
+      testName: 'password-strength-meter browser tests',
+      recordScreenshots: true,
+      public: 'public',
     },
 
     // test results reporter to use
@@ -78,8 +129,7 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     customLaunchers: launchers,
-    // browsers: Object.keys(launchers),
-    browsers: browsers,
+    browsers: Object.keys(launchers),
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

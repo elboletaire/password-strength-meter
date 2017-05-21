@@ -5,7 +5,7 @@
   "main": "dist/password.min.js",
   "scripts": {
     "test": "karma start test/support/karma.conf.js",
-    "coverage": "npm test -- --browsers Firefox --single-run",
+    "firefox": "npm test -- --browsers Firefox --single-run",
     "postversion": "git push && git push --tags && npm publish"
   },
   "repository": {
@@ -55,6 +55,7 @@
     "watchify": "^3.9.0"
   },
   "dependencies": {
+    "es6-arrow-function": "^0.6.6",
     "jquery": ">=1.14.0"
   },
   "files": [

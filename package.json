@@ -5,7 +5,7 @@
   "main": "dist/password.min.js",
   "scripts": {
     "test": "karma start test/support/karma.conf.js",
-    "preversion": "npm test",
+    "coverage": "npm test -- --browsers Firefox --single-run",
     "postversion": "git push && git push --tags && npm publish"
   },
   "repository": {

@@ -22,12 +22,16 @@ addons:
 cache:
   yarn: true
 
+before_script:
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+
 install:
 - yarn
 - yarn add -g codecov
 
 script:
-- yarn test
+- yarn run coverage
 
 after_success:
 - cat coverage/*/lcov.info > coverage/lcov.info

@@ -97,6 +97,7 @@ module.exports = function(config) {
       testName: 'password-strength-meter browser tests',
       recordScreenshots: true,
       public: 'public',
+      // https://github.com/karma-runner/karma-sauce-launcher/issues/73
       startConnect: false,
       tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
     },

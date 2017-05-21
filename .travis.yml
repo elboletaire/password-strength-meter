@@ -24,7 +24,7 @@ install:
 - npm install -g codecov
 
 script:
-- npm run coverage
+- npm test
 
 after_success:
 - cat coverage/*/lcov.info > coverage/lcov.info

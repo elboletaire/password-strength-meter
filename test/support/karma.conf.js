@@ -10,11 +10,11 @@ module.exports = function(config) {
       version: '6.0',
     },
     firefox_latest: {
-      base: 'firefox_4',
+      base: 'firefox_first',
       version: 'latest',
     },
     chrome_first: {
-      base: 'firefox_win_10',
+      base: 'firefox_latest',
       browserName: 'chrome',
       version: '26.0',
     },
@@ -31,18 +31,16 @@ module.exports = function(config) {
     },
     ie_win_8: {
       base: 'ie_win_7',
-      browserName: 'internet explorer',
       platform: 'Windows 8',
       version: '10.0',
     },
-    ie_win_8: {
-      base: 'ie_win_7',
-      browserName: 'internet explorer',
+    ie_win_81: {
+      base: 'ie_win_8',
       platform: 'Windows 8.1',
       version: '11.0',
     },
     ie_win_10: {
-      base: 'ie_win_8',
+      base: 'ie_win_81',
       platform: 'Windows 10',
       version: '11.103',
     },

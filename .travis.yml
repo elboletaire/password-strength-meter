@@ -19,12 +19,15 @@ addons:
   jwt:
     secure: V0XYfAwjPJ3harMYxmjUds1e3fCvR4Xq8/4j6AhWeXhtlS3nF4mYNI5weo6ezS7FUPzetlu1EOeTAfACApqdO2Y/GMI1LPziL9xHpsWqzqRzhS1QMPHEtSs3tDHVOeODMsCXfTVA2gDm7Zd7cWEnoxkDE6gjIZjEWvzR6AAtQNR3AprtX4P8wSB3Ebo8IYgcV23Ta2pdiVeSdM1odbgH6877Do9Sj3LeEEVDlgCvX1vJ7syVqEJMQ4f2uOgN7S08szgaFoljUx+neLGn7ZoP5M7V7ITe0fz7lBvyIG+fd+LKO0uBk45wgqOzb+Tf7cAb0LmnG1A1MnYF06gBpFCnZ550HsHPO8O5guU98q8GyYckDG+u/+4d0g4vu11GlwwIuhJ6HmBF3Tw7GYrLbddYELoY7GfKfNWBXSzHCakrVY+vZHygZT8C7tI99vfgm37zgHLuAO4AQijTQWRjI23s64ozQGAwt6JA74jMG+rVl7hg4Sx+PcMmCSUJ2YncM5vvbQyQ6T6EX6k+1HFvDSpaxB70q0m3PD8phEDAdr0wH1+KteDhBRJ/pVFMGmpMEvbeiMl7culwTFBlCfeYf54L5QaIDAiKO1+BmJVbXDq3jFmTrgNdAKCF4Xd/g1R2A/bvExjThVX0YfVNT/u8WLUOZugAQjypYR6wQvjEoMRMtJM=
 
+cache:
+  yarn: true
+
 install:
-- npm install
-- npm install -g codecov
+- yarn
+- yarn add -g codecov
 
 script:
-- npm test
+- yarn test
 
 after_success:
 - cat coverage/*/lcov.info > coverage/lcov.info

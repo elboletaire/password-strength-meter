@@ -128,7 +128,7 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     customLaunchers: launchers,
-    browsers: Object.keys(launchers),
+    browsers: process.env.TRAVIS ? Object.keys(launchers) : ['Firefox', 'Chrome'],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

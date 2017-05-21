@@ -104,6 +104,8 @@ has been tested under jQuery 1, 2 & 3.
 
 It should work in all browsers (even IE 666).
 
+![compatibility chart][sauce svg]
+
 Testing
 -------
 
@@ -115,8 +117,6 @@ git clone https://github.com/elboletaire/password-strength-meter.git
 cd password-strength-meter
 npm install
 npm test
-# or with coverage...
-npm run coverage
 ~~~
 
 > Note: tests are just run using jQuery 3.

@@ -30,6 +30,12 @@ Using bower
 bower install --save password-strength-meter
 ~~~
 
+Or much better, using yarn
+
+~~~bash
+yarn add password-strength-meter
+~~~
+
 For manual installations check out the [releases][releases] section for tarballs.
 
 Usage

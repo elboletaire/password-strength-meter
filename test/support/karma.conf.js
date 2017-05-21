@@ -45,15 +45,6 @@ module.exports = function(config) {
       platform: 'macOS 10.12',
       version: 'latest',
     },
-    iphone: {
-      base: 'SauceLabs',
-      browserName: 'Safari',
-      appiumVersion: '1.6.4',
-      deviceName: 'iPhone Simulator',
-      deviceOrientation: 'portrait',
-      platformVersion: '10.3',
-      platformName: 'iOS',
-    },
     android: {
       base: 'SauceLabs',
       browserName: 'Android',

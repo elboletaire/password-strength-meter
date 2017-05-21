@@ -13,13 +13,22 @@ env:
   global:
     secure: HKj9fYsVi+mDtbbI/wuX/NoEOnHiSseH+2jF/PewdaEtiolqH1zWO5eiD27uFYxT/Z5a2woTfKS1f/4ugkSYFGqOT+PfwSkQy/s/XyZJ0c2nUMd3Xvo/7KnrRytgnQ8m1cPdwglXGZbzQD0O66A6gkkzjsuGDtYQAwybcf1+a5T0I29j/7sOTJt8r6Xg690OXDKLi/j7gf2N7gqL5HMGxt1i2Dm3fZYOvGaUUkL/JrDSlQyhGOHncq/8rmhXVMJWKU5faGEDWF9HC4W2tj5UBKbX4CUn5EVWbPRVuiVGBe/TTzW68GAdHjZ7Oi49N7vt7DWAn1vffDj6zl6A+ZQowjG6fKpkKBVWjpOUgF/ErAtbovMC55i2I9BwGI1d9B+q1ksDh5u8esCVsbUIu+dpnO1gdIBBhb/p3ci5K5oE971SkpEowlN06+ijihY2XIJptNeMQJVW+RXdv1mJ/PNaVX5KCRuu7s+pbkiuPyzb3/C7fs2ix+XftleB3Oqfi2w7/MiUGdkpoyniVzwTsTZmGJWFBSztbFWA5tT5SOEc54iFWS4NUGMMsEEKwVykWPbxIH0QUZLLuEPl7EPDCl0wZYxi+jMbk3OiwN+hbpN6xDbduCryFWcDZsnuU4PjgoIU1XWTrDEvfocMk1+dfBqVJuB0zTbyef+bJteB5yxIKGM=
 
+addons:
+  sauce_connect: true
+cache:
+  yarn: true
+
 install:
-- npm install
-- npm install -g codecov
+- npm install -g yarn
+
+before_script:
+- yarn install
+- yarn add codecov -g
 
 script:
-- npm run coverage
+- yarn test
 
 after_success:
+- cat coverage/*/lcov.info > coverage/lcov.info
 - codecov
 - if [ $TRAVIS_BRANCH = 'master' ]; then sh build.sh; fi

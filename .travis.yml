@@ -29,7 +29,7 @@ install:
 
 before_script:
 - yarn install
-- yarn add -g codecov
+- yarn add codecov -g
 
 script:
 - yarn run coverage

@@ -60,7 +60,8 @@ module.exports = function(config) {
   const saucelabs = {
     testName: 'password-strength-meter browser tests',
     recordScreenshots: true,
-    public: 'public'
+    public: 'public',
+    tags: ['password-strength-meter', 'jquery', 'plugin'],
   }
 
   if (process.env.TRAVIS) {

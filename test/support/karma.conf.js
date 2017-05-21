@@ -16,6 +16,11 @@ module.exports = function(config) {
       version: '53'
     },
   }
+  let browsers = ['Firefox', 'Chrome']
+  if (process.env.CI !== 'true') {
+    browsers = Object.keys(launchers)
+  }
+
   config.set({
     client: {
       jasmine: {
@@ -74,7 +79,7 @@ module.exports = function(config) {
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     customLaunchers: launchers,
     // browsers: Object.keys(launchers),
-    browsers: ['Firefox', 'Chrome'],
+    browsers: browsers,
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

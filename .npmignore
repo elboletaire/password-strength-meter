@@ -1,0 +1,8 @@
+/src
+/test
+.codeclimate.yml
+.editorconfig
+.travis.yml
+bower.json
+build.sh
+gulpfile.js

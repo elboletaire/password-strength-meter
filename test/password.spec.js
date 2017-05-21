@@ -1,5 +1,5 @@
 // Initialize jQuery
-const $ = global.jQuery = require('jquery')
+var $ = global.jQuery = require('jquery')
 
 require('../src/password.js')
 
@@ -79,7 +79,7 @@ describe('$.fn.password', () => {
 
       expect($('.pass-percent')).toBeInDOM()
 
-      const percentage = $('.pass-percent').text()
+      var percentage = $('.pass-percent').text()
 
       $('input').val('testing').trigger('keyup')
 

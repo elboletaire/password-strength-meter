@@ -3,24 +3,25 @@ const brfs = require('brfs'),
 
 module.exports = function(config) {
   const launchers = {
-    firefox_win_7: {
+    firefox_first: {
       base: 'SauceLabs',
       browserName: 'firefox',
-      platform: 'Windows 7',
+      platform: 'Linux',
+      version: '6.0',
+    },
+    firefox_latest: {
+      base: 'firefox_4',
       version: 'latest',
     },
-    firefox_win_8: {
-      base: 'firefox_win_7',
-      platform: 'Windows 8.1',
-      version: 'latest',
-    },
-    firefox_win_10: {
-      base: 'firefox_win_7',
-      platform: 'Windows 10',
-    },
-    chrome_win_10: {
+    chrome_first: {
       base: 'firefox_win_10',
       browserName: 'chrome',
+      version: '26.0',
+    },
+    chrome_latest: {
+      base: 'chrome_first',
+      platform: 'Windows 10',
+      version: 'latest',
     },
     ie_win_7: {
       base: 'SauceLabs',
@@ -28,32 +29,52 @@ module.exports = function(config) {
       platform: 'Windows 7',
       version: '9.0',
     },
+    ie_win_8: {
+      base: 'ie_win_7',
+      browserName: 'internet explorer',
+      platform: 'Windows 8',
+      version: '10.0',
+    },
+    ie_win_8: {
+      base: 'ie_win_7',
+      browserName: 'internet explorer',
+      platform: 'Windows 8.1',
+      version: '11.0',
+    },
     ie_win_10: {
-      base: 'ie_win_xp',
+      base: 'ie_win_8',
       platform: 'Windows 10',
       version: '11.103',
     },
     edge_win_10: {
-      base: 'SauceLabs',
+      base: 'ie_win_10',
       browserName: 'MicrosoftEdge',
-      platform: 'Windows 10',
       version: '14.14393',
     },
-    safari_sierra: {
+    safari_first: {
       base: 'SauceLabs',
       browserName: 'safari',
+      platform: 'OS X 10.8',
+      version: '6.0',
+    },
+    safari_latest: {
+      base: 'safari_first',
       platform: 'macOS 10.12',
       version: 'latest',
     },
-    chrome_android_6: {
+    android_first: {
       base: 'SauceLabs',
-      browserName: 'Android',
+      browserName: 'Browser',
       appiumVersion: '1.6.4',
       deviceName: 'Android Emulator',
       deviceOrientation: 'portrait',
+      platformVersion: '4.4',
+      platformName: 'Android',
+    },
+    android_latest: {
+      base: 'android_first',
       browserName: 'Chrome',
       platformVersion: '6.0',
-      platformName: 'Android',
     }
   }
 

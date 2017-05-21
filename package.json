@@ -4,7 +4,7 @@
   "description": "A password strength meter plugin for jQuery",
   "main": "dist/password.min.js",
   "scripts": {
-    "test": "mocha",
+    "test": "jasmine --config=test/support/jasmine.json",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- --reporter lcovonly -R spec",
     "preversion": "npm test",
     "postversion": "git push && git push --tags && npm publish"
@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/elboletaire/password-strength-meter#readme",
   "devDependencies": {
-    "chai": "^3.5.0",
+    "browserify": "^14.3.0",
     "gulp": "^3.9.1",
     "gulp-chmod": "^2.0.0",
     "gulp-clean": "^0.3.2",
@@ -40,11 +40,15 @@
     "gulp-replace": "^0.5.4",
     "gulp-uglify": "^2.1.0",
     "istanbul": "^0.4.5",
+    "jasmine": "^2.6.0",
     "jquery": "^3.1.1",
-    "jsdom": "^9.11.0",
-    "mocha": "^3.2.0",
-    "sinon": "^1.17.7",
-    "sinon-chai": "^2.8.0"
+    "karma": "^1.7.0",
+    "karma-browserify": "^5.1.1",
+    "karma-chrome-launcher": "^2.1.1",
+    "karma-firefox-launcher": "^1.0.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-jasmine-jquery": "^0.1.1",
+    "watchify": "^3.9.0"
   },
   "dependencies": {
     "jquery": ">=1.14.0"

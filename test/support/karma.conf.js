@@ -97,6 +97,8 @@ module.exports = function(config) {
       testName: 'password-strength-meter browser tests',
       recordScreenshots: true,
       public: 'public',
+      startConnect: false,
+      tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
     },
 
     // test results reporter to use

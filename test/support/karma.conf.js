@@ -10,16 +10,20 @@ module.exports = function(config) {
       version: '6.0',
     },
     firefox_latest: {
-      base: 'firefox_first',
+      base: 'SauceLabs',
+      browserName: 'firefox',
+      platform: 'Windows 10',
       version: 'latest',
     },
     chrome_first: {
-      base: 'firefox_latest',
+      base: 'SauceLabs',
       browserName: 'chrome',
+      platform: 'Linux',
       version: '26.0',
     },
     chrome_latest: {
-      base: 'chrome_first',
+      base: 'SauceLabs',
+      browserName: 'chrome',
       platform: 'Windows 10',
       version: 'latest',
     },
@@ -30,23 +34,27 @@ module.exports = function(config) {
       version: '9.0',
     },
     ie_win_8: {
-      base: 'ie_win_7',
+      base: 'SauceLabs',
+      browserName: 'internet explorer',
       platform: 'Windows 8',
       version: '10.0',
     },
     ie_win_81: {
-      base: 'ie_win_8',
+      base: 'SauceLabs',
+      browserName: 'internet explorer',
       platform: 'Windows 8.1',
       version: '11.0',
     },
     ie_win_10: {
-      base: 'ie_win_81',
+      base: 'SauceLabs',
+      browserName: 'internet explorer',
       platform: 'Windows 10',
       version: '11.103',
     },
     edge_win_10: {
-      base: 'ie_win_10',
+      base: 'SauceLabs',
       browserName: 'MicrosoftEdge',
+      platform: 'Windows 10',
       version: '14.14393',
     },
     safari_first: {
@@ -56,7 +64,8 @@ module.exports = function(config) {
       version: '6.0',
     },
     safari_latest: {
-      base: 'safari_first',
+      base: 'SauceLabs',
+      browserName: 'safari',
       platform: 'macOS 10.12',
       version: 'latest',
     },
@@ -70,9 +79,13 @@ module.exports = function(config) {
       platformName: 'Android',
     },
     android_latest: {
-      base: 'android_first',
+      base: 'SauceLabs',
       browserName: 'Chrome',
       platformVersion: '6.0',
+      deviceName: 'Android Emulator',
+      deviceOrientation: 'portrait',
+      platformVersion: '4.4',
+      platformName: 'Android',
     }
   }
 

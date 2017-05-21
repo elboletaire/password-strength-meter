@@ -102,7 +102,7 @@ module.exports = function(config) {
         vm_name: 'IE8 - Win7',
         use_gui: false,
         cmd: 'C:\\Program Files\\Internet Explorer\\iexplore.exe',
-        shutdown: false,
+        shutdown: true,
       }
     }
   }

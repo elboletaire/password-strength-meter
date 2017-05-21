@@ -37,6 +37,7 @@
     "browserify": "^14.3.0",
     "browserify-istanbul": "^2.0.0",
     "browserify-shim": "^3.8.14",
+    "es6-arrow-function": "^0.6.6",
     "gulp": "^3.9.1",
     "gulp-chmod": "^2.0.0",
     "gulp-clean": "^0.3.2",
@@ -60,7 +61,6 @@
     "watchify": "^3.9.0"
   },
   "dependencies": {
-    "es6-arrow-function": "^0.6.6",
     "jquery": ">=1.14.0"
   },
   "files": [

@@ -81,10 +81,10 @@ module.exports = function(config) {
     android_latest: {
       base: 'SauceLabs',
       browserName: 'Chrome',
-      platformVersion: '6.0',
+      appiumVersion: '1.6.4',
       deviceName: 'Android Emulator',
       deviceOrientation: 'portrait',
-      platformVersion: '4.4',
+      platformVersion: '6.0',
       platformName: 'Android',
     }
   }

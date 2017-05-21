@@ -8,6 +8,7 @@ Password Strength Meter plugin for jQuery
 [![Total downloads][downloads svg]][downloads]
 [![Code climate][climate svg]][climate]
 
+[![Sauce labs][sauce svg]][sauce]
 
 A password strength meter for jQuery. [Give it a try!][web]
 
@@ -150,6 +151,7 @@ This code is licensed under a [GPL 3.0 license][license].
 [releases]: https://github.com/elboletaire/password-strength-meter/releases
 [downloads]: https://www.npmjs.com/package/password-strength-meter
 [climate]: https://codeclimate.com/github/elboletaire/password-strength-meter
+[sauce]: https://saucelabs.com/u/elboletaire
 
 [build svg]: https://img.shields.io/travis/elboletaire/password-strength-meter/master.svg?style=flat-square
 [coverage svg]: https://img.shields.io/codecov/c/github/elboletaire/password-strength-meter/master.svg?style=flat-square
@@ -157,3 +159,4 @@ This code is licensed under a [GPL 3.0 license][license].
 [releases svg]: https://img.shields.io/npm/v/password-strength-meter.svg?style=flat-square
 [downloads svg]: https://img.shields.io/npm/dt/password-strength-meter.svg?style=flat-square
 [climate svg]: https://img.shields.io/codeclimate/github/elboletaire/password-strength-meter.svg?style=flat-square
+[sauce svg]: https://badges.herokuapp.com/sauce/elboletaire?name=password-strength-meter%20browser%20tests&style=flat-square

@@ -22,12 +22,13 @@ addons:
 cache:
   yarn: true
 
-before_script:
+install:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
+- npm install -g yarn
 
-install:
-- yarn
+before_script:
+- yarn install
 - yarn add -g codecov
 
 script:

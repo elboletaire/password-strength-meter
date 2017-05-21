@@ -5,7 +5,10 @@
   "main": "dist/password.min.js",
   "scripts": {
     "test": "karma start test/support/karma.conf.js",
+    "test-local": "npm test phantom",
+    "phantom": "npm test -- --browsers PhantomJS --single-run",
     "firefox": "npm test -- --browsers Firefox --single-run",
+    "chrome": "npm test -- --browsers Chrome --single-run",
     "postversion": "git push && git push --tags && npm publish"
   },
   "repository": {
@@ -51,6 +54,7 @@
     "karma-firefox-launcher": "^1.0.1",
     "karma-jasmine": "^1.1.0",
     "karma-jasmine-jquery": "^0.1.1",
+    "karma-phantomjs-launcher": "^1.0.4",
     "karma-sauce-launcher": "^1.1.0",
     "watchify": "^3.9.0"
   },

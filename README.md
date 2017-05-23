@@ -165,4 +165,4 @@ This code is licensed under a [GPL 3.0 license][license].
 [releases svg]: https://img.shields.io/npm/v/password-strength-meter.svg?style=flat-square
 [downloads svg]: https://img.shields.io/npm/dt/password-strength-meter.svg?style=flat-square
 [climate svg]: https://img.shields.io/codeclimate/github/elboletaire/password-strength-meter.svg?style=flat-square
-[sauce svg]: https://badges.herokuapp.com/sauce/password-strength-manager&style=flat-square
+[sauce svg]: https://badges.herokuapp.com/sauce/password-strength-manager?style=flat-square

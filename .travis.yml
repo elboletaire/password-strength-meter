@@ -9,10 +9,6 @@ branches:
   except:
   - gh-pages
 
-env:
-  global:
-    secure: dwNJjofi4OexlVtRF9wNnammNL6SFacDyKfBODqr46LUepBHUg35CSIIP8DBZx9itwaB/ojEYi1Pn/kd1b8vx+xwFjQdbwgtijuI5ROBg9QZE4g54AwiN+eALGWcdJGiA0wjFgvLmrvygp+CArG5ewRenUBQcrU7hVkZ7txHFzhJAwzXOnXk+lVZelQmzioFdq01vGpdQpMim6TckL7BVjYoOpVw0wb4D1d6B7UZUlYnAQszRXlUxw8QGUPYMHXQ/b6ZDfPmPin+2p8yNyjiM148hZka1xwh2la3YhmbJc43nnhSkV96K8Uc3Z+vWggF8vbSNQQRNIwYHc7LxdDJC6J4Umzk7Tbio0tGlWWGjeyKb1h7OALKkPD2qN8TjOQP3UdpsOh5zXnk1aX0IMskwmX/JCiDM/n1XRcTTKmbuB4TdIaciPUdysuzUTLzW3UlAhUuSfVBATiRznIBK4diVVV+L0XJCdHoAbNugG0byLi82CwG5iKa4eXta68/eshOvU6P3dn5+GRTN87uJcPSt5iWT+kM0F4ZiIK+37xbqceH/n/ZI58qyksSKPFNliTV2VIoVmWAqOSDwKWZUaP5Ux82dTLP9eLQ505TQ4SgtRkS567+b0BnwXQ/9UTfWWjAOK/xi3c+3e7W/Kz0Z564pFvnMh6LoXAXfmBZ29OHA/A=
-
 addons:
   sauce_connect: true
 

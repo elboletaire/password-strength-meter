@@ -38,6 +38,7 @@
     "browserify-istanbul": "^2.0.0",
     "browserify-shim": "^3.8.14",
     "es6-arrow-function": "^0.6.6",
+    "eslint": "^4.5.0",
     "gulp": "^3.9.1",
     "gulp-chmod": "^2.0.0",
     "gulp-clean": "^0.3.2",

@@ -4,7 +4,7 @@
   "description": "A password strength meter plugin for jQuery",
   "main": "dist/password.min.js",
   "scripts": {
-    "test": "karma start test/support/karma.conf.js",
+    "test": "eslint src && karma start test/support/karma.conf.js",
     "test-virtual": "VIRTUAL=true npm test",
     "test-local": "LOCAL=true npm test",
     "phantom": "npm test -- --browsers PhantomJS --single-run",

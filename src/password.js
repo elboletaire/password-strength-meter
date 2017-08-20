@@ -2,6 +2,7 @@
  * @author Òscar Casajuana a.k.a. elboletaire <elboletaire at underave dot net>
  * @link https://github.com/elboletaire/password-strength-meter
  */
+// eslint-disable-next-line
 ;(function($) {
   'use strict';
 
@@ -262,4 +263,5 @@
       new Password($(this), options);
     });
   };
+// eslint-disable-next-line
 })(jQuery);

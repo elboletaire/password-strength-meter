@@ -6,7 +6,6 @@
   "scripts": {
     "test": "eslint src && karma start test/support/karma.conf.js",
     "test-virtual": "VIRTUAL=true npm test",
-    "test-local": "LOCAL=true npm test",
     "phantom": "npm test -- --browsers PhantomJS --single-run",
     "firefox": "npm test -- --browsers Firefox --single-run",
     "chrome": "npm test -- --browsers Chrome --single-run",

@@ -95,7 +95,7 @@ module.exports = function(config) {
     chrome: { base: 'Chrome' },
   }
 
-  if (!process.env.CI) {
+  if (process.env.VIRTUAL) {
     localLaunchers.ie8_virtual = {
       base: 'VirtualBoxAny',
       config: {

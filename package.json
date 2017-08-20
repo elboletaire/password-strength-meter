@@ -5,7 +5,8 @@
   "main": "dist/password.min.js",
   "scripts": {
     "test": "karma start test/support/karma.conf.js",
-    "test-local": "npm test phantom",
+    "test-virtual": "VIRTUAL=true npm test",
+    "test-local": "LOCAL=true npm test",
     "phantom": "npm test -- --browsers PhantomJS --single-run",
     "firefox": "npm test -- --browsers Firefox --single-run",
     "chrome": "npm test -- --browsers Chrome --single-run",

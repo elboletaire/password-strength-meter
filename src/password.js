@@ -263,5 +263,4 @@
       new Password($(this), options);
     });
   };
-// eslint-disable-next-line
 })(jQuery);

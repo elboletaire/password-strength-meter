@@ -1,0 +1,392 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Tomar screenshots / capturas de pantalla de páginas web desde la consola de Linux &#8211; Racó Tècnic</title>
+<meta name="description" content="Punt de trobada de coneixements">
+<meta name="keywords" content="Firefox, ImageMagick, VNC">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="//elboletaire.github.io/racotecnic/images/">
+<meta name="twitter:title" content="Tomar screenshots / capturas de pantalla de páginas web desde la consola de Linux">
+<meta name="twitter:description" content="Punt de trobada de coneixements">
+<meta name="twitter:creator" content="@racotecnic">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tomar screenshots / capturas de pantalla de páginas web desde la consola de Linux">
+<meta property="og:description" content="Punt de trobada de coneixements">
+<meta property="og:url" content="//elboletaire.github.io/racotecnic/2011/09/tomar-screenshots-capturas-de-pantalla-de-paginas-web-desde-la-consola-de-linux/">
+<meta property="og:site_name" content="Racó Tècnic">
+
+
+
+
+
+<link rel="canonical" href="//elboletaire.github.io/racotecnic/2011/09/tomar-screenshots-capturas-de-pantalla-de-paginas-web-desde-la-consola-de-linux/">
+<link href="//elboletaire.github.io/racotecnic/feed.xml" type="application/atom+xml" rel="alternate" title="Racó Tècnic Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="//elboletaire.github.io/racotecnic/assets/css/main.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="//elboletaire.github.io/racotecnic/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="//elboletaire.github.io/racotecnic/assets/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="//elboletaire.github.io/racotecnic/assets/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="//elboletaire.github.io/racotecnic/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="//elboletaire.github.io/racotecnic/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="//elboletaire.github.io/racotecnic/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="//elboletaire.github.io/racotecnic/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="//elboletaire.github.io/racotecnic/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="//elboletaire.github.io/racotecnic/images/" alt="Racó Tècnic photo" class="author-photo">
+					<h4>Racó Tècnic</h4>
+					<p>A subproject from <a href="http://underave.net">underave.net</a> created by <a href="https://github.com/elboletaire">elboletaire</a> and maintained by many collaborators.</p>
+				</li>
+				<li><a href="//elboletaire.github.io/racotecnic/about/"><span class="btn btn-inverse">Learn More</span></a></li>
+				<li>
+					<a href="mailto:elboletaire@underave.net"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://twitter.com/racotecnic"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="https://facebook.com/racotecnic"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
+				</li>
+				
+				
+				<li>
+					<a href="https://github.com/elboletaire/racotecnic"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				
+				
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="//elboletaire.github.io/racotecnic/posts/">All Posts</a></li>
+				<li><a href="//elboletaire.github.io/racotecnic/tags/">All Tags</a></li>
+				<li><a href="//elboletaire.github.io/racotecnic/categories/">All Categories</a></li>
+			</ul>
+		</li>
+		
+	    
+	    <li><a href="https://github.com/elboletaire/racotecnic" target="_blank">Github</a></li>
+	  
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="//elboletaire.github.io/racotecnic/2011/09/tomar-screenshots-capturas-de-pantalla-de-paginas-web-desde-la-consola-de-linux/" rel="bookmark" title="Tomar screenshots / capturas de pantalla de páginas web desde la consola de Linux">Tomar screenshots / capturas de pantalla de páginas web desde la consola de Linux</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2011-09-11T13:18:28+02:00">September 11, 2011</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+          Reading time ~6 minutes
+        </p><!-- /.entry-reading-time -->
+        
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <p><a href="//elboletaire.github.io/racotecnic/uploads/2011/09/prova2.jpg">
+  <img title="prova2" src="//elboletaire.github.io/racotecnic/uploads/2011/09/prova2-150x150.jpg" alt="" />
+</a></p>
+
+<p>Puede que os interese <strong>hacer capturas de pantalla de páginas web</strong> para poder <strong>mostrar una previsualización de una web</strong> en el apartado de links de vuestro site.</p>
+
+<p>Para ello podéis utilizar alguno de los muchos servicios que corren por ahí —como <a href="http://www.websnapr.com/" rel="external nofollow">Websnapr</a>, <a href="http://www.webshotspro.com/" rel="external nofollow">WebShotsPro</a>, <a href="http://www.thumbalizr.com/" rel="external nofollow">thumbalizr</a>… O bien, si disponéis de un servidor dedicado (véase el que todos tenemos en la cocina o el baño) podéis crear vuestro propio script para tomar capturas de pantalla. Y ésto es a lo que vamos :P</p>
+
+<p>Antes de empezar.. os advierto que he hecho las pruebas desde ubuntu server maverick, pero esto en teoría debería de ser más o menos igual para el resto de versiones (tanto desktop como server).</p>
+
+<p>Si lo que queréis es hacer capturas de pantalla desde Windows, quizás os interese <a href="http://iecapt.sourceforge.net/" target="_blank">IECapt</a>.</p>
+
+<p>Primero de todo, necesitamos unos cuantos paquetes esenciales…</p>
+
+<ul>
+  <li>Vnc4server</li>
+  <li>Firefox</li>
+  <li>ImageMagick</li>
+</ul>
+
+<p>Con VNCServer crearemos una instancia virtual en la que ejecutaremos Firefox para, posteriormente, tomar la captura de la pantalla con el método import de imagemagick.</p>
+
+<p>Instalad los paquetes como haríais habitualmente…</p>
+
+<div class="language-bash no-line-numbers highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre>sudo apt-get install vnc4server firefox imagemagick
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+<p><a id="more"></a><a id="more-2011"></a></p>
+
+<p>Si trabajáis con ubuntu server os va a doler porque firefox baja un huevo de paquetes.. pero es lo que hay U_U</p>
+
+<p>Una vez instalados todos los paquetes, vamos a crear nuestro script para generar screenshots:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21</pre></td><td class="code"><pre><span class="c">#!/bin/bash</span>
+
+<span class="nv">display</span><span class="o">=</span><span class="s1">':23'</span>
+<span class="nb">export </span><span class="nv">DISPLAY</span><span class="o">=</span><span class="s1">':23'</span>
+
+vncserver -geometry 1280x1024 -depth 24 -name <span class="s1">'screenshoots'</span> <span class="nv">$display</span> &amp;amp;
+<span class="c"># esperamos a que cargue vnc sin problemas...</span>
+sleep 5
+<span class="c"># cargamos firefox con una página en blanco</span>
+firefox -display <span class="nv">$display</span> -width 1280 -height 1024 -url <span class="s1">'about:blank'</span> &amp;amp;
+
+<span class="k">while </span><span class="nb">read</span> -a line ; <span class="k">do
+  </span><span class="nb">echo</span> <span class="s1">'Carregant... ${line[1]}'</span>
+  firefox -remote <span class="s1">'openURL(${line[1]})'</span>
+  <span class="c"># o bien... firefox -display $display '${line[1]}'</span>
+  sleep 5
+  <span class="nb">echo</span> <span class="s1">'Desant... ${line[0]}.jpg'</span>
+  import -window root <span class="s1">'${line[0]}'</span>.jpg
+<span class="k">done</span> &lt; listado.txt
+
+vncserver -kill <span class="nv">$display</span>
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+<p>¿Qué hace este script?</p>
+
+<ol>
+  <li>Crea una instancia de vncserver a 1280x1024px</li>
+  <li>Carga firefox en esa instancia a la misma resolución</li>
+  <li>Carga el fichero "listado.txt" (que ahora veremos) que contiene una línea con una palabra única seguida de un tabulador y una URL.</li>
+  <li>Abre la página web que pertoque, esperando 5 segundos para dar tiempo a cargar</li>
+  <li>Toma la captura de pantalla y la guarda con la palabra única y extensión .jpg</li>
+</ol>
+
+<p>El fichero “listado.txt” deberá estar en el mismo directorio que el script y ser en este formato:</p>
+
+<div class="no-line-numbers highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4</pre></td><td class="code"><pre>underave  http://www.underave.net
+musicavermella  http://www.musicavermella.com
+thefuture http://www.thefutureimperfect.com
+snooppets http://www.snooppets.com
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+<p><strong>Es importante que este fichero tenga un salto de línea al final</strong>, sino la última url dará error.</p>
+
+<p>Hecho esto ya debería de funcionar, simplemente ejecutad el script y veréis que en pantalla van saliendo los mensajes “Carregant” (Cargando) y “Desant” (Guardando) a medida que va avanzando en el listado.</p>
+
+<p>Cuando tengáis los screenshots probablemente os daréis cuenta de que la imagen no es sólo de la página web, sino que también sale el navegador.</p>
+
+<p>Para evitar esto he estado probando con parámetro <code class="highlighter-rouge">-screen</code> en lugar de <code class="highlighter-rouge">-window</code> pero supongo que no hace lo que pensaba que hacía xD. Así que la única solución que se me ocurre es que ejecutéis una instancia de VNCServer con firefox para poder ocultarle todas las barras posibles (la de navegación y la de favoritos).</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3</pre></td><td class="code"><pre><span class="nb">export </span><span class="nv">DISPLAY</span><span class="o">=</span><span class="s1">':23'</span>
+vncserver -geometry 1280x1024 -depth 24 -name <span class="s1">'screenshoots'</span> :23 &amp;amp;
+firefox -display :23 -width 1280 -height 1024 -url <span class="s1">'about:blank'</span> &amp;amp;
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+<p>Una vez esté corriendo utilizad vuestro cliente de vnc habitual (yo utilizo <a href="http://www.tightvnc.com/" rel="nofollow external">TightVNC</a>) y conectaros para poder configurar firefox. En el caso de TightVNC, para indicar el display que estamos utilizando simplemente hay que concatenarlo al final de la ip o nombre de host ([IP|HOST]:DISPLAY), por ejemplo <code class="highlighter-rouge">192.168.1.2:23</code></p>
+
+<p>Si además queréis que no se muestren las pestañas, abrid las opciones de firefox, buscad la opción que dice “Mostrar pestañas siempre” y desmarcadla. Ahora, para que esto funcione, tenemos que decirle a firefox que nos abra las nuevas ventanas en la ventana que esté abierta, ya que si nos abre una pestaña más nos mostrará de nuevo la barra de pestañas.</p>
+
+<p>Si queréis evitar esto, en la barra de navegación (utilizad Control+L si os la habéis cargado ya) introducid la URL <code class="highlighter-rouge">about:config</code>, buscad el registro <code class="highlighter-rouge">browser.link.open_newwindow</code> y cambiad su valor de <strong>3</strong> a <strong>2</strong>.</p>
+
+<p>Cerrad vuestro firefox con normalidad y volved a ejecutar el script para ver el resultado.</p>
+
+<p>Pues ahí lo tenéis, utilizando un poco la imaginación, con algún cron y alguna clase en PHP podríais tener las miniaturas guardadas en vuestra web.</p>
+
+<p>Si queréis recortar las imágenes para que no se vean el resto de bordes de firefox podéis tratar de utilizar el método <a href="http://www.imagemagick.org/script/mogrify.php?ImageMagick=th1vkjq027vromjp62lk806r03" rel="nofollow external">mogrify</a> de ImageMagick para hacer un crop.</p>
+
+<p>O podéis hacerlo mediante PHP con alguna clase como <a title="Clase PHP para tratar imágenes (rotar, redimensionar, añadir marcas de agua..)" href="http://www.racotecnic.com/2011/04/clase-php-para-tratar-imagenes-rotar-redimensionar-anadir-marcas-de-agua/">Watimage</a> :D</p>
+
+<blockquote>
+  <p><strong>Fuentes…</strong></p>
+
+  <ul>
+    <li><a href="http://www.debian-administration.org/article/413/website_screenshot_server_on_debian_stable" rel="external nofollow">Website screenshot server on debian stable</a></li>
+    <li><a href="http://stackoverflow.com/questions/2781000/processing-a-tab-delimited-file-with-shell-script-processing/2787573#2787573" rel="external nofollow">Processing a tab delimited file with shell script processing</a></li>
+    <li><a href="https://developer.mozilla.org/en/Command_Line_Options#-ProfileManager" rel="external nofollow">Mozilla Firefox Command Line Options</a></li>
+    <li><a href="http://www-archive.mozilla.org/unix/remote.html" rel="external nofollow">Remote control of unix mozilla</a></li>
+    <li><a href="http://www.imagemagick.org/www/import.html" rel="external nofollow">ImageMagick import</a></li>
+    <li><a href="http://forums.mozillazine.org/viewtopic.php?f=38&amp;t=1648545" rel="external nofollow">Firefox -remote using the <em>same</em> tab</a></li>
+  </ul>
+</blockquote>
+
+      <footer class="entry-meta">
+        <span class="entry-tags">
+            
+            <a href="//elboletaire.github.io/racotecnic/etiqueta/Firefox" title="Pages tagged Firefox" class="tag">
+                <span class="term">Firefox</span>
+            </a>
+            
+            
+            <a href="//elboletaire.github.io/racotecnic/etiqueta/ImageMagick" title="Pages tagged ImageMagick" class="tag">
+                <span class="term">ImageMagick</span>
+            </a>
+            
+            
+            <a href="//elboletaire.github.io/racotecnic/etiqueta/VNC" title="Pages tagged VNC" class="tag">
+                <span class="term">VNC</span>
+            </a>
+            
+            
+        </span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=//elboletaire.github.io/racotecnic/2011/09/tomar-screenshots-capturas-de-pantalla-de-paginas-web-desde-la-consola-de-linux/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=//elboletaire.github.io/racotecnic/2011/09/tomar-screenshots-capturas-de-pantalla-de-paginas-web-desde-la-consola-de-linux/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=//elboletaire.github.io/racotecnic/2011/09/tomar-screenshots-capturas-de-pantalla-de-paginas-web-desde-la-consola-de-linux/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+      </footer>
+    </div><!-- /.entry-content -->
+    <section id="disqus_thread"></section><!-- /#disqus_thread -->
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      <a href="//elboletaire.github.io/racotecnic/2011/08/seguimos-aqui/" class="read-more-btn">Read More</a>
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      <h3><a href="//elboletaire.github.io/racotecnic/2016/05/guarda-gratis-en-la-nube-tus-partidas-guardadas-o-como-hacer-copias-de-seguridad-en-la-nube-gratis/" title="Guarda GRATIS en la nube tus partidas guardadas o cómo hacer copias de seguridad en la nube gratis">Guarda GRATIS en la nube tus partidas guardadas o cómo hacer copias de seguridad en la nube gratis</a></h3>
+      <p>Ya hace unos años que hago esto y la verdad es que es muy práctico. Consistebásicamente en subir automáticamente las partidas guardadas a...&hellip; <a href="//elboletaire.github.io/racotecnic/2016/05/guarda-gratis-en-la-nube-tus-partidas-guardadas-o-como-hacer-copias-de-seguridad-en-la-nube-gratis/">Continue reading</a></p>
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      <div class="list-item">
+        <h4><a href="//elboletaire.github.io/racotecnic/2015/03/instalacion-wamp-a-pelo-con-multiples-versiones-de-php/" title="Instalación WAMP a pelo con múltiples versiones de PHP o cómo configurar Apache para correr varias versiones de PHP en distintos servidores virtuales">Instalación WAMP a pelo con múltiples versiones de PHP o cómo configurar Apache para correr varias versiones de PHP en distintos servidores virtuales</a></h4>
+        <span>Published on March 16, 2015</span>
+      </div><!-- /.list-item -->
+    
+      <div class="list-item">
+        <h4><a href="//elboletaire.github.io/racotecnic/2014/01/ordenar-por-columnas-en-laravel-4-o-como-extender-laravel-4-a-nuestro-gusto/" title="Ordenar por columnas en Laravel 4 o cómo extender Laravel 4 a tu gusto">Ordenar por columnas en Laravel 4 o cómo extender Laravel 4 a tu gusto</a></h4>
+        <span>Published on January 18, 2014</span>
+      </div><!-- /.list-item -->
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2017 Racó Tècnic. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/hpstr-jekyll-theme/" rel="nofollow">HPSTR Theme</a>.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="//elboletaire.github.io/racotecnic/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="//elboletaire.github.io/racotecnic/assets/js/scripts.min.js"></script>
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-106861877-1', 'auto');  
+  ga('require', 'linkid', 'linkid.js');
+  ga('send', 'pageview');
+</script>
+
+
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'racotecnic'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</body>
+</html>

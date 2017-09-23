@@ -1,0 +1,1617 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Leer y editar etiquetas ID3v1 e ID3v2 con CakePHP 1.2 &#8211; Racó Tècnic</title>
+<meta name="description" content="Punt de trobada de coneixements">
+<meta name="keywords" content="PHP, CakePHP, ID3, getID3, mp3">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="//elboletaire.github.io/racotecnic/images/">
+<meta name="twitter:title" content="Leer y editar etiquetas ID3v1 e ID3v2 con CakePHP 1.2">
+<meta name="twitter:description" content="Punt de trobada de coneixements">
+<meta name="twitter:creator" content="@racotecnic">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Leer y editar etiquetas ID3v1 e ID3v2 con CakePHP 1.2">
+<meta property="og:description" content="Punt de trobada de coneixements">
+<meta property="og:url" content="//elboletaire.github.io/racotecnic/2009/07/leer-y-editar-etiquetas-id3v1-e-id3v2-con-cakephp/">
+<meta property="og:site_name" content="Racó Tècnic">
+
+
+
+
+
+<link rel="canonical" href="//elboletaire.github.io/racotecnic/2009/07/leer-y-editar-etiquetas-id3v1-e-id3v2-con-cakephp/">
+<link href="//elboletaire.github.io/racotecnic/feed.xml" type="application/atom+xml" rel="alternate" title="Racó Tècnic Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="//elboletaire.github.io/racotecnic/assets/css/main.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="//elboletaire.github.io/racotecnic/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="//elboletaire.github.io/racotecnic/assets/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="//elboletaire.github.io/racotecnic/assets/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="//elboletaire.github.io/racotecnic/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="//elboletaire.github.io/racotecnic/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="//elboletaire.github.io/racotecnic/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="//elboletaire.github.io/racotecnic/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="//elboletaire.github.io/racotecnic/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="//elboletaire.github.io/racotecnic/images/" alt="Racó Tècnic photo" class="author-photo">
+					<h4>Racó Tècnic</h4>
+					<p>A subproject from <a href="http://underave.net">underave.net</a> created by <a href="https://github.com/elboletaire">elboletaire</a> and maintained by many collaborators.</p>
+				</li>
+				<li><a href="//elboletaire.github.io/racotecnic/about/"><span class="btn btn-inverse">Learn More</span></a></li>
+				<li>
+					<a href="mailto:elboletaire@underave.net"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://twitter.com/racotecnic"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="https://facebook.com/racotecnic"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
+				</li>
+				
+				
+				<li>
+					<a href="https://github.com/elboletaire/racotecnic"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				
+				
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="//elboletaire.github.io/racotecnic/posts/">All Posts</a></li>
+				<li><a href="//elboletaire.github.io/racotecnic/tags/">All Tags</a></li>
+				<li><a href="//elboletaire.github.io/racotecnic/categories/">All Categories</a></li>
+			</ul>
+		</li>
+		
+	    
+	    <li><a href="https://github.com/elboletaire/racotecnic" target="_blank">Github</a></li>
+	  
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="//elboletaire.github.io/racotecnic/2009/07/leer-y-editar-etiquetas-id3v1-e-id3v2-con-cakephp/" rel="bookmark" title="Leer y editar etiquetas ID3v1 e ID3v2 con CakePHP 1.2">Leer y editar etiquetas ID3v1 e ID3v2 con CakePHP 1.2</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2009-07-19T20:24:15+02:00">July 19, 2009</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+          Reading time ~20 minutes
+        </p><!-- /.entry-reading-time -->
+        
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <p>Si, como yo, estáis interesados en editar y leer las etiquetas ID3 de los ficheros mp3 que se suban a vuestro servidor, podéis hacerlo utilizando las <a title="ID3 en php.net" href="http://es.php.net/manual/en/book.id3.php" target="_blank">funciones propias de PHP para ello</a> (necesitáis que vuestro hosting lo tenga instalado) o bien, si os pasa igual que a mi que en mi hosting no tienen habilitadas estas funciones (y si no tienes un servidor dedicado no te las instalarán para no detener el servicio), podéis utilizar las classes de PHP <a title="Visitar página del proyecto GetID3" href="http://www.getid3.org" target="_blank">GetID3</a>.</p>
+
+<p>Si no la conocíais os recomiendo que la descarguéis y hagáis alguna prueba con ella, realmente se le puede sacar mucho jugo ya que con ella no sólo podemos editar etiquetas ID3; esto son algunos de los muchos formatos cuya información podéis consultar y / o editar con este magnífico conjunto de clases:</p>
+
+<p><a id="more"></a><a id="more-679"></a></p>
+
+<blockquote>
+  <p><strong>getID3()</strong> is a PHP script that extracts useful information from MP3s &amp; other multimedia file formats:</p>
+
+  <ul>
+    <li><strong>Tag formats:</strong>
+      <ul>
+        <li><a href="http://www.id3.org/id3v1.html">ID3v1</a> (v1.0 &amp; v1.1)</li>
+        <li><a href="http://www.id3.org/">ID3v2 (v2.2, v2.3 &amp; v2.4)</a></li>
+        <li><a href="http://www.personal.uni-jena.de/%7Epfk/mpp/sv8/apetag.html">APE tags (v1 &amp; v2)</a></li>
+        <li><a href="http://www.xiph.org/ogg/vorbis/doc/v-comment.html">(Ogg) VorbisComment</a></li>
+        <li>Lyrics3 (<a href="http://www.id3.org/lyrics3.html">v1</a> &amp; <a href="http://www.id3.org/lyrics3200.html">v2</a>)</li>
+      </ul>
+    </li>
+    <li><strong>Lossy Audio-only formats:</strong>
+      <ul>
+        <li><a href="http://www.mp3-tech.org/programmer/frame_header.html">MP3, MP2, MP1</a> (MPEG-1, layer III/II/I audio, including Fraunhofer, Xing and <a href="http://gabriel.mp3-tech.org/mp3infotag.html">LAME VBR/CBR headers</a>)</li>
+        <li><a href="http://www.xiph.org/">Ogg Vorbis</a></li>
+        <li><a href="http://www.audiocoding.com/wiki/index.php?page=AAC">AAC</a> &amp; MP4</li>
+        <li><a href="http://www.dolby.com/digital/">AC-3</a></li>
+        <li><a href="http://www.real.com/">RealAudio</a></li>
+      </ul>
+    </li>
+    <li><strong>Lossless Audio-only formats:</strong>
+      <ul>
+        <li><a href="http://en.wikipedia.org/wiki/Wav">WAV</a> (including extended chunks such as BWF and CART)</li>
+        <li><a href="http://en.wikipedia.org/wiki/Aiff">AIFF</a></li>
+        <li><a href="http://flac.sourceforge.net/">FLAC</a> &amp; OggFLAC</li>
+        <li><a href="http://www-ft.ee.tu-berlin.de/%7Eliebchen/lpac.html">LPAC (Lossless Predictive Audio Compressor)</a></li>
+        <li><a href="http://www.apple.com/itunes/import.html">Apple Lossless Audio Codec</a></li>
+        <li><a href="http://www.real.com/">RealAudio Lossless</a></li>
+        <li><a href="http://en.wikipedia.org/wiki/CD_Audio">CD-audio (*.cda)</a></li>
+        <li><a href="http://en.wikipedia.org/wiki/Midi#MIDI_file_formats">MIDI</a></li>
+      </ul>
+    </li>
+    <li><strong>Audio-Video formats:</strong>
+      <ul>
+        <li><a href="http://en.wikipedia.org/wiki/Audio_Video_Interleave">AVI</a></li>
+        <li><a href="http://www.matroska.org/">Matroska</a></li>
+        <li><a href="http://www.microsoft.com/windowsmedia/">ASF (ASF, Windows Media Audio (WMA), Windows Media Video (WMV))</a></li>
+        <li><a href="http://en.wikipedia.org/wiki/MPEG-1">MPEG-1</a> &amp; <a href="http://en.wikipedia.org/wiki/MPEG-2">MPEG-2</a></li>
+        <li><a href="http://www.apple.com/quicktime/">Quicktime</a></li>
+        <li><a href="http://www.real.com/">RealVideo</a></li>
+      </ul>
+    </li>
+    <li><strong>Graphic formats:</strong>
+      <ul>
+        <li><a href="http://en.wikipedia.org/wiki/JPEG">JPEG</a></li>
+        <li><a href="http://en.wikipedia.org/wiki/Portable_Network_Graphics">PNG</a></li>
+        <li><a href="http://en.wikipedia.org/wiki/Graphics_Interchange_Format">GIF</a></li>
+        <li><a href="http://en.wikipedia.org/wiki/BMP_file_format">BMP (Windows &amp; OS/2)</a></li>
+        <li><a href="http://en.wikipedia.org/wiki/Tagged_Image_File_Format">TIFF</a></li>
+        <li><a href="http://www.openswf.org/">SWF (Flash)</a></li>
+      </ul>
+    </li>
+    <li><strong>Data formats:</strong>
+      <ul>
+        <li><a href="http://en.wikipedia.org/wiki/ZIP_%28file_format%29">ZIP</a></li>
+        <li><a href="http://en.wikipedia.org/wiki/Tar_%28file_format%29">TAR</a></li>
+        <li><a href="http://en.wikipedia.org/wiki/Gzip">GZIP</a></li>
+        <li><a href="http://en.wikipedia.org/wiki/ISO_image">ISO 9660 (CD-ROM image)</a></li>
+      </ul>
+    </li>
+    <li><strong>Metadata types:</strong>
+      <ul>
+        <li><a href="http://en.wikipedia.org/wiki/Exchangeable_image_file_format">EXIF (Exchangeable image file format)</a></li>
+      </ul>
+    </li>
+    <li><strong>getID3() can write:</strong>
+      <ul>
+        <li><a href="http://en.wikipedia.org/wiki/ID3v1">ID3v1 (v1 &amp; v1.1)</a></li>
+        <li><a href="http://en.wikipedia.org/wiki/ID3v1">ID3v2 (v2.3, v2.4)</a></li>
+        <li><a href="http://en.wikipedia.org/wiki/APE_tag">APE (v2)</a></li>
+        <li><a href="http://en.wikipedia.org/wiki/Ogg">Ogg Vorbis comments</a></li>
+        <li><a href="http://en.wikipedia.org/wiki/Free_Lossless_Audio_Codec">FLAC comments</a></li>
+      </ul>
+    </li>
+  </ul>
+</blockquote>
+
+<p>He eliminado unos cuantos formatos de la lista, si queréis verlos todos id a su página web.</p>
+
+<p>¡Al grano! Ya conocemos las clases ID3 (aunque sea un poco por encima, como yo..) y queremos implementarlas en nuestra aplicación de Cake.</p>
+
+<p>No es muy complicado si utilizamos las demos que nos dan en el zip que nos descargamos de getID3.org. Simplemente debemos tener en cuenta que los “require” que utilicen en las demos debemos substituirlas por <a href="http://api.cakephp.org/class/app#method-Appimport" rel="nofollow" target="_blank" title="Ver documentación del método">App::import(‘vendor’,’rutadelaclase’)</a>.</p>
+
+<p>Lo primero que deberemos hacer será descargar getID3. Si queréis editar etiquetas ID3v2 deberéis descargar la versión estable (actualmente la <a href="http://sourceforge.net/projects/getid3/files/getID3()%201.x/getid3-1.7.9.zip/download" target="_blank" rel="nofollow" title="Desargar">1.7.9</a>) ya que en la versión beta (actualmente la <a href="http://sourceforge.net/projects/getid3/files/getID3%28%29%20beta/getid3-2.0.0b5.zip/download" rel="nofollow" target="_blank" title="Descargar">2.0.0-b5</a>) no funcionan las clases necesarias.</p>
+
+<p>Una vez descargado, lo descomprimimos y lo subimos a la carpeta vendors de nuestro proyecto Cake (para mayor comodidad renombrar la carpeta a “getid3”). Seguramente <a href="http://cakebaker.42dh.com/2006/08/11/why-are-there-two-vendors-folders-in-cakephp/" target="_blank" rel="nofollow" title="Why are there two vendors folders in CakePHP?">habréis visto que existen dos carpetas <em>vendor</em></a> en vuestra aplicación de Cake. Debéis ponerlo en la que se encuentra en la carpeta raíz (junto con las carpeta “app” y “cake”).</p>
+
+<p>Ahora que ya tenemos nuestro plugin en la aplicación debemos crear un componente que nos sirva de conexión entre las librerías getID3 y nuestro Cake.</p>
+
+<p>Para hacerlo utilizaremos como referencia las demos “demo.basic.php” y “demo.simple.write.php”. Recordad que hay que substituir los <em>require</em> e <em>includes</em> por App::import(). Este es el resultado que he obtenido yo:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64</pre></td><td class="code"><pre><span class="cp">&lt;?php</span>
+<span class="k">class</span> <span class="nc">Getid3Component</span> <span class="k">extends</span> <span class="nx">Object</span>
+<span class="p">{</span>
+  <span class="k">function</span> <span class="nf">__construct</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nb">set_time_limit</span><span class="p">(</span><span class="mi">20</span> <span class="o">*</span> <span class="mi">3600</span><span class="p">);</span>
+    <span class="nb">ignore_user_abort</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">function</span> <span class="nf">extract</span><span class="p">(</span><span class="nv">$filename</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Importamos el fichero getid3.php que contiene la classe getID3
+</span>    <span class="nx">App</span><span class="o">::</span><span class="na">import</span><span class="p">(</span><span class="s1">'vendor'</span><span class="p">,</span> <span class="s1">'getid3/getid3'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">'file'</span> <span class="o">=&gt;</span> <span class="s1">'getid3.php'</span><span class="p">));</span>
+    <span class="c1">// Initialize getID3 engine
+</span>    <span class="nv">$getID3</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">getID3</span><span class="p">;</span>
+
+    <span class="c1">// Analyze file and store returned data in $ThisFileInfo
+</span>    <span class="nv">$ThisFileInfo</span> <span class="o">=</span> <span class="nv">$getID3</span><span class="o">-&gt;</span><span class="na">analyze</span><span class="p">(</span><span class="nv">$filename</span><span class="p">);</span>
+    <span class="c1">// Devolvemos un array con toda la información del fichero
+</span>    <span class="k">return</span> <span class="nv">$ThisFileInfo</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">function</span> <span class="nf">write</span><span class="p">(</span><span class="nv">$filename</span><span class="p">,</span> <span class="nv">$data</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="nx">App</span><span class="o">::</span><span class="na">import</span><span class="p">(</span><span class="s1">'vendor'</span><span class="p">,</span> <span class="s1">'getid3/getid3/getid3'</span><span class="p">);</span>
+
+    <span class="c1">// Initialize getID3 engine
+</span>    <span class="nv">$getID3</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">getID3</span><span class="p">;</span>
+    <span class="c1">// Indicamos a getID3 que utilice la codificación de Cake
+</span>    <span class="nv">$getID3</span><span class="o">-&gt;</span><span class="na">setOption</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">'encoding'</span> <span class="o">=&gt;</span> <span class="nx">Configure</span><span class="o">::</span><span class="na">read</span><span class="p">(</span><span class="s1">'App.encoding'</span><span class="p">)));</span>
+
+    <span class="nx">App</span><span class="o">::</span><span class="na">import</span><span class="p">(</span><span class="s1">'vendor'</span><span class="p">,</span> <span class="s1">'getid3/getid3'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">'file'</span> <span class="o">=&gt;</span> <span class="s1">'write.php'</span><span class="p">));</span>
+
+    <span class="c1">// Initialize getID3 tag-writing module
+</span>    <span class="nv">$tagwriter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">getid3_writetags</span><span class="p">;</span>
+
+    <span class="nv">$tagwriter</span><span class="o">-&gt;</span><span class="na">filename</span>       <span class="o">=</span> <span class="nv">$filename</span><span class="p">;</span>
+    <span class="nv">$tagwriter</span><span class="o">-&gt;</span><span class="na">tagformats</span>     <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'id3v1'</span><span class="p">,</span> <span class="s1">'id3v2.3'</span><span class="p">);</span>
+
+    <span class="c1">// set various options (optional)
+</span>    <span class="nv">$tagwriter</span><span class="o">-&gt;</span><span class="na">overwrite_tags</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="nv">$tagwriter</span><span class="o">-&gt;</span><span class="na">tag_encoding</span>   <span class="o">=</span> <span class="nx">Configure</span><span class="o">::</span><span class="na">read</span><span class="p">(</span><span class="s1">'App.encoding'</span><span class="p">);</span>
+    <span class="nv">$tagwriter</span><span class="o">-&gt;</span><span class="na">remove_other_tags</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+    <span class="c1">// populate data array
+</span>    <span class="nv">$TagData</span><span class="p">[</span><span class="s1">'title'</span><span class="p">][]</span>   <span class="o">=</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">'title'</span><span class="p">];</span>
+    <span class="nv">$TagData</span><span class="p">[</span><span class="s1">'artist'</span><span class="p">][]</span>  <span class="o">=</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">'artist'</span><span class="p">];</span>
+    <span class="nv">$TagData</span><span class="p">[</span><span class="s1">'album'</span><span class="p">][]</span>   <span class="o">=</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">'album'</span><span class="p">];</span>
+    <span class="nv">$TagData</span><span class="p">[</span><span class="s1">'year'</span><span class="p">][]</span>    <span class="o">=</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">'year'</span><span class="p">];</span>
+    <span class="nv">$TagData</span><span class="p">[</span><span class="s1">'genre'</span><span class="p">][]</span>   <span class="o">=</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">'genre'</span><span class="p">];</span>
+    <span class="nv">$TagData</span><span class="p">[</span><span class="s1">'comment'</span><span class="p">][]</span> <span class="o">=</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">'comment'</span><span class="p">];</span>
+    <span class="nv">$TagData</span><span class="p">[</span><span class="s1">'track'</span><span class="p">][]</span>   <span class="o">=</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">'track'</span><span class="p">];</span>
+
+    <span class="nv">$tagwriter</span><span class="o">-&gt;</span><span class="na">tag_data</span> <span class="o">=</span> <span class="nv">$TagData</span><span class="p">;</span>
+
+    <span class="c1">// write tags
+</span>    <span class="k">if</span> <span class="p">(</span><span class="nv">$tagwriter</span><span class="o">-&gt;</span><span class="na">WriteTags</span><span class="p">())</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$tagwriter</span><span class="o">-&gt;</span><span class="na">warnings</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$tagwriter</span><span class="o">-&gt;</span><span class="na">warnings</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nv">$tagwriter</span><span class="o">-&gt;</span><span class="na">errors</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+<p>Recordad que los componentes van en la carpeta <code class="highlighter-rouge">app/controllers/components</code> y que el nombre de este fichero deberá ser <code class="highlighter-rouge">getid3.php</code>.</p>
+
+<p>Ahora que ya tenemos nuestro componente vayamos al controlador sobre el que queramos utilizarlo y añadamoslo al resto de componentes:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7</pre></td><td class="code"><pre><span class="cp">&lt;?php</span>
+<span class="k">class</span> <span class="nc">AudiosController</span> <span class="k">extends</span> <span class="nx">AppController</span>
+<span class="p">{</span>
+  <span class="k">var</span> <span class="nv">$name</span> <span class="o">=</span> <span class="s1">'Audios'</span><span class="p">;</span>
+  <span class="k">var</span> <span class="nv">$components</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'Upload'</span><span class="p">,</span> <span class="s1">'Getid3'</span><span class="p">);</span>
+  <span class="c1">// [...]
+</span><span class="p">}</span>
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+<p>Y sólo nos queda saber cómo utilizarlo:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9</pre></td><td class="code"><pre><span class="nv">$datos</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s1">'album'</span> <span class="o">=&gt;</span> <span class="s1">'Nombre del álbum'</span><span class="p">,</span>
+  <span class="s1">'title'</span> <span class="o">=&gt;</span> <span class="s1">'Título del tema'</span><span class="p">,</span>
+  <span class="s1">'artist'</span> <span class="o">=&gt;</span> <span class="s1">'Artista'</span><span class="p">,</span>
+  <span class="s1">'year'</span> <span class="o">=&gt;</span> <span class="s1">'Año'</span><span class="p">,</span>
+  <span class="s1">'genre'</span> <span class="o">=&gt;</span> <span class="s1">'Estilo'</span><span class="p">,</span>
+  <span class="s1">'comment'</span> <span class="o">=&gt;</span> <span class="s1">'Comentario'</span>
+<span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Getid2</span><span class="o">-&gt;</span><span class="na">write</span><span class="p">(</span><span class="s1">'rutadelfichero.mp3'</span><span class="p">,</span> <span class="nv">$datos</span><span class="p">);</span>
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+<p>Y para leer los datos de un mp3:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Getid2</span><span class="o">-&gt;</span><span class="na">extract</span><span class="p">(</span><span class="s1">'rutadelfichero.mp3'</span><span class="p">)</span>
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+<p>Que nos dará una salida similar a <a href="http://www.racotecnic.com/2009/07/leer-y-editar-etiquetas-id3v1-y-id3v2-con-cakephp/#sortida">ésta</a>.</p>
+
+<p>Habéis visto más o menos el método de implementar funciones de getID3 en CakePHP. Ahora es tarea vuestra intentar añadir más funcionalidades a vuestro complemento según vuestras necesidades.</p>
+
+<p>Como siempre, espero que le sirva a alguien!</p>
+
+<blockquote>
+  <p>Páginas de referencia:</p>
+
+  <ul>
+    <li><a href="http://www.getid3.org" target="_blank" rel="nofollow">getID3.org</a></li>
+    <li><a href="http://api.cakephp.org" target="_blank" rel="nofollow">API de CakePHP</a></li>
+    <li><a href="http://www.devarticles.in/cakephp/getid3-component-for-cakephp/" target="_blank" rel="nofollow">GetID3 component for CakePHP</a></li>
+  </ul>
+</blockquote>
+
+<p>Salida de mi fichero de prueba mp3:</p>
+
+<div class="no-line-numbers highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530</pre></td><td class="code"><pre>Array
+(
+    [GETID3_VERSION] =&gt; 1.7.9-20090308
+    [filesize] =&gt; 263776
+    [avdataoffset] =&gt; 4096
+    [avdataend] =&gt; 263648
+    [fileformat] =&gt; mp3
+    [audio] =&gt; Array
+        (
+            [dataformat] =&gt; mp3
+            [channels] =&gt; 2
+            [sample_rate] =&gt; 44100
+            [bitrate] =&gt; 128000
+            [channelmode] =&gt; stereo
+            [bitrate_mode] =&gt; cbr
+            [lossless] =&gt;
+            [encoder_options] =&gt; CBR128
+            [compression_ratio] =&gt; 0.0907029478458
+            [streams] =&gt; Array
+                (
+                    [0] =&gt; Array
+                        (
+                            [dataformat] =&gt; mp3
+                            [channels] =&gt; 2
+                            [sample_rate] =&gt; 44100
+                            [bitrate] =&gt; 128000
+                            [channelmode] =&gt; stereo
+                            [bitrate_mode] =&gt; cbr
+                            [lossless] =&gt;
+                            [encoder_options] =&gt; CBR128
+                            [compression_ratio] =&gt; 0.0907029478458
+                        )
+
+                )
+
+        )
+
+    [tags] =&gt; Array
+        (
+            [id3v1] =&gt; Array
+                (
+                    [title] =&gt; Array
+                        (
+                            [0] =&gt; Títol del tema
+                        )
+
+                    [artist] =&gt; Array
+                        (
+                            [0] =&gt; Jo mateix
+                        )
+
+                    [album] =&gt; Array
+                        (
+                            [0] =&gt; Muahahahahah
+                        )
+
+                    [year] =&gt; Array
+                        (
+                            [0] =&gt; 2009
+                        )
+
+                    [comment] =&gt; Array
+                        (
+                            [0] =&gt; from www.underave.net
+                        )
+
+                    [genre] =&gt; Array
+                        (
+                            [0] =&gt; Techno
+                        )
+
+                )
+
+            [id3v2] =&gt; Array
+                (
+                    [title] =&gt; Array
+                        (
+                            [0] =&gt; Títol del tema
+                        )
+
+                    [artist] =&gt; Array
+                        (
+                            [0] =&gt; Jo mateix
+                        )
+
+                    [album] =&gt; Array
+                        (
+                            [0] =&gt; Muahahahahah
+                        )
+
+                    [year] =&gt; Array
+                        (
+                            [0] =&gt; 2009
+                        )
+
+                    [genre] =&gt; Array
+                        (
+                            [0] =&gt; Techno
+                        )
+
+                    [comments] =&gt; Array
+                        (
+                            [0] =&gt; from www.underave.net
+                        )
+
+                )
+
+        )
+
+    [encoding] =&gt; ISO-8859-1
+    [filename] =&gt; Bong0.mp3
+    [filepath] =&gt; /public_html/waste/v3.2/app/webroot/files/mp3
+    [filenamepath] =&gt; /public_html/waste/v3.2/app/webroot/files/mp3/Bong0.mp3
+    [id3v2] =&gt; Array
+        (
+            [header] =&gt; 1
+            [flags] =&gt; Array
+                (
+                    [unsynch] =&gt;
+                    [exthead] =&gt;
+                    [experim] =&gt;
+                )
+
+            [majorversion] =&gt; 3
+            [minorversion] =&gt; 0
+            [headerlength] =&gt; 4096
+            [tag_offset_start] =&gt; 0
+            [tag_offset_end] =&gt; 4096
+            [encoding] =&gt; UTF-8
+            [comments] =&gt; Array
+                (
+                    [title] =&gt; Array
+                        (
+                            [0] =&gt; Títol del tema
+                        )
+
+                    [artist] =&gt; Array
+                        (
+                            [0] =&gt; Jo mateix
+                        )
+
+                    [album] =&gt; Array
+                        (
+                            [0] =&gt; Muahahahahah
+                        )
+
+                    [year] =&gt; Array
+                        (
+                            [0] =&gt; 2009
+                        )
+
+                    [genre] =&gt; Array
+                        (
+                            [0] =&gt; Techno
+                        )
+
+                    [comments] =&gt; Array
+                        (
+                            [0] =&gt; from www.underave.net
+                        )
+
+                )
+
+            [TIT2] =&gt; Array
+                (
+                    [0] =&gt; Array
+                        (
+                            [frame_name] =&gt; TIT2
+                            [frame_flags_raw] =&gt; 0
+                            [data] =&gt; ��T���t�o�l� �d�e�l� �t�e�m�a�
+                            [datalength] =&gt; 31
+                            [dataoffset] =&gt; 10
+                            [framenamelong] =&gt; Title/songname/content description
+                            [framenameshort] =&gt; title
+                            [flags] =&gt; Array
+                                (
+                                    [TagAlterPreservation] =&gt;
+                                    [FileAlterPreservation] =&gt;
+                                    [ReadOnly] =&gt;
+                                    [compression] =&gt;
+                                    [Encryption] =&gt;
+                                    [GroupingIdentity] =&gt;
+                                )
+
+                            [encodingid] =&gt; 1
+                            [encoding] =&gt; UTF-16
+                        )
+
+                )
+
+            [TPE1] =&gt; Array
+                (
+                    [0] =&gt; Array
+                        (
+                            [frame_name] =&gt; TPE1
+                            [frame_flags_raw] =&gt; 0
+                            [data] =&gt; ��J�o� �m�a�t�e�i�x�
+                            [datalength] =&gt; 21
+                            [dataoffset] =&gt; 51
+                            [framenamelong] =&gt; Lead performer(s)/Soloist(s)
+                            [framenameshort] =&gt; artist
+                            [flags] =&gt; Array
+                                (
+                                    [TagAlterPreservation] =&gt;
+                                    [FileAlterPreservation] =&gt;
+                                    [ReadOnly] =&gt;
+                                    [compression] =&gt;
+                                    [Encryption] =&gt;
+                                    [GroupingIdentity] =&gt;
+                                )
+
+                            [encodingid] =&gt; 1
+                            [encoding] =&gt; UTF-16
+                        )
+
+                )
+
+            [TALB] =&gt; Array
+                (
+                    [0] =&gt; Array
+                        (
+                            [frame_name] =&gt; TALB
+                            [frame_flags_raw] =&gt; 0
+                            [data] =&gt; ��M�u�a�h�a�h�a�h�a�h�a�h�
+                            [datalength] =&gt; 27
+                            [dataoffset] =&gt; 82
+                            [framenamelong] =&gt; Album/Movie/Show title
+                            [framenameshort] =&gt; album
+                            [flags] =&gt; Array
+                                (
+                                    [TagAlterPreservation] =&gt;
+                                    [FileAlterPreservation] =&gt;
+                                    [ReadOnly] =&gt;
+                                    [compression] =&gt;
+                                    [Encryption] =&gt;
+                                    [GroupingIdentity] =&gt;
+                                )
+
+                            [encodingid] =&gt; 1
+                            [encoding] =&gt; UTF-16
+                        )
+
+                )
+
+            [TYER] =&gt; Array
+                (
+                    [0] =&gt; Array
+                        (
+                            [frame_name] =&gt; TYER
+                            [frame_flags_raw] =&gt; 0
+                            [data] =&gt; ��2�0�0�9�
+                            [datalength] =&gt; 11
+                            [dataoffset] =&gt; 119
+                            [framenamelong] =&gt; Year
+                            [framenameshort] =&gt; year
+                            [flags] =&gt; Array
+                                (
+                                    [TagAlterPreservation] =&gt;
+                                    [FileAlterPreservation] =&gt;
+                                    [ReadOnly] =&gt;
+                                    [compression] =&gt;
+                                    [Encryption] =&gt;
+                                    [GroupingIdentity] =&gt;
+                                )
+
+                            [encodingid] =&gt; 1
+                            [encoding] =&gt; UTF-16
+                        )
+
+                )
+
+            [TCON] =&gt; Array
+                (
+                    [0] =&gt; Array
+                        (
+                            [frame_name] =&gt; TCON
+                            [frame_flags_raw] =&gt; 0
+                            [data] =&gt; ��T�e�c�h�n�o�
+                            [datalength] =&gt; 15
+                            [dataoffset] =&gt; 140
+                            [framenamelong] =&gt; Content type
+                            [framenameshort] =&gt; genre
+                            [flags] =&gt; Array
+                                (
+                                    [TagAlterPreservation] =&gt;
+                                    [FileAlterPreservation] =&gt;
+                                    [ReadOnly] =&gt;
+                                    [compression] =&gt;
+                                    [Encryption] =&gt;
+                                    [GroupingIdentity] =&gt;
+                                )
+
+                            [encodingid] =&gt; 1
+                            [encoding] =&gt; UTF-16
+                        )
+
+                )
+
+            [COMM] =&gt; Array
+                (
+                    [0] =&gt; Array
+                        (
+                            [frame_name] =&gt; COMM
+                            [frame_flags_raw] =&gt; 0
+                            [data] =&gt; ��f�r�o�m� �w�w�w�.�u�n�d�e�r�a�v�e�.�n�e�t�
+                            [datalength] =&gt; 50
+                            [dataoffset] =&gt; 165
+                            [framenamelong] =&gt; Comments
+                            [framenameshort] =&gt; comments
+                            [flags] =&gt; Array
+                                (
+                                    [TagAlterPreservation] =&gt;
+                                    [FileAlterPreservation] =&gt;
+                                    [ReadOnly] =&gt;
+                                    [compression] =&gt;
+                                    [Encryption] =&gt;
+                                    [GroupingIdentity] =&gt;
+                                )
+
+                            [encodingid] =&gt; 1
+                            [encoding] =&gt; UTF-16
+                            [language] =&gt; eng
+                            [languagename] =&gt; English
+                            [description] =&gt;
+                        )
+
+                )
+
+            [TRCK] =&gt; Array
+                (
+                    [0] =&gt; Array
+                        (
+                            [frame_name] =&gt; TRCK
+                            [frame_flags_raw] =&gt; 0
+                            [data] =&gt;
+                            [datalength] =&gt; 1
+                            [dataoffset] =&gt; 225
+                            [framenamelong] =&gt; Track number/Position in set
+                            [framenameshort] =&gt; track_number
+                            [flags] =&gt; Array
+                                (
+                                    [TagAlterPreservation] =&gt;
+                                    [FileAlterPreservation] =&gt;
+                                    [ReadOnly] =&gt;
+                                    [compression] =&gt;
+                                    [Encryption] =&gt;
+                                    [GroupingIdentity] =&gt;
+                                )
+
+                            [encodingid] =&gt; 1
+                            [encoding] =&gt; UTF-16
+                        )
+
+                )
+
+            [padding] =&gt; Array
+                (
+                    [start] =&gt; 236
+                    [length] =&gt; 3860
+                    [valid] =&gt; 1
+                )
+
+        )
+
+    [id3v1] =&gt; Array
+        (
+            [title] =&gt; Títol del tema
+            [artist] =&gt; Jo mateix
+            [album] =&gt; Muahahahahah
+            [year] =&gt; 2009
+            [comment] =&gt; from www.underave.net
+            [genre] =&gt; Techno
+            [comments] =&gt; Array
+                (
+                    [title] =&gt; Array
+                        (
+                            [0] =&gt; Títol del tema
+                        )
+
+                    [artist] =&gt; Array
+                        (
+                            [0] =&gt; Jo mateix
+                        )
+
+                    [album] =&gt; Array
+                        (
+                            [0] =&gt; Muahahahahah
+                        )
+
+                    [year] =&gt; Array
+                        (
+                            [0] =&gt; 2009
+                        )
+
+                    [comment] =&gt; Array
+                        (
+                            [0] =&gt; from www.underave.net
+                        )
+
+                    [genre] =&gt; Array
+                        (
+                            [0] =&gt; Techno
+                        )
+
+                )
+
+            [padding_valid] =&gt; 1
+            [tag_offset_end] =&gt; 263776
+            [tag_offset_start] =&gt; 263648
+            [encoding] =&gt; ISO-8859-1
+        )
+
+    [mime_type] =&gt; audio/mpeg
+    [mpeg] =&gt; Array
+        (
+            [audio] =&gt; Array
+                (
+                    [raw] =&gt; Array
+                        (
+                            [synch] =&gt; 4094
+                            [version] =&gt; 3
+                            [layer] =&gt; 1
+                            [protection] =&gt; 0
+                            [bitrate] =&gt; 9
+                            [sample_rate] =&gt; 0
+                            [padding] =&gt; 0
+                            [private] =&gt; 0
+                            [channelmode] =&gt; 0
+                            [modeextension] =&gt; 0
+                            [copyright] =&gt; 0
+                            [original] =&gt; 1
+                            [emphasis] =&gt; 0
+                        )
+
+                    [version] =&gt; 1
+                    [layer] =&gt; 3
+                    [channelmode] =&gt; stereo
+                    [channels] =&gt; 2
+                    [sample_rate] =&gt; 44100
+                    [protection] =&gt; 1
+                    [private] =&gt;
+                    [modeextension] =&gt;
+                    [copyright] =&gt;
+                    [original] =&gt; 1
+                    [emphasis] =&gt; none
+                    [crc] =&gt; 54304
+                    [padding] =&gt;
+                    [bitrate] =&gt; 128000
+                    [framelength] =&gt; 417
+                    [bitrate_mode] =&gt; cbr
+                )
+
+        )
+
+    [playtime_seconds] =&gt; 16.222
+    [tags_html] =&gt; Array
+        (
+            [id3v1] =&gt; Array
+                (
+                    [title] =&gt; Array
+                        (
+                            [0] =&gt; T&amp;amp;iacute;tol del tema
+                        )
+
+                    [artist] =&gt; Array
+                        (
+                            [0] =&gt; Jo mateix
+                        )
+
+                    [album] =&gt; Array
+                        (
+                            [0] =&gt; Muahahahahah
+                        )
+
+                    [year] =&gt; Array
+                        (
+                            [0] =&gt; 2009
+                        )
+
+                    [comment] =&gt; Array
+                        (
+                            [0] =&gt; from www.underave.net
+                        )
+
+                    [genre] =&gt; Array
+                        (
+                            [0] =&gt; Techno
+                        )
+
+                )
+
+            [id3v2] =&gt; Array
+                (
+                    [title] =&gt; Array
+                        (
+                            [0] =&gt; T&amp;amp;#237;tol del tema
+                        )
+
+                    [artist] =&gt; Array
+                        (
+                            [0] =&gt; Jo mateix
+                        )
+
+                    [album] =&gt; Array
+                        (
+                            [0] =&gt; Muahahahahah
+                        )
+
+                    [year] =&gt; Array
+                        (
+                            [0] =&gt; 2009
+                        )
+
+                    [genre] =&gt; Array
+                        (
+                            [0] =&gt; Techno
+                        )
+
+                    [comments] =&gt; Array
+                        (
+                            [0] =&gt; from www.underave.net
+                        )
+
+                )
+
+        )
+
+    [bitrate] =&gt; 128000
+    [playtime_string] =&gt; 0:16
+)
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+      <footer class="entry-meta">
+        <span class="entry-tags">
+            
+            <a href="//elboletaire.github.io/racotecnic/etiqueta/PHP" title="Pages tagged PHP" class="tag">
+                <span class="term">PHP</span>
+            </a>
+            
+            
+            <a href="//elboletaire.github.io/racotecnic/etiqueta/CakePHP" title="Pages tagged CakePHP" class="tag">
+                <span class="term">CakePHP</span>
+            </a>
+            
+            
+            <a href="//elboletaire.github.io/racotecnic/etiqueta/ID3" title="Pages tagged ID3" class="tag">
+                <span class="term">ID3</span>
+            </a>
+            
+            
+            <a href="//elboletaire.github.io/racotecnic/etiqueta/getID3" title="Pages tagged getID3" class="tag">
+                <span class="term">getID3</span>
+            </a>
+            
+            
+            <a href="//elboletaire.github.io/racotecnic/etiqueta/mp3" title="Pages tagged mp3" class="tag">
+                <span class="term">mp3</span>
+            </a>
+            
+            
+        </span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=//elboletaire.github.io/racotecnic/2009/07/leer-y-editar-etiquetas-id3v1-e-id3v2-con-cakephp/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=//elboletaire.github.io/racotecnic/2009/07/leer-y-editar-etiquetas-id3v1-e-id3v2-con-cakephp/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=//elboletaire.github.io/racotecnic/2009/07/leer-y-editar-etiquetas-id3v1-e-id3v2-con-cakephp/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+      </footer>
+    </div><!-- /.entry-content -->
+    <section id="disqus_thread"></section><!-- /#disqus_thread -->
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      <a href="//elboletaire.github.io/racotecnic/2009/07/overdub-el-primer-comic-didactico-para-productores/" class="read-more-btn">Read More</a>
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      <h3><a href="//elboletaire.github.io/racotecnic/2016/05/guarda-gratis-en-la-nube-tus-partidas-guardadas-o-como-hacer-copias-de-seguridad-en-la-nube-gratis/" title="Guarda GRATIS en la nube tus partidas guardadas o cómo hacer copias de seguridad en la nube gratis">Guarda GRATIS en la nube tus partidas guardadas o cómo hacer copias de seguridad en la nube gratis</a></h3>
+      <p>Ya hace unos años que hago esto y la verdad es que es muy práctico. Consistebásicamente en subir automáticamente las partidas guardadas a...&hellip; <a href="//elboletaire.github.io/racotecnic/2016/05/guarda-gratis-en-la-nube-tus-partidas-guardadas-o-como-hacer-copias-de-seguridad-en-la-nube-gratis/">Continue reading</a></p>
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      <div class="list-item">
+        <h4><a href="//elboletaire.github.io/racotecnic/2015/03/instalacion-wamp-a-pelo-con-multiples-versiones-de-php/" title="Instalación WAMP a pelo con múltiples versiones de PHP o cómo configurar Apache para correr varias versiones de PHP en distintos servidores virtuales">Instalación WAMP a pelo con múltiples versiones de PHP o cómo configurar Apache para correr varias versiones de PHP en distintos servidores virtuales</a></h4>
+        <span>Published on March 16, 2015</span>
+      </div><!-- /.list-item -->
+    
+      <div class="list-item">
+        <h4><a href="//elboletaire.github.io/racotecnic/2014/01/ordenar-por-columnas-en-laravel-4-o-como-extender-laravel-4-a-nuestro-gusto/" title="Ordenar por columnas en Laravel 4 o cómo extender Laravel 4 a tu gusto">Ordenar por columnas en Laravel 4 o cómo extender Laravel 4 a tu gusto</a></h4>
+        <span>Published on January 18, 2014</span>
+      </div><!-- /.list-item -->
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2017 Racó Tècnic. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/hpstr-jekyll-theme/" rel="nofollow">HPSTR Theme</a>.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="//elboletaire.github.io/racotecnic/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="//elboletaire.github.io/racotecnic/assets/js/scripts.min.js"></script>
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-106861877-1', 'auto');  
+  ga('require', 'linkid', 'linkid.js');
+  ga('send', 'pageview');
+</script>
+
+
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'racotecnic'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</body>
+</html>

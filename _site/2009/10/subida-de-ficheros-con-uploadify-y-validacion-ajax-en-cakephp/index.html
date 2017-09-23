@@ -1,0 +1,1581 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Subida de ficheros con Uploadify y validación Ajax en CakePHP &#8211; Racó Tècnic</title>
+<meta name="description" content="Punt de trobada de coneixements">
+<meta name="keywords" content="PHP, JavaScript, jQuery, CakePHP, Uploadify, Ajax">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="//elboletaire.github.io/racotecnic/images/">
+<meta name="twitter:title" content="Subida de ficheros con Uploadify y validación Ajax en CakePHP">
+<meta name="twitter:description" content="Punt de trobada de coneixements">
+<meta name="twitter:creator" content="@racotecnic">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Subida de ficheros con Uploadify y validación Ajax en CakePHP">
+<meta property="og:description" content="Punt de trobada de coneixements">
+<meta property="og:url" content="//elboletaire.github.io/racotecnic/2009/10/subida-de-ficheros-con-uploadify-y-validacion-ajax-en-cakephp/">
+<meta property="og:site_name" content="Racó Tècnic">
+
+
+
+
+
+<link rel="canonical" href="//elboletaire.github.io/racotecnic/2009/10/subida-de-ficheros-con-uploadify-y-validacion-ajax-en-cakephp/">
+<link href="//elboletaire.github.io/racotecnic/feed.xml" type="application/atom+xml" rel="alternate" title="Racó Tècnic Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="//elboletaire.github.io/racotecnic/assets/css/main.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="//elboletaire.github.io/racotecnic/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="//elboletaire.github.io/racotecnic/assets/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="//elboletaire.github.io/racotecnic/assets/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="//elboletaire.github.io/racotecnic/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="//elboletaire.github.io/racotecnic/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="//elboletaire.github.io/racotecnic/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="//elboletaire.github.io/racotecnic/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="//elboletaire.github.io/racotecnic/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="//elboletaire.github.io/racotecnic/images/" alt="Racó Tècnic photo" class="author-photo">
+					<h4>Racó Tècnic</h4>
+					<p>A subproject from <a href="http://underave.net">underave.net</a> created by <a href="https://github.com/elboletaire">elboletaire</a> and maintained by many collaborators.</p>
+				</li>
+				<li><a href="//elboletaire.github.io/racotecnic/about/"><span class="btn btn-inverse">Learn More</span></a></li>
+				<li>
+					<a href="mailto:elboletaire@underave.net"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://twitter.com/racotecnic"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="https://facebook.com/racotecnic"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
+				</li>
+				
+				
+				<li>
+					<a href="https://github.com/elboletaire/racotecnic"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				
+				
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="//elboletaire.github.io/racotecnic/posts/">All Posts</a></li>
+				<li><a href="//elboletaire.github.io/racotecnic/tags/">All Tags</a></li>
+				<li><a href="//elboletaire.github.io/racotecnic/categories/">All Categories</a></li>
+			</ul>
+		</li>
+		
+	    
+	    <li><a href="https://github.com/elboletaire/racotecnic" target="_blank">Github</a></li>
+	  
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="//elboletaire.github.io/racotecnic/2009/10/subida-de-ficheros-con-uploadify-y-validacion-ajax-en-cakephp/" rel="bookmark" title="Subida de ficheros con Uploadify y validación Ajax en CakePHP">Subida de ficheros con Uploadify y validación Ajax en CakePHP</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2009-10-27T01:25:16+01:00">October 27, 2009</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+          Reading time ~48 minutes
+        </p><!-- /.entry-reading-time -->
+        
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <p>Ya hacía tiempo que tenía ganas de escribir una entrada “de estas” :D (de estas quiero decir de programación y con muuuucho muuuucho código, como a mí me gustan :P).</p>
+
+<p>Hace unos meses conté <a title="Leer artículo" href="http://www.racotecnic.com/2009/06/subida-de-ficheros-en-cakephp-con-uploadify-y-jquery/" target="_self">cómo podíais utilizar el plugin Uploadify (de jQuery) para subir ficheros a vuestro portal hecho con CakePHP</a>. Hoy iremos un poco más allá y crearemos un <strong>upload de imágenes con validación de campos con Ajax</strong>.</p>
+
+<p>Antes de empezar estaría bien que hubierais leído el anterior tutorial —e incluso haberlo probado— para tener algo de práctica en el asunto. Este tutorial será (bastante) de ampliación del anterior. Quiero decir que habrá cosas en las que no profundizaré porque ya lo hice en el anterior, así como que en este hay mejoras, como la gestión de la respuesta de uploadify con JSON en lugar de con texto plano.</p>
+
+<p>Si queréis podéis ver el resultado del tutorial que voy a explicar en este enlace:</p>
+
+<blockquote>
+  <ul>
+    <li><a href="http://demos.racotecnic.com/tutorials/cake/images/add">Ejemplo (las imágenes se borran cada vez que se accede a la página)</a></li>
+    <li><a href="http://demos.racotecnic.com/tutorials/2009/10/image_upload.zip">Descargar archivos del ejemplo</a></li>
+  </ul>
+</blockquote>
+
+<p><a id="more"></a><a id="more-746"></a></p>
+
+<p>Pongámonos a ello. Primero de todo, como siempre, ¿qué necesitamos?</p>
+
+<ul>
+  <li><a rel="nofollow" href="http://www.cakephp.org" target="_blank">CakePHP</a> (v. 1.2.4.8284 [1.2.5 stable])</li>
+  <li>Un componente para gestionar ficheros subidos, <a rel="nofollow" href="http://labs.iamkoa.net/2007/10/23/image-upload-component-cakephp/" target="_blank">como este</a></li>
+  <li><a rel="nofollow" href="http://www.jquery.com" target="_blank">jQuery</a> (v. 1.3.2)</li>
+  <li><a rel="nofollow" href="http://www.uploadify.com" target="_blank">Uploadify</a> (v. 2.1.0)</li>
+</ul>
+
+<p><em>(las versiones que he puesto entre paréntesis son las que he utilizado yo para el tutorial)</em></p>
+
+<p>¿Y qué queremos hacer?</p>
+
+<ul>
+  <li>Mostraremos una vista con el botón de carga de ficheros (el de uploadify) y un botón desactivado para enviar el formulario.</li>
+  <li>El usuario seleccionará las imágenes deseadas y uploadify empezará a hacer la carga de imágenes</li>
+  <li>A medida que las imágenes vayan llegando al servidor generaremos dos miniaturas de la imagen (una para su futuro uso como miniatura y la otra sólo para mostrársela al usuario en el formulario de envío de imágenes) y guardaremos la original.</li>
+  <li>Si todas las imágenes se han guardado correctamente, mostraremos al usuario la imagen con todos los campos que pueda rellenar sobre la imagen. Si no se hubieran guardado correctamente se le mostrará al usuario un mensaje de error.</li>
+  <li>Una vez subidas todas las imágenes activamos el botón (eliminamos el atributo "disabled") del formulario.</li>
+  <li>Cuando el usuario envíe el formulario pasaremos a hacer la validación Ajax.</li>
+  <li>Si todos los datos son correctos los guardamos y eliminamos la miniatura que no utilizaremos.</li>
+</ul>
+
+<p>Y este es un resultado aproximado de cómo os podría quedar (paso por paso):</p>
+
+<div style="padding: 0 14%">
+  <a href="//elboletaire.github.io/racotecnic/uploads/2009/09/upload_imatges1.png">
+    <img title="upload_imatges1" src="//elboletaire.github.io/racotecnic/uploads/2009/09/upload_imatges1-150x150.png" alt="upload_imatges1" />
+  </a>
+  <a href="//elboletaire.github.io/racotecnic/uploads/2009/09/upload_imatges2.png">
+    <img title="upload_imatges2" src="//elboletaire.github.io/racotecnic/uploads/2009/09/upload_imatges2-150x150.png" alt="upload_imatges2" />
+  </a>
+  <a href="//elboletaire.github.io/racotecnic/uploads/2009/09/upload_imatges3.png">
+    <img title="upload_imatges3" src="//elboletaire.github.io/racotecnic/uploads/2009/09/upload_imatges3-150x150.png" alt="upload_imatges3" />
+  </a>
+
+  <a href="//elboletaire.github.io/racotecnic/uploads/2009/09/upload_imatges4.png">
+    <img title="upload_imatges4" src="//elboletaire.github.io/racotecnic/uploads/2009/09/upload_imatges4-150x150.png" alt="upload_imatges4" />
+  </a>
+  <a href="//elboletaire.github.io/racotecnic/uploads/2009/09/upload_imatges5.png">
+    <img title="upload_imatges5" src="//elboletaire.github.io/racotecnic/uploads/2009/09/upload_imatges5-150x150.png" alt="upload_imatges5" />
+  </a>
+  <a href="//elboletaire.github.io/racotecnic/uploads/2009/09/upload_imatges6.png">
+    <img title="upload_imatges6" src="//elboletaire.github.io/racotecnic/uploads/2009/09/upload_imatges6-150x150.png" alt="upload_imatges6" />
+  </a>
+</div>
+
+<p>Como la otra vez, descargamos todo lo necesario y lo ponemos en nuestro proyecto. Así es como he organizado los ficheros en mi proyecto:</p>
+
+<ul>
+  <li>El componente de subida de ficheros en la carpeta /app/controllers/components/</li>
+  <li>jQuery en la carpeta /app/webroot/js/</li>
+  <li>Y uploadify...
+    <ul>
+      <li>Los JavaScript jquery.uploadify.js y swfobject en la carpeta /app/webroot/js/</li>
+      <li>El fichero uploadify.swf en la carpeta /app/webroot/flash/</li>
+      <li>La imagen cancel.png en la carpeta /app/webroot/img/</li>
+      <li>Y finalmente, el fichero uploadify.css en la carpeta /app/webroot/css/</li>
+    </ul>
+  </li>
+</ul>
+
+<p>A diferencia de otros plugins de jquery, uploadify no especifica la imagen “cancel.png” mediante CSS; lo hace mediante JavaScript y gracias a ello no tenemos que hacer ninguna modificación al CSS.</p>
+
+<p>Hay una cosa que no he mencionado en los pasos de “¿qué queremos hacer?” y que encuentro que es bastante importante. Pensad un momento en el procedimiento de subir imágenes con este sistema…</p>
+
+<p>Una vez el usuario ha seleccionado las imágenes estas empiezan a subir. Cuando han subido todas generamos ficheros (miniaturas, así como el archivo original) que guardamos en el servidor y que, si el usuario no diera al botón de “Guardar” del formulario, quedarían en nuestro servidor ocupando espacio.</p>
+
+<p>Mi solución para este problema ha sido crear una tabla llamada “<em>tempfiles</em>” donde introduzco la ruta completa del fichero. Así después podré eliminar todos los ficheros temporales con un simple clic desde mi panel de administración o, si me gustara el contenido de estos ficheros temporales, podría añadirlos fácilmente a la base de datos sin tener que volver a subir los ficheros.</p>
+
+<p>A diferencia del anterior tutorial, en este os explicaré desde la creación de las tablas SQL (cosa que no hice en el anterior).</p>
+
+<p>Creemos entonces una tabla <em>tempfiles</em> con dos campos (id y <em>location</em>) y una tabla <em>images</em> con los campos que creamos necesarios:</p>
+
+<p><a href="//elboletaire.github.io/racotecnic/uploads/2009/09/model_tempfiles.png"><img class="alignnone size-full wp-image-757" style="vertical-align: middle;" title="model_tempfiles" src="//elboletaire.github.io/racotecnic/uploads/2009/09/model_tempfiles.png" alt="model_tempfiles" width="143" height="88" /></a><a href="//elboletaire.github.io/racotecnic/uploads/2009/09/model_images.png"><img class="alignnone size-full wp-image-756" style="vertical-align: middle;" title="model_images" src="//elboletaire.github.io/racotecnic/uploads/2009/09/model_images.png" alt="model_images" width="158" height="184" /></a></p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16</pre></td><td class="code"><pre><span class="k">CREATE</span>  <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="nv">`images`</span> <span class="p">(</span>
+  <span class="nv">`id`</span> <span class="n">INT</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+  <span class="nv">`name`</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="p">,</span>
+  <span class="nv">`description`</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">NULL</span> <span class="p">,</span>
+  <span class="nv">`tags`</span> <span class="n">TEXT</span> <span class="k">NULL</span> <span class="p">,</span>
+  <span class="nv">`file`</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="k">NULL</span> <span class="p">,</span>
+  <span class="nv">`created`</span> <span class="n">DATETIME</span> <span class="k">NULL</span> <span class="p">,</span>
+  <span class="nv">`modified`</span> <span class="n">DATETIME</span> <span class="k">NULL</span> <span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="nv">`id`</span><span class="p">)</span> <span class="p">)</span>
+<span class="n">ENGINE</span> <span class="o">=</span> <span class="n">InnoDB</span><span class="p">;</span>
+
+<span class="k">CREATE</span>  <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="nv">`tempfiles`</span> <span class="p">(</span>
+  <span class="nv">`id`</span> <span class="n">INT</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+  <span class="nv">`location`</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">350</span><span class="p">)</span> <span class="k">NULL</span> <span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="nv">`id`</span><span class="p">)</span> <span class="p">)</span>
+<span class="n">ENGINE</span> <span class="o">=</span> <span class="n">InnoDB</span><span class="p">;</span>
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+<p>Y sus modelos correspondientes, image.php y tempfile.php:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7</pre></td><td class="code"><pre><span class="cp">&lt;?php</span>
+<span class="c1">// /app/models/tempfile.php
+</span><span class="k">class</span> <span class="nc">Tempfile</span> <span class="k">extends</span> <span class="nx">AppModel</span>
+<span class="p">{</span>
+  <span class="k">var</span> <span class="nv">$name</span> <span class="o">=</span> <span class="s1">'Tempfile'</span><span class="p">;</span>
+<span class="p">}</span>
+
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20</pre></td><td class="code"><pre><span class="cp">&lt;?php</span>
+<span class="c1">// /app/models/image.php
+</span><span class="k">class</span> <span class="nc">Image</span> <span class="k">extends</span> <span class="nx">AppModel</span>
+<span class="p">{</span>
+  <span class="k">var</span> <span class="nv">$name</span> <span class="o">=</span> <span class="s1">'Image'</span><span class="p">;</span>
+  <span class="k">var</span> <span class="nv">$validate</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">'length'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">'rule'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">'between'</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">45</span><span class="p">),</span>
+        <span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="s1">'El nombre debe contener entre 3 y 45 caracteres'</span>
+      <span class="p">)</span>
+    <span class="p">),</span>
+    <span class="s1">'description'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">'length'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">'rule'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">'maxLength'</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+        <span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="s1">'La descripción no puede tener más de 255 caracteres'</span>
+      <span class="p">)</span>
+    <span class="p">)</span>
+  <span class="p">);</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+<p>Necesitaremos tres carpetas para guardar las imágenes. Una para las imágenes a tamaño completo, otra para las miniaturas y otra para los ficheros temporales (las miniaturas que mostraremos al usuario). Creadlas en la carpeta <em>img</em> y dadles permiso de escritura:</p>
+
+<ul>
+  <li>/app/webroot/img/upload/full/</li>
+  <li>/app/webroot/img/upload/thumb/</li>
+  <li>/app/webroot/img/upload/tmp/</li>
+</ul>
+
+<p>Ahora pasamos a la vista para añadir imágenes:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre></td><td class="code"><pre><span class="cp">&lt;?php</span>
+<span class="c1">// /app/views/images/add.ctp
+</span><span class="nv">$javascript</span><span class="o">-&gt;</span><span class="na">codeBlock</span><span class="p">(</span><span class="s1">'var webroot=''.$this-&gt;webroot.'';var sessionId = '' . $session-&gt;id() .'';'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">'inline'</span> <span class="o">=&gt;</span> <span class="kc">false</span><span class="p">));</span>
+<span class="nv">$javascript</span><span class="o">-&gt;</span><span class="na">link</span><span class="p">(</span>
+  <span class="k">array</span><span class="p">(</span>
+    <span class="s1">'jquery-1.3.2.min'</span><span class="p">,</span>
+    <span class="s1">'swfobject'</span><span class="p">,</span>
+    <span class="s1">'jquery.uploadify.min'</span><span class="p">,</span>
+    <span class="s1">'page_specific/images'</span>
+  <span class="p">),</span> <span class="kc">false</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">'add-images'</span> <span class="na">class=</span><span class="s">'add-info'</span><span class="nt">&gt;</span>
+  <span class="cp">&lt;?</span> <span class="nx">__</span><span class="p">(</span><span class="s1">'Subir imágenes'</span><span class="p">)</span> <span class="cp">?&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">'contenido'</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;?=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">()</span> <span class="cp">?&gt;</span>
+      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">'input upload'</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">'imageFile'</span><span class="nt">&gt;</span><span class="cp">&lt;?php</span> <span class="nx">__</span><span class="p">(</span><span class="s1">'Necesitas JavaScript y Flash para poder subir ficheros'</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="nt">&lt;/div&gt;</span>
+      <span class="nt">&lt;/div&gt;</span>
+      <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">'ajaxLoad'</span> <span class="na">style=</span><span class="s">'display:none;'</span><span class="nt">&gt;</span><span class="cp">&lt;?=</span> <span class="nv">$html</span><span class="o">-&gt;</span><span class="na">image</span><span class="p">(</span><span class="s1">'ajax_load.gif'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">'alt'</span> <span class="o">=&gt;</span> <span class="nx">__</span><span class="p">(</span><span class="s1">'Carregant...'</span><span class="p">,</span> <span class="kc">true</span><span class="p">)))</span> <span class="cp">?&gt;</span><span class="nt">&lt;/div&gt;</span>
+      <span class="cp">&lt;?=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">end</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">'label'</span> <span class="o">=&gt;</span> <span class="nx">__</span><span class="p">(</span><span class="s1">'Guardar'</span><span class="p">,</span> <span class="kc">true</span><span class="p">),</span> <span class="s1">'disabled'</span> <span class="o">=&gt;</span> <span class="s1">'disabled'</span><span class="p">))</span> <span class="cp">?&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+<p>La primera línea es para iniciar dos variables de JavaScript, una de ellas con la ruta webroot y la otra con la id de la sesión de PHP. Quizás os interese poner esta porción de código en vuestro layout para aprovecharlo desde cualquier controlador/vista del proyecto.</p>
+
+<p>Como véis hemos cargado jQuery, swfobject (de uploadify, tiene que cargarse antes de uploadify siempre), uploadify y un fichero que crearemos más adelante llamado “images.js” y situado en la carpeta /app/webroot/js/page_specific/.</p>
+
+<p>También hemos creado una capa oculta llamada “ajaxLoad” que contiene una imagen para cuando hagamos la validación con Ajax.</p>
+
+<p>Ahora que tenemos la vista empezaremos su fichero JavaScript images.js. Digo empezaremos porque iremos por partes, primero haremos la subida de ficheros y luego la validación con Ajax.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86</pre></td><td class="code"><pre><span class="c1">// /app/webroot/js/page_specific/images.js</span>
+<span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="cm">/**
+   * Validació amb Ajax
+   */</span>
+  <span class="kd">var</span> <span class="nx">_loadingDiv</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">'#ajaxLoad'</span><span class="p">);</span>
+
+  <span class="c1">// Muestra la capa #flashMessage encima de la capa con clase .add-info</span>
+  <span class="kd">function</span> <span class="nx">flashMessage</span><span class="p">(</span><span class="nx">message</span><span class="p">,</span><span class="nx">classe</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">'div'</span><span class="p">))</span>
+      <span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s1">'display'</span><span class="p">,</span> <span class="s1">'none'</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span><span class="s1">'flashMessage'</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="nx">classe</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">html</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s1">'.add-info'</span><span class="p">)).</span><span class="nx">fadeIn</span><span class="p">();</span>
+  <span class="p">}</span>
+
+<span class="c1">// Sólo para Auth</span>
+<span class="c1">//  function onTimeOut(data){</span>
+<span class="c1">//    flashMessage(data.message,'error');</span>
+<span class="c1">//      window.setTimeout(function() {</span>
+<span class="c1">//          window.location.href = webroot + 'users/login';</span>
+<span class="c1">//      }, 2500);</span>
+<span class="c1">//  }</span>
+<span class="c1">// Fin Auth</span>
+
+  <span class="c1">// Contador de IDs</span>
+  <span class="kd">var</span> <span class="nx">item</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#imageFile'</span><span class="p">).</span><span class="nx">uploadify</span><span class="p">({</span>
+    <span class="s1">'uploader'</span> <span class="p">:</span> <span class="nx">webroot</span> <span class="o">+</span> <span class="s1">'flash/uploadify.swf'</span><span class="p">,</span>
+    <span class="s1">'script'</span> <span class="p">:</span> <span class="nx">webroot</span> <span class="o">+</span><span class="s1">'images/upload/'</span><span class="o">+</span><span class="nx">sessionId</span><span class="p">,</span>
+    <span class="s1">'buttonText'</span> <span class="p">:</span> <span class="s1">'Buscar imágenes'</span><span class="p">,</span>
+    <span class="s1">'cancelImg'</span> <span class="p">:</span> <span class="nx">webroot</span> <span class="o">+</span> <span class="s1">'img/botons/cancel.png'</span><span class="p">,</span>
+    <span class="s1">'auto'</span> <span class="p">:</span> <span class="s1">'true'</span><span class="p">,</span>
+    <span class="s1">'multi'</span> <span class="p">:</span> <span class="s1">'true'</span><span class="p">,</span>
+    <span class="s1">'simUploadLimit'</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s1">'queueSizeLimit'</span> <span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s1">'sizeLimit'</span> <span class="p">:</span> <span class="mi">800</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">,</span>
+    <span class="s1">'fileExt'</span> <span class="p">:</span> <span class="s1">'*.jpg;*.png;*.jpeg;*.gif'</span><span class="p">,</span>
+    <span class="s1">'fileDesc'</span> <span class="p">:</span> <span class="s1">'Imágenes'</span><span class="p">,</span>
+    <span class="s1">'onComplete'</span> <span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">evt</span><span class="p">,</span> <span class="nx">queueId</span><span class="p">,</span> <span class="nx">fileObj</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// Interpretamos la respuesta JSON como un objeto</span>
+      <span class="kd">var</span> <span class="nx">imageObj</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="s1">'('</span> <span class="o">+</span> <span class="nx">response</span> <span class="o">+</span> <span class="s1">')'</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">imageObj</span><span class="p">.</span><span class="nx">success</span><span class="p">){</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s1">'.input.upload'</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span>
+          <span class="c1">// Creamos una capa que contenga la imagen resultante de fondo</span>
+          <span class="nx">$</span><span class="p">(</span><span class="s1">'&lt;div&gt;&lt;/div&gt;'</span><span class="p">).</span><span class="nx">css</span><span class="p">({</span>
+            <span class="s1">'background'</span><span class="p">:</span> <span class="s1">'left center no-repeat url('</span> <span class="o">+</span> <span class="nx">webroot</span> <span class="o">+</span> <span class="s1">'img/upload/tmp/'</span> <span class="o">+</span> <span class="nx">imageObj</span><span class="p">.</span><span class="nx">success</span><span class="p">.</span><span class="nx">data</span> <span class="o">+</span> <span class="s1">')'</span><span class="p">,</span>
+            <span class="s1">'width'</span><span class="p">:</span> <span class="s1">'385px'</span>
+          <span class="p">}).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span><span class="s1">'imatge'</span><span class="o">+</span><span class="nx">item</span><span class="p">)</span>
+            <span class="c1">// Creamos una capa con los inputs</span>
+            <span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s1">'&lt;div&gt;&lt;/div&gt;'</span><span class="p">).</span><span class="nx">css</span><span class="p">({</span>
+              <span class="s1">'margin-left'</span><span class="p">:</span> <span class="s1">'105px'</span>
+              <span class="c1">// Afegim missatge d'èxit i inputs</span>
+            <span class="p">}).</span><span class="nx">append</span><span class="p">(</span><span class="nx">imageObj</span><span class="p">.</span><span class="nx">success</span><span class="p">.</span><span class="nx">message</span> <span class="o">+</span> <span class="s1">''</span> <span class="o">+</span>
+              <span class="s1">'&lt;label for='</span><span class="nx">ImageName</span><span class="s1">'+item+''&gt;Nombre de la imagen&lt;em&gt;*&lt;/em&gt;&lt;/label&gt;'</span><span class="o">+</span>
+              <span class="s1">'&lt;input maxlength='</span><span class="mi">45</span><span class="s1">' type='</span><span class="nx">text</span><span class="s1">' name='</span><span class="nx">data</span><span class="p">[</span><span class="nx">Image</span><span class="p">][</span><span class="nx">name</span><span class="p">][</span><span class="s1">'+item+'</span><span class="p">]</span><span class="s1">' value='' +
+              imageObj.success.data.replace(/\.([a-zA-Z]){3,4}$/,'') + '' id='</span><span class="nx">ImageName</span><span class="s1">'+item+'' /&gt;'</span> <span class="o">+</span>
+              <span class="s1">'&lt;label for='</span><span class="nx">ImageDescription</span><span class="s1">'+item+''&gt;Descripción (255 caracteres máximo)&lt;/label&gt;'</span> <span class="o">+</span>
+              <span class="s1">'&lt;input maxlength='</span><span class="mi">255</span><span class="s1">' type='</span><span class="nx">text</span><span class="s1">' name='</span><span class="nx">data</span><span class="p">[</span><span class="nx">Image</span><span class="p">][</span><span class="nx">description</span><span class="p">][</span><span class="s1">'+item+'</span><span class="p">]</span><span class="s1">' id='</span><span class="nx">ImageDescription</span><span class="s1">'+item+'' /&gt;'</span> <span class="o">+</span>
+              <span class="s1">'&lt;label for='</span><span class="nx">ImageTags</span><span class="s1">'+item+''&gt;Etiquetas (separadas por comas)&lt;/label&gt;'</span> <span class="o">+</span>
+              <span class="s1">'&lt;textarea name='</span><span class="nx">data</span><span class="p">[</span><span class="nx">Image</span><span class="p">][</span><span class="nx">tags</span><span class="p">][</span><span class="s1">'+item+'</span><span class="p">]</span><span class="s1">' id='</span><span class="nx">ImageTags</span><span class="s1">'+item+''&gt;&lt;/textarea&gt;'</span> <span class="o">+</span>
+              <span class="s1">'&lt;input type='</span><span class="nx">hidden</span><span class="s1">' name='</span><span class="nx">data</span><span class="p">[</span><span class="nx">Image</span><span class="p">][</span><span class="nx">file</span><span class="p">][</span><span class="s1">'+item+'</span><span class="p">]</span><span class="s1">' value='' + imageObj.success.data + '' /&gt;'</span> <span class="o">+</span>
+              <span class="s1">'&lt;div style='</span><span class="na">clear</span><span class="p">:</span><span class="nx">both</span><span class="s1">'&gt;&lt;/div&gt;'</span>
+            <span class="p">)</span>
+          <span class="p">)</span>
+        <span class="p">);</span>
+        <span class="c1">// Incrementamos contador de ids</span>
+        <span class="nx">item</span><span class="o">++</span><span class="p">;</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">imageObj</span><span class="p">.</span><span class="nx">errors</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// En caso de error mostramos flashmessage</span>
+        <span class="nx">flashMessage</span><span class="p">(</span><span class="nx">imageObj</span><span class="p">.</span><span class="nx">errors</span><span class="p">.</span><span class="nx">message</span><span class="p">,</span><span class="s1">'error'</span><span class="p">);</span>
+      <span class="p">}</span>
+<span class="c1">// Sólo para Auth</span>
+<span class="c1">//      else if (imageObj.sessionTimeOut){</span>
+<span class="c1">//        onTimeOut(imageObj.sessionTimeOut);</span>
+<span class="c1">//      }</span>
+<span class="c1">// Fin auth</span>
+      <span class="p">},</span>
+    <span class="s1">'onAllComplete'</span> <span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">evt</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">flashMessage</span><span class="p">(</span><span class="s1">'Se han subido todas las imágenes. Recuerda enviar el formulario'</span><span class="p">,</span><span class="s1">'info'</span><span class="p">);</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">'#imageFile, #imageFileUploader'</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">(</span><span class="s1">'fast'</span><span class="p">);</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">':submit'</span><span class="p">).</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s1">'disabled'</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+<p>La función <strong>flashMessage</strong> sirve para generar una capa “flashMessage” dinámica justo encima de la capa con clase “.add-info”.</p>
+
+<p>La función <strong>onTimeOut</strong> sólo es para los que utilicéis el componente Auth. En caso de terminarse la sesión muestra un mensaje al usuario y lo redirige hacia la página de login pasado un rato.</p>
+
+<blockquote>
+  <p><strong>Nota:</strong> Esta no es la vía correcta para mostrar un error conforme  la sesión del usuario ha expirado. Podéis ver la explicación que hago al  respecto <a href="//elboletaire.github.io/racotecnic/2009/12/cakephp-auth-component-ajaxlogin/">aquí</a>.</p>
+</blockquote>
+
+<p>Finalmente, en la función de carga de uploadify indicamos los parámetros que nos interesen y generamos una función <strong>OnComplete</strong> a nuestro gusto. En este ejemplo lo que he hecho es generar una capa (con id imatgeX, donde X es el número de ID actual, según el contador de IDs) con una miniatura de fondo que he generado exclusivamente para mostrársela al usuario en este formulario. Dentro de esta capa hay otra capa con las etiquetas y los inputs que necesito.</p>
+
+<p>Es importante que todos elementos del formulario que queráis meter dinámicamente aquí lleven una ID única con un número al final. Esto nos servirá más adelante para la validación con Ajax.</p>
+
+<p>Cuando todos los ficheros han terminado de subir mostramos un mensaje (con clase “.info”), eliminamos el botón de uploadify y eliminamos el atributo <em>disabled</em> del botón <em>submit</em> (y por tanto lo activamos).</p>
+
+<p>Pasemos al controlador. Primero la construcción de éste, su función beforeRender (importante, lo expliqué en el anterior tutorial), el método <em>add</em> (vacío) y el método <em>upload</em>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126</pre></td><td class="code"><pre><span class="cp">&lt;?php</span>
+<span class="c1">// /app/controllers/images_controller.php
+</span><span class="k">class</span> <span class="nc">ImagesController</span> <span class="k">extends</span> <span class="nx">AppController</span>
+<span class="p">{</span>
+  <span class="k">var</span> <span class="nv">$name</span> <span class="o">=</span> <span class="s1">'Images'</span><span class="p">;</span>
+  <span class="c1">// ¡Importante cargar RequestHandler!!
+</span>  <span class="k">var</span> <span class="nv">$components</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'Upload'</span><span class="p">,</span><span class="s1">'RequestHandler'</span><span class="p">);</span>
+  <span class="c1">// Helpers necesarios
+</span>  <span class="k">var</span> <span class="nv">$helpers</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'Html'</span><span class="p">,</span><span class="s1">'Form'</span><span class="p">,</span><span class="s1">'Javascript'</span><span class="p">);</span>
+  <span class="c1">// Modelos a utilizar
+</span>  <span class="k">var</span> <span class="nv">$uses</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'Image'</span><span class="p">,</span><span class="s1">'Tempfile'</span><span class="p">);</span>
+
+  <span class="k">function</span> <span class="nf">beforeFilter</span><span class="p">()</span>
+  <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">action</span> <span class="o">==</span> <span class="s1">'upload'</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">params</span><span class="p">[</span><span class="s1">'pass'</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Session</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">params</span><span class="p">[</span><span class="s1">'pass'</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Session</span><span class="o">-&gt;</span><span class="na">start</span><span class="p">();</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="s1">'/'</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">// Si utilizamos Auth debemos dar permiso a todo el mundo a las acciones 'upload' y 'ajaxAdd'
+</span>    <span class="c1">//$this-&gt;Auth-&gt;allowedActions = array('upload','ajaxAdd');
+</span>    <span class="k">parent</span><span class="o">::</span><span class="na">beforeFilter</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="k">function</span> <span class="nf">add</span><span class="p">()</span>
+  <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">pageTitle</span> <span class="o">=</span> <span class="nx">__</span><span class="p">(</span><span class="s1">'Añadir imágenes'</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">function</span> <span class="nf">upload</span><span class="p">()</span>
+  <span class="p">{</span>
+    <span class="c1">// Desactivamos el debug (necesario siempre que trabajamos con Ajax)
+</span>    <span class="nx">Configure</span><span class="o">::</span><span class="na">write</span><span class="p">(</span><span class="s1">'debug'</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="c1">//header('Content-type: text/x-json');
+</span>    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">autoRender</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">layout</span> <span class="o">=</span> <span class="s1">'ajax'</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">params</span><span class="p">[</span><span class="s1">'form'</span><span class="p">][</span><span class="s1">'Filedata'</span><span class="p">]))</span> <span class="p">{</span>
+<span class="c1">// Si utilizáis Auth eliminad estos comentarios
+//      $user = $this-&gt;Auth-&gt;user();
+//      if (!empty($user)){
+// Fin Auth
+</span>        <span class="c1">// Creamos la primera miniatura
+</span>        <span class="nv">$thumb</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Upload</span><span class="o">-&gt;</span><span class="na">upload</span><span class="p">(</span>
+          <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">params</span><span class="p">[</span><span class="s1">'form'</span><span class="p">][</span><span class="s1">'Filedata'</span><span class="p">],</span> <span class="s1">'img/upload/thumb/'</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span>
+          <span class="k">array</span><span class="p">(</span>
+            <span class="s1">'type'</span>    <span class="o">=&gt;</span> <span class="s1">'resizecrop'</span><span class="p">,</span>
+            <span class="s1">'size'</span>    <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">250</span><span class="p">),</span>
+            <span class="s1">'output'</span>  <span class="o">=&gt;</span> <span class="s1">'jpg'</span><span class="p">,</span>
+            <span class="s1">'quality'</span> <span class="o">=&gt;</span> <span class="mi">80</span>
+          <span class="p">),</span>
+          <span class="k">array</span><span class="p">(</span><span class="s1">'jpg'</span><span class="p">,</span> <span class="s1">'jpeg'</span><span class="p">,</span> <span class="s1">'png'</span><span class="p">,</span> <span class="s1">'gif'</span><span class="p">)</span>
+        <span class="p">);</span>
+        <span class="c1">// Si no se crea correctamente gestionamos los errores
+</span>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Upload</span><span class="o">-&gt;</span><span class="na">errors</span><span class="p">))</span> <span class="p">{</span>
+          <span class="c1">// Error que mostraremos al usuario
+</span>          <span class="nv">$message</span> <span class="o">=</span> <span class="nx">__</span><span class="p">(</span><span class="s1">'Error subiendo el fichero'</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
+          <span class="c1">// Guardamos el nombre original del fichero
+</span>          <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">params</span><span class="p">[</span><span class="s1">'form'</span><span class="p">][</span><span class="s1">'Filedata'</span><span class="p">][</span><span class="s1">'name'</span><span class="p">];</span>
+          <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">'errors'</span><span class="p">,</span> <span class="nb">compact</span><span class="p">(</span><span class="s1">'message'</span><span class="p">,</span><span class="s1">'data'</span><span class="p">));</span>
+          <span class="c1">// Creamos un log con el auténtico error
+</span>          <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">log</span><span class="p">(</span><span class="s1">'Error creando la miniatura: '</span> <span class="o">.</span>
+            <span class="nb">implode</span><span class="p">(</span><span class="s1">' | '</span><span class="p">,</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Upload</span><span class="o">-&gt;</span><span class="na">errors</span><span class="p">),</span><span class="s1">'upload/images'</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="c1">// Si se ha guardado correctamente guardamos el 'fichero temporal' en la BD
+</span>          <span class="nv">$file</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Upload</span><span class="o">-&gt;</span><span class="na">result</span><span class="p">;</span>
+          <span class="nv">$location</span> <span class="o">=</span> <span class="nb">realpath</span><span class="p">(</span><span class="nx">WWW_ROOT</span> <span class="o">.</span> <span class="s1">'img/upload/thumb/'</span> <span class="o">.</span> <span class="nv">$file</span><span class="p">);</span>
+          <span class="nv">$tempfile</span><span class="p">[</span><span class="s1">'location'</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$location</span><span class="p">;</span>
+          <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Tempfile</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="nv">$tempfile</span><span class="p">,</span><span class="kc">false</span><span class="p">);</span>
+          <span class="c1">// Generamos una miniatura temporal (la que mostraremos al usuario al guardar las imágenes)
+</span>          <span class="nv">$tempThumb</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Upload</span><span class="o">-&gt;</span><span class="na">upload</span><span class="p">(</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">params</span><span class="p">[</span><span class="s1">'form'</span><span class="p">][</span><span class="s1">'Filedata'</span><span class="p">],</span><span class="s1">'img/upload/tmp/'</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="k">array</span><span class="p">(</span>
+              <span class="s1">'type'</span>    <span class="o">=&gt;</span> <span class="s1">'resizecrop'</span><span class="p">,</span>
+              <span class="s1">'size'</span>    <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">150</span><span class="p">),</span>
+              <span class="s1">'output'</span>  <span class="o">=&gt;</span> <span class="s1">'jpg'</span><span class="p">,</span>
+              <span class="s1">'quality'</span> <span class="o">=&gt;</span> <span class="mi">80</span>
+            <span class="p">),</span>
+            <span class="k">array</span><span class="p">(</span><span class="s1">'jpg'</span><span class="p">,</span> <span class="s1">'jpeg'</span><span class="p">,</span> <span class="s1">'png'</span><span class="p">,</span> <span class="s1">'gif'</span><span class="p">));</span>
+          <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Upload</span><span class="o">-&gt;</span><span class="na">errors</span><span class="p">))</span> <span class="p">{</span>
+            <span class="c1">// Si tiene errores lo guardamos en un log. A mi parecer, aquí no nos interesa mostrar error al usuario (ya que en realidad es una imagen temporal que más adelante borraremos)
+</span>            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">log</span><span class="p">(</span><span class="s1">'Error creando la miniatura temporal: '</span> <span class="o">.</span>
+              <span class="nb">implode</span><span class="p">(</span><span class="s1">' | '</span><span class="p">,</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Upload</span><span class="o">-&gt;</span><span class="na">errors</span><span class="p">),</span><span class="s1">'upload/images'</span><span class="p">);</span>
+          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// Si no hay errores guardamos el 'fichero temporal'
+</span>            <span class="nv">$location</span> <span class="o">=</span> <span class="nb">realpath</span><span class="p">(</span><span class="nx">WWW_ROOT</span> <span class="o">.</span> <span class="s1">'img/upload/tmp/'</span> <span class="o">.</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Upload</span><span class="o">-&gt;</span><span class="na">result</span><span class="p">);</span>
+            <span class="nv">$tempfile</span><span class="p">[</span><span class="s1">'location'</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$location</span><span class="p">;</span>
+            <span class="c1">// Es importante hacer el 'create' a partir de la segunda vez
+</span>            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Tempfile</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="nv">$tempfile</span><span class="p">);</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Tempfile</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">();</span>
+          <span class="p">}</span>
+          <span class="c1">// Si se ha creado la primera miniatura subimos la original a la carpeta deseada
+</span>          <span class="nv">$result</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Upload</span><span class="o">-&gt;</span><span class="na">upload</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">params</span><span class="p">[</span><span class="s1">'form'</span><span class="p">][</span><span class="s1">'Filedata'</span><span class="p">],</span> <span class="s1">'img/upload/full/'</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Upload</span><span class="o">-&gt;</span><span class="na">result</span><span class="p">);</span>
+          <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Upload</span><span class="o">-&gt;</span><span class="na">errors</span><span class="p">))</span> <span class="p">{</span>
+            <span class="c1">// Si no se guarda generamos log
+</span>            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">log</span><span class="p">(</span><span class="s1">'Error subiendo la imagen: '</span> <span class="o">.</span>
+              <span class="nb">implode</span><span class="p">(</span><span class="s1">' | '</span><span class="p">,</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Upload</span><span class="o">-&gt;</span><span class="na">errors</span><span class="p">),</span><span class="s1">'upload/images'</span><span class="p">);</span>
+            <span class="c1">// Y mostramos mensaje de error al usuario
+</span>            <span class="nv">$message</span> <span class="o">=</span> <span class="nx">__</span><span class="p">(</span><span class="s1">'Error subiendo el fichero'</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
+            <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">params</span><span class="p">[</span><span class="s1">'form'</span><span class="p">][</span><span class="s1">'Filedata'</span><span class="p">][</span><span class="s1">'name'</span><span class="p">];</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">'errors'</span><span class="p">,</span> <span class="nb">compact</span><span class="p">(</span><span class="s1">'message'</span><span class="p">,</span><span class="s1">'data'</span><span class="p">));</span>
+          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// Guardamos 'fichero temporal'
+</span>            <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Upload</span><span class="o">-&gt;</span><span class="na">result</span><span class="p">;</span>
+            <span class="nv">$location</span> <span class="o">=</span> <span class="nb">realpath</span><span class="p">(</span><span class="nx">WWW_ROOT</span> <span class="o">.</span> <span class="s1">'img/upload/full/'</span> <span class="o">.</span> <span class="nv">$data</span><span class="p">);</span>
+            <span class="nv">$tempfile</span><span class="p">[</span><span class="s1">'location'</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$location</span><span class="p">;</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Tempfile</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="nv">$tempfile</span><span class="p">);</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Tempfile</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">();</span>
+            <span class="c1">// Mostramos mensaje de éxito al usuario
+</span>            <span class="nv">$message</span> <span class="o">=</span> <span class="nb">sprintf</span><span class="p">(</span><span class="nx">__</span><span class="p">(</span><span class="s1">'%s subido correctamente.'</span><span class="p">,</span> <span class="kc">true</span><span class="p">),</span> <span class="s1">'&lt;b&gt;'</span> <span class="o">.</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">params</span><span class="p">[</span><span class="s1">'form'</span><span class="p">][</span><span class="s1">'Filedata'</span><span class="p">][</span><span class="s1">'name'</span><span class="p">]</span> <span class="o">.</span> <span class="s1">'&lt;/b&gt;'</span><span class="p">);</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">'success'</span><span class="p">,</span> <span class="nb">compact</span><span class="p">(</span><span class="s1">'data'</span><span class="p">,</span> <span class="s1">'message'</span><span class="p">));</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+<span class="c1">// Si utilizáis Auth eliminad estos comentarios
+//      }else{
+//          $message = '&lt;b&gt;' . __('Error',true) . ':&lt;/b&gt; ' . __('Tu sesión ha expirado. Vuelve a iniciarla por favor',true);
+//        $this-&gt;set('sessionTimeOut',compact('message'));
+//      }
+// Fin Auth
+</span>      <span class="c1">// Renderizamos la vista (/views/ajax/upload.ctp)
+</span>      <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">'/ajax/upload'</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+<p>A parte de los comentarios y el código (que hablan por sí solos.. ;) ) quiero comentar un par de cosillas…</p>
+
+<p>La cabecera que está comentada (Content-Type: text/x-json) la puse en su momento porque en Internet Explorer 8 y Opera 10 me daba algunos problemas si no ponía esta cabecera. Ahora sin ella me funciona correctamente (realmente había más cosas que interferían en su funcionamiento con IE y Opera), así que la he comentado por si la tuvierais que utilizar en algún momento.</p>
+
+<p>Respecto a los comentarios sobre el componente de autenticación (Auth)… en caso de que en vuestra web queráis restringir las subidas a usuarios registrados deberéis descomentar las líneas comentadas para que, en caso de que al usuario le expire la sesión mientras está subiendo imágenes, se le muestre un mensaje de error (sin esto, en caso de expirar la sesión, no se mostraría <strong>nada</strong> al usuario).</p>
+
+<blockquote>
+  <p><strong>Nota:</strong> Esta no es la vía correcta para mostrar un error conforme la sesión del usuario ha expirado. Podéis ver la explicación que hago al respecto <a href="//elboletaire.github.io/racotecnic/2009/12/cakephp-auth-component-ajaxlogin/">aquí</a>.</p>
+</blockquote>
+
+<p>En cuanto al render de la vista… ahora pasaremos a la creación de la vista upload.ctp y veréis que el fichero es muy genérico. Quiero decir que con este mismo fichero podéis gestionar cualquier subida de ficheros que hagáis con Ajax, así que, tener que generar una vista idéntica para cada sección en que tengáis subida de ficheros, es algo absurdo.</p>
+
+<p>Digo esto porque lo que hago yo es meter todos los ficheros relacionados con ajax en la carpeta <em>/app/views/ajax/</em> y así los utilizo desde cualquier controlador (de ahí el “$this-&gt;render(‘/ajax/upload’)”.</p>
+
+<p>Vamos a por el fichero upload.ctp:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre></td><td class="code"><pre><span class="cp">&lt;?php</span>
+<span class="c1">// /app/views/ajax/upload.ctp
+</span><span class="nv">$output</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$errors</span><span class="p">))</span> <span class="p">{</span>
+  <span class="nv">$output</span> <span class="o">=</span> <span class="nx">Set</span><span class="o">::</span><span class="na">insert</span><span class="p">(</span><span class="nv">$output</span><span class="p">,</span> <span class="s1">'errors'</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(</span>
+      <span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="nv">$errors</span><span class="p">[</span><span class="s1">'message'</span><span class="p">],</span>
+      <span class="s1">'data'</span> <span class="o">=&gt;</span> <span class="nv">$errors</span><span class="p">[</span><span class="s1">'data'</span><span class="p">]</span>
+    <span class="p">));</span>
+<span class="p">}</span> <span class="k">elseif</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$success</span><span class="p">))</span> <span class="p">{</span>
+  <span class="nv">$output</span> <span class="o">=</span> <span class="nx">Set</span><span class="o">::</span><span class="na">insert</span><span class="p">(</span><span class="nv">$output</span><span class="p">,</span> <span class="s1">'success'</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(</span>
+      <span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="nv">$success</span><span class="p">[</span><span class="s1">'message'</span><span class="p">],</span>
+      <span class="s1">'data'</span> <span class="o">=&gt;</span> <span class="nv">$success</span><span class="p">[</span><span class="s1">'data'</span><span class="p">]</span>
+    <span class="p">));</span>
+<span class="p">}</span>
+<span class="c1">// Sólo para Auth
+//elseif (isset($sessionTimeOut)) {
+//  $output = Set::insert($output, 'sessionTimeOut', array('message' =&gt; $sessionTimeOut['message']));
+//}
+// Fin Auth
+</span><span class="k">echo</span> <span class="nv">$javascript</span><span class="o">-&gt;</span><span class="na">object</span><span class="p">(</span><span class="nv">$output</span><span class="p">);</span>
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+<p>Este fichero es el encargado de convertir el array que le enviemos desde el controlador con la información (ya sea un error o un mensaje de éxito) a JSON. La salida que generará será algo así:</p>
+
+<div class="language-javascript no-line-numbers highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16</pre></td><td class="code"><pre> <span class="c1">// En caso de éxito</span>
+<span class="p">{</span>
+  <span class="s1">'success'</span><span class="err">:</span>
+  <span class="p">{</span>
+    <span class="s1">'message'</span><span class="err">:</span> <span class="s1">'&lt;b&gt;nombre_de_fichero.jpg&lt;\/b&gt; subido correctamente.'</span><span class="p">,</span>
+    <span class="s1">'data'</span><span class="err">:</span> <span class="s1">'nombre_de_fichero.jpg'</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">// En caso de error</span>
+<span class="p">{</span>
+  <span class="s1">'errors'</span><span class="err">:</span>
+  <span class="p">{</span>
+    <span class="s1">'message'</span><span class="err">:</span> <span class="s1">'Error subiendo el fichero'</span><span class="p">,</span>
+    <span class="s1">'data'</span><span class="err">:</span> <span class="s1">'nombre_de_fichero.jpg'</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+<p>El campo “data” no lo utilizaremos en este caso, pero está ahí para que veáis que se pueden enviar tantos datos de respuesta como queráis.</p>
+
+<p>Bien, con esto hemos terminado lo que sería la carga de ficheros. Nuestro método <em>upload</em> nos gestiona el fichero subido guardándolo en el servidor y devolviéndonos un mensaje como respuesta (tanto si la subida ha dado error como si no). Además nuestra función JavaScript se encarga de generarnos un formulario dinámicamente a medida que va recibiendo los nombres de imagen.</p>
+
+<p>Ahora nos faltaría hacer la validación con Ajax de nuestro formulario.</p>
+
+<p>Empezaremos por acabar de completar el fichero JavaScript. Al fichero images.js añadidle las siguientes funciones:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87</pre></td><td class="code"><pre><span class="c1">// Continuación del fichero /app/webroot/js/page_specific/images.js</span>
+<span class="c1">// Convierte una_frase a unaFrase</span>
+<span class="kd">function</span> <span class="nx">camelize</span><span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">string</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">'_'</span><span class="p">),</span> <span class="nx">i</span><span class="p">;</span>
+  <span class="nx">s</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="k">for</span> <span class="p">(</span><span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">a</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">s</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">a</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">charAt</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">toUpperCase</span><span class="p">()</span> <span class="o">+</span> <span class="nx">a</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+  <span class="p">}</span>
+  <span class="nx">s</span> <span class="o">=</span> <span class="nx">s</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">''</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nx">s</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Decide qué función ejecutar según los datos recibidos (si es 'error' o 'success')</span>
+<span class="kd">function</span> <span class="nx">afterValidate</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">status</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">webroot</span> <span class="o">+</span> <span class="s1">'images/ajaxAdd'</span><span class="p">);</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'.error-message, #flashMessage'</span><span class="p">).</span><span class="nx">remove</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">errors</span> <span class="o">||</span> <span class="nx">data</span><span class="p">.</span><span class="nx">saved</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">saved</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">onSaved</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">saved</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="nx">onError</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">errors</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">onSuccess</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">success</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="c1">// Auth</span>
+<span class="c1">//   else if (data.sessionTimeOut){</span>
+<span class="c1">//    onTimeOut(data.sessionTimeOut);</span>
+<span class="c1">//  }</span>
+<span class="c1">// fin Auth</span>
+<span class="p">}</span>
+
+<span class="c1">// Esta función sirve para eliminar imágenes de la pantalla</span>
+<span class="c1">// del usuario cuando estas han sido guardadas correctamente</span>
+<span class="kd">function</span> <span class="nx">onSaved</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">id</span><span class="p">,</span> <span class="nx">item</span><span class="p">){</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'#imatge'</span> <span class="o">+</span> <span class="nx">id</span><span class="p">).</span><span class="nx">slideUp</span><span class="p">(</span><span class="s1">'slow'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">css</span><span class="p">({</span><span class="s1">'background'</span><span class="p">:</span> <span class="s1">'none'</span><span class="p">})</span>
+        <span class="p">.</span><span class="nx">html</span><span class="p">(</span><span class="s1">'&lt;b class='</span><span class="nx">ok</span><span class="s1">'&gt;'</span> <span class="o">+</span> <span class="nx">item</span><span class="p">.</span><span class="nx">message</span> <span class="o">+</span> <span class="s1">'&lt;/b&gt;'</span><span class="p">).</span><span class="nx">slideDown</span><span class="p">(</span><span class="s1">'slow'</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="c1">// En caso de error hacemos un bucle entre los errores y</span>
+<span class="c1">// los mostramos cada uno en su input correspondiente</span>
+<span class="kd">function</span> <span class="nx">onError</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">flashMessage</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">message</span><span class="p">,</span><span class="s1">'error'</span><span class="p">);</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'.add-info :submit'</span><span class="p">).</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s1">'disabled'</span><span class="p">);</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#ajaxLoad'</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">();</span>
+  <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="nx">key</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">model</span><span class="p">,</span> <span class="nx">errors</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">for</span> <span class="p">(</span><span class="nx">fieldName</span> <span class="k">in</span> <span class="k">this</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">element</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">'#'</span> <span class="o">+</span> <span class="nx">camelize</span><span class="p">(</span><span class="nx">model</span> <span class="o">+</span> <span class="s1">'_'</span> <span class="o">+</span> <span class="nx">fieldName</span><span class="p">)</span> <span class="o">+</span> <span class="nx">key</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">_insert</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">'div'</span><span class="p">)).</span><span class="nx">insertAfter</span><span class="p">(</span><span class="nx">element</span><span class="p">).</span><span class="nx">hide</span><span class="p">()</span>
+        <span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">'error-message'</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="k">this</span><span class="p">[</span><span class="nx">fieldName</span><span class="p">]).</span><span class="nx">slideDown</span><span class="p">();</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">};</span>
+
+<span class="c1">// En caso de guardarse todo correctamente mostramos mensaje</span>
+<span class="c1">// y redirigimos al usuario donde queramos</span>
+<span class="kd">function</span> <span class="nx">onSuccess</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#ImageAddForm'</span><span class="p">).</span><span class="nx">slideUp</span><span class="p">(</span><span class="s1">'slow'</span><span class="p">);</span>
+  <span class="nx">flashMessage</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">message</span><span class="p">,</span><span class="s1">'info'</span><span class="p">);</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#ajaxLoad'</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">();</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> <span class="nx">webroot</span> <span class="o">+</span> <span class="s1">'images/index'</span><span class="p">;</span>
+  <span class="p">},</span> <span class="mi">1500</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="c1">// Envío del formulario mediante Ajax</span>
+<span class="nx">$</span><span class="p">(</span><span class="s1">'#ImageAddForm'</span><span class="p">).</span><span class="nx">submit</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// Desactivamos el botón de submit</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'.add-info :submit'</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">'disabled'</span><span class="p">,</span> <span class="s1">'disabled'</span><span class="p">);</span>
+  <span class="c1">// Mostramos imagen de carga</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#ajaxLoad'</span><span class="p">).</span><span class="nx">fadeIn</span><span class="p">();</span>
+  <span class="c1">// Eliminamos (si hubiera) mensajes de error</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#flashMessage'</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">();</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'.error-message'</span><span class="p">).</span><span class="nx">slideUp</span><span class="p">();</span>
+  <span class="nx">$</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">webroot</span> <span class="o">+</span> <span class="s1">'images/ajaxAdd'</span><span class="p">,</span>
+    <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">serializeArray</span><span class="p">(),</span>
+    <span class="nx">afterValidate</span><span class="p">,</span>
+    <span class="s1">'json'</span>
+  <span class="p">);</span>
+  <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+<span class="p">});</span>
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+<p>La función <strong>camelize</strong> es la encargada de convertir las cadenas como_esta a cadenas comoEsta. Esto nos sirve para encontrar la id del textbox al que está vinculado el error a partir de los errores retornados en JSON.</p>
+
+<p>La función <strong>afterValidate</strong> es la que decide qué función se ejecutará según la respuesta que recibamos (<em>success</em>, <em>error</em> o <em>sessionTimeOut</em>).</p>
+
+<p>La función <strong>onSaved</strong> es la encargada de, en caso de que haya imágenes con errores y otras no (y al volver a enviar el usuario el formulario), eliminar del formulario las imágenes guardadas correctamente.</p>
+
+<p><strong>onError</strong> se encarga de mostrar un <em>flashMessage</em> mostrando el mensaje de error general y cada uno de los errores de validación.</p>
+
+<p>Si todas las imágenes se guardan correctamente se ejecuta <strong>onSuccess</strong> que se encarga de ocultar todo el formulario haciendo un efecto <em>slideUp</em>, mostrar un <em>flashMessage</em>, ocultar la imágen de carga de Ajax y finalmente redirige al usuario a la página deseada (en el ejemplo lo redirijo a la misma página).</p>
+
+<p>El último método es el encargado de enviar el formulario mediante Ajax.</p>
+
+<p>De la vista ya no tenemos que tocar nada más así que pasemos al método <em>ajaxAdd</em> del controlador.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78</pre></td><td class="code"><pre><span class="c1">// /app/controllers/images_controller.php
+</span><span class="k">function</span> <span class="nf">ajaxAdd</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="nx">Configure</span><span class="o">::</span><span class="na">write</span><span class="p">(</span><span class="s1">'debug'</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">autoRender</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">layout</span> <span class="o">=</span> <span class="s1">'ajax'</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">RequestHandler</span><span class="o">-&gt;</span><span class="na">isAjax</span><span class="p">())</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">))</span> <span class="p">{</span>
+      <span class="c1">// Si utilizáis Auth eliminad estos comentarios
+</span>      <span class="c1">//$user = $this-&gt;Auth-&gt;user();
+</span>      <span class="c1">//if (!empty($user)){
+</span>        <span class="c1">// Inicializamos las variables que contendrán errores y demás información
+</span>        <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$dataOk</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+        <span class="nv">$error</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="c1">// Iniciamos un bucle con todas las imágenes que recibamos
+</span>        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">[</span><span class="s1">'Image'</span><span class="p">][</span><span class="s1">'name'</span><span class="p">]</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$name</span><span class="p">)</span> <span class="p">{</span>
+          <span class="c1">// Nombre de fichero
+</span>          <span class="nv">$imageFile</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">[</span><span class="s1">'Image'</span><span class="p">][</span><span class="s1">'file'</span><span class="p">][</span><span class="nv">$key</span><span class="p">];</span>
+          <span class="c1">// Datos a guardar de la imagen
+</span>          <span class="nv">$imageData</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">'Image'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+              <span class="s1">'name'</span>        <span class="o">=&gt;</span> <span class="nv">$name</span><span class="p">,</span>
+              <span class="s1">'tags'</span>        <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">[</span><span class="s1">'Image'</span><span class="p">][</span><span class="s1">'tags'</span><span class="p">][</span><span class="nv">$key</span><span class="p">],</span>
+              <span class="s1">'description'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">[</span><span class="s1">'Image'</span><span class="p">][</span><span class="s1">'description'</span><span class="p">][</span><span class="nv">$key</span><span class="p">],</span>
+              <span class="s1">'file'</span>        <span class="o">=&gt;</span> <span class="nv">$imageFile</span>
+            <span class="p">)</span>
+          <span class="p">);</span>
+          <span class="c1">// Inicializamos el modelo (importante ya que estamos haciendo un bucle)
+</span>          <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Image</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="nv">$imageData</span><span class="p">);</span>
+          <span class="c1">// Validamos los campos
+</span>          <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Image</span><span class="o">-&gt;</span><span class="na">validates</span><span class="p">())</span> <span class="p">{</span>
+            <span class="c1">// Guardamos la imagen en la base de datos
+</span>            <span class="nv">$image</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Image</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="nv">$imageData</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$image</span><span class="p">))</span> <span class="p">{</span>
+              <span class="c1">// Eliminamos los 'ficheros temporales'
+</span>              <span class="nv">$location</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'tmp'</span><span class="p">,</span><span class="s1">'full'</span><span class="p">,</span><span class="s1">'thumb'</span><span class="p">);</span>
+              <span class="k">foreach</span> <span class="p">(</span><span class="nv">$location</span> <span class="k">as</span> <span class="nv">$dir</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nv">$loc</span> <span class="o">=</span> <span class="nb">realpath</span><span class="p">(</span><span class="nx">WWW_ROOT</span> <span class="o">.</span> <span class="s1">'img/upload/'</span> <span class="o">.</span> <span class="nv">$dir</span> <span class="o">.</span> <span class="s1">'/'</span> <span class="o">.</span> <span class="nv">$imageFile</span><span class="p">);</span>
+                <span class="c1">// Si la carpeta es 'tmp' eliminamos la imagen del servidor
+</span>                <span class="k">if</span> <span class="p">(</span><span class="nv">$dir</span> <span class="o">==</span> <span class="s1">'tmp'</span><span class="p">)</span> <span class="p">{</span>
+                  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">unlink</span><span class="p">(</span><span class="nv">$loc</span><span class="p">))</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">log</span><span class="p">(</span><span class="s1">'Error eliminando miniatura temporal '</span> <span class="o">.</span> <span class="nv">$imageFile</span><span class="p">);</span>
+                  <span class="k">else</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Tempfile</span><span class="o">-&gt;</span><span class="na">deleteAll</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">'Tempfile.location'</span> <span class="o">=&gt;</span> <span class="nv">$loc</span><span class="p">));</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Tempfile</span><span class="o">-&gt;</span><span class="na">deleteAll</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">'Tempfile.location'</span> <span class="o">=&gt;</span> <span class="nv">$loc</span><span class="p">));</span>
+              <span class="p">}</span>
+              <span class="c1">// Mensaje a mostrar cuando una sola imagen es guardada
+</span>              <span class="nv">$message</span> <span class="o">=</span> <span class="nb">sprintf</span><span class="p">(</span><span class="nx">__</span><span class="p">(</span><span class="s1">'Imagen %s guardada correctamente'</span><span class="p">,</span> <span class="kc">true</span><span class="p">),</span> <span class="nv">$imageFile</span><span class="p">);</span>
+              <span class="nv">$dataOk</span><span class="p">[</span><span class="nv">$key</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="nv">$message</span><span class="p">,</span> <span class="s1">'data'</span> <span class="o">=&gt;</span> <span class="nv">$imageFile</span><span class="p">);</span>
+            <span class="p">}</span>
+          <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// Errores
+</span>            <span class="nv">$error</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+            <span class="nv">$Image</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Image</span><span class="o">-&gt;</span><span class="na">invalidFields</span><span class="p">();</span>
+            <span class="nv">$data</span><span class="p">[</span><span class="nv">$key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">compact</span><span class="p">(</span><span class="s1">'Image'</span><span class="p">);</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="c1">// Si no tenemos errores..
+</span>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$error</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nv">$message</span> <span class="o">=</span> <span class="s1">'&lt;b&gt;'</span> <span class="o">.</span> <span class="nx">__</span><span class="p">(</span><span class="s1">'Todas las imágenes han sido guardadas correctamente'</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span> <span class="o">.</span> <span class="s1">'&lt;/b&gt;'</span><span class="p">;</span>
+          <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">;</span>
+          <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">'success'</span><span class="p">,</span> <span class="nb">compact</span><span class="p">(</span><span class="s1">'message'</span><span class="p">,</span> <span class="s1">'data'</span><span class="p">));</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="nv">$message</span> <span class="o">=</span> <span class="s1">'&lt;b&gt;'</span> <span class="o">.</span> <span class="nx">__</span><span class="p">(</span><span class="s1">'Error'</span><span class="p">,</span><span class="kc">true</span><span class="p">)</span> <span class="o">.</span> <span class="s1">':&lt;/b&gt; '</span> <span class="o">.</span> <span class="nx">__</span><span class="p">(</span><span class="s1">'Hay campos que no son válidos, compruébalos por favor.'</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
+          <span class="nv">$set</span> <span class="o">=</span> <span class="nb">compact</span><span class="p">(</span><span class="s1">'message'</span><span class="p">,</span> <span class="s1">'data'</span><span class="p">);</span>
+          <span class="c1">// Si tenemos algunas imágenes guardadas y otras no guardamos la variable dataOk
+</span>          <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$dataOk</span><span class="p">))</span> <span class="nv">$set</span> <span class="o">=</span> <span class="nb">array_merge</span><span class="p">(</span><span class="nv">$set</span><span class="p">,</span> <span class="nb">compact</span><span class="p">(</span><span class="s1">'dataOk'</span><span class="p">));</span>
+          <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">'errors'</span><span class="p">,</span> <span class="nv">$set</span><span class="p">);</span>
+        <span class="p">}</span>
+<span class="c1">// Auth
+//            }else{
+//              $message = '&lt;b&gt;' . __('Error',true) . ':&lt;/b&gt; ' . __('Tu sesión ha expirado. Vuelve a iniciarla por favor',true);
+//          $data = $this-&gt;data;
+//          $this-&gt;set('sessionTimeOut',compact('message','data'));
+//            }
+// fin Auth
+</span>    <span class="p">}</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">'/ajax/form_validation_array'</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="s1">'/'</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+<p>Este es un poco más complicado que el de upload por una simple razón: tenemos un array de datos en lugar de un único dato.</p>
+
+<p>Si os fijáis en el código veréis que dentro del foreach he utilizado la variable <em>$key</em> para definir la clave del elemento actual. Es importante utilizarla para que mantenga el orden de las imágenes. No nos interesa para nada que nos guarde la tercera imagen del formulario y nos diga que la que se ha guardado correctamente es la primera..</p>
+
+<p>A parte de eso y como a menudo digo… el código habla por sí solo y además está bien comentado, así que si os lo miráis bien lo entenderéis sin problemas.</p>
+
+<p>Por último nos falta crear la vista “form_validation_array” que, del mismo modo que en el método upload, se encargará de convertir el array resultante a JSON:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34</pre></td><td class="code"><pre><span class="cp">&lt;?php</span>
+<span class="c1">// /app/views/ajax/form_validation_array.ctp
+</span><span class="nv">$output</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$errors</span><span class="p">))</span> <span class="p">{</span>
+  <span class="c1">// Si hay errores
+</span>  <span class="nv">$output</span> <span class="o">=</span> <span class="nx">Set</span><span class="o">::</span><span class="na">insert</span><span class="p">(</span><span class="nv">$output</span><span class="p">,</span> <span class="s1">'errors'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="nv">$errors</span><span class="p">[</span><span class="s1">'message'</span><span class="p">]));</span>
+  <span class="k">foreach</span> <span class="p">(</span><span class="nv">$errors</span><span class="p">[</span><span class="s1">'data'</span><span class="p">]</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$item</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">foreach</span><span class="p">(</span><span class="nv">$item</span> <span class="k">as</span> <span class="nv">$model</span> <span class="o">=&gt;</span> <span class="nv">$errs</span><span class="p">){</span>
+      <span class="k">foreach</span> <span class="p">(</span><span class="nv">$errs</span> <span class="k">as</span> <span class="nv">$field</span> <span class="o">=&gt;</span> <span class="nv">$message</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$output</span><span class="p">[</span><span class="s1">'errors'</span><span class="p">][</span><span class="s1">'data'</span><span class="p">][</span><span class="nv">$key</span><span class="p">][</span><span class="nv">$model</span><span class="p">][</span><span class="nv">$field</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$message</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="c1">// En caso de haberse guardado alguna imagen
+</span>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$errors</span><span class="p">[</span><span class="s1">'dataOk'</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$errors</span><span class="p">[</span><span class="s1">'dataOk'</span><span class="p">]</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$item</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">foreach</span> <span class="p">(</span><span class="nv">$item</span> <span class="k">as</span> <span class="nv">$field</span> <span class="o">=&gt;</span> <span class="nv">$message</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$output</span><span class="p">[</span><span class="s1">'saved'</span><span class="p">][</span><span class="nv">$key</span><span class="p">][</span><span class="nv">$field</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$message</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="c1">// Si todas se han guardado correctamente...
+</span><span class="p">}</span> <span class="k">elseif</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$success</span><span class="p">))</span> <span class="p">{</span>
+  <span class="nv">$output</span> <span class="o">=</span> <span class="nx">Set</span><span class="o">::</span><span class="na">insert</span><span class="p">(</span><span class="nv">$output</span><span class="p">,</span> <span class="s1">'success'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="nv">$success</span><span class="p">[</span><span class="s1">'message'</span><span class="p">]));</span>
+<span class="p">}</span>
+<span class="c1">// Sólo para Auth
+//elseif (!isset($auth)){
+//  $output = Set::insert($output, 'sessionTimeOut', array(
+//        'message' =&gt; $sessionTimeOut['message'],
+//        'data' =&gt; $sessionTimeOut['data']
+//  ));
+//}
+// fin Auth
+</span><span class="k">echo</span> <span class="nv">$javascript</span><span class="o">-&gt;</span><span class="na">object</span><span class="p">(</span><span class="nv">$output</span><span class="p">);</span>
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+<p>Y su salida aproximada:</p>
+
+<div class="language-javascript no-line-numbers highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28</pre></td><td class="code"><pre><span class="c1">// Si ha habido algún error (fijaros que una de las imágenes se ha guardado correctamente)</span>
+<span class="p">{</span><span class="s1">'errors'</span><span class="err">:</span> <span class="p">{</span>
+  <span class="s1">'message'</span><span class="err">:</span><span class="s1">'&lt;b&gt;Error:&lt;\/b&gt; Hay campos que no son v\u00e1lidos, compru\u00e9balos por favor.'</span><span class="p">,</span>
+  <span class="s1">'data'</span><span class="err">:</span> <span class="p">{</span>
+    <span class="s1">'0'</span><span class="err">:</span> <span class="p">{</span>
+      <span class="s1">'Image'</span><span class="err">:</span> <span class="p">{</span>
+        <span class="s1">'name'</span><span class="err">:</span><span class="s1">'El nombre debe contener entre 3 y 45 caracteres'</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s1">'2'</span><span class="err">:</span> <span class="p">{</span>
+      <span class="s1">'Image'</span><span class="err">:</span> <span class="p">{</span>
+        <span class="s1">'name'</span><span class="err">:</span><span class="s1">'El nombre debe contener entre 3 y 45 caracteres'</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s1">'saved'</span><span class="err">:</span><span class="p">{</span>
+    <span class="s1">'1'</span><span class="err">:</span><span class="p">{</span>
+      <span class="s1">'message'</span><span class="err">:</span><span class="s1">'Imagen 1165589284_f0.jpg guardada correctamente'</span><span class="p">,</span>
+      <span class="s1">'data'</span><span class="err">:</span><span class="s1">'1165589284_f0.jpg'</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Si todo ha ido bien</span>
+<span class="p">{</span><span class="s1">'success'</span><span class="err">:</span> <span class="p">{</span>
+  <span class="s1">'message'</span><span class="err">:</span><span class="s1">'&lt;b&gt;Todas las im\u00e1genes han sido guardadas correctamente&lt;\/b&gt;'</span>
+<span class="p">}}</span>
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+<p>Pues ya está! Si habéis seguido todos los pasos correctamente deberíais tener vuestro upload funcionando.</p>
+
+<p>A continuación os dejo el ejemplo que he ido haciendo a medida que hacía el tutorial así como un fichero .zip con todos los ficheros del proyecto.</p>
+
+<blockquote>
+  <ul>
+    <li><a href="http://demos.racotecnic.com/tutorials/cake/images/add">Ejemplo (las imágenes se borran cada vez que se accede a la página)</a></li>
+    <li><a href="http://demos.racotecnic.com/tutorials/2009/10/image_upload.zip">Descargar archivos del ejemplo</a></li>
+  </ul>
+</blockquote>
+
+<p>Nada más, como siempre.. espero que le sirva a alguien :) y si tenéis cualquier duda podéis postearla en los comentarios que trataré de contestarla cuanto antes.</p>
+
+<blockquote>
+  Páginas de referencia:
+  <ul>
+    <li><a rel="nofollow" href="http://jamnite.blogspot.com/2009/05/cakephp-form-validation-with-ajax-using.html" target="_blank">CakePHP Form Validation with Ajax Using jQuery</a></li>
+    <li><a rel="nofollow" href="http://api.cakephp.org" target="_blank">API de CakePHP</a></li>
+    <li><a rel="nofollow" href="http://docs.jquery.org" target="_blank">API de jQuery</a></li>
+  </ul>
+</blockquote>
+
+      <footer class="entry-meta">
+        <span class="entry-tags">
+            
+            <a href="//elboletaire.github.io/racotecnic/etiqueta/PHP" title="Pages tagged PHP" class="tag">
+                <span class="term">PHP</span>
+            </a>
+            
+            
+            <a href="//elboletaire.github.io/racotecnic/etiqueta/JavaScript" title="Pages tagged JavaScript" class="tag">
+                <span class="term">JavaScript</span>
+            </a>
+            
+            
+            <a href="//elboletaire.github.io/racotecnic/etiqueta/jQuery" title="Pages tagged jQuery" class="tag">
+                <span class="term">jQuery</span>
+            </a>
+            
+            
+            <a href="//elboletaire.github.io/racotecnic/etiqueta/CakePHP" title="Pages tagged CakePHP" class="tag">
+                <span class="term">CakePHP</span>
+            </a>
+            
+            
+            <a href="//elboletaire.github.io/racotecnic/etiqueta/Uploadify" title="Pages tagged Uploadify" class="tag">
+                <span class="term">Uploadify</span>
+            </a>
+            
+            
+            <a href="//elboletaire.github.io/racotecnic/etiqueta/Ajax" title="Pages tagged Ajax" class="tag">
+                <span class="term">Ajax</span>
+            </a>
+            
+            
+        </span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=//elboletaire.github.io/racotecnic/2009/10/subida-de-ficheros-con-uploadify-y-validacion-ajax-en-cakephp/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=//elboletaire.github.io/racotecnic/2009/10/subida-de-ficheros-con-uploadify-y-validacion-ajax-en-cakephp/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=//elboletaire.github.io/racotecnic/2009/10/subida-de-ficheros-con-uploadify-y-validacion-ajax-en-cakephp/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+      </footer>
+    </div><!-- /.entry-content -->
+    <section id="disqus_thread"></section><!-- /#disqus_thread -->
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      <a href="//elboletaire.github.io/racotecnic/2009/10/llego-la-hora-de-las-palomitas/" class="read-more-btn">Read More</a>
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      <h3><a href="//elboletaire.github.io/racotecnic/2016/05/guarda-gratis-en-la-nube-tus-partidas-guardadas-o-como-hacer-copias-de-seguridad-en-la-nube-gratis/" title="Guarda GRATIS en la nube tus partidas guardadas o cómo hacer copias de seguridad en la nube gratis">Guarda GRATIS en la nube tus partidas guardadas o cómo hacer copias de seguridad en la nube gratis</a></h3>
+      <p>Ya hace unos años que hago esto y la verdad es que es muy práctico. Consistebásicamente en subir automáticamente las partidas guardadas a...&hellip; <a href="//elboletaire.github.io/racotecnic/2016/05/guarda-gratis-en-la-nube-tus-partidas-guardadas-o-como-hacer-copias-de-seguridad-en-la-nube-gratis/">Continue reading</a></p>
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      <div class="list-item">
+        <h4><a href="//elboletaire.github.io/racotecnic/2015/03/instalacion-wamp-a-pelo-con-multiples-versiones-de-php/" title="Instalación WAMP a pelo con múltiples versiones de PHP o cómo configurar Apache para correr varias versiones de PHP en distintos servidores virtuales">Instalación WAMP a pelo con múltiples versiones de PHP o cómo configurar Apache para correr varias versiones de PHP en distintos servidores virtuales</a></h4>
+        <span>Published on March 16, 2015</span>
+      </div><!-- /.list-item -->
+    
+      <div class="list-item">
+        <h4><a href="//elboletaire.github.io/racotecnic/2014/01/ordenar-por-columnas-en-laravel-4-o-como-extender-laravel-4-a-nuestro-gusto/" title="Ordenar por columnas en Laravel 4 o cómo extender Laravel 4 a tu gusto">Ordenar por columnas en Laravel 4 o cómo extender Laravel 4 a tu gusto</a></h4>
+        <span>Published on January 18, 2014</span>
+      </div><!-- /.list-item -->
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2017 Racó Tècnic. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/hpstr-jekyll-theme/" rel="nofollow">HPSTR Theme</a>.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="//elboletaire.github.io/racotecnic/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="//elboletaire.github.io/racotecnic/assets/js/scripts.min.js"></script>
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-106861877-1', 'auto');  
+  ga('require', 'linkid', 'linkid.js');
+  ga('send', 'pageview');
+</script>
+
+
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'racotecnic'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</body>
+</html>

@@ -182,7 +182,7 @@
         $graybar.append($colorbar)
       );
 
-      if( !options.useColorBarImge) {
+      if (!options.useColorBarImge) {
         $colorbar.css({'background-image': 'none'});
       }
 
@@ -220,21 +220,22 @@
             backgroundPosition: "0px -" + perc + "px",
             width: perc + '%'
           });
-        } else {
+        }
+        else {
           // Calculate color instead changing background position
 
           // use 240 instead 255 to make color not so brigth
           var maxColor = 240;
 
-          var bgColorRed = (2 * maxColor) - (perc * maxColor / 50 );
-          var bgColorGreen =  0 + (perc * maxColor / 50);
+          var bgColorRed = (2 * maxColor) - (perc * maxColor / 50);
+          var bgColorGreen = 0 + (perc * maxColor / 50);
           bgColorRed = bgColorRed < 0 ? 0 : bgColorRed;
           bgColorRed = bgColorRed > maxColor ? maxColor : bgColorRed;
           bgColorGreen = bgColorGreen < 0 ? 0 : bgColorGreen;
           bgColorGreen = bgColorGreen > maxColor ? maxColor : bgColorGreen;
 
           $colorbar.css({
-            'background-color': 'rgb(' + bgColorRed.toString() +', ' + bgColorGreen.toString() + ', 10)',
+            'background-color': 'rgb(' + bgColorRed.toString() + ', ' + bgColorGreen.toString() + ', 10)',
             width: perc + '%'
           });
         }

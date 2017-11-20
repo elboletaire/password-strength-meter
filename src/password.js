@@ -50,7 +50,7 @@
         }
         return text;
       }
-      
+
       if (score < 34) {
         return options.badPass;
       }

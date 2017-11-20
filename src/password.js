@@ -41,11 +41,21 @@
 
       score = score < 0 ? 0 : score;
 
-      if (score < 34) {
-        return options.badPass;
-      }
-      if (score < 68) {
-        return options.goodPass;
+      if(options.customSteps){
+        var text = options.badPass;
+        for (var stapValue in options.customSteps) {
+          if(score >= stapValue){
+            text = options.customSteps[stapValue];
+          }
+        }
+        return text;
+      }else{
+        if (score < 34) {
+          return options.badPass;
+        }
+        if (score < 68) {
+          return options.goodPass;
+        }
       }
 
       return options.strongPass;

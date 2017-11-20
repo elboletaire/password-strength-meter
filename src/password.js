@@ -20,7 +20,8 @@
       animateSpeed: 'fast',
       username: false,
       usernamePartialMatch: true,
-      minimumLength: 4
+      minimumLength: 4,
+      useColorBarImge: true
     };
 
     options = $.extend({}, defaults, options);
@@ -180,7 +181,11 @@
       var $insert = $('<div>').addClass('pass-wrapper').append(
         $graybar.append($colorbar)
       );
-
+      
+      if(!options.useColorBarImge){
+        $colorbar.css({'background-image':'none'});
+      }
+      
       $object.parent().addClass('pass-strength-visible');
       if (options.animate) {
         $insert.css('display', 'none');
@@ -209,10 +214,25 @@
         var score = calculateScore($object.val(), username);
         $object.trigger('password.score', [score]);
         var perc = score < 0 ? 0 : score;
-        $colorbar.css({
-          backgroundPosition: "0px -" + perc + "px",
-          width: perc + '%'
-        });
+        if(options.useColorBarImge){
+          $colorbar.css({
+            backgroundPosition: "0px -" + perc + "px",
+            width: perc + '%'
+          });
+        } else{
+          //Calculate color instead changing background position
+    		  var maxColor = 240; // use 240 instead 255 to make color not so brigth
+	      	var bgColorRed = (2 * maxColor) - (perc * maxColor / 50 );
+  		    var bgColorGreen =  0 + (perc * maxColor / 50);
+		      bgColorRed = bgColorRed < 0 ? 0 : bgColorRed;
+		      bgColorRed = bgColorRed > maxColor ? maxColor : bgColorRed;
+	  	    bgColorGreen = bgColorGreen < 0 ? 0 : bgColorGreen;
+  		    bgColorGreen = bgColorGreen > maxColor ? maxColor : bgColorGreen;
+              $colorbar.css({
+                'background-color': 'rgb(' + bgColorRed.toString() +', ' + bgColorGreen.toString() + ', 10)', // A bit of blue
+                width: perc + '%'
+          });
+        }
 
         if (options.showPercent) {
           $percentage.html(perc + '%');

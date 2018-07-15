@@ -4,7 +4,8 @@
   "description": "A password strength meter plugin for jQuery",
   "main": "dist/password.min.js",
   "scripts": {
-    "test": "eslint src && karma start test/support/karma.conf.js",
+    "pretest": "eslint src",
+    "test": "karma start test/support/karma.conf.js",
     "test-virtual": "VIRTUAL=true npm test",
     "phantom": "npm test -- --browsers PhantomJS --single-run",
     "firefox": "npm test -- --browsers Firefox --single-run",
@@ -38,18 +39,18 @@
     "browserify-istanbul": "^2.0.0",
     "browserify-shim": "^3.8.14",
     "es6-arrow-function": "^0.6.6",
-    "eslint": "^4.5.0",
+    "eslint": "^5.1.0",
     "gulp": "^3.9.1",
     "gulp-chmod": "^2.0.0",
-    "gulp-clean": "^0.3.2",
+    "gulp-clean": "^0.4.0",
     "gulp-clean-css": "^3.0.3",
     "gulp-rename": "^1.2.2",
-    "gulp-replace": "^0.5.4",
-    "gulp-uglify": "^2.1.0",
+    "gulp-replace": "^1.0.0",
+    "gulp-uglify": "^3.0.0",
     "istanbul": "^0.4.5",
-    "jasmine": "^2.6.0",
+    "jasmine": "^3.1.0",
     "jquery": "^3.1.1",
-    "karma": "^1.7.0",
+    "karma": "^2.0.4",
     "karma-browserify": "^5.1.1",
     "karma-chrome-launcher": "^2.1.1",
     "karma-coverage": "^1.1.1",
@@ -69,5 +70,9 @@
     "LICENSE.md",
     "src/example.png"
   ],
-  "browserify-shim": {}
+  "browserify-shim": {},
+  "dependencies": {
+    "eslint-config-alvarium": "^1.2.1",
+    "eslint-plugin-import": "^2.13.0"
+  }
 }

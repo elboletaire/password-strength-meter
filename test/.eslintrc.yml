@@ -1,0 +1,4 @@
+extends: alvarium/node-es6
+env:
+  jasmine: true
+  phantomjs: true

@@ -1,4 +1,5 @@
-const $ = jQuery = require("jquery");
+// Initialize jQuery
+const $ = global.jQuery = require('jquery')
 
 require('../src/password')
 

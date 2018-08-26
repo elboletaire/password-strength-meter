@@ -89,7 +89,7 @@
       score += checkRepetition(4, password).length - password.length;
 
       // password has 3 numbers
-      if (password.match(/(.*[0-9].*[0-9].*[0-9])/)) {
+      if (password.match(/((.*[0-9])\2\2)/)) {
         score += 5;
       }
 
@@ -111,12 +111,12 @@
       }
 
       // password has number and symbol
-      if (password.match(/([!,@,#,$,%,^,&,*,?,_,~])/) && password.match(/([0-9])/)) {
+      if (password.match(/([!,@#$%^&*?_~])/) && password.match(/([0-9])/)) {
         score += 15;
       }
 
       // password has char and symbol
-      if (password.match(/([!,@,#,$,%,^,&,*,?,_,~])/) && password.match(/([a-zA-Z])/)) {
+      if (password.match(/([!,@#$%^&*?_~])/) && password.match(/([a-zA-Z])/)) {
         score += 15;
       }
 

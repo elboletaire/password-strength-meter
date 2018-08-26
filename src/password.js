@@ -93,7 +93,7 @@
         score += 5;
       }
 
-      // password has at least 2 sybols
+      // password has at least 2 symbols
       var symbols = '.*[!,@,#,$,%,^,&,*,?,_,~]';
       symbols = new RegExp('(' + symbols + symbols + ')');
       if (password.match(symbols)) {
@@ -255,7 +255,7 @@
     }
 
     return init.call(this);
-  }
+  };
 
   // Bind to jquery
   $.fn.password = function(options) {

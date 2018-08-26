@@ -28,8 +28,8 @@
     /**
      * Returns strings based on the score given.
      *
-     * @param int score Score base.
-     * @return string
+     * @param {int} score Score base.
+     * @return {string}
      */
     function scoreText(score) {
       if (score === -1) {
@@ -55,9 +55,9 @@
      * Returns a value between -2 and 100 to score
      * the user's password.
      *
-     * @param  string password The password to be checked.
-     * @param  string username The username set (if options.username).
-     * @return int
+     * @param  {string} password The password to be checked.
+     * @param  {string} username The username set (if options.username).
+     * @return {int}
      */
     function calculateScore(password, username) {
       var score = 0;
@@ -93,7 +93,7 @@
         score += 5;
       }
 
-      // password has at least 2 sybols
+      // password has at least 2 symbols
       var symbols = '.*[!,@,#,$,%,^,&,*,?,_,~]';
       symbols = new RegExp('(' + symbols + symbols + ')');
       if (password.match(symbols)) {
@@ -140,9 +140,9 @@
      * Checks for repetition of characters in
      * a string
      *
-     * @param int rLen Repetition length.
-     * @param string str The string to be checked.
-     * @return string
+     * @param {int} rLen Repetition length.
+     * @param {string} str The string to be checked.
+     * @return {string}
      */
     function checkRepetition(rLen, str) {
       var res = "", repeated = false;
@@ -169,7 +169,7 @@
      * Initializes the plugin creating and binding the
      * required layers and events.
      *
-     * @return void
+     * @return {*}
      */
     function init() {
       var shown = true;

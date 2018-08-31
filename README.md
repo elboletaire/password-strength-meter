@@ -7,6 +7,7 @@ Password Strength Meter plugin for jQuery
 [![Latest stable version][releases svg]][releases]
 [![Total downloads][downloads svg]][downloads]
 [![Code climate][climate svg]][climate]
+[![jsDelivr CDN][jsdelivr svg]][jsdelivr]
 
 [![Sauce labs][sauce svg]][sauce]
 
@@ -157,6 +158,7 @@ This code is licensed under a [GPL 3.0 license][license].
 [releases]: https://github.com/elboletaire/password-strength-meter/releases
 [downloads]: https://www.npmjs.com/package/password-strength-meter
 [climate]: https://codeclimate.com/github/elboletaire/password-strength-meter
+[jsdelivr]: https://www.jsdelivr.com/package/npm/password-strength-meter
 [sauce]: https://saucelabs.com/u/password-strength-manager
 
 [build svg]: https://img.shields.io/travis/elboletaire/password-strength-meter/master.svg?style=flat-square
@@ -165,4 +167,5 @@ This code is licensed under a [GPL 3.0 license][license].
 [releases svg]: https://img.shields.io/npm/v/password-strength-meter.svg?style=flat-square
 [downloads svg]: https://img.shields.io/npm/dt/password-strength-meter.svg?style=flat-square
 [climate svg]: https://img.shields.io/codeclimate/github/elboletaire/password-strength-meter.svg?style=flat-square
+[jsdelivr svg]: https://data.jsdelivr.com/v1/package/npm/password-strength-meter/badge
 [sauce svg]: https://badges.herokuapp.com/sauce/password-strength-manager?style=flat-square

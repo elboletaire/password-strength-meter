@@ -169,7 +169,7 @@
      * Initializes the plugin creating and binding the
      * required layers and events.
      *
-     * @return {*}
+     * @return {Password} Returns the Password instance.
      */
     function init() {
       var shown = true;

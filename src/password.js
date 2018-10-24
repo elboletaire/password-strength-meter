@@ -111,12 +111,12 @@
       }
 
       // password has number and symbol
-      if (password.match(/([!,@,#,$,%,^,&,*,?,_,~])/) && password.match(/([0-9])/)) {
+      if (password.match(/([!@#$%^&*?_~])/) && password.match(/([0-9])/)) {
         score += 15;
       }
 
       // password has char and symbol
-      if (password.match(/([!,@,#,$,%,^,&,*,?,_,~])/) && password.match(/([a-zA-Z])/)) {
+      if (password.match(/([!@#$%^&*?_~])/) && password.match(/([a-zA-Z])/)) {
         score += 15;
       }
 

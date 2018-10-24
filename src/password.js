@@ -140,22 +140,22 @@
      * Checks for repetition of characters in
      * a string
      *
-     * @param {int} rLen Repetition length.
+     * @param {int} length Repetition length.
      * @param {string} str The string to be checked.
      * @return {string}
      */
-    function checkRepetition(rLen, str) {
+    function checkRepetition(length, str) {
       var res = "", repeated = false;
       for (var i = 0; i < str.length; i++) {
         repeated = true;
-        for (var j = 0; j < rLen && (j + i + rLen) < str.length; j++) {
-          repeated = repeated && (str.charAt(j + i) === str.charAt(j + i + rLen));
+        for (var j = 0; j < length && (j + i + length) < str.length; j++) {
+          repeated = repeated && (str.charAt(j + i) === str.charAt(j + i + length));
         }
-        if (j < rLen) {
+        if (j < length) {
           repeated = false;
         }
         if (repeated) {
-          i += rLen - 1;
+          i += length - 1;
           repeated = false;
         }
         else {

@@ -72,7 +72,7 @@ Here's the list of available options you can pass to the `password` plugin:
 $('#password').password({
   shortPass: 'The password is too short',
   badPass: 'Weak; try combining letters & numbers',
-  goodPass: 'Medium; try using special charecters',
+  goodPass: 'Medium; try using special characters',
   strongPass: 'Strong password',
   containsUsername: 'The password contains the username',
   enterPass: 'Type your password',

@@ -187,6 +187,50 @@ describe('$.fn.password', () => {
         })
         .val('_~%8::%nqy^7e~!!z!;N')
         .trigger('keyup')
-    })
+    });
+
+    it('creates custom step values for score if provided 0 custom text', (done) => {
+      var config = {
+        customSteps: {
+          0: 'Really insecure password',
+          30: 'Insecure password',
+          95: 'Really strong password'
+        }
+      };
+
+      $('#password').password(config).val('aaaaaa').trigger('keyup');
+      expect('Really insecure password').toEqual($('.pass-text').text());
+
+      done();
+    });
+
+    it('creates custom step values for score if provided 30 custom text', (done) => {
+      var config = {
+        customSteps: {
+          0: 'Really insecure password',
+          30: 'Insecure password',
+          95: 'Really strong password'
+        }
+      };
+
+      $('#password').password(config).val('a%4$').trigger('keyup');
+      expect('Insecure password').toEqual($('.pass-text').text());
+      done();
+    });
+
+    it('creates custom step values for score if provided 95 custom text', (done) => {
+      var config = {
+        customSteps: {
+          0: 'Really insecure password',
+          30: 'Insecure password',
+          95: 'Really strong password'
+        }
+      };
+
+      $('#password').password(config).val('_~%8::%nqy^7e~!!zN').trigger('keyup');
+      expect('Really strong password').toEqual($('.pass-text').text());
+
+      done();
+    });
   })
 });

@@ -75,6 +75,11 @@ $('#password').password({
   badPass: 'Weak; try combining letters & numbers',
   goodPass: 'Medium; try using special charecters',
   strongPass: 'Strong password',
+  customSteps: { // for even more fine grained customization
+    0: 'Really insecure password',
+    30: 'Insecure password',
+    95: 'Really strong password'
+  },
   containsUsername: 'The password contains the username',
   enterPass: 'Type your password',
   showPercent: false,

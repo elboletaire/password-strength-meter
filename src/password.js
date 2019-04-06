@@ -12,6 +12,7 @@
       badPass: 'Weak; try combining letters & numbers',
       goodPass: 'Medium; try using special characters',
       strongPass: 'Strong password',
+      customSteps: null,
       containsUsername: 'The password contains the username',
       enterPass: 'Type your password',
       showPercent: false,
@@ -40,6 +41,16 @@
       }
 
       score = score < 0 ? 0 : score;
+
+      if (options.customSteps) {
+        var text = options.badPass;
+        for (var stepVal in options.customSteps) {
+          if (score >= stepVal) {
+            text = options.customSteps[stepVal];
+          }
+        }
+        return text;
+      }
 
       if (score < 34) {
         return options.badPass;

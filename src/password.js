@@ -255,7 +255,7 @@
     }
 
     return init.call(this);
-  }
+  };
 
   // Bind to jquery
   $.fn.password = function(options) {

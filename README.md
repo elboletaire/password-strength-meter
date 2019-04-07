@@ -105,7 +105,7 @@ $('#password').on('password.text', (e, text, score) => {
 Compatiblity
 ------------
 
-This plugin was originally created in 2010 for jQuery 1.14, and the current relase
+This plugin was originally created in 2010 for jQuery 1.14, and the current release
 has been tested under jQuery 1, 2 & 3.
 
 It should work in all browsers (even IE 666).

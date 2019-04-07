@@ -20,7 +20,13 @@
       animateSpeed: 'fast',
       username: false,
       usernamePartialMatch: true,
-      minimumLength: 4
+      minimumLength: 4,
+      useColorBarImage: false,
+      customColorBarRGB: {
+        red: [0, 240],
+        green: [0, 240],
+        blue: 10
+      }
     };
 
     options = $.extend({}, defaults, options);
@@ -166,6 +172,70 @@
     }
 
     /**
+     * Calculates background colors from percentage value.
+     *
+     * @param {int} perc The percentage strength of the password.
+     * @return {object} Object with colors as keys
+     */
+    function calculateColorFromPercentage(perc) {
+      var minRed = 0;
+      var maxRed = 240;
+      var minGreen = 0;
+      var maxGreen = 240;
+      var blue = 10;
+
+      if (options.customColorBarRGB.hasOwnProperty('red')) {
+        minRed = options.customColorBarRGB.red[0];
+        maxRed = options.customColorBarRGB.red[1];
+      }
+
+      if (options.customColorBarRGB.hasOwnProperty('green')) {
+        minGreen = options.customColorBarRGB.green[0];
+        maxGreen = options.customColorBarRGB.green[1];
+      }
+
+      if (options.customColorBarRGB.hasOwnProperty('blue')) {
+        blue = options.customColorBarRGB.blue;
+      }
+
+      var green = (perc * maxGreen / 50);
+      var red = (2 * maxRed) - (perc * maxRed / 50);
+
+      return {
+        red: Math.min(Math.max(red, minRed), maxRed),
+        green: Math.min(Math.max(green, minGreen), maxGreen),
+        blue: blue
+      }
+    }
+
+    /**
+     * Adds color styles to colorbar jQuery object.
+     *
+     * @param {jQuery} $colorbar The colorbar jquery object.
+     * @param {int} perc The percentage strength of the password.
+     * @return {jQuery}
+     */
+    function addColorBarStyle($colorbar, perc) {
+      if (options.useColorBarImage) {
+        $colorbar.css({
+          backgroundPosition: "0px -" + perc + "px",
+          width: perc + '%'
+        });
+      }
+      else {
+        var colors = calculateColorFromPercentage(perc);
+
+        $colorbar.css({
+          'background-image': 'none',
+          'background-color': 'rgb(' + colors.red.toString() + ', ' + colors.green.toString() + ', ' + colors.blue.toString() + ')',
+          width: perc + '%'
+        });
+      }
+
+      return $colorbar;
+    }
+
+    /**
      * Initializes the plugin creating and binding the
      * required layers and events.
      *
@@ -209,10 +279,8 @@
         var score = calculateScore($object.val(), username);
         $object.trigger('password.score', [score]);
         var perc = score < 0 ? 0 : score;
-        $colorbar.css({
-          backgroundPosition: "0px -" + perc + "px",
-          width: perc + '%'
-        });
+
+        $colorbar = addColorBarStyle($colorbar, perc);
 
         if (options.showPercent) {
           $percentage.html(perc + '%');

@@ -82,7 +82,13 @@ $('#password').password({
   animateSpeed: 'fast', // the above animation speed
   field: false, // select the match field (selector or jQuery instance) for better password checks
   fieldPartialMatch: true, // whether to check for partials in field
-  minimumLength: 4 // minimum password length (below this threshold, the score is 0)
+  minimumLength: 4, // minimum password length (below this threshold, the score is 0)
+  useColorBarImage: false, // use the old colorbar image
+  customColorBarRGB: {
+    red: [0, 240],
+    green: [0, 240],
+    blue: 10
+  } // set custom rgb color ranges for colorbar.
 });
 ~~~
 

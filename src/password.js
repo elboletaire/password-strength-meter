@@ -181,6 +181,11 @@
         $graybar.append($colorbar)
       );
 
+      // If we're using bootstrap's input group class
+      if ($object.parent().hasClass('input-group')) {
+        $insert.addClass('input-group');
+      }
+
       $object.parent().addClass('pass-strength-visible');
       if (options.animate) {
         $insert.css('display', 'none');

@@ -188,5 +188,15 @@ describe('$.fn.password', () => {
         .val('_~%8::%nqy^7e~!!z!;N')
         .trigger('keyup')
     })
+
+    it('adds input group class if inside a bootstrap input group', (done) => {
+      var $inputGroupPass = $('#input-group-password');
+      $inputGroupPass.password();
+
+      expect($('.pass-wrapper')).toBeInDOM();
+      expect($inputGroupPass.next().hasClass('input-group'));
+
+      done();
+    });
   })
 })

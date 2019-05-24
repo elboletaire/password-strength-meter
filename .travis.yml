@@ -22,7 +22,7 @@ before_script:
 - yarn install
 
 script:
-- yarn test --coverage
+- yarn test
 
 after_success:
 - if [ $TRAVIS_BRANCH = 'master' ]; then sh build.sh; fi

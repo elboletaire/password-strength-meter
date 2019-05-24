@@ -148,7 +148,7 @@ This code is licensed under a [GPL 3.0 license][license].
 [license]: LICENSE.md
 [web]: https://elboletaire.github.io/password-strength-meter/
 
-[build status]: https://travis-ci.org/elboletaire/password-strength-meter
+[build status]: https://gitlab.com/elboletaire/password-strength-meter/pipelines
 [coverage]: https://gitlab.com/elboletaire/password-strength-meter/-/jobs
 [license]: https://github.com/elboletaire/password-strength-meter/blob/master/LICENSE.md
 [releases]: https://github.com/elboletaire/password-strength-meter/releases
@@ -156,7 +156,7 @@ This code is licensed under a [GPL 3.0 license][license].
 [climate]: https://codeclimate.com/github/elboletaire/password-strength-meter
 [jsdelivr]: https://www.jsdelivr.com/package/npm/password-strength-meter
 
-[build svg]: https://img.shields.io/travis/elboletaire/password-strength-meter/master.svg
+[build svg]: https://gitlab.com/elboletaire/password-strength-meter/badges/master/pipeline.svg
 [coverage svg]: https://gitlab.com/elboletaire/password-strength-meter/badges/master/coverage.svg
 [license svg]: https://img.shields.io/github/license/elboletaire/password-strength-meter.svg
 [releases svg]: https://img.shields.io/npm/v/password-strength-meter.svg

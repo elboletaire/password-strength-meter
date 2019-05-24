@@ -9,9 +9,6 @@ branches:
   except:
   - gh-pages
 
-addons:
-  sauce_connect: true
-
 cache:
   yarn: true
 

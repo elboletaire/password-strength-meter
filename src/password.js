@@ -21,7 +21,8 @@
       animateSpeed: 'fast',
       username: false,
       usernamePartialMatch: true,
-      minimumLength: 4
+      minimumLength: 4,
+      closestSelector: 'div',
     };
 
     options = $.extend({}, defaults, options);
@@ -182,11 +183,11 @@
         $graybar.append($colorbar)
       );
 
-      $object.parent().addClass('pass-strength-visible');
+      $object.closest(options.closestSelector).addClass('pass-strength-visible');
       if (options.animate) {
         $insert.css('display', 'none');
         shown = false;
-        $object.parent().removeClass('pass-strength-visible');
+        $object.closest(options.closestSelector).removeClass('pass-strength-visible');
       }
 
       if (options.showPercent) {
@@ -199,7 +200,7 @@
         $insert.append($text);
       }
 
-      $object.after($insert);
+      $object.closest(options.closestSelector).append($insert);
 
       $object.keyup(function() {
         var username = options.username || '';
@@ -237,7 +238,7 @@
           if (!shown) {
             $insert.slideDown(options.animateSpeed, function () {
               shown = true;
-              $object.parent().addClass('pass-strength-visible');
+              $object.closest(options.closestSelector).addClass('pass-strength-visible');
             });
           }
         });
@@ -246,7 +247,7 @@
           if (!$object.val().length && shown) {
             $insert.slideUp(options.animateSpeed, function () {
               shown = false;
-              $object.parent().removeClass('pass-strength-visible')
+              $object.closest(options.closestSelector).removeClass('pass-strength-visible')
             });
           }
         });

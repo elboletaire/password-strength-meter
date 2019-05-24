@@ -58,6 +58,10 @@
             goodPass: emojione.unicodeToImage('Yeah! That\'s better! 👍'),
             strongPass: emojione.unicodeToImage('Yup, you made it 🙃'),
           });
+
+          $('#input-groups').password({
+            closestSelector: '.form-group',
+          });
         });
     </script>
 
@@ -164,6 +168,17 @@
                     <input id="events" type="password" class="form-control" />
                 </div>
                 <button id="submit" onclick="return false" class="btn btn-info">Send</button>
+            </fieldset>
+            <fieldset>
+                <legend>Using input-groups</legend>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                        </span>
+                        <input id="input-groups" class="form-control" type="password">
+                    </div>
+                </div>
             </fieldset>
         </form>
     </div>

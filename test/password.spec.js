@@ -4,8 +4,8 @@ require('../src/password')
 
 beforeEach(() => {
   jQuery.fx.off = true
-  document.body.innerHTML = `<input type="password" id="password" />
-<input type="text" id="username" />`
+  document.body.innerHTML = `<div><input type="password" id="password" />
+<input type="text" id="username" /></div>`
 })
 
 describe('$.fn.password', () => {
@@ -77,6 +77,25 @@ describe('$.fn.password', () => {
   it('shows enterPass value when there\'s no text', () => {
     $('#password').password({ animate: false, enterPass: 'hi' })
     expect($('.pass-text').text()).toEqual('hi')
+  })
+})
+
+describe('options::closestSelector', () => {
+  it('works with input-groups by using closestSelector option', () => {
+    document.body.innerHTML = `<div class="form-group">
+    <div class="input-group">
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+        </span>
+        <input id="password" class="form-control" type="password">
+    </div>
+</div>`
+
+    $('#password').password({
+      closestSelector: '.form-group',
+    })
+
+    expect($('.form-group > .pass-wrapper').length).toBeTruthy()
   })
 })
 

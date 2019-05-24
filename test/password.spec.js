@@ -76,7 +76,7 @@ describe('$.fn.password', () => {
 
   it('shows enterPass value when there\'s no text', () => {
     $('#password').password({ animate: false, enterPass: 'hi' })
-    expect('hi').toEqual($('.pass-text').text())
+    expect($('.pass-text').text()).toEqual('hi')
   })
 })
 
@@ -86,7 +86,7 @@ describe('score/meter functions', () => {
   it('gives us the shortPass message when passing less than what\'s defined in minimumLength', () => {
     $('#password').password({ shortPass: 'hi', minimumLength: 6 }).val('12312').trigger('keyup')
 
-    expect('hi').toEqual($('.pass-text').text())
+    expect($('.pass-text').text()).toEqual('hi')
   })
 
   it('gives us containsUsername value when username field is defined and input values are equal', () => {
@@ -98,7 +98,7 @@ describe('score/meter functions', () => {
       })
       .val('test').trigger('keyup')
 
-    expect('hi').toEqual($('.pass-text').text())
+    expect($('.pass-text').text()).toEqual('hi')
 
     // also ensure that usernamePartialMatch set to
     // false does what it should to
@@ -117,27 +117,27 @@ describe('score/meter functions', () => {
       })
       .val('tester').trigger('keyup')
 
-    expect('hi').toEqual($('.pass-text').text())
+    expect($('.pass-text').text()).toEqual('hi')
   })
 
   it('gives us badPass value when score is under 34', () => {
     $('#password').password({ badPass: 'hi' }).val('tester').trigger('keyup')
-    expect('hi').toEqual($('.pass-text').text())
+    expect($('.pass-text').text()).toEqual('hi')
   })
 
   it('gives us badPass value when score is under 34', () => {
     $('#password').password({ badPass: 'hi' }).val('tester').trigger('keyup')
-    expect('hi').toEqual($('.pass-text').text())
+    expect($('.pass-text').text()).toEqual('hi')
   })
 
   it('gives us goodPass value when score is under 68', () => {
     $('#password').password({ goodPass: 'hi' }).val('tester23').trigger('keyup')
-    expect('hi').toEqual($('.pass-text').text())
+    expect($('.pass-text').text()).toEqual('hi')
   })
 
   it('gives us strongPass value when score is under over 68', () => {
     $('#password').password({ strongPass: 'hi' }).val('!Tester23$').trigger('keyup')
-    expect('hi').toEqual($('.pass-text').text())
+    expect($('.pass-text').text()).toEqual('hi')
   })
 
   it('gives us badPass value when there\'s a lot of characters but repeated', () => {
@@ -145,7 +145,7 @@ describe('score/meter functions', () => {
       .val('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadddddddddddddddddd')
       .trigger('keyup')
 
-    expect('hi').toEqual($('.pass-text').text())
+    expect($('.pass-text').text()).toEqual('hi')
   })
 
   it('ensures score is corrected when it surpasses the threshold', (done) => {

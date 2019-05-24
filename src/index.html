@@ -31,9 +31,9 @@
           // Default behavior
           $('#default').password();
 
-          // Linked to username input
+          // Linked to field input
           $('#linked').password({
-            username: '#username',
+            field: '#username',
             showPercent: true
           });
 
@@ -136,7 +136,7 @@
                 </div>
             </fieldset>
             <fieldset>
-                <legend>Linked to username input (password cannot contain username)</legend>
+                <legend>Linked to username input (password cannot contain field text)</legend>
                 <div class="form-group">
                     <label for="username">
                         Username

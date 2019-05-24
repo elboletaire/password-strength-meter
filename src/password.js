@@ -13,14 +13,14 @@
       badPass: 'Weak; try combining letters & numbers',
       goodPass: 'Medium; try using special characters',
       strongPass: 'Strong password',
-      containsUsername: 'The password contains the username',
+      containsField: 'The password contains your username',
       enterPass: 'Type your password',
       showPercent: false,
       showText: true,
       animate: true,
       animateSpeed: 'fast',
-      username: false,
-      usernamePartialMatch: true,
+      field: false,
+      fieldPartialMatch: true,
       minimumLength: 4,
       closestSelector: 'div',
     };
@@ -38,7 +38,7 @@
         return options.shortPass;
       }
       if (score === -2) {
-        return options.containsUsername;
+        return options.containsField;
       }
 
       score = score < 0 ? 0 : score;
@@ -58,10 +58,10 @@
      * the user's password.
      *
      * @param  string password The password to be checked.
-     * @param  string username The username set (if options.username).
+     * @param  string field The field set (if options.field).
      * @return int
      */
-    function calculateScore(password, username) {
+    function calculateScore(password, field) {
       var score = 0;
 
       // password < options.minimumLength
@@ -69,14 +69,14 @@
         return -1;
       }
 
-      if (options.username) {
-        // password === username
-        if (password.toLowerCase() === username.toLowerCase()) {
+      if (options.field) {
+        // password === field
+        if (password.toLowerCase() === field.toLowerCase()) {
           return -2;
         }
-        // password contains username (and usernamePartialMatch is set to true)
-        if (options.usernamePartialMatch && username.length) {
-          var user = new RegExp(username.toLowerCase());
+        // password contains field (and fieldPartialMatch is set to true)
+        if (options.fieldPartialMatch && field.length) {
+          var user = new RegExp(field.toLowerCase());
           if (password.toLowerCase().match(user)) {
             return -2;
           }
@@ -203,12 +203,12 @@
       $object.closest(options.closestSelector).append($insert);
 
       $object.keyup(function() {
-        var username = options.username || '';
-        if (username) {
-          username = $(username).val();
+        var field = options.field || '';
+        if (field) {
+          field = $(field).val();
         }
 
-        var score = calculateScore($object.val(), username);
+        var score = calculateScore($object.val(), field);
         $object.trigger('password.score', [score]);
         var perc = score < 0 ? 0 : score;
         $colorbar.css({

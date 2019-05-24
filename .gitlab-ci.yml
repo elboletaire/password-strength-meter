@@ -1,0 +1,11 @@
+stages:
+- test
+
+test:
+  image: node:10
+  stage: test
+  coverage: /All files([^|]*\|){4}[^\d]+([\d|\.]+)/
+  before_script:
+  - yarn
+  script:
+  - yarn test --coverage

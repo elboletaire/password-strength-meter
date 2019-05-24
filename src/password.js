@@ -1,6 +1,7 @@
 /**
  * @author Òscar Casajuana a.k.a. elboletaire <elboletaire at underave dot net>
  * @link https://github.com/elboletaire/password-strength-meter
+ * @license GPL-3.0
  */
 // eslint-disable-next-line
 ;(function($) {

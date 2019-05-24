@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- '6'
+- '10'
 
 git:
   depth: 1
@@ -23,7 +23,7 @@ before_script:
 - yarn add codecov -g
 
 script:
-- yarn test
+- yarn test --coverage
 
 after_success:
 - cat coverage/*/lcov.info > coverage/lcov.info

@@ -20,12 +20,9 @@ install:
 
 before_script:
 - yarn install
-- yarn add codecov -g
 
 script:
 - yarn test --coverage
 
 after_success:
-- cat coverage/*/lcov.info > coverage/lcov.info
-- codecov
 - if [ $TRAVIS_BRANCH = 'master' ]; then sh build.sh; fi

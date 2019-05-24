@@ -149,18 +149,17 @@ This code is licensed under a [GPL 3.0 license][license].
 [web]: https://elboletaire.github.io/password-strength-meter/
 
 [build status]: https://travis-ci.org/elboletaire/password-strength-meter
-[coverage]: https://codecov.io/gh/elboletaire/password-strength-meter
+[coverage]: https://gitlab.com/elboletaire/password-strength-meter/-/jobs
 [license]: https://github.com/elboletaire/password-strength-meter/blob/master/LICENSE.md
 [releases]: https://github.com/elboletaire/password-strength-meter/releases
 [downloads]: https://www.npmjs.com/package/password-strength-meter
 [climate]: https://codeclimate.com/github/elboletaire/password-strength-meter
 [jsdelivr]: https://www.jsdelivr.com/package/npm/password-strength-meter
 
-[build svg]: https://img.shields.io/travis/elboletaire/password-strength-meter/master.svg?style=flat-square
-[coverage svg]: https://img.shields.io/codecov/c/github/elboletaire/password-strength-meter/master.svg?style=flat-square
-[license svg]: https://img.shields.io/github/license/elboletaire/password-strength-meter.svg?style=flat-square
-[releases svg]: https://img.shields.io/npm/v/password-strength-meter.svg?style=flat-square
-[downloads svg]: https://img.shields.io/npm/dt/password-strength-meter.svg?style=flat-square
-[climate svg]: https://img.shields.io/codeclimate/maintainability/elboletaire/password-strength-meter.svg?style=flat-square
-[jsdelivr svg]: https://data.jsdelivr.com/v1/package/npm/password-strength-meter/badge
-
+[build svg]: https://img.shields.io/travis/elboletaire/password-strength-meter/master.svg
+[coverage svg]: https://gitlab.com/elboletaire/password-strength-meter/badges/master/coverage.svg
+[license svg]: https://img.shields.io/github/license/elboletaire/password-strength-meter.svg
+[releases svg]: https://img.shields.io/npm/v/password-strength-meter.svg
+[downloads svg]: https://img.shields.io/npm/dt/password-strength-meter.svg
+[climate svg]: https://img.shields.io/codeclimate/maintainability/elboletaire/password-strength-meter.svg
+[jsdelivr svg]: https://data.jsdelivr.com/v1/package/npm/password-strength-meter/badge?style=rounded

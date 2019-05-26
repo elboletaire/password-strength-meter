@@ -179,20 +179,18 @@ describe('$.fn.password', () => {
     it('uses no color background image by default', () => {
       $('#password').password();
 
-      expect('none').toEqual($('.pass-colorbar').css('background-image'));
+      expect($('.pass-colorbar').css('background-image')).toEqual('');
     });
 
-    it('makes background image style adjustments if turned on', (done) => {
+    it('makes background image style adjustments if turned on', () => {
       $('#password').password({useColorBarImage: true}).val('Tester23$').trigger('keyup');
       $colorbar = $('.pass-colorbar');
 
       expect('0px -91px').toEqual($colorbar.css('background-position'));
       expect('91%').toEqual($colorbar.css('width'));
-
-      done();
     });
 
-    it('can use custom rgb colorbar values for a good password', (done) => {
+    it('can use custom rgb colorbar values for a good password', () => {
       $('#password').password({
         customColorBarRGB: {
           green: [0, 100],
@@ -202,11 +200,9 @@ describe('$.fn.password', () => {
       }).val('!Tester23$').trigger('keyup');
 
       expect('rgb(10, 100, 50)').toEqual($('.pass-colorbar').css('background-color'));
-
-      done();
     });
 
-    it('can use custom rgb colorbar values for a bad password', (done) => {
+    it('can use custom rgb colorbar values for a bad password', () => {
       $('#password').password({
         customColorBarRGB: {
           green: [0, 100],
@@ -215,8 +211,6 @@ describe('$.fn.password', () => {
       }).val('abc').trigger('keyup');
 
       expect('rgb(150, 0, 10)').toEqual($('.pass-colorbar').css('background-color'));
-
-      done();
     });
   })
 })

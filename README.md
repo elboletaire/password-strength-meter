@@ -44,7 +44,7 @@ Import the required scripts:
 
 ~~~html
 <script src="./js/password-strength-meter/password.min.js"></script>
-<script src="./js/password-strength-meter/password.min.css"></script>
+<link rel="stylesheet" href="./js/password-strength-meter/password.min.css">
 ~~~
 
 Ensure your password field has a wrapper div, like in Bootstrap:

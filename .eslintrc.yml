@@ -20,7 +20,9 @@ rules:
   camelcase: error
   capitalized-comments: 'off'
   class-methods-use-this: error
-  comma-dangle: error
+  comma-dangle:
+  - error
+  - only-multiline
   comma-spacing:
     - error
     - after: true

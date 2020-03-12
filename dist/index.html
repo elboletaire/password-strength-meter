@@ -31,9 +31,9 @@
           // Default behavior
           $('#default').password();
 
-          // Linked to username input
+          // Linked to field input
           $('#linked').password({
-            username: '#username',
+            field: '#username',
             showPercent: true
           });
 
@@ -57,6 +57,10 @@
             badPass: emojione.unicodeToImage('Still needs improvement! 😷'),
             goodPass: emojione.unicodeToImage('Yeah! That\'s better! 👍'),
             strongPass: emojione.unicodeToImage('Yup, you made it 🙃'),
+          });
+
+          $('#input-groups').password({
+            closestSelector: '.form-group',
           });
         });
     </script>
@@ -132,7 +136,7 @@
                 </div>
             </fieldset>
             <fieldset>
-                <legend>Linked to username input (password cannot contain username)</legend>
+                <legend>Linked to username input (password cannot contain field text)</legend>
                 <div class="form-group">
                     <label for="username">
                         Username
@@ -164,6 +168,17 @@
                     <input id="events" type="password" class="form-control" />
                 </div>
                 <button id="submit" onclick="return false" class="btn btn-info">Send</button>
+            </fieldset>
+            <fieldset>
+                <legend>Using input-groups</legend>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                        </span>
+                        <input id="input-groups" class="form-control" type="password">
+                    </div>
+                </div>
             </fieldset>
         </form>
     </div>

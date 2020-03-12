@@ -1,6 +1,7 @@
 /**
  * @author Òscar Casajuana a.k.a. elboletaire <elboletaire at underave dot net>
  * @link https://github.com/elboletaire/password-strength-meter
+ * @license GPL-3.0
  */
 // eslint-disable-next-line
 ;(function($) {
@@ -12,15 +13,16 @@
       badPass: 'Weak; try combining letters & numbers',
       goodPass: 'Medium; try using special characters',
       strongPass: 'Strong password',
-      containsUsername: 'The password contains the username',
+      containsField: 'The password contains your username',
       enterPass: 'Type your password',
       showPercent: false,
       showText: true,
       animate: true,
       animateSpeed: 'fast',
-      username: false,
-      usernamePartialMatch: true,
+      field: false,
+      fieldPartialMatch: true,
       minimumLength: 4,
+      closestSelector: 'div',
       useColorBarImage: false,
       customColorBarRGB: {
         red: [0, 240],
@@ -42,7 +44,7 @@
         return options.shortPass;
       }
       if (score === -2) {
-        return options.containsUsername;
+        return options.containsField;
       }
 
       score = score < 0 ? 0 : score;
@@ -62,10 +64,10 @@
      * the user's password.
      *
      * @param  {string} password The password to be checked.
-     * @param  {string} username The username set (if options.username).
+     * @param  {string} field The field set (if options.field).
      * @return {int}
      */
-    function calculateScore(password, username) {
+    function calculateScore(password, field) {
       var score = 0;
 
       // password < options.minimumLength
@@ -73,14 +75,14 @@
         return -1;
       }
 
-      if (options.username) {
-        // password === username
-        if (password.toLowerCase() === username.toLowerCase()) {
+      if (options.field) {
+        // password === field
+        if (password.toLowerCase() === field.toLowerCase()) {
           return -2;
         }
-        // password contains username (and usernamePartialMatch is set to true)
-        if (options.usernamePartialMatch && username.length) {
-          var user = new RegExp(username.toLowerCase());
+        // password contains field (and fieldPartialMatch is set to true)
+        if (options.fieldPartialMatch && field.length) {
+          var user = new RegExp(field.toLowerCase());
           if (password.toLowerCase().match(user)) {
             return -2;
           }
@@ -146,22 +148,22 @@
      * Checks for repetition of characters in
      * a string
      *
-     * @param {int} length Repetition length.
+     * @param {int} rLen Repetition length.
      * @param {string} str The string to be checked.
      * @return {string}
      */
-    function checkRepetition(length, str) {
+    function checkRepetition(rLen, str) {
       var res = "", repeated = false;
       for (var i = 0; i < str.length; i++) {
         repeated = true;
-        for (var j = 0; j < length && (j + i + length) < str.length; j++) {
-          repeated = repeated && (str.charAt(j + i) === str.charAt(j + i + length));
+        for (var j = 0; j < rLen && (j + i + rLen) < str.length; j++) {
+          repeated = repeated && (str.charAt(j + i) === str.charAt(j + i + rLen));
         }
-        if (j < length) {
+        if (j < rLen) {
           repeated = false;
         }
         if (repeated) {
-          i += length - 1;
+          i += rLen - 1;
           repeated = false;
         }
         else {
@@ -251,11 +253,11 @@
         $graybar.append($colorbar)
       );
 
-      $object.parent().addClass('pass-strength-visible');
+      $object.closest(options.closestSelector).addClass('pass-strength-visible');
       if (options.animate) {
         $insert.css('display', 'none');
         shown = false;
-        $object.parent().removeClass('pass-strength-visible');
+        $object.closest(options.closestSelector).removeClass('pass-strength-visible');
       }
 
       if (options.showPercent) {
@@ -268,15 +270,15 @@
         $insert.append($text);
       }
 
-      $object.after($insert);
+      $object.closest(options.closestSelector).append($insert);
 
       $object.keyup(function() {
-        var username = options.username || '';
-        if (username) {
-          username = $(username).val();
+        var field = options.field || '';
+        if (field) {
+          field = $(field).val();
         }
 
-        var score = calculateScore($object.val(), username);
+        var score = calculateScore($object.val(), field);
         $object.trigger('password.score', [score]);
         var perc = score < 0 ? 0 : score;
 
@@ -304,7 +306,7 @@
           if (!shown) {
             $insert.slideDown(options.animateSpeed, function () {
               shown = true;
-              $object.parent().addClass('pass-strength-visible');
+              $object.closest(options.closestSelector).addClass('pass-strength-visible');
             });
           }
         });
@@ -313,7 +315,7 @@
           if (!$object.val().length && shown) {
             $insert.slideUp(options.animateSpeed, function () {
               shown = false;
-              $object.parent().removeClass('pass-strength-visible')
+              $object.closest(options.closestSelector).removeClass('pass-strength-visible')
             });
           }
         });
@@ -323,7 +325,7 @@
     }
 
     return init.call(this);
-  }
+  };
 
   // Bind to jquery
   $.fn.password = function(options) {

@@ -25,7 +25,9 @@ gulp.task('assets:img', () => {
 gulp.task('assets:js', () => {
   return gulp.src('src/password.js')
     .pipe(uglify({
-      preserveComments: 'license'
+      output: {
+        comments: 'some'
+      },
     }))
     .pipe(rename({
       extname: '.min.js'
@@ -39,10 +41,13 @@ gulp.task('clean', () => {
     .pipe(clean())
 })
 
-gulp.task('assets', ['assets:css', 'assets:js', 'assets:img'], () => {
+function assets() {
   return gulp.src('src/index.html')
     .pipe(replace('./password', './password.min'))
     .pipe(chmod(0o664))
     .pipe(gulp.dest('./dist'))
-})
-gulp.task('default', ['assets'])
+}
+
+gulp.task('assets', gulp.series('assets:css', 'assets:js', 'assets:img', assets))
+
+gulp.task('default', gulp.series('assets'))

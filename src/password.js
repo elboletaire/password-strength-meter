@@ -186,17 +186,17 @@
       var maxGreen = 240;
       var blue = 10;
 
-      if (options.customColorBarRGB.hasOwnProperty('red')) {
+      if (Object.prototype.hasOwnProperty.call(options.customColorBarRGB, 'red')) {
         minRed = options.customColorBarRGB.red[0];
         maxRed = options.customColorBarRGB.red[1];
       }
 
-      if (options.customColorBarRGB.hasOwnProperty('green')) {
+      if (Object.prototype.hasOwnProperty.call(options.customColorBarRGB, 'green')) {
         minGreen = options.customColorBarRGB.green[0];
         maxGreen = options.customColorBarRGB.green[1];
       }
 
-      if (options.customColorBarRGB.hasOwnProperty('blue')) {
+      if (Object.prototype.hasOwnProperty.call(options.customColorBarRGB, 'blue')) {
         blue = options.customColorBarRGB.blue;
       }
 

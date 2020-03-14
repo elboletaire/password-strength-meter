@@ -173,12 +173,12 @@ describe('$.fn.password', () => {
         })
         .val('_~%8::%nqy^7e~!!z!;N')
         .trigger('keyup')
-    })
+    });
 
     it('uses no color background image by default', () => {
       $('#password').password();
 
-      expect('none').toEqual($('.pass-colorbar').css('background-image'));
+      expect('').toEqual($('.pass-colorbar').css('background-image'));
     });
 
     it('makes background image style adjustments if turned on', (done) => {

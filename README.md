@@ -7,8 +7,7 @@ Password Strength Meter plugin for jQuery
 [![Latest stable version][releases svg]][releases]
 [![Total downloads][downloads svg]][downloads]
 [![Code climate][climate svg]][climate]
-
-[![Sauce labs][sauce svg]][sauce]
+[![jsDelivr CDN][jsdelivr svg]][jsdelivr]
 
 A password strength meter for jQuery. [Give it a try!][web]
 
@@ -73,17 +72,23 @@ Here's the list of available options you can pass to the `password` plugin:
 $('#password').password({
   shortPass: 'The password is too short',
   badPass: 'Weak; try combining letters & numbers',
-  goodPass: 'Medium; try using special charecters',
+  goodPass: 'Medium; try using special characters',
   strongPass: 'Strong password',
-  containsUsername: 'The password contains the username',
+  containsField: 'The password contains your username',
   enterPass: 'Type your password',
   showPercent: false,
   showText: true, // shows the text tips
   animate: true, // whether or not to animate the progress bar on input blur/focus
   animateSpeed: 'fast', // the above animation speed
-  username: false, // select the username field (selector or jQuery instance) for better password checks
-  usernamePartialMatch: true, // whether to check for username partials
-  minimumLength: 4 // minimum password length (below this threshold, the score is 0)
+  field: false, // select the match field (selector or jQuery instance) for better password checks
+  fieldPartialMatch: true, // whether to check for partials in field
+  minimumLength: 4, // minimum password length (below this threshold, the score is 0)
+  useColorBarImage: false, // use the old colorbar image
+  customColorBarRGB: {
+    red: [0, 240],
+    green: [0, 240],
+    blue: 10
+  } // set custom rgb color ranges for colorbar.
 });
 ~~~
 
@@ -106,12 +111,10 @@ $('#password').on('password.text', (e, text, score) => {
 Compatiblity
 ------------
 
-This plugin was originally created in 2010 for jQuery 1.14, and the current relase
+This plugin was originally created in 2010 for jQuery 1.14, and the current release
 has been tested under jQuery 1, 2 & 3.
 
 It should work in all browsers (even IE 666).
-
-![compatibility chart][sauce svg]
 
 Testing
 -------
@@ -151,18 +154,18 @@ This code is licensed under a [GPL 3.0 license][license].
 [license]: LICENSE.md
 [web]: https://elboletaire.github.io/password-strength-meter/
 
-[build status]: https://travis-ci.org/elboletaire/password-strength-meter
-[coverage]: https://codecov.io/gh/elboletaire/password-strength-meter
+[build status]: https://gitlab.com/elboletaire/password-strength-meter/pipelines
+[coverage]: https://gitlab.com/elboletaire/password-strength-meter/-/jobs
 [license]: https://github.com/elboletaire/password-strength-meter/blob/master/LICENSE.md
 [releases]: https://github.com/elboletaire/password-strength-meter/releases
 [downloads]: https://www.npmjs.com/package/password-strength-meter
 [climate]: https://codeclimate.com/github/elboletaire/password-strength-meter
-[sauce]: https://saucelabs.com/u/password-strength-manager
+[jsdelivr]: https://www.jsdelivr.com/package/npm/password-strength-meter
 
-[build svg]: https://img.shields.io/travis/elboletaire/password-strength-meter/master.svg?style=flat-square
-[coverage svg]: https://img.shields.io/codecov/c/github/elboletaire/password-strength-meter/master.svg?style=flat-square
-[license svg]: https://img.shields.io/github/license/elboletaire/password-strength-meter.svg?style=flat-square
-[releases svg]: https://img.shields.io/npm/v/password-strength-meter.svg?style=flat-square
-[downloads svg]: https://img.shields.io/npm/dt/password-strength-meter.svg?style=flat-square
-[climate svg]: https://img.shields.io/codeclimate/github/elboletaire/password-strength-meter.svg?style=flat-square
-[sauce svg]: https://badges.herokuapp.com/sauce/password-strength-manager?style=flat-square
+[build svg]: https://gitlab.com/elboletaire/password-strength-meter/badges/master/pipeline.svg
+[coverage svg]: https://gitlab.com/elboletaire/password-strength-meter/badges/master/coverage.svg
+[license svg]: https://img.shields.io/github/license/elboletaire/password-strength-meter.svg
+[releases svg]: https://img.shields.io/npm/v/password-strength-meter.svg
+[downloads svg]: https://img.shields.io/npm/dt/password-strength-meter.svg
+[climate svg]: https://img.shields.io/codeclimate/maintainability/elboletaire/password-strength-meter.svg
+[jsdelivr svg]: https://data.jsdelivr.com/v1/package/npm/password-strength-meter/badge?style=rounded

@@ -1,180 +1,166 @@
-// Initialize jQuery
-const $ = global.jQuery = require('jquery')
+const $ = jQuery = require('jquery');
 
-require('../src/password.js')
+require('../src/password');
+
+beforeEach(() => {
+  jQuery.fx.off = true;
+  document.body.innerHTML = `<div><input type="password" id="password" />
+<input type="text" id="username" /></div>`
+});
 
 describe('$.fn.password', () => {
-  beforeEach(() => {
-    $.fx.off = true
-    jasmine.getFixtures().fixturesPath = './base/test/'
-    loadFixtures('fixture.html')
-  })
-
-  describe('init()', () => {
-    it('creates the required layers next to the input', (done) => {
+  describe('init:', () => {
+    it('creates the required layers next to the input', () => {
       $('#password').password()
-      expect($('.pass-wrapper')).toBeInDOM()
-      expect($('.pass-colorbar')).toBeInDOM()
-      expect($('.pass-graybar')).toBeInDOM()
-      expect($('input + div.pass-wrapper')).toBeInDOM()
-      expect($('.pass-text')).toBeInDOM()
-
-      done()
+      expect($('.pass-wrapper').length).toBeTruthy()
+      expect($('.pass-wrapper').length).toBeTruthy()
+      expect($('.pass-colorbar').length).toBeTruthy()
+      expect($('.pass-graybar').length).toBeTruthy()
+      expect($('input + div.pass-wrapper').length).toBeTruthy()
+      expect($('.pass-text').length).toBeTruthy()
     })
 
-    it('does not attach the text span when showText is set to false', (done) => {
+    it('does not attach the text span when showText is set to false', () => {
       $('input').password({ showText: false })
-      expect($('.pass-text')).not.toBeInDOM()
-
-      done()
+      expect($('.pass-text').length).toBeFalsy()
     })
 
-    it('does not show the wrapper by default', (done) => {
+    it('does not show the wrapper by default', () => {
       $('#password').password()
-      expect($('.pass-wrapper:hidden')).toBeInDOM()
-      expect($('.pass-strength-visible')).not.toBeInDOM()
-
-      done()
+      expect($('.pass-wrapper:hidden').length).toBeTruthy()
+      expect($('.pass-strength-visible').length).toBeFalsy()
     })
 
-    it('shows the wrapper if animate is set to false', (done) => {
+    it('shows the wrapper if animate is set to false', () => {
       $('#password').password({ animate: false })
-      expect($('.pass-strength-visible')).toBeInDOM()
-
-      done()
+      expect($('.pass-strength-visible').length).toBeTruthy()
     })
 
-    it('shows the wrapper on focus', (done) => {
+    it('shows the wrapper on focus', () => {
       $('#password').password({ animate: true })
-      expect($('.pass-wrapper')).not.toBeVisible()
+      expect($('.pass-wrapper').css('display')).toEqual('none')
 
       $('input').triggerHandler('focus')
-      expect($('.pass-wrapper')).toBeVisible()
-
-      done()
+      expect($('.pass-wrapper').css('display')).not.toEqual('none')
     })
 
-    it('hides the wrapper again on blur after the value has been removed from input', (done) => {
+    it('hides the wrapper again on blur after the value has been removed from input', () => {
       $('#password').password({ animate: true })
-      expect($('.pass-wrapper')).not.toBeVisible()
+      expect($('.pass-wrapper').css('display')).toEqual('none')
 
       $('#password').val('124123123').trigger('keyup').triggerHandler('focus')
-      expect($('.pass-wrapper')).toBeVisible()
+      expect($('.pass-wrapper').css('display')).not.toEqual('none')
 
       $('#password').val('').trigger('keyup').triggerHandler('blur')
-      expect($('.pass-wrapper')).not.toBeVisible()
-
-      done()
+      expect($('.pass-wrapper').css('display')).toEqual('none')
     })
 
-    it('shows the percentage when enabled', (done) => {
-      $('#password').password({ showPercent: true })
-      expect($('.pass-percent')).toBeInDOM()
+    describe('options:', () => {
+      it('showPercent: shows the percent when set', () => {
+        $('#password').password({ showPercent: true })
+        expect($('.pass-percent').length).toBeTruthy()
+      })
 
-      done()
+      it('enterPass: shows proper text', () => {
+        $('#password').password({ animate: false, enterPass: 'hi' })
+        expect($('.pass-text').text()).toEqual('hi')
+      })
+      it('closestSelector: fixes issue with input-groups', () => {
+        document.body.innerHTML = `<div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+            </span>
+            <input id="password" class="form-control" type="password">
+        </div>
+    </div>`
+
+        $('#password').password({
+          closestSelector: '.form-group',
+        })
+
+        expect($('.form-group > .pass-wrapper').length).toBeTruthy()
+      })
     })
 
-    it('percentage is updated when value is set', (done) => {
-      $('#password').password({ showPercent: true });
-
-      expect($('.pass-percent')).toBeInDOM()
-
-      var percentage = $('.pass-percent').text()
-
-      $('input').val('testing').trigger('keyup')
-
-      expect($('.pass-percent').text()).not.toEqual(percentage)
-
-      done()
-    })
-
-    it('shows enterPass value when there\'s no text', (done) => {
-      $('#password').password({ animate: false, enterPass: 'hi' })
-      expect('hi').toEqual($('.pass-text').text())
-
-      done()
-    })
   })
 
-  describe('score/meter functions', () => {
-    it('gives us the shortPass message when passing less than what\'s defined in minimumLength', (done) => {
-      $('#password').password({ shortPass: 'hi', minimumLength: 6 }).val('12312').trigger('keyup')
+  describe('behavior:', () => {
+    it('percentage is updated when value is set', () => {
+      $('#password').password({ showPercent: true });
 
-      expect('hi').toEqual($('.pass-text').text())
-      done()
+      expect($('.pass-percent').length).toBeTruthy();
+
+      var percentage = $('.pass-percent').text();
+
+      $('input').val('testing').trigger('keyup');
+
+      expect($('.pass-percent').text()).not.toEqual(percentage)
     })
 
-    it('gives us containsUsername value when username field is defined and input values are equal', (done) => {
+    it('both shortPass and minimumLength work as expected', () => {
+      $('#password').password({ shortPass: 'hi', minimumLength: 6 }).val('12312').trigger('keyup')
+
+      expect($('.pass-text').text()).toEqual('hi')
+    })
+
+    it('field match works, showing containsField text', () => {
       $('#username').val('test')
       $('#password').password({
-          username: '#username',
-          containsUsername: 'hi',
-          usernamePartialMatch: false
+          field: '#username',
+          containsField: 'hi',
+          fieldPartialMatch: false
         })
         .val('test').trigger('keyup')
 
-      expect('hi').toEqual($('.pass-text').text())
+      expect($('.pass-text').text()).toEqual('hi')
 
-      // also ensure that usernamePartialMatch set to
+      // also ensure that fieldPartialMatch set to
       // false does what it should to
       $('#username').val('tester')
       $('#password').trigger('keyup')
 
       expect('hi').not.toEqual($('.pass-text').text())
-
-      done()
     })
 
-    it('usernamePartialMatch works as expected', (done) => {
+    it('fieldPartialMatch works as expected', () => {
       $('#username').val('test')
       $('#password').password({
-          username: '#username',
-          containsUsername: 'hi',
-          usernamePartialMatch: true
+          field: '#username',
+          containsField: 'hi',
+          fieldPartialMatch: true
         })
         .val('tester').trigger('keyup')
 
-      expect('hi').toEqual($('.pass-text').text())
-
-      done()
+      expect($('.pass-text').text()).toEqual('hi')
     })
 
-    it('gives us badPass value when score is under 34', (done) => {
+    it('gives us badPass value when score is under 34', () => {
       $('#password').password({ badPass: 'hi' }).val('tester').trigger('keyup')
-      expect('hi').toEqual($('.pass-text').text())
-
-      done()
+      expect($('.pass-text').text()).toEqual('hi')
     })
 
-    it('gives us badPass value when score is under 34', (done) => {
+    it('gives us badPass value when score is under 34', () => {
       $('#password').password({ badPass: 'hi' }).val('tester').trigger('keyup')
-      expect('hi').toEqual($('.pass-text').text())
-
-      done()
+      expect($('.pass-text').text()).toEqual('hi')
     })
 
-    it('gives us goodPass value when score is under 68', (done) => {
+    it('gives us goodPass value when score is under 68', () => {
       $('#password').password({ goodPass: 'hi' }).val('tester23').trigger('keyup')
-      expect('hi').toEqual($('.pass-text').text())
-
-      done()
+      expect($('.pass-text').text()).toEqual('hi')
     })
 
-    it('gives us strongPass value when score is under over 68', (done) => {
+    it('gives us strongPass value when score is under over 68', () => {
       $('#password').password({ strongPass: 'hi' }).val('!Tester23$').trigger('keyup')
-      expect('hi').toEqual($('.pass-text').text())
-
-      done()
+      expect($('.pass-text').text()).toEqual('hi')
     })
 
-    it('gives us badPass value when there\'s a lot of characters but repeated', (done) => {
+    it('gives us badPass value when there\'s a lot of characters but repeated', () => {
       $('#password').password({ badPass: 'hi' })
         .val('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadddddddddddddddddd')
         .trigger('keyup')
 
-      expect('hi').toEqual($('.pass-text').text())
-
-      done()
+      expect($('.pass-text').text()).toEqual('hi')
     })
 
     it('ensures score is corrected when it surpasses the threshold', (done) => {
@@ -187,6 +173,49 @@ describe('$.fn.password', () => {
         })
         .val('_~%8::%nqy^7e~!!z!;N')
         .trigger('keyup')
-    })
+    });
+
+    it('uses no color background image by default', () => {
+      $('#password').password();
+
+      expect('').toEqual($('.pass-colorbar').css('background-image'));
+    });
+
+    it('makes background image style adjustments if turned on', (done) => {
+      $('#password').password({useColorBarImage: true}).val('Tester23$').trigger('keyup');
+      $colorbar = $('.pass-colorbar');
+
+      expect('0px -91px').toEqual($colorbar.css('background-position'));
+      expect('91%').toEqual($colorbar.css('width'));
+
+      done();
+    });
+
+    it('can use custom rgb colorbar values for a good password', (done) => {
+      $('#password').password({
+        customColorBarRGB: {
+          green: [0, 100],
+          red: [10, 150],
+          blue: 50
+        }
+      }).val('!Tester23$').trigger('keyup');
+
+      expect('rgb(10, 100, 50)').toEqual($('.pass-colorbar').css('background-color'));
+
+      done();
+    });
+
+    it('can use custom rgb colorbar values for a bad password', (done) => {
+      $('#password').password({
+        customColorBarRGB: {
+          green: [0, 100],
+          red: [10, 150]
+        }
+      }).val('abc').trigger('keyup');
+
+      expect('rgb(150, 0, 10)').toEqual($('.pass-colorbar').css('background-color'));
+
+      done();
+    });
   })
-})
+});

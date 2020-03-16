@@ -1,6 +1,7 @@
 /**
  * @author Òscar Casajuana a.k.a. elboletaire <elboletaire at underave dot net>
  * @link https://github.com/elboletaire/password-strength-meter
+ * @license GPL-3.0
  */
 // eslint-disable-next-line
 ;(function($) {
@@ -12,15 +13,22 @@
       badPass: 'Weak; try combining letters & numbers',
       goodPass: 'Medium; try using special characters',
       strongPass: 'Strong password',
-      containsUsername: 'The password contains the username',
+      containsField: 'The password contains your username',
       enterPass: 'Type your password',
       showPercent: false,
       showText: true,
       animate: true,
       animateSpeed: 'fast',
-      username: false,
-      usernamePartialMatch: true,
-      minimumLength: 4
+      field: false,
+      fieldPartialMatch: true,
+      minimumLength: 4,
+      closestSelector: 'div',
+      useColorBarImage: false,
+      customColorBarRGB: {
+        red: [0, 240],
+        green: [0, 240],
+        blue: 10
+      }
     };
 
     options = $.extend({}, defaults, options);
@@ -36,7 +44,7 @@
         return options.shortPass;
       }
       if (score === -2) {
-        return options.containsUsername;
+        return options.containsField;
       }
 
       score = score < 0 ? 0 : score;
@@ -56,10 +64,10 @@
      * the user's password.
      *
      * @param  {string} password The password to be checked.
-     * @param  {string} username The username set (if options.username).
+     * @param  {string} field The field set (if options.field).
      * @return {int}
      */
-    function calculateScore(password, username) {
+    function calculateScore(password, field) {
       var score = 0;
 
       // password < options.minimumLength
@@ -67,14 +75,14 @@
         return -1;
       }
 
-      if (options.username) {
-        // password === username
-        if (password.toLowerCase() === username.toLowerCase()) {
+      if (options.field) {
+        // password === field
+        if (password.toLowerCase() === field.toLowerCase()) {
           return -2;
         }
-        // password contains username (and usernamePartialMatch is set to true)
-        if (options.usernamePartialMatch && username.length) {
-          var user = new RegExp(username.toLowerCase());
+        // password contains field (and fieldPartialMatch is set to true)
+        if (options.fieldPartialMatch && field.length) {
+          var user = new RegExp(field.toLowerCase());
           if (password.toLowerCase().match(user)) {
             return -2;
           }
@@ -166,6 +174,70 @@
     }
 
     /**
+     * Calculates background colors from percentage value.
+     *
+     * @param {int} perc The percentage strength of the password.
+     * @return {object} Object with colors as keys
+     */
+    function calculateColorFromPercentage(perc) {
+      var minRed = 0;
+      var maxRed = 240;
+      var minGreen = 0;
+      var maxGreen = 240;
+      var blue = 10;
+
+      if (Object.prototype.hasOwnProperty.call(options.customColorBarRGB, 'red')) {
+        minRed = options.customColorBarRGB.red[0];
+        maxRed = options.customColorBarRGB.red[1];
+      }
+
+      if (Object.prototype.hasOwnProperty.call(options.customColorBarRGB, 'green')) {
+        minGreen = options.customColorBarRGB.green[0];
+        maxGreen = options.customColorBarRGB.green[1];
+      }
+
+      if (Object.prototype.hasOwnProperty.call(options.customColorBarRGB, 'blue')) {
+        blue = options.customColorBarRGB.blue;
+      }
+
+      var green = (perc * maxGreen / 50);
+      var red = (2 * maxRed) - (perc * maxRed / 50);
+
+      return {
+        red: Math.min(Math.max(red, minRed), maxRed),
+        green: Math.min(Math.max(green, minGreen), maxGreen),
+        blue: blue
+      }
+    }
+
+    /**
+     * Adds color styles to colorbar jQuery object.
+     *
+     * @param {jQuery} $colorbar The colorbar jquery object.
+     * @param {int} perc The percentage strength of the password.
+     * @return {jQuery}
+     */
+    function addColorBarStyle($colorbar, perc) {
+      if (options.useColorBarImage) {
+        $colorbar.css({
+          backgroundPosition: "0px -" + perc + "px",
+          width: perc + '%'
+        });
+      }
+      else {
+        var colors = calculateColorFromPercentage(perc);
+
+        $colorbar.css({
+          'background-image': 'none',
+          'background-color': 'rgb(' + colors.red.toString() + ', ' + colors.green.toString() + ', ' + colors.blue.toString() + ')',
+          width: perc + '%'
+        });
+      }
+
+      return $colorbar;
+    }
+
+    /**
      * Initializes the plugin creating and binding the
      * required layers and events.
      *
@@ -181,11 +253,11 @@
         $graybar.append($colorbar)
       );
 
-      $object.parent().addClass('pass-strength-visible');
+      $object.closest(options.closestSelector).addClass('pass-strength-visible');
       if (options.animate) {
         $insert.css('display', 'none');
         shown = false;
-        $object.parent().removeClass('pass-strength-visible');
+        $object.closest(options.closestSelector).removeClass('pass-strength-visible');
       }
 
       if (options.showPercent) {
@@ -198,21 +270,19 @@
         $insert.append($text);
       }
 
-      $object.after($insert);
+      $object.closest(options.closestSelector).append($insert);
 
       $object.keyup(function() {
-        var username = options.username || '';
-        if (username) {
-          username = $(username).val();
+        var field = options.field || '';
+        if (field) {
+          field = $(field).val();
         }
 
-        var score = calculateScore($object.val(), username);
+        var score = calculateScore($object.val(), field);
         $object.trigger('password.score', [score]);
         var perc = score < 0 ? 0 : score;
-        $colorbar.css({
-          backgroundPosition: "0px -" + perc + "px",
-          width: perc + '%'
-        });
+
+        $colorbar = addColorBarStyle($colorbar, perc);
 
         if (options.showPercent) {
           $percentage.html(perc + '%');
@@ -236,7 +306,7 @@
           if (!shown) {
             $insert.slideDown(options.animateSpeed, function () {
               shown = true;
-              $object.parent().addClass('pass-strength-visible');
+              $object.closest(options.closestSelector).addClass('pass-strength-visible');
             });
           }
         });
@@ -245,7 +315,7 @@
           if (!$object.val().length && shown) {
             $insert.slideUp(options.animateSpeed, function () {
               shown = false;
-              $object.parent().removeClass('pass-strength-visible')
+              $object.closest(options.closestSelector).removeClass('pass-strength-visible')
             });
           }
         });
@@ -255,7 +325,7 @@
     }
 
     return init.call(this);
-  }
+  };
 
   // Bind to jquery
   $.fn.password = function(options) {

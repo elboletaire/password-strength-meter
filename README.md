@@ -80,7 +80,6 @@ $('#password').password({
     67: 'Medium; try using special characters',
     94: 'Strong password',
   },
-  strongPass: 'Strong password',
   showPercent: false,
   showText: true, // shows the text tips
   animate: true, // whether or not to animate the progress bar on input blur/focus

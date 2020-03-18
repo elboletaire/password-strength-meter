@@ -18,7 +18,6 @@
         67: 'Medium; try using special characters',
         94: 'Strong password',
       },
-      strongPass: 'Strong password',
       showPercent: false,
       showText: true,
       animate: true,

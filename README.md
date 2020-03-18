@@ -70,12 +70,17 @@ Here's the list of available options you can pass to the `password` plugin:
 
 ~~~javascript
 $('#password').password({
-  shortPass: 'The password is too short',
-  badPass: 'Weak; try combining letters & numbers',
-  goodPass: 'Medium; try using special characters',
-  strongPass: 'Strong password',
-  containsField: 'The password contains your username',
   enterPass: 'Type your password',
+  shortPass: 'The password is too short',
+  containsField: 'The password contains your username',
+  steps: {
+    // Easily change the steps' expected score here
+    13: 'Really insecure password',
+    33: 'Weak; try combining letters & numbers',
+    67: 'Medium; try using special characters',
+    94: 'Strong password',
+  },
+  strongPass: 'Strong password',
   showPercent: false,
   showText: true, // shows the text tips
   animate: true, // whether or not to animate the progress bar on input blur/focus

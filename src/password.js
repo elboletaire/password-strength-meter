@@ -9,12 +9,16 @@
 
   var Password = function ($object, options) {
     var defaults = {
-      shortPass: 'The password is too short',
-      badPass: 'Weak; try combining letters & numbers',
-      goodPass: 'Medium; try using special characters',
-      strongPass: 'Strong password',
-      containsField: 'The password contains your username',
       enterPass: 'Type your password',
+      shortPass: 'The password is too short',
+      containsField: 'The password contains your username',
+      steps: {
+        13: 'Really insecure password',
+        33: 'Weak; try combining letters & numbers',
+        67: 'Medium; try using special characters',
+        94: 'Strong password',
+      },
+      strongPass: 'Strong password',
       showPercent: false,
       showText: true,
       animate: true,
@@ -28,7 +32,7 @@
         red: [0, 240],
         green: [0, 240],
         blue: 10
-      }
+      },
     };
 
     options = $.extend({}, defaults, options);
@@ -49,14 +53,16 @@
 
       score = score < 0 ? 0 : score;
 
-      if (score < 34) {
-        return options.badPass;
-      }
-      if (score < 68) {
-        return options.goodPass;
+      var text = options.shortPass;
+      var sortedStepKeys = Object.keys(options.steps).sort();
+      for (var step in sortedStepKeys) {
+        var stepVal = sortedStepKeys[step];
+        if (stepVal < score) {
+          text = options.steps[stepVal];
+        }
       }
 
-      return options.strongPass;
+      return text;
     }
 
     /**

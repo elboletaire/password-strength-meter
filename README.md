@@ -87,7 +87,8 @@ $('#password').password({
   customColorBarRGB: {
     red: [0, 240],
     green: [0, 240],
-  } // set custom rg color ranges for colorbar.
+    blue: 10,
+  } // set custom rgb color ranges for colorbar.
 });
 ~~~
 

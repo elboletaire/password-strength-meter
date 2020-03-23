@@ -35,7 +35,7 @@
     "gulp-chmod": "^2.0.0",
     "gulp-clean": "^0.4.0",
     "gulp-clean-css": "^4.2.0",
-    "gulp-rename": "^1.4.0",
+    "gulp-rename": "^2.0.0",
     "gulp-replace": "^1.0.0",
     "gulp-uglify": "^3.0.2",
     "jest": "^24.8.0",

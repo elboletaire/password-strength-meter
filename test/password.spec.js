@@ -1,12 +1,12 @@
-const $ = jQuery = require('jquery');
+const $ = jQuery = require('jquery')
 
-require('../src/password');
+require('../src/password')
 
 beforeEach(() => {
-  jQuery.fx.off = true;
+  jQuery.fx.off = true
   document.body.innerHTML = `<div><input type="password" id="password" />
 <input type="text" id="username" /></div>`
-});
+})
 
 describe('$.fn.password', () => {
   describe('init:', () => {
@@ -87,13 +87,13 @@ describe('$.fn.password', () => {
 
   describe('behavior:', () => {
     it('percentage is updated when value is set', () => {
-      $('#password').password({ showPercent: true });
+      $('#password').password({ showPercent: true })
 
-      expect($('.pass-percent').length).toBeTruthy();
+      expect($('.pass-percent').length).toBeTruthy()
 
-      var percentage = $('.pass-percent').text();
+      var percentage = $('.pass-percent').text()
 
-      $('input').val('testing').trigger('keyup');
+      $('input').val('testing').trigger('keyup')
 
       expect($('.pass-percent').text()).not.toEqual(percentage)
     })
@@ -223,4 +223,4 @@ describe('$.fn.password', () => {
       expect('rgb(150, 0, 10)').toEqual($('.pass-colorbar').css('background-color'))
     })
   })
-});
+})

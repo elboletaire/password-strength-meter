@@ -1,4 +1,4 @@
-const $ = jQuery = require("jquery");
+const $ = jQuery = require('jquery')
 
 require('../src/password')
 
@@ -87,7 +87,7 @@ describe('$.fn.password', () => {
 
   describe('behavior:', () => {
     it('percentage is updated when value is set', () => {
-      $('#password').password({ showPercent: true });
+      $('#password').password({ showPercent: true })
 
       expect($('.pass-percent').length).toBeTruthy()
 
@@ -135,33 +135,44 @@ describe('$.fn.password', () => {
       expect($('.pass-text').text()).toEqual('hi')
     })
 
-    it('gives us badPass value when score is under 34', () => {
-      $('#password').password({ badPass: 'hi' }).val('tester').trigger('keyup')
-      expect($('.pass-text').text()).toEqual('hi')
+    const steps = {
+      13: 'Really insecure password',
+      33: 'Weak; try combining letters & numbers',
+      67: 'Medium; try using special characters',
+      94: 'Strong password',
+    }
+
+    it('gives us the really insecure password error', () => {
+      $('#password').password({steps}).val('tester').trigger('keyup')
+      expect($('.pass-text').text()).toEqual(steps[13])
     })
 
-    it('gives us badPass value when score is under 34', () => {
-      $('#password').password({ badPass: 'hi' }).val('tester').trigger('keyup')
-      expect($('.pass-text').text()).toEqual('hi')
+    it('gives us the weak password warning', () => {
+      $('#password').password({steps}).val('tester23').trigger('keyup')
+      expect($('.pass-text').text()).toEqual(steps[33])
     })
 
-    it('gives us goodPass value when score is under 68', () => {
-      $('#password').password({ goodPass: 'hi' }).val('tester23').trigger('keyup')
-      expect($('.pass-text').text()).toEqual('hi')
+    it('gives us the medium password warning', () => {
+      $('#password').password({steps}).val('!Tester23').trigger('keyup')
+      expect($('.pass-text').text()).toEqual(steps[67])
     })
 
-    it('gives us strongPass value when score is under over 68', () => {
-      $('#password').password({ strongPass: 'hi' }).val('!Tester23$').trigger('keyup')
-      expect($('.pass-text').text()).toEqual('hi')
+    it('gives us the strong password warning', () => {
+      $('#password').password({steps}).val('!Tester23$#').trigger('keyup')
+      expect($('.pass-text').text()).toEqual(steps[94])
     })
 
-    it('gives us badPass value when there\'s a lot of characters but repeated', () => {
-      $('#password').password({ badPass: 'hi' })
-        .val('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadddddddddddddddddd')
-        .trigger('keyup')
-
-      expect($('.pass-text').text()).toEqual('hi')
+    const unsortedSteps = {
+      94: 'Strong password',
+      67: 'Medium; try using special characters',
+      33: 'Weak; try combining letters & numbers',
+      13: 'Really insecure password',
+    }
+    it('steps order does not really affect messages', () => {
+      $('#password').password({steps}).val('!Tester23$#').trigger('keyup')
+      expect($('.pass-text').text()).toEqual(steps[94])
     })
+
 
     it('ensures score is corrected when it surpasses the threshold', (done) => {
       $('#password').password({ badPass: 'hi' })
@@ -173,6 +184,43 @@ describe('$.fn.password', () => {
         })
         .val('_~%8::%nqy^7e~!!z!;N')
         .trigger('keyup')
+    })
+
+    it('uses no color background image by default', () => {
+      $('#password').password()
+
+      expect('').toEqual($('.pass-colorbar').css('background-image'))
+    })
+
+    it('makes background image style adjustments if turned on', () => {
+      $('#password').password({useColorBarImage: true}).val('Tester23$').trigger('keyup')
+      $colorbar = $('.pass-colorbar')
+
+      expect('0px -91px').toEqual($colorbar.css('background-position'))
+      expect('91%').toEqual($colorbar.css('width'))
+    })
+
+    it('can use custom rgb colorbar values for a good password', () => {
+      $('#password').password({
+        customColorBarRGB: {
+          green: [0, 100],
+          red: [10, 150],
+          blue: 50
+        }
+      }).val('!Tester23$').trigger('keyup')
+
+      expect('rgb(10, 100, 50)').toEqual($('.pass-colorbar').css('background-color'))
+    })
+
+    it('can use custom rgb colorbar values for a bad password', () => {
+      $('#password').password({
+        customColorBarRGB: {
+          green: [0, 100],
+          red: [10, 150]
+        }
+      }).val('abc').trigger('keyup')
+
+      expect('rgb(150, 0, 10)').toEqual($('.pass-colorbar').css('background-color'))
     })
   })
 })

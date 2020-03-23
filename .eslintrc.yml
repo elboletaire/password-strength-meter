@@ -48,7 +48,7 @@ rules:
   func-style: 'off'
   generator-star-spacing: error
   global-require: error
-  guard-for-in: error
+  guard-for-in: 'off'
   handle-callback-err: error
   id-blacklist: error
   id-length: 'off'
@@ -66,7 +66,7 @@ rules:
   lines-around-directive: error
   max-depth: error
   max-len: 'off'
-  max-lines: error
+  max-lines: warn
   max-nested-callbacks: error
   max-params: error
   max-statements: 'off'
@@ -87,7 +87,8 @@ rules:
   no-catch-shadow: error
   no-compare-neg-zero: error
   no-confusing-arrow: error
-  no-continue: error
+  no-continue: 'off'
+  no-console: error
   no-div-regex: error
   no-duplicate-imports: error
   no-else-return: error
@@ -138,7 +139,7 @@ rules:
   no-process-env: error
   no-process-exit: error
   no-proto: error
-  no-prototype-builtins: error
+  no-prototype-builtins: 'off'
   no-restricted-globals: error
   no-restricted-imports: error
   no-restricted-modules: error
@@ -181,7 +182,7 @@ rules:
   object-curly-newline: error
   object-curly-spacing: error
   object-property-newline: error
-  object-shorthand: error
+  object-shorthand: 'off'
   one-var: 'off'
   one-var-declaration-per-line: 'off'
   operator-assignment:
@@ -191,7 +192,7 @@ rules:
   padded-blocks: 'off'
   prefer-arrow-callback: 'off'
   prefer-const: error
-  prefer-destructuring: error
+  prefer-destructuring: 'off'
   prefer-numeric-literals: error
   prefer-promise-reject-errors: error
   prefer-reflect: 'off'

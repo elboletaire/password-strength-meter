@@ -96,6 +96,9 @@ $('#password').password({
 });
 ~~~
 
+*NOTE*: The custom color bar values use rgb color codes within a reasonable range. The blue must be a single value as we
+need a base value on which to calculate the color changes.
+
 ### Events
 
 There are two events fired by the `password` plugin:

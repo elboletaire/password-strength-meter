@@ -30,7 +30,7 @@
   "homepage": "https://github.com/elboletaire/password-strength-meter#readme",
   "devDependencies": {
     "brfs": "^2.0.2",
-    "eslint": "^6.8.0",
+    "eslint": "^7.0.0",
     "gulp": "^4.0.2",
     "gulp-chmod": "^3.0.0",
     "gulp-clean": "^0.4.0",
@@ -38,7 +38,7 @@
     "gulp-rename": "^2.0.0",
     "gulp-replace": "^1.0.0",
     "gulp-uglify": "^3.0.2",
-    "jest": "^25.1.0",
+    "jest": "^26.0.1",
     "jquery": "^3.1.1"
   },
   "peerDependencies": {

@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
-if [ ${TRAVIS_BRANCH} != 'master' ]; then
+if [ ${CI_BUILD_REF_NAME} != 'master' ]; then
   exit 0
 fi
 
 # Set identity
-git config --global user.email "travis@travis-ci.org"
-git config --global user.name "Travis"
+git config --global user.email "elboletaire+psm@gmail.com"
+git config --global user.name "CI"
 
 # Update dist files
-./node_modules/.bin/gulp clean
-./node_modules/.bin/gulp
+yarn gulp clean
+yarn gulp
 
 # Change remote
 git remote remove origin

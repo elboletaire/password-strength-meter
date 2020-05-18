@@ -1,5 +1,6 @@
 stages:
 - test
+- build
 
 test:
   image: node:10
@@ -11,3 +12,13 @@ test:
   - yarn
   script:
   - yarn test --coverage
+
+build:
+  image: node:10
+  stage: build
+  only:
+  - master
+  before_script:
+  - yarn
+  script:
+  - ./build.sh

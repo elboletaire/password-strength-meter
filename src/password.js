@@ -2,6 +2,8 @@
  * @author Òscar Casajuana a.k.a. elboletaire <elboletaire at underave dot net>
  * @link https://github.com/elboletaire/password-strength-meter
  * @license GPL-3.0
+ *
+ * @version 2.2.0
  */
 // eslint-disable-next-line
 ;(function($) {
@@ -11,7 +13,8 @@
     var defaults = {
       enterPass: 'Type your password',
       shortPass: 'The password is too short',
-      containsField: 'The password contains your username',
+      containsField: 'The password contains your name',
+      notAllowed: 'The password contains a commonly used word',
       steps: {
         13: 'Really insecure password',
         33: 'Weak; try combining letters & numbers',
@@ -22,8 +25,10 @@
       showText: true,
       animate: true,
       animateSpeed: 'fast',
-      field: false,
-      fieldPartialMatch: true,
+      fields: false, // Legacy 'field'
+      fieldsPartialMatch: true, // Legacy 'fieldPartialMatch'
+      contains: [],
+      appendContainsMatch: false,
       minimumLength: 4,
       closestSelector: 'div',
       useColorBarImage: false,
@@ -33,6 +38,7 @@
         blue: 10
       },
     };
+    var containsMatch = '';
 
     options = $.extend({}, defaults, options);
 
@@ -48,6 +54,13 @@
       }
       if (score === -2) {
         return options.containsField;
+      }
+      if ( score === -3) {
+        if (options.appendContainsMatch) {
+          return options.notAllowed + containsMatch;
+        } else {
+          return options.notAllowed;
+        }
       }
 
       score = score < 0 ? 0 : score;
@@ -67,12 +80,14 @@
     /**
      * Returns a value between -2 and 100 to score
      * the user's password.
+     * 
+     * @version 2.2.0
      *
      * @param  {string} password The password to be checked.
-     * @param  {string} field The field set (if options.field).
+     * @param  {array} fieldValues Array of prohibited strings from field values.
      * @return {int}
      */
-    function calculateScore(password, field) {
+    function calculateScore(password, fieldValues) {
       var score = 0;
 
       // password < options.minimumLength
@@ -80,16 +95,30 @@
         return -1;
       }
 
-      if (options.field) {
+      if (options.fields || options.field) { // Compatibility for > 2.2.0 singular fields
         // password === field
-        if (password.toLowerCase() === field.toLowerCase()) {
+        if (fieldValues.includes(password.toLowerCase())) {
           return -2;
         }
         // password contains field (and fieldPartialMatch is set to true)
-        if (options.fieldPartialMatch && field.length) {
-          var user = new RegExp(field.toLowerCase());
-          if (password.toLowerCase().match(user)) {
-            return -2;
+        if (
+          (options.fieldsPartialMatch || options.fieldPartialMatch) // Compatibility for > 2.2.0 singular fields
+            && fieldValues.length
+          ) {
+          for (var fieldValue of fieldValues) {
+            if (password.toLowerCase().includes(fieldValue)) {
+              containsMatch = ': ' + fieldValue;
+              return -2;
+            }
+          }
+        }
+      }
+
+      if (options.contains.length >= 1) {
+        for (var stopWord of options.contains) {
+          if (password.toLowerCase().includes(stopWord.toLowerCase())) {
+            containsMatch = ': ' + stopWord;
+            return -3;
           }
         }
       }
@@ -278,12 +307,18 @@
       $object.closest(options.closestSelector).append($insert);
 
       $object.keyup(function() {
-        var field = options.field || '';
-        if (field) {
-          field = $(field).val();
+        var fields = options.fields || options.field || ''; // check for legacy options.field
+        if (fields) {
+          var $fields = $(fields);
+          var fieldValues = [];
+          $fields.each(function () {
+            if( $(this).val() ) {
+              fieldValues.push($(this).val().toLowerCase());
+            }
+          });
         }
 
-        var score = calculateScore($object.val(), field);
+        var score = calculateScore($object.val(), fieldValues);
         $object.trigger('password.score', [score]);
         var perc = score < 0 ? 0 : score;
 

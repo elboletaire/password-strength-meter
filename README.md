@@ -72,7 +72,8 @@ Here's the list of available options you can pass to the `password` plugin:
 $('#password').password({
   enterPass: 'Type your password',
   shortPass: 'The password is too short',
-  containsField: 'The password contains your username',
+  containsField: 'The password contains your name',
+  notAllowed: 'The password contains a commonly used word',
   steps: {
     // Easily change the steps' expected score here
     13: 'Really insecure password',
@@ -84,8 +85,10 @@ $('#password').password({
   showText: true, // shows the text tips
   animate: true, // whether or not to animate the progress bar on input blur/focus
   animateSpeed: 'fast', // the above animation speed
-  field: false, // select the match field (selector or jQuery instance) for better password checks
-  fieldPartialMatch: true, // whether to check for partials in field
+  fields: false, // select the match fields (selector or jQuery instances) for better password checks
+  fieldsPartialMatch: true, // whether to check for partials in fields
+  contains: [], // An array of values that can't be in the password
+  appendContainsMatch: false, // Append the word that can't be in the password to the notAllowed message
   minimumLength: 4, // minimum password length (below this threshold, the score is 0)
   useColorBarImage: true, // use the (old) colorbar image
   customColorBarRGB: {

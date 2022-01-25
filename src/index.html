@@ -31,12 +31,17 @@
           // Default behavior
           $('#default').password();
 
-          // Linked to field input
+          // Linked to field input - add fields with jQuery selector strings
           $('#linked').password({
-            field: '#username',
+            // field: '#username', // Legacy support
+            fields: '#username, #first-name, #last-name',
             showPercent: true
           });
-
+          // Contains prohibited words / sequences
+          $('#password-contains').password({
+            contains: ['Password', '123', 'qwerty'],
+            appendContainsMatch: true
+          });
           // Custom events (enables button on certain score)
           // Check the readme for a detailed list of events
           $('#submit').attr('disabled', true);
@@ -141,7 +146,15 @@
                     <label for="username">
                         Username
                     </label>
-                    <input id="username" type="text" placeholder="John Doe" class="form-control" />
+                    <input id="username" type="text" placeholder="John.Doe12" class="form-control" />
+                    <label for="first-name">
+                      First
+                    </label>
+                    <input id="first-name" type="text" placeholder="John" class="form-control" />
+                    <label for="last-name">
+                      Last
+                    </label>
+                    <input id="last-name" type="text" placeholder="Doe" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label for="linked">
@@ -149,6 +162,15 @@
                     </label>
                     <input id="linked" type="password" class="form-control" />
                 </div>
+            </fieldset>
+            <fieldset>
+              <legend>Contains prohibited strings - 'Password' '123' 'qwerty'</legend>
+              <div class="form-group">
+                <label for="password">
+                  Password
+                </label>
+                <input id="password-contains" type="password" class="form-control" />
+              </div>
             </fieldset>
             <fieldset>
                 <legend>Change translations</legend>

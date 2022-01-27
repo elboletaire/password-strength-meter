@@ -42,6 +42,21 @@
             contains: ['Password', '123', 'qwerty'],
             appendContainsMatch: true
           });
+          $('#password-conditions').password({
+            // jQuery selector string for requirements
+            conditions: {
+              lowercase: '.pass-requirements-lc',
+              uppercase: '.pass-requirements-uc',
+              number: '.pass-requirements-09',
+              special: '.pass-requirements-sc',
+            },
+            conditionsRequired: ['number', 'symbol'],
+            minimumConditions: 3,
+          }).on('isValid', function() {
+            $('.pw-valid').show();
+          }).on( 'notValid', function () {
+            $('.pw-valid').hide();
+          });
           // Custom events (enables button on certain score)
           // Check the readme for a detailed list of events
           $('#submit').attr('disabled', true);
@@ -90,6 +105,16 @@
         height: 20px;
       }
 
+      .has-pw-condition {
+        color: green;
+        text-decoration: line-through;
+      }
+
+      .pw-valid {
+        display: none;
+        color:green;
+        font-weight: bolder;
+      }
       /* better progress bar styles for the bootstrap demo */
       .pass-strength-visible input.form-control,
       input.form-control:focus {
@@ -170,6 +195,25 @@
                   Password
                 </label>
                 <input id="password-contains" type="password" class="form-control" />
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>Add password conditions</legend>
+              <div class="password_requirements">
+                <p>
+                  Passwords must be at least 8 characters and contain at least 3 of the following:<br>
+                  <span class="pass-requirements-uc">- 1 uppercase character (A-Z)<br></span>
+                  <span class="pass-requirements-lc">- 1 lowercase character (a-z)<br></span>
+                  <span class="pass-requirements-09">- 1 digit (0-9)<br></span>
+                  <span class="pass-requirements-sc">- 1 special character (.*[!,@,#,$,%,^,&,*,?,_,~])<br></span>
+                </p>
+              </div>
+              </p>
+              <div class="form-group">
+                <label for="password">
+                  Password<span class="pw-valid"> Valid ✔</span>
+                </label>
+                <input id="password-conditions" type="password" class="form-control" />
               </div>
             </fieldset>
             <fieldset>

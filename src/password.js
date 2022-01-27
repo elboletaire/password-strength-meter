@@ -29,6 +29,14 @@
       fieldsPartialMatch: true, // Legacy 'fieldPartialMatch'
       contains: [],
       appendContainsMatch: false,
+      conditions: {
+        lowercase: '',
+        uppercase: '',
+        number: '',
+        special: '',
+      },
+      conditionsRequired: [], // 'lowercase', 'uppercase', 'number', 'special'
+      minimumConditions: 0,
       minimumLength: 4,
       closestSelector: 'div',
       useColorBarImage: false,
@@ -39,6 +47,14 @@
       },
     };
     var containsMatch = '';
+    var passwordState = {
+      isValid: false,
+      conditionsPassed: 0,
+      hasLowercase: false,
+      hasUppercase: false,
+      hasNumber: false,
+      hasSpecial: false,
+    }
 
     options = $.extend({}, defaults, options);
 
@@ -92,12 +108,16 @@
 
       // password < options.minimumLength
       if (password.length < options.minimumLength) {
+        $('.has-pw-condition').removeClass('has-pw-condition');
+        $object.trigger('notValid');
         return -1;
       }
 
       if (options.fields || options.field) { // Compatibility for > 2.2.0 singular fields
         // password === field
         if (fieldValues.includes(password.toLowerCase())) {
+          $object.trigger('notValid');
+          $('.has-pw-condition').removeClass('has-pw-condition');
           return -2;
         }
         // password contains field (and fieldPartialMatch is set to true)
@@ -108,6 +128,8 @@
           for (var fieldValue of fieldValues) {
             if (password.toLowerCase().includes(fieldValue)) {
               containsMatch = ': ' + fieldValue;
+              $('.has-pw-condition').removeClass('has-pw-condition');
+              $object.trigger('notValid');
               return -2;
             }
           }
@@ -118,6 +140,8 @@
         for (var stopWord of options.contains) {
           if (password.toLowerCase().includes(stopWord.toLowerCase())) {
             containsMatch = ': ' + stopWord;
+            $('.has-pw-condition').removeClass('has-pw-condition');
+            $object.trigger('notValid');
             return -3;
           }
         }
@@ -130,16 +154,43 @@
       score += checkRepetition(3, password).length - password.length;
       score += checkRepetition(4, password).length - password.length;
 
+      // password has 1 number
+      if (password.match(/([0-9])/)) {
+        passwordState.hasNumber = true;
+      } else {
+        passwordState.hasNumber = false;
+      }
+
       // password has 3 numbers
       if (password.match(/(.*[0-9].*[0-9].*[0-9])/)) {
         score += 5;
       }
 
+      // password has at least 1 symbol
+      var oneSymbol = new RegExp(/([$-/:-?{-~!"^_`¬\[\]])/);
+      if (password.match(oneSymbol)) {
+        passwordState.hasSpecial = true;
+      } else {
+        passwordState.hasSpecial = false;
+      }
       // password has at least 2 symbols
-      var symbols = '.*[!,@,#,$,%,^,&,*,?,_,~]';
-      symbols = new RegExp('(' + symbols + symbols + ')');
-      if (password.match(symbols)) {
+      var twoSymbols = new RegExp(/([$-/:-?{-~!"^_`¬\[\]].*[$-/:-?{-~!"^_`¬\[\]])/);
+      if (password.match(twoSymbols)) {
         score += 5;
+      }
+
+      // password has 1 lowercase
+      if (password.match(/([a-z])/)) {
+        passwordState.hasLowercase = true;
+      } else {
+        passwordState.hasLowercase = false;
+      }
+
+      // password has 1 uppercase
+      if (password.match(/([A-Z])/)) {
+        passwordState.hasUppercase = true;
+      } else {
+        passwordState.hasUppercase = false;
       }
 
       // password has Upper and Lower chars
@@ -173,6 +224,69 @@
 
       if (score < 0) {
         score = 0;
+      }
+
+      // Validation from conditions
+      var passed = 0;
+      var requiredPassed = false;
+      // Lower Case 
+      if (passwordState.hasLowercase) {
+        passed++;
+        if( options.conditionsRequired.includes('lowercase') ) {
+          requiredPassed = true;
+        }
+        if(options.conditions.lowercase ) {
+          $(options.conditions.lowercase).addClass('has-pw-condition');
+        }
+      } else {
+        $(options.conditions.lowercase).removeClass('has-pw-condition');
+      }
+
+      // Uppercase
+      if (passwordState.hasUppercase) {
+        passed++;
+        if (options.conditionsRequired.includes('uppercase')) {
+          requiredPassed = true;
+        }
+        if (options.conditions.uppercase) {
+          $(options.conditions.uppercase).addClass('has-pw-condition');
+        }
+      } else {
+        $(options.conditions.uppercase).removeClass('has-pw-condition');
+      }
+
+      // Number
+      if (passwordState.hasNumber) {
+        passed++;
+        if (options.conditionsRequired.includes('number')) {
+          requiredPassed = true;
+        }
+        if (options.conditions.number) {
+          $(options.conditions.number).addClass('has-pw-condition');
+        }
+      } else {
+        $(options.conditions.number).removeClass('has-pw-condition');
+      }
+
+      // Special
+      if (passwordState.hasSpecial) {
+        passed++; 
+        if (options.conditionsRequired.includes('special')) {
+          requiredPassed = true;
+        }
+        if (options.conditions.special) {
+          $(options.conditions.special).addClass('has-pw-condition');
+        }
+      } else {
+        $(options.conditions.special).removeClass('has-pw-condition');
+      }
+
+      // Check if our conditions are all passed
+      if (passed && passed >= options.minimumConditions && requiredPassed) {
+        passwordState.isValid = true;
+        $object.trigger('isValid', [passwordState]);
+      } else {
+        $object.trigger('notValid', [passwordState]);
       }
 
       return score;

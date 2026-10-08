@@ -1,0 +1,752 @@
+/*
+ * Passcore playground: the site's own styles. The meter itself is styled by
+ * @passcore/jquery/styles.css (loaded before this file); the overrides below
+ * only set its layout and the light and dark track.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --surface-2: #f1f4f8;
+  --text: #111827;
+  --muted: #4b5563;
+  --border: #dde2ea;
+  --border-strong: #9aa4b2;
+  --control-border: #7b8594;
+  --input-bg: #ffffff;
+  --code-bg: #eef2f7;
+  --accent: #1d4ed8;
+  --accent-contrast: #ffffff;
+  --accent-soft: #e0e9ff;
+  --accent-text: #1e40af;
+  --link: #1d4ed8;
+  --focus: #2563eb;
+  --ok-bg: #dcfce7;
+  --ok-text: #14532d;
+  --bad-bg: #fee2e2;
+  --bad-text: #7f1d1d;
+  --shadow: 0 1px 2px rgb(15 23 42 / 0.06);
+
+  /* the meter's default look, for the light theme */
+  --pass-track: #e5e7eb;
+  --pass-height: 6px;
+
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface-2: #1c232d;
+    --text: #e6edf3;
+    --muted: #9da7b3;
+    --border: #2b333d;
+    --border-strong: #4b5563;
+    --control-border: #6b7585;
+    --input-bg: #0f141b;
+    --code-bg: #0f141b;
+    --accent: #60a5fa;
+    --accent-contrast: #0b1220;
+    --accent-soft: #1e3a5f;
+    --accent-text: #bfdbfe;
+    --link: #93c5fd;
+    --focus: #93c5fd;
+    --ok-bg: #14532d;
+    --ok-text: #bbf7d0;
+    --bad-bg: #7f1d1d;
+    --bad-text: #fecaca;
+    --shadow: none;
+
+    --pass-track: #334155;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+}
+
+a {
+  color: var(--link);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+code,
+pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+code {
+  font-size: 0.9em;
+  background: var(--code-bg);
+  border-radius: 4px;
+  padding: 0.05em 0.3em;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -3rem;
+  z-index: 10;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* header */
+
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.site-header__inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.25rem;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text);
+  text-decoration: none;
+  margin-right: auto;
+}
+
+.brand span {
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* the nav gets its own row under the brand and the language switcher */
+.site-header__inner > nav {
+  order: 2;
+  flex-basis: 100%;
+}
+
+.nav a,
+.nav__soon {
+  display: inline-block;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  text-decoration: none;
+}
+
+.nav a {
+  color: var(--text);
+}
+
+.nav a:hover {
+  background: var(--surface-2);
+}
+
+.nav a[aria-current="page"] {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+.nav__soon {
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+.nav__soon em {
+  font-style: normal;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-left: 0.25rem;
+  padding: 0 0.4rem;
+  border: 1px dashed var(--border-strong);
+  border-radius: 999px;
+}
+
+.lang {
+  display: inline-flex;
+  border: 1px solid var(--control-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.lang button {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.6rem;
+  background: transparent;
+  color: var(--text);
+  border: 0;
+  cursor: pointer;
+}
+
+.lang button + button {
+  border-left: 1px solid var(--control-border);
+}
+
+.lang button:hover {
+  background: var(--surface-2);
+}
+
+.lang button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-weight: 600;
+}
+
+/* layout */
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+}
+
+.intro {
+  margin-bottom: 1.5rem;
+  max-width: 70ch;
+}
+
+.intro h1 {
+  margin: 0 0 0.4rem;
+  font-size: 1.75rem;
+  line-height: 1.2;
+}
+
+.intro p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 1rem 1.25rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.site-footer p {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.panel,
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+  min-width: 0;
+}
+
+.panel h2,
+.card h2 {
+  margin: 0 0 0.6rem;
+  font-size: 1.15rem;
+}
+
+.panel h3 {
+  margin: 1.25rem 0 0.5rem;
+  font-size: 0.95rem;
+}
+
+.inspector {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  .inspector {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    align-items: start;
+  }
+}
+
+.cards {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 760px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .card--wide {
+    grid-column: 1 / -1;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.panel > .hint {
+  margin-bottom: 1rem;
+}
+
+/* forms */
+
+.field,
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.field:last-child,
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+label {
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+input,
+textarea {
+  font: inherit;
+  width: 100%;
+  min-width: 0;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--control-border);
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--text);
+}
+
+input[type="number"] {
+  font-variant-numeric: tabular-nums;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
+  opacity: 0.85;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.input-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.input-row input {
+  flex: 1;
+}
+
+.options__grid {
+  display: grid;
+  gap: 0 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.btn {
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid var(--control-border);
+  background: var(--surface-2);
+  color: var(--text);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  border-color: var(--text);
+}
+
+.btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn:disabled:hover {
+  border-color: var(--control-border);
+}
+
+/* input group, as in Bootstrap */
+
+.input-group {
+  display: flex;
+  align-items: stretch;
+}
+
+.input-group__addon {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 0.75rem;
+  border: 1px solid var(--control-border);
+  border-right: 0;
+  border-radius: 8px 0 0 8px;
+  background: var(--surface-2);
+  color: var(--muted);
+}
+
+.input-group input {
+  flex: 1;
+  border-radius: 0 8px 8px 0;
+}
+
+/* core inspector output */
+
+.stats {
+  display: grid;
+  gap: 0.6rem;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  margin: 0 0 0.25rem;
+}
+
+.stat {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.6rem 0.75rem;
+}
+
+.stat dt {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.stat dd {
+  margin: 0.15rem 0 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat dd code {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.kv {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.35rem 0.9rem;
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.kv dt {
+  color: var(--muted);
+}
+
+.kv dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+th,
+td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.45rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+thead th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+td code,
+th code {
+  background: none;
+  padding: 0;
+  font-weight: 600;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.badge--ok {
+  background: var(--ok-bg);
+  color: var(--ok-text);
+}
+
+.badge--bad {
+  background: var(--bad-bg);
+  color: var(--bad-text);
+}
+
+details.raw {
+  margin-top: 1rem;
+}
+
+details.raw summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--link);
+}
+
+details.raw pre {
+  margin-top: 0.6rem;
+  max-height: 360px;
+}
+
+pre {
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  white-space: pre;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* the meter, as laid out in this site (its colours come from @passcore/jquery/styles.css) */
+
+.pass-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.2rem 0.6rem;
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.pass-meter {
+  flex: 1 0 100%;
+  border-radius: 999px;
+}
+
+.pass-percent {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.pass-text {
+  flex: 1 1 auto;
+  color: var(--text);
+}
+
+/* jQuery demos */
+
+.demo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.demo .pass-wrapper {
+  margin-bottom: 0.5rem;
+}
+
+.theme {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 760px) {
+  .theme {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.theme__preview {
+  padding: 1rem;
+  border: 1px dashed var(--border-strong);
+  border-radius: 10px;
+  background: var(--surface-2);
+  min-width: 0;
+}
+
+.theme__preview .field {
+  margin-bottom: 0;
+}
+
+.swatches {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.swatches .pass-wrapper {
+  display: block;
+  margin: 0;
+}
+
+.swatch__name {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 0.15rem;
+}
+
+.theme__controls {
+  margin: 0;
+  min-width: 0;
+  padding: 0.75rem 1rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.theme__controls legend {
+  font-weight: 600;
+  padding: 0 0.3rem;
+}
+
+.theme__grid {
+  display: grid;
+  gap: 0.25rem 0.9rem;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 0.3rem 0;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.control input[type="color"] {
+  width: 2.6rem;
+  height: 2rem;
+  padding: 0.15rem;
+  border-radius: 6px;
+  background: var(--input-bg);
+  cursor: pointer;
+}
+
+.control--range {
+  margin-top: 0.9rem;
+}
+
+.control--range input[type="range"] {
+  flex: 1;
+  width: auto;
+  accent-color: var(--accent);
+}
+
+.control output {
+  min-width: 3.5rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

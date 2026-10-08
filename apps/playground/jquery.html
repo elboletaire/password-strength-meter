@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="description" content="Passcore playground: the @passcore/jquery plugin in its usual setups, with their code." />
+    <link rel="icon" href="data:," />
+    <title>jQuery - Passcore playground</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="./">Passcore <span>playground</span></a>
+
+        <nav aria-label="Bindings">
+          <ul class="nav">
+            <li><a href="./">Core inspector</a></li>
+            <li><a href="./jquery.html" aria-current="page">jQuery</a></li>
+            <li><span class="nav__soon" aria-disabled="true">Vanilla <em>coming soon</em></span></li>
+            <li><span class="nav__soon" aria-disabled="true">React <em>coming soon</em></span></li>
+            <li><span class="nav__soon" aria-disabled="true">Vue <em>coming soon</em></span></li>
+            <li><span class="nav__soon" aria-disabled="true">Svelte <em>coming soon</em></span></li>
+          </ul>
+        </nav>
+
+        <div class="lang" role="group" aria-label="Language of the meter texts">
+          <button type="button" data-lang="en" aria-pressed="true" lang="en">English</button>
+          <button type="button" data-lang="es" aria-pressed="false" lang="es">Español</button>
+          <button type="button" data-lang="ca" aria-pressed="false" lang="ca">Català</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="intro">
+        <h1>jQuery plugin</h1>
+        <p>
+          <code>@passcore/jquery</code> adds <code>$.fn.password()</code> to a jQuery instance. Each card below is a
+          setup of the plugin, with the code that runs it. The language switcher above changes the texts of the translations card.
+        </p>
+      </section>
+
+      <div class="cards">
+        <section class="card" aria-labelledby="default-title">
+          <h2 id="default-title">Default</h2>
+          <p>The meter stays hidden until the input gets focus, then slides in. It slides out again when the input loses focus while empty.</p>
+          <div class="demo">
+            <div class="field">
+              <label for="default-password">Password</label>
+              <input id="default-password" type="password" autocomplete="new-password" />
+            </div>
+          </div>
+          <pre><code>$('#default-password').password()</code></pre>
+        </section>
+
+        <section class="card" aria-labelledby="always-title">
+          <h2 id="always-title">Always visible</h2>
+          <p>With <code>animate: false</code> the meter is shown from the start, and <code>showPercent</code> adds the number.</p>
+          <div class="demo">
+            <div class="field">
+              <label for="always-password">Password</label>
+              <input id="always-password" type="password" autocomplete="new-password" />
+            </div>
+          </div>
+          <pre><code>$('#always-password').password({ animate: false, showPercent: true })</code></pre>
+        </section>
+
+        <section class="card" aria-labelledby="linked-title">
+          <h2 id="linked-title">Linked to a field</h2>
+          <p>With <code>userInputs</code> the password can't contain the username. The field is read on every keystroke.</p>
+          <div class="demo">
+            <div class="field">
+              <label for="username">Username</label>
+              <input id="username" type="text" autocomplete="username" placeholder="johndoe" />
+            </div>
+            <div class="field">
+              <label for="linked-password">Password</label>
+              <input id="linked-password" type="password" autocomplete="new-password" />
+            </div>
+          </div>
+          <pre><code>$('#linked-password').password({ userInputs: ['#username'], showPercent: true })</code></pre>
+        </section>
+
+        <section class="card" aria-labelledby="translations-title">
+          <h2 id="translations-title">Translations</h2>
+          <p>The bundled <code>es</code> and <code>ca</code> files are passed as <code>translations</code>, with <code>locale</code> for the plural forms. Switch the language in the header.</p>
+          <div class="demo">
+            <div class="field">
+              <label for="translations-password">Password</label>
+              <input id="translations-password" type="password" autocomplete="new-password" />
+            </div>
+          </div>
+          <pre><code>import es from '@passcore/jquery/locales/es.json'
+
+$('#translations-password').password({ translations: es, locale: 'es', showPercent: true })</code></pre>
+        </section>
+
+        <section class="card" aria-labelledby="events-title">
+          <h2 id="events-title">Events</h2>
+          <p>The <code>password.score</code> event gives the percent on every keystroke. Here it enables the button above 75%.</p>
+          <form id="events-form" class="demo">
+            <div class="field">
+              <label for="events-password">Password</label>
+              <input id="events-password" type="password" autocomplete="new-password" />
+            </div>
+            <p class="hint">Score: <output id="events-score" for="events-password">0%</output></p>
+            <div class="actions">
+              <button type="submit" id="send" class="btn btn--primary" disabled>Send</button>
+              <p id="send-status" class="hint" role="status"></p>
+            </div>
+          </form>
+          <pre><code>$('#events-password')
+  .password({ animate: false })
+  .on('password.score', (event, percent) => {
+    $('#send').prop('disabled', percent &lt;= 75)
+  })</code></pre>
+        </section>
+
+        <section class="card" aria-labelledby="group-title">
+          <h2 id="group-title">Input group</h2>
+          <p>The meter is appended to the closest <code>.form-group</code> instead of the closest <code>div</code>, so it goes below the whole input group.</p>
+          <div class="demo">
+            <div class="form-group">
+              <label for="group-password">Password</label>
+              <div class="input-group">
+                <span class="input-group__addon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="16" height="16" focusable="false">
+                    <path fill="currentColor" d="M17 9V7a5 5 0 0 0-10 0v2H5v12h14V9h-2Zm-8 0V7a3 3 0 0 1 6 0v2H9Zm3 7a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z" />
+                  </svg>
+                </span>
+                <input id="group-password" type="password" autocomplete="new-password" />
+              </div>
+            </div>
+          </div>
+          <pre><code>$('#group-password').password({ animate: false, closestSelector: '.form-group' })</code></pre>
+        </section>
+
+        <section class="card card--wide" aria-labelledby="theme-title">
+          <h2 id="theme-title">Theming</h2>
+          <p>
+            The colours, track and height are CSS custom properties: <code>--pass-color-very-weak</code> to
+            <code>--pass-color-strong</code>, <code>--pass-track</code> and <code>--pass-height</code>. The controls set them on the
+            preview below, and only there, so the other demos keep their look.
+          </p>
+
+          <div class="theme">
+            <div class="theme__preview" id="theme-preview">
+              <div class="field">
+                <label for="theme-password">Password</label>
+                <input id="theme-password" type="password" autocomplete="new-password" />
+              </div>
+
+              <ul class="swatches" aria-label="One sample per level">
+                <li class="pass-wrapper pass-level-very-weak">
+                  <span class="swatch__name">Very weak</span>
+                  <div class="pass-meter"><div class="pass-bar" style="width: 10%"></div></div>
+                </li>
+                <li class="pass-wrapper pass-level-weak">
+                  <span class="swatch__name">Weak</span>
+                  <div class="pass-meter"><div class="pass-bar" style="width: 30%"></div></div>
+                </li>
+                <li class="pass-wrapper pass-level-fair">
+                  <span class="swatch__name">Fair</span>
+                  <div class="pass-meter"><div class="pass-bar" style="width: 50%"></div></div>
+                </li>
+                <li class="pass-wrapper pass-level-good">
+                  <span class="swatch__name">Good</span>
+                  <div class="pass-meter"><div class="pass-bar" style="width: 70%"></div></div>
+                </li>
+                <li class="pass-wrapper pass-level-strong">
+                  <span class="swatch__name">Strong</span>
+                  <div class="pass-meter"><div class="pass-bar" style="width: 100%"></div></div>
+                </li>
+              </ul>
+            </div>
+
+            <fieldset class="theme__controls">
+              <legend>Custom properties</legend>
+              <div class="theme__grid">
+                <label class="control">
+                  <span>Very weak</span>
+                  <input type="color" data-var="--pass-color-very-weak" value="#dc2626" />
+                </label>
+                <label class="control">
+                  <span>Weak</span>
+                  <input type="color" data-var="--pass-color-weak" value="#ea580c" />
+                </label>
+                <label class="control">
+                  <span>Fair</span>
+                  <input type="color" data-var="--pass-color-fair" value="#ca8a04" />
+                </label>
+                <label class="control">
+                  <span>Good</span>
+                  <input type="color" data-var="--pass-color-good" value="#65a30d" />
+                </label>
+                <label class="control">
+                  <span>Strong</span>
+                  <input type="color" data-var="--pass-color-strong" value="#16a34a" />
+                </label>
+                <label class="control">
+                  <span>Track</span>
+                  <input type="color" data-var="--pass-track" value="#e5e7eb" />
+                </label>
+              </div>
+              <label class="control control--range">
+                <span>Height</span>
+                <input type="range" min="2" max="16" step="1" value="6" data-var="--pass-height" data-unit="px" />
+                <output aria-live="off">6px</output>
+              </label>
+              <div class="actions">
+                <button type="button" id="theme-reset" class="btn btn--ghost">Reset</button>
+              </div>
+            </fieldset>
+          </div>
+
+          <pre><code>.theme {
+  --pass-height: 6px;
+  --pass-track: #e5e7eb;
+  --pass-color-weak: #c2410c;
+  --pass-color-strong: #15803d;
+}</code></pre>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        Passcore playground. <a href="https://github.com/elboletaire/password-strength-meter">Source on GitHub</a>, GPL-3.0.
+      </p>
+    </footer>
+
+    <script type="module" src="./src/jquery.ts"></script>
+  </body>
+</html>

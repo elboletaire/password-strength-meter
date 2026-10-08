@@ -1,0 +1,52 @@
+{
+  "name": "@passcore/core",
+  "version": "0.0.0",
+  "description": "Framework-agnostic password strength scoring used by the @passcore meters",
+  "keywords": [
+    "password",
+    "strength",
+    "meter",
+    "score"
+  ],
+  "homepage": "https://github.com/elboletaire/password-strength-meter#readme",
+  "bugs": {
+    "url": "https://github.com/elboletaire/password-strength-meter/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elboletaire/password-strength-meter.git",
+    "directory": "packages/core"
+  },
+  "license": "GPL-3.0",
+  "author": "Òscar Casajuana <elboletaire@gmail.com> (https://github.com/elboletaire)",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./passwordstrength.jpg": "./dist/passwordstrength.jpg",
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.cts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc",
+    "check:package": "publint --strict && attw --pack --profile node16 --exclude-entrypoints styles.css passwordstrength.jpg"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "catalog:",
+    "publint": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
+  }
+}

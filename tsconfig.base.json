@@ -6,7 +6,6 @@
     "moduleResolution": "Bundler",
     "moduleDetection": "force",
     "verbatimModuleSyntax": true,
-    "isolatedDeclarations": true,
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,

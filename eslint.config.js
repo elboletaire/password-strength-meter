@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
   {
-    ignores: ['**/dist/**', '**/coverage/**'],
+    ignores: ['**/dist/**', '**/coverage/**', '**/.svelte-kit/**'],
   },
   js.configs.recommended,
   tseslint.configs.recommended,

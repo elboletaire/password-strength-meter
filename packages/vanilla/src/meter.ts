@@ -1,20 +1,22 @@
 import {
   createMeter,
   createTranslator,
-  mergeDeep,
   translationParams,
   type Level,
-  type MeterResult,
-  type PartialOptions,
+  type MeterOptions,
+  type Result,
   type Translate,
   type Translations,
 } from '@passcore/core'
 import en from '../../../locales/en.json'
 
-/** A field whose value is read on every evaluation: a selector, or an element with a `value`. */
+/**
+ * A user input: a selector (every match contributes its value), an element, or a function returning the value.
+ * Selectors are read on every evaluation.
+ */
 export type FieldRef = string | Element
 
-export interface VanillaOptions extends PartialOptions {
+export interface PasswordMeterOptions extends MeterOptions {
   /** Texts in i18next's JSON format, deep-merged over the bundled English ones. */
   translations?: Translations
   /** Locale used to pick plural forms. Default 'en'. */
@@ -25,7 +27,7 @@ export interface VanillaOptions extends PartialOptions {
   showPercent?: boolean
   /** Show the message. Default true. */
   showText?: boolean
-  /** aria-label of the meter. Default 'Password strength'. */
+  /** aria-label of the meter, read at creation. Default 'Password strength'. */
   label?: string
   /**
    * Values the password must not contain (username, email...), read on every evaluation.
@@ -36,19 +38,22 @@ export interface VanillaOptions extends PartialOptions {
   container?: string | Element
   /** Hide the meter until the input is focused. Default false. */
   hideUntilFocus?: boolean
-  /** Called on every update after creation. */
-  onScore?: (percent: number, result: MeterResult) => void
-  /** Called when the message changes, after creation. */
-  onText?: (text: string, result: MeterResult) => void
+  /** Called when the result changes, after creation. */
+  onScore?: (percent: number, result: Result) => void
+  /** Called when the message (key or params) changes, after creation. */
+  onText?: (text: string, result: Result) => void
   /** Attach the input, focus and blur listeners. Default true. */
   listen?: boolean
 }
 
 export interface PasswordMeter {
   /** The last evaluation. */
-  readonly result: MeterResult
-  /** Evaluates the input now (e.g. after a user input changed), renders and fires the callbacks and events. */
-  refresh(): MeterResult
+  readonly result: Result
+  /**
+   * Evaluates the input now (e.g. after a user input changed) and renders it.
+   * Fires the callbacks and events when the result or the message changed.
+   */
+  refresh(): Result
   /** Shows the meter when `hideUntilFocus` is set (what the focus listener does). */
   focus(): void
   /** Hides the meter when `hideUntilFocus` is set and the input is empty (what the blur listener does). */
@@ -68,21 +73,26 @@ function element(tag: string, className: string, doc: Document): HTMLElement {
   return el
 }
 
-/** The value of a user input: a selector, an element, or a function. Missing fields are empty. */
-function valueOf(ref: FieldRef | (() => string), doc: Document): string {
+/** The values of a user input: every element matching a selector, an element, or a function's result. */
+function valuesOf(ref: FieldRef | (() => string), doc: Document): string[] {
   if (typeof ref === 'function') {
-    return String(ref() ?? '')
+    return [String(ref() ?? '')]
   }
-  const field = typeof ref === 'string' ? doc.querySelector(ref) : ref
-  const value = (field as { value?: unknown } | null)?.value
-  return value === undefined || value === null ? '' : String(value)
+  const fields: Element[] = typeof ref === 'string' ? Array.from(doc.querySelectorAll(ref)) : [ref]
+  return fields.map((field) => {
+    const value = (field as { value?: unknown }).value
+    return value === undefined || value === null ? '' : String(value)
+  })
 }
+
+/** Whether two values are equal by value (they are JSON-serializable results and messages). */
+const sameValue = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b)
 
 /**
  * Adds a password strength meter next to an input, and keeps it updated as the user types.
  * Listens to the input's `input` event, and to focus and blur when `hideUntilFocus` is set.
  */
-export function createPasswordMeter(input: HTMLInputElement | string, options: VanillaOptions = {}): PasswordMeter {
+export function createPasswordMeter(input: HTMLInputElement | string, options: PasswordMeterOptions = {}): PasswordMeter {
   const {
     translations,
     locale = 'en',
@@ -181,13 +191,12 @@ export function createPasswordMeter(input: HTMLInputElement | string, options: V
   setShown(shown)
 
   const meter = createMeter(core)
-  const translator = translate ?? createTranslator(mergeDeep<Translations>(en, translations), locale)
-  let current: MeterResult
+  const translator = translate ?? createTranslator([en, translations ?? {}], locale)
 
   /** Evaluates the input and renders it. Returns the result and the message text. */
-  const update = (): { result: MeterResult, text: string } => {
-    const result = meter.evaluate(field.value, userInputs.map((ref) => valueOf(ref, doc)).filter((value) => value.length > 0))
-    current = result
+  const update = (): { result: Result, text: string } => {
+    const values = userInputs.flatMap((ref) => valuesOf(ref, doc))
+    const result = meter.evaluate(field.value, values.filter((value) => value.length > 0))
 
     const levelKey = result.level === 'empty' ? 'empty' : `level.${result.level}` as const
     const text = translator(result.message.key, translationParams(result.message))
@@ -208,13 +217,17 @@ export function createPasswordMeter(input: HTMLInputElement | string, options: V
   }
 
   // the initial state, without firing events
-  update()
+  let current = update().result
 
-  const refresh = (): MeterResult => {
+  const refresh = (): Result => {
+    const previous = current
     const { result, text } = update()
-    onScore?.(result.percent, result)
-    field.dispatchEvent(new CustomEvent('passcore:score', { bubbles: true, detail: { percent: result.percent, result } }))
-    if (result.messageChanged) {
+    current = result
+    if (!sameValue(previous, result)) {
+      onScore?.(result.percent, result)
+      field.dispatchEvent(new CustomEvent('passcore:score', { bubbles: true, detail: { percent: result.percent, result } }))
+    }
+    if (!sameValue(previous.message, result.message)) {
       onText?.(text, result)
       field.dispatchEvent(new CustomEvent('passcore:text', { bubbles: true, detail: { text, result } }))
     }

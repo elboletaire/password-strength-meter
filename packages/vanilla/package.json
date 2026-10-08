@@ -1,7 +1,7 @@
 {
   "name": "@passcore/vanilla",
   "version": "0.1.0",
-  "description": "A framework-free password strength meter: a function and a <password-meter> custom element",
+  "description": "A framework-free password strength meter: a function and a <passcore-meter> custom element",
   "keywords": [
     "password",
     "strength",

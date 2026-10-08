@@ -1,2 +1,2 @@
-export { createPasswordMeter, type FieldRef, type PasswordMeter, type VanillaOptions } from './meter'
-export type { Level, MeterResult, Result, Translate, Translations } from '@passcore/core'
+export { createPasswordMeter, type FieldRef, type PasswordMeter, type PasswordMeterOptions } from './meter'
+export type { Level, Result, Translate, Translations } from '@passcore/core'

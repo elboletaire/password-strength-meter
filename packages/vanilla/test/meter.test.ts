@@ -1,7 +1,7 @@
-import { evaluate, type MeterResult } from '@passcore/core'
+import { evaluate, type Result } from '@passcore/core'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import ca from '../../../locales/ca.json'
-import { createPasswordMeter, type VanillaOptions } from '../src'
+import { createPasswordMeter, type PasswordMeterOptions } from '../src'
 
 let input: HTMLInputElement
 
@@ -13,7 +13,7 @@ const typeValue = (value: string, field: HTMLInputElement = input) => {
   field.value = value
   field.dispatchEvent(new Event('input'))
 }
-const create = (options?: VanillaOptions) => createPasswordMeter(input, options)
+const create = (options?: PasswordMeterOptions) => createPasswordMeter(input, options)
 
 beforeEach(() => {
   document.body.innerHTML = `<div><input type="password" id="password" />
@@ -220,7 +220,7 @@ describe('createPasswordMeter', () => {
 
     it('uses a translate function, such as i18next\'s t, with count', () => {
       const translate = vi.fn((key: string) => `t(${key})`)
-      create({ translate: translate as VanillaOptions['translate'] })
+      create({ translate: translate as PasswordMeterOptions['translate'] })
       typeValue('abc')
       expect(text().textContent).toBe('t(rule.minLength)')
       expect(meterEl().getAttribute('aria-valuetext')).toBe('t(level.very-weak)')
@@ -245,6 +245,22 @@ describe('createPasswordMeter', () => {
       username.value = 'johndoe'
       create({ userInputs: [username] })
       typeValue('johndoe99')
+      expect(text().textContent).toBe('Don\'t use your personal details')
+    })
+
+    it('reads every element matching a selector', () => {
+      document.body.insertAdjacentHTML('beforeend', '<input type="text" class="personal" value="someone"><input type="text" class="personal" value="johndoe">')
+      create({ userInputs: ['.personal'] })
+      typeValue('johndoe99')
+      expect(text().textContent).toBe('Don\'t use your personal details')
+    })
+
+    it('accepts a selector list as one string', () => {
+      const username = document.querySelector('#username') as HTMLInputElement
+      username.value = 'johndoe'
+      document.body.insertAdjacentHTML('beforeend', '<input type="text" id="email" value="jane@example.com">')
+      create({ userInputs: ['#username, #email'] })
+      typeValue('jane@example.com!1')
       expect(text().textContent).toBe('Don\'t use your personal details')
     })
 
@@ -301,13 +317,13 @@ describe('createPasswordMeter', () => {
       document.removeEventListener('passcore:score', listener)
     })
 
-    it('calls onScore on every update', () => {
+    it('calls onScore when the result changes', () => {
       const onScore = vi.fn()
       create({ onScore })
       typeValue('ab')
       typeValue('abc')
       typeValue('k8#Qz!2mWp')
-      expect(onScore.mock.calls.map(([percent, result]) => [percent, (result as MeterResult).level]))
+      expect(onScore.mock.calls.map(([percent, result]) => [percent, (result as Result).level]))
         .toEqual([[6, 'very-weak'], [7, 'very-weak'], [66, 'good']])
     })
 
@@ -320,14 +336,57 @@ describe('createPasswordMeter', () => {
       expect(onText.mock.calls.map(([value]) => value)).toEqual(['Use at least 8 characters', 'Good password'])
     })
 
+    it('does not call onText while the message stays the same, though the score changes', () => {
+      const onScore = vi.fn()
+      const onText = vi.fn()
+      create({ onScore, onText })
+      typeValue('abc')
+      typeValue('abcd')
+      expect(onScore).toHaveBeenCalledTimes(2)
+      expect(onText).toHaveBeenCalledTimes(1)
+      expect(onText).toHaveBeenCalledWith('Use at least 8 characters', expect.objectContaining({ percent: 7 }))
+    })
+
+    it('does not call onScore when the result does not change', () => {
+      const onScore = vi.fn()
+      const onText = vi.fn()
+      const listener = vi.fn()
+      document.addEventListener('passcore:score', listener)
+      const meter = create({ onScore, onText })
+      typeValue('k8#Qz!2mWp')
+      typeValue('k8#Qz!2mWp')
+      expect(onScore).toHaveBeenCalledTimes(1)
+      expect(listener).toHaveBeenCalledTimes(1)
+      expect(onText).toHaveBeenCalledTimes(1)
+
+      meter.refresh()
+      expect(onScore).toHaveBeenCalledTimes(1)
+      expect(onText).toHaveBeenCalledTimes(1)
+      expect(listener).toHaveBeenCalledTimes(1)
+      document.removeEventListener('passcore:score', listener)
+    })
+
+    it('calls onText from refresh() when the message changes after a user input changed', () => {
+      const username = document.querySelector('#username') as HTMLInputElement
+      username.value = 'johndoe'
+      const onText = vi.fn()
+      const meter = create({ userInputs: [() => username.value], onText })
+      typeValue('johndoe99')
+      expect(onText).toHaveBeenLastCalledWith('Don\'t use your personal details', expect.anything())
+
+      username.value = 'someone'
+      meter.refresh()
+      expect(onText).toHaveBeenCalledTimes(2)
+      expect(onText).toHaveBeenLastCalledWith('Fair password', expect.anything())
+    })
+
     it('passes the result to the callbacks', () => {
       const onScore = vi.fn()
       create({ onScore })
       typeValue('Tester23$')
-      const [percent, result] = onScore.mock.calls[0] as [number, MeterResult]
+      const [percent, result] = onScore.mock.calls[0] as [number, Result]
       expect(percent).toBe(30)
       expect(result.valid).toBe(true)
-      expect(result.messageChanged).toBe(true)
     })
 
     it('dispatches bubbling passcore:score and passcore:text events on the input', () => {

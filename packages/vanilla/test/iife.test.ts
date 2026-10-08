@@ -31,8 +31,16 @@ describe.skipIf(!bundles.every((file) => existsSync(file)))('standalone bundles'
     window.close()
   })
 
-  it('registers the <password-meter> element', async () => {
-    const dom = new JSDOM('<input type="password" id="password"><password-meter for="password" show-percent></password-meter>', { runScripts: 'outside-only' })
+  it('starts with a license banner with the attribution', () => {
+    for (const file of bundles) {
+      const banner = readFileSync(file, 'utf8').slice(0, 600)
+      expect(banner).toMatch(/^\/\*![\s\S]*MIT[\s\S]*SecLists[\s\S]*\*\//)
+      expect(banner).toContain('Copyright (c) 2018 Daniel Miessler')
+    }
+  })
+
+  it('registers the <passcore-meter> element', async () => {
+    const dom = new JSDOM('<input type="password" id="password"><passcore-meter for="password" show-percent></passcore-meter>', { runScripts: 'outside-only' })
     const window = dom.window as unknown as Page
     window.eval(readFileSync(dist('passcore-element.min.js'), 'utf8'))
     // a fresh jsdom document is still loading: the element waits for DOMContentLoaded to find its input
@@ -40,7 +48,7 @@ describe.skipIf(!bundles.every((file) => existsSync(file)))('standalone bundles'
       await new Promise((resolve) => window.document.addEventListener('DOMContentLoaded', resolve, { once: true }))
     }
 
-    const element = window.document.querySelector('password-meter') as HTMLElement
+    const element = window.document.querySelector('passcore-meter') as HTMLElement
     const input = window.document.querySelector('#password') as HTMLInputElement
     expect(element.querySelector('.pass-meter')?.getAttribute('aria-valuetext')).toBe('Type your password')
 

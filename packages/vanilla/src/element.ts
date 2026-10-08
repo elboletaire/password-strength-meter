@@ -1,14 +1,36 @@
-import { mergeDeep, type Rules } from '@passcore/core'
-import { createPasswordMeter, type PasswordMeter, type VanillaOptions } from './meter'
+import type { Rules } from '@passcore/core'
+import { createPasswordMeter, type PasswordMeter, type PasswordMeterOptions } from './meter'
 
 // importing this module on a server (SSR) must not throw: there is no HTMLElement there
 const Base = (typeof HTMLElement === 'undefined' ? class {} : HTMLElement) as typeof HTMLElement
 
+type Layer = Record<string, unknown>
+
+/** Plain objects (not elements, arrays or functions) are merged key by key; other values replace. */
+const isPlain = (value: unknown): value is Layer =>
+  Object.prototype.toString.call(value) === '[object Object]'
+
+/** Merges the layers in order, later ones winning. Doesn't mutate them. */
+function mergeOptions(...layers: object[]): PasswordMeterOptions {
+  const merge = (base: Layer, layer: Layer): Layer => {
+    const result: Layer = { ...base }
+    for (const [key, value] of Object.entries(layer)) {
+      if (value === undefined) {
+        continue
+      }
+      const current = result[key]
+      result[key] = isPlain(value) && isPlain(current) ? merge(current, value) : value
+    }
+    return result
+  }
+  return layers.reduce<Layer>((result, layer) => merge(result, layer as Layer), {}) as PasswordMeterOptions
+}
+
 /**
- * `<password-meter for="password">`: renders the meter inside the element (light DOM).
+ * `<passcore-meter for="password">`: renders the meter inside the element (light DOM).
  * Attributes cover the simple options; the `options` property takes the rest.
  */
-export class PasswordMeterElement extends Base {
+export class PasscoreMeterElement extends Base {
   static observedAttributes = [
     'for',
     'min-length',
@@ -23,7 +45,7 @@ export class PasswordMeterElement extends Base {
   ]
 
   private meter?: PasswordMeter
-  private userOptions: Omit<VanillaOptions, 'container'> = {}
+  private userOptions: Omit<PasswordMeterOptions, 'container'> = {}
   private waiting = false
   private retrying = false
 
@@ -31,18 +53,18 @@ export class PasswordMeterElement extends Base {
     super()
     // `options` set before this element was upgraded is an own property that shadows the accessor
     if (Object.prototype.hasOwnProperty.call(this, 'options')) {
-      const early = (this as unknown as { options?: Omit<VanillaOptions, 'container'> }).options
+      const early = (this as unknown as { options?: Omit<PasswordMeterOptions, 'container'> }).options
       delete (this as unknown as { options?: unknown }).options
       this.userOptions = early ?? {}
     }
   }
 
   /** Options that aren't simple attributes (translations, translate, rules, levels...). Merged over the attributes. */
-  get options(): Omit<VanillaOptions, 'container'> {
+  get options(): Omit<PasswordMeterOptions, 'container'> {
     return this.userOptions
   }
 
-  set options(value: Omit<VanillaOptions, 'container'> | undefined) {
+  set options(value: Omit<PasswordMeterOptions, 'container'> | undefined) {
     this.userOptions = value ?? {}
     this.start()
   }
@@ -91,7 +113,7 @@ export class PasswordMeterElement extends Base {
         }
       }
       else {
-        console.error(`<password-meter>: no input found for for="${this.getAttribute('for') ?? ''}"`)
+        console.error(`<passcore-meter>: no input found for for="${this.getAttribute('for') ?? ''}"`)
       }
       return
     }
@@ -112,8 +134,8 @@ export class PasswordMeterElement extends Base {
     return ('getElementById' in root ? root.getElementById(id) : null) as HTMLInputElement | null
   }
 
-  private buildOptions(): VanillaOptions {
-    const options: VanillaOptions = {
+  private buildOptions(): PasswordMeterOptions {
+    const options: PasswordMeterOptions = {
       showPercent: this.hasAttribute('show-percent'),
       showText: !this.hasAttribute('hide-text'),
       hideUntilFocus: this.hasAttribute('hide-until-focus'),
@@ -144,12 +166,13 @@ export class PasswordMeterElement extends Base {
     if (label !== null) {
       options.label = label
     }
-    const userInputs = this.getAttribute('user-inputs')
-    if (userInputs !== null) {
-      options.userInputs = userInputs.split(',').map((selector) => selector.trim()).filter(Boolean)
+    // one selector list, as querySelectorAll reads it (e.g. "#username, #email"): not split
+    const userInputs = this.getAttribute('user-inputs')?.trim()
+    if (userInputs) {
+      options.userInputs = [userInputs]
     }
 
-    return mergeDeep<VanillaOptions>(options, this.userOptions, { container: this })
+    return mergeOptions(options, this.userOptions, { container: this })
   }
 
   private number(name: string): number | undefined {
@@ -162,6 +185,6 @@ export class PasswordMeterElement extends Base {
   }
 }
 
-if (typeof customElements !== 'undefined' && !customElements.get('password-meter')) {
-  customElements.define('password-meter', PasswordMeterElement)
+if (typeof customElements !== 'undefined' && !customElements.get('passcore-meter')) {
+  customElements.define('passcore-meter', PasscoreMeterElement)
 }

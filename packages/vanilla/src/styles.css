@@ -55,3 +55,14 @@
 .pass-hidden {
   display: none;
 }
+
+@media (forced-colors: active) {
+  .pass-meter {
+    border: 1px solid CanvasText;
+  }
+
+  .pass-bar {
+    background-color: Highlight;
+    forced-color-adjust: none;
+  }
+}

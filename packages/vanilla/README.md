@@ -1,6 +1,6 @@
 # @passcore/vanilla
 
-An accessible password strength meter for any page, with no framework and no jQuery: a function, and a `<password-meter>` custom element. Built on [`@passcore/core`](../core).
+An accessible password strength meter for any page, with no framework and no jQuery: a function, and a `<passcore-meter>` custom element. Built on [`@passcore/core`](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core).
 
 [Try it in the playground](https://elboletaire.github.io/password-strength-meter/vanilla.html).
 
@@ -29,33 +29,36 @@ import '@passcore/vanilla/element'
 
 ```html
 <input type="password" id="password">
-<password-meter for="password" min-length="10" show-percent user-inputs="#username,#email"></password-meter>
+<passcore-meter for="password" min-length="10" show-percent user-inputs="#username, #email"></passcore-meter>
 ```
 
 Without a bundler, load the standalone builds. They bundle `@passcore/core` and need no other dependency:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@passcore/vanilla/dist/styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@passcore/vanilla@1/dist/styles.css">
 <input type="password" id="password">
-<script src="https://cdn.jsdelivr.net/npm/@passcore/vanilla/dist/passcore.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@passcore/vanilla@1/dist/passcore.min.js"></script>
 <script>
   passcore.createPasswordMeter('#password', { showPercent: true })
 </script>
 ```
 
-`passcore-element.min.js` registers the `<password-meter>` element instead (it doesn't expose `createPasswordMeter`). Load the one you need.
+The standalone builds expose these globals:
+
+- `passcore` (from `passcore.min.js`): `createPasswordMeter`.
+- `passcoreElement` (from `passcore-element.min.js`): the `PasscoreMeterElement` class. The script registers the `<passcore-meter>` element when it loads, so you don't need to use the global. Load the one you need.
 
 ## Options
 
 ```js
 createPasswordMeter(input, {
   // meter
-  userInputs: [],          // fields the password must not contain: selectors, elements or functions, read on every evaluation
+  userInputs: [],          // fields the password must not contain: selectors (every match is read), elements or functions, read on every evaluation
   container: undefined,    // selector or element to append the markup to (default: right after the input)
   hideUntilFocus: false,   // hide the meter until the input is focused, and again on blur when it is empty
   showPercent: false,
   showText: true,          // the message, linked to the input with aria-describedby
-  label: 'Password strength', // aria-label of the meter
+  label: 'Password strength', // aria-label of the meter, read at creation
   listen: true,            // listen to the input, focus and blur events (set false and call refresh() yourself)
 
   // texts
@@ -70,26 +73,26 @@ createPasswordMeter(input, {
   // passed to @passcore/core
   targetBits: 100,
   estimator: undefined,
-  commonWords: undefined,  // replaces the common-password list
-  rules: { minLength: 8 }, // merged with the default rules
-  levels: { strong: 80 },  // merged with the default levels
+  commonPasswords: undefined, // replaces the common-password list
+  rules: { minLength: 8 },    // merged with the default rules
+  levels: { strong: 80 },     // merged with the default levels
 })
 ```
 
-See the [`@passcore/core` README](../core#options) for the core options.
+See the [`@passcore/core` README](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core/README.md#options) for the core options, and its [stability section](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core/README.md#stability) for what may change in minor releases.
 
-A string in `userInputs` is a **selector**, not a value (unlike in the React, Vue and Svelte packages, which take values). To pass a value, use a function: `userInputs: [() => user.email]`. An invalid selector throws when the meter is created.
+A string in `userInputs` is a **selector**, not a value (unlike in the React, Vue and Svelte packages, which take values). Every element matching it contributes its value, so `'#username, #email'` works too. To pass a value, use a function: `userInputs: [() => user.email]`. An invalid selector throws when the meter is created.
 
 It returns an object with:
 
 - `result`: the last evaluation (the core result, with `percent`, `level`, `valid`, `rules` and `message`).
-- `refresh()`: evaluates the input again and renders it, e.g. after a user input changed. Returns the result. It fires the callbacks and events, like typing does.
+- `refresh()`: evaluates the input again and renders it, e.g. after a user input changed. Returns the result. It fires the callbacks and events when the result or the message changes, like typing does.
 - `focus()` and `blur()`: what the focus and blur listeners do, for `hideUntilFocus`.
 - `destroy()`: removes the markup and the listeners, and restores `aria-describedby`.
 
 ### The custom element
 
-`<password-meter>` takes the simple options as attributes:
+`<passcore-meter>` takes the simple options as attributes:
 
 | Attribute | Option |
 |---|---|
@@ -100,13 +103,13 @@ It returns an object with:
 | `hide-text` | `showText: false` |
 | `hide-until-focus` | `hideUntilFocus` |
 | `locale` | `locale` |
-| `label` | `label` |
-| `user-inputs` | `userInputs`, as comma-separated selectors |
+| `label` | `label`, read when the meter is created |
+| `user-inputs` | `userInputs`, as one selector list, e.g. `"#username, #email"` (not split on commas) |
 
 Anything else goes in the `options` property, which is merged over the attributes (it also works when it is set before the element's script has loaded):
 
 ```js
-document.querySelector('password-meter').options = {
+document.querySelector('passcore-meter').options = {
   translations: ca,
   rules: { numbers: 1 },
 }
@@ -121,7 +124,7 @@ Callbacks and events fire on updates after the meter is created (typing, pasting
 ```js
 createPasswordMeter('#password', {
   onScore: (percent, result) => {
-    // on every update
+    // when the result changes
   },
   onText: (text, result) => {
     // when the message changes (also when showText is false)
@@ -136,6 +139,8 @@ document.querySelector('#password').addEventListener('passcore:text', (event) =>
   const { text, result } = event.detail
 })
 ```
+
+`onScore` fires when the evaluated result changes (not on creation); `onText` when the message (key or params) changes. A language change rewrites the text without firing `onText`.
 
 The events bubble and are dispatched on the input.
 
@@ -178,23 +183,23 @@ const meter = createPasswordMeter('#password', {
 i18next.on('languageChanged', () => meter.refresh())
 ```
 
-The keys are `empty`, `level.very-weak`, `level.weak`, `level.fair`, `level.good`, `level.strong`, `rule.notCommon`, `rule.notUserInputs`, and the plural forms of `rule.minLength`, `rule.maxLength`, `rule.lowercase`, `rule.uppercase`, `rule.numbers` and `rule.symbols`. See [`locales/en.json`](../../locales/en.json) for the English texts.
+The keys are `empty`, `level.very-weak`, `level.weak`, `level.fair`, `level.good`, `level.strong`, `rule.notCommon`, `rule.notUserInputs`, and the plural forms of `rule.minLength`, `rule.maxLength`, `rule.lowercase`, `rule.uppercase`, `rule.numbers` and `rule.symbols`. See [`locales/en.json`](https://github.com/elboletaire/password-strength-meter/blob/master/locales/en.json) for the English texts.
 
 Texts are inserted as text, not HTML.
 
 ## Markup and styling
 
 ```html
-<div class="pass-wrapper pass-level-weak pass-invalid">
-  <div class="pass-meter" role="meter" aria-label="Password strength" aria-valuemin="0" aria-valuemax="100" aria-valuenow="30" aria-valuetext="Weak password">
-    <div class="pass-bar" style="width: 30%"></div>
+<div class="pass-wrapper pass-level-very-weak pass-invalid">
+  <div class="pass-meter" role="meter" aria-label="Password strength" aria-valuemin="0" aria-valuemax="100" aria-valuenow="7" aria-valuetext="Very weak password">
+    <div class="pass-bar" style="width: 7%"></div>
   </div>
-  <span class="pass-percent">30%</span>
+  <span class="pass-percent">7%</span>
   <span class="pass-text" id="password-strength" aria-live="polite">Use at least 8 characters</span>
 </div>
 ```
 
-The input gets `aria-describedby` pointing to the text (the id is `<input id>-strength`, or a generated one for inputs without an id). The wrapper has a `pass-level-*` class and, while a rule fails, `pass-invalid`. With `hideUntilFocus`, the wrapper has `pass-hidden` while hidden, and the container (or the input's parent) has `pass-strength-visible` while the meter is shown.
+The input gets `aria-describedby` pointing to the text (the id is `<input id>-strength`, or a generated one for inputs without an id). The wrapper has a `pass-level-*` class and, while a rule fails, `pass-invalid`. With `hideUntilFocus`, the wrapper has `pass-hidden` while hidden. The container (or the input's parent) always has `pass-strength-visible` while the meter is shown, which is always, unless `hideUntilFocus` hides it.
 
 The default stylesheet colors levels through custom properties you can set on any ancestor:
 
@@ -210,6 +215,12 @@ The default stylesheet colors levels through custom properties you can set on an
 }
 ```
 
+In forced colors mode (for example Windows high contrast), the meter gets a system border and the bar uses the system highlight color.
+
 ## Compatibility
 
-The standalone builds use ES2015 syntax, but the core needs Unicode property escapes in regular expressions and `Intl.PluralRules`: every current browser, not Internet Explorer. The `<password-meter>` element also needs custom elements support.
+The standalone builds use ES2015 syntax, but the core needs Unicode property escapes in regular expressions and `Intl.PluralRules`: every current browser, not Internet Explorer. The `<passcore-meter>` element also needs custom elements support.
+
+## License
+
+MIT. The standalone builds include a list of common passwords from [SecLists](https://github.com/danielmiessler/SecLists), MIT License, Copyright (c) 2018 Daniel Miessler.

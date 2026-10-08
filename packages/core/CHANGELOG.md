@@ -1,5 +1,11 @@
 # @passcore/core
 
+## 0.2.0
+
+### Minor Changes
+
+- [#60](https://github.com/elboletaire/password-strength-meter/pull/60) [`9f77e80`](https://github.com/elboletaire/password-strength-meter/commit/9f77e808d0e3b6884bcfcab1f7fbb2b4cba93110) Thanks [@elboletaire](https://github.com/elboletaire)! - Rework the scoring: a length-first strength estimate (patterns, common passwords and user inputs discounted) and separate configurable rules. The core now returns data and message keys only, and the jQuery plugin renders an accessible meter with overridable English messages and CSS-themeable levels. This replaces the 0.1 API; see the READMEs for the new options and the migration table.
+
 ## 0.1.0
 
 ### Minor Changes

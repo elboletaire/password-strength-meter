@@ -16,6 +16,7 @@ catalog:
   eslint: ^10.12.0
   fast-check: ^4.10.2
   globals: ^17.13.0
+  i18next: ^26.4.2
   jquery: ^3.7.1
   jsdom: ^29.1.1
   publint: ^0.3.25

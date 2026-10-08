@@ -1,0 +1,32 @@
+{
+  "empty": "Escribe tu contraseña",
+  "level": {
+    "very-weak": "Contraseña muy débil",
+    "weak": "Contraseña débil",
+    "fair": "Contraseña aceptable",
+    "good": "Contraseña buena",
+    "strong": "Contraseña fuerte"
+  },
+  "rule": {
+    "minLength_one": "Usa al menos {{count}} carácter",
+    "minLength_other": "Usa al menos {{count}} caracteres",
+    "minLength_many": "Usa al menos {{count}} caracteres",
+    "maxLength_one": "Usa como máximo {{count}} carácter",
+    "maxLength_other": "Usa como máximo {{count}} caracteres",
+    "maxLength_many": "Usa como máximo {{count}} caracteres",
+    "notCommon": "Esta contraseña es demasiado común",
+    "notUserInputs": "No uses tus datos personales",
+    "lowercase_one": "Añade una letra minúscula",
+    "lowercase_other": "Añade al menos {{count}} letras minúsculas",
+    "lowercase_many": "Añade al menos {{count}} letras minúsculas",
+    "uppercase_one": "Añade una letra mayúscula",
+    "uppercase_other": "Añade al menos {{count}} letras mayúsculas",
+    "uppercase_many": "Añade al menos {{count}} letras mayúsculas",
+    "numbers_one": "Añade un número",
+    "numbers_other": "Añade al menos {{count}} números",
+    "numbers_many": "Añade al menos {{count}} números",
+    "symbols_one": "Añade un símbolo",
+    "symbols_other": "Añade al menos {{count}} símbolos",
+    "symbols_many": "Añade al menos {{count}} símbolos"
+  }
+}

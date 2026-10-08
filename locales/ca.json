@@ -1,0 +1,32 @@
+{
+  "empty": "Escriu la teva contrasenya",
+  "level": {
+    "very-weak": "Contrasenya molt feble",
+    "weak": "Contrasenya feble",
+    "fair": "Contrasenya acceptable",
+    "good": "Contrasenya bona",
+    "strong": "Contrasenya forta"
+  },
+  "rule": {
+    "minLength_one": "Fes servir almenys {{count}} caràcter",
+    "minLength_other": "Fes servir almenys {{count}} caràcters",
+    "minLength_many": "Fes servir almenys {{count}} caràcters",
+    "maxLength_one": "Fes servir com a màxim {{count}} caràcter",
+    "maxLength_other": "Fes servir com a màxim {{count}} caràcters",
+    "maxLength_many": "Fes servir com a màxim {{count}} caràcters",
+    "notCommon": "Aquesta contrasenya és massa comuna",
+    "notUserInputs": "No facis servir les teves dades personals",
+    "lowercase_one": "Afegeix una lletra minúscula",
+    "lowercase_other": "Afegeix almenys {{count}} lletres minúscules",
+    "lowercase_many": "Afegeix almenys {{count}} lletres minúscules",
+    "uppercase_one": "Afegeix una lletra majúscula",
+    "uppercase_other": "Afegeix almenys {{count}} lletres majúscules",
+    "uppercase_many": "Afegeix almenys {{count}} lletres majúscules",
+    "numbers_one": "Afegeix un número",
+    "numbers_other": "Afegeix almenys {{count}} números",
+    "numbers_many": "Afegeix almenys {{count}} números",
+    "symbols_one": "Afegeix un símbol",
+    "symbols_other": "Afegeix almenys {{count}} símbols",
+    "symbols_many": "Afegeix almenys {{count}} símbols"
+  }
+}

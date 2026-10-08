@@ -1,0 +1,26 @@
+{
+  "empty": "Type your password",
+  "level": {
+    "very-weak": "Very weak password",
+    "weak": "Weak password",
+    "fair": "Fair password",
+    "good": "Good password",
+    "strong": "Strong password"
+  },
+  "rule": {
+    "minLength_one": "Use at least {{count}} character",
+    "minLength_other": "Use at least {{count}} characters",
+    "maxLength_one": "Use at most {{count}} character",
+    "maxLength_other": "Use at most {{count}} characters",
+    "notCommon": "This password is too common",
+    "notUserInputs": "Don't use your personal details",
+    "lowercase_one": "Add a lowercase letter",
+    "lowercase_other": "Add at least {{count}} lowercase letters",
+    "uppercase_one": "Add an uppercase letter",
+    "uppercase_other": "Add at least {{count}} uppercase letters",
+    "numbers_one": "Add a number",
+    "numbers_other": "Add at least {{count}} numbers",
+    "symbols_one": "Add a symbol",
+    "symbols_other": "Add at least {{count}} symbols"
+  }
+}

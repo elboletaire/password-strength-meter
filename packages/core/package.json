@@ -42,6 +42,7 @@
   "devDependencies": {
     "@arethetypeswrong/cli": "catalog:",
     "fast-check": "catalog:",
+    "i18next": "catalog:",
     "publint": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:"

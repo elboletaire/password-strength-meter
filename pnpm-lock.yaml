@@ -42,6 +42,9 @@ catalogs:
     globals:
       specifier: ^17.13.0
       version: 17.13.0
+    i18next:
+      specifier: ^26.4.2
+      version: 26.4.2
     jquery:
       specifier: ^3.7.1
       version: 3.7.1
@@ -113,6 +116,9 @@ importers:
       fast-check:
         specifier: 'catalog:'
         version: 4.10.2
+      i18next:
+        specifier: 'catalog:'
+        version: 26.4.2(typescript@6.0.3)
       publint:
         specifier: 'catalog:'
         version: 0.3.25
@@ -1167,6 +1173,14 @@ packages:
   human-id@4.2.2:
     resolution: {integrity: sha512-Z+8unD6em/MJwyrkWQ2M3wygRGI1+MztbutiNwk1DCuEPXOZRWGjtcMPZYP1exY9iNZMhd7ZOSMQSo9WYtiQRw==}
     hasBin: true
+
+  i18next@26.4.2:
+    resolution: {integrity: sha512-RX+R0VLg13IbvRuJSxnqykUFS9vQZTl8wYpWPCIUDWVrSGjsQywB5Y+pjzrkboxGAuYfJZVH1InFTdgBdxq6ug==}
+    peerDependencies:
+      typescript: ^5 || ^6 || ^7
+    peerDependenciesMeta:
+      typescript:
+        optional: true
 
   ignore@5.3.2:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
@@ -2755,6 +2769,10 @@ snapshots:
       - '@noble/hashes'
 
   human-id@4.2.2: {}
+
+  i18next@26.4.2(typescript@6.0.3):
+    optionalDependencies:
+      typescript: 6.0.3
 
   ignore@5.3.2: {}
 

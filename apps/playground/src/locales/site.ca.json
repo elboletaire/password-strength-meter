@@ -67,7 +67,7 @@
     "privacy": "Tot s’executa al teu navegador: res del que escrius aquí no surt d’aquesta pàgina.",
     "source": "Codi font",
     "packages": "Paquets",
-    "license": "Llicència GPL-3.0",
+    "license": "Llicència MIT",
     "credits": "Fet per Òscar Casajuana i col·laboradors."
   },
   "field": {

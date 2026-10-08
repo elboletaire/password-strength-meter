@@ -12,12 +12,14 @@ export interface BindingPage {
   folder: string
   /** pnpm command that installs it. */
   install: string
-  demos: Demo[]
+  /** The demos, rendered per page: their markup holds texts, which need the language of the page. */
+  demos: () => Demo[]
 }
 
 /** A binding page: its header, the list of demos, and the demos. */
 export function bindingMain(page: BindingPage): string {
-  const toc = page.demos.map((demo, index) => `<li><a class="toc__link" href="#demo-${demo.id}"><span class="toc__index" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span>${text('span', demo.title)}</a></li>`).join('\n            ')
+  const demos = page.demos()
+  const toc = demos.map((demo, index) => `<li><a class="toc__link" href="#demo-${demo.id}"><span class="toc__index" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span>${text('span', demo.title)}</a></li>`).join('\n            ')
 
   return `<div class="page-head">
         <div class="page-head__inner">
@@ -45,7 +47,7 @@ export function bindingMain(page: BindingPage): string {
             ${iconSvg('globe', 20)}
             ${rich('p', 'binding.note')}
           </div>
-          ${page.demos.map(demoSection).join('\n')}
+          ${demos.map(demoSection).join('\n')}
         </div>
       </div>`
 }

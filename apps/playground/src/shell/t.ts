@@ -1,31 +1,64 @@
 import i18next from 'i18next'
 import { escapeHtml } from '../common/escape.ts'
-import english from '../locales/site.en.json' with { type: 'json' }
+import { LANGS, type Lang } from '../common/langs.ts'
+import ca from '../locales/site.ca.json' with { type: 'json' }
+import en from '../locales/site.en.json' with { type: 'json' }
+import es from '../locales/site.es.json' with { type: 'json' }
 
 /**
- * Build-time texts: the pages are written in English from the same resource file the browser uses,
- * and every text carries its key, so the browser can switch it to Spanish or Catalan in place.
+ * Build-time texts: every page is written in its own language from the same resource files the browser
+ * uses. A text still carries its key (`data-i18n`) until the browser no longer translates the shell.
  */
+
+const site: Record<Lang, object> = { en, es, ca }
 
 const instance = i18next.createInstance()
 
 void instance.init({
   lng: 'en',
-  resources: { en: { site: english } },
+  resources: Object.fromEntries(LANGS.map((lang) => [lang, { site: site[lang] }])),
   defaultNS: 'site',
   ns: ['site'],
+  // no fallback: a key missing in any language is an error, not an English text on a Spanish page
+  fallbackLng: false,
   interpolation: { escapeValue: false },
   initAsync: false,
 })
 
 export type Params = Record<string, string | number>
 
-/** The English text of a key. Throws on a missing key, so a typo fails the build. */
-export function en(key: string, params?: Params): string {
-  if (!instance.exists(key, params)) {
-    throw new Error(`Missing site text: ${key}`)
+let active: Lang | undefined
+
+/**
+ * Runs `render` with `lang` as the language of every text. It is synchronous on purpose: the language lives
+ * only while `render` runs, so pre-rendering several pages in parallel can't mix them up.
+ */
+export function withLang<T>(lang: Lang, render: () => T): T {
+  const previous = active
+  active = lang
+  try {
+    return render()
   }
-  return instance.t(key, params)
+  finally {
+    active = previous
+  }
+}
+
+/** The language of the page being rendered. */
+export function lang(): Lang {
+  if (!active) {
+    throw new Error('Site texts are only available inside withLang()')
+  }
+  return active
+}
+
+/** The text of a key in the language of the page. Throws on a missing key, in any language, so a typo fails the build. */
+export function tr(key: string, params?: Params): string {
+  const language = lang()
+  if (!instance.exists(key, { lng: language, ...params })) {
+    throw new Error(`Missing site text: ${key} (${language})`)
+  }
+  return instance.t(key, { lng: language, ...params })
 }
 
 export type Attrs = Record<string, string | number | boolean | undefined>
@@ -42,19 +75,19 @@ const paramsAttr = (params?: Params): Attrs => (params ? { 'data-i18n-params': J
 
 /** An element whose text is the translation of `key`. */
 export function text(tag: string, key: string, extra: Attrs = {}, params?: Params): string {
-  return `<${tag}${attrs({ ...extra, 'data-i18n': key, ...paramsAttr(params) })}>${escapeHtml(en(key, params))}</${tag}>`
+  return `<${tag}${attrs({ ...extra, 'data-i18n': key, ...paramsAttr(params) })}>${escapeHtml(tr(key, params))}</${tag}>`
 }
 
 /** An element whose content is the translation of `key`, as trusted HTML (our own resource files: `<code>`, `<strong>`). */
 export function rich(tag: string, key: string, extra: Attrs = {}, params?: Params): string {
-  return `<${tag}${attrs({ ...extra, 'data-i18n-html': key, ...paramsAttr(params) })}>${en(key, params)}</${tag}>`
+  return `<${tag}${attrs({ ...extra, 'data-i18n-html': key, ...paramsAttr(params) })}>${tr(key, params)}</${tag}>`
 }
 
 /** Translated attributes, e.g. `{ placeholder: 'fields.username.placeholder' }`, rendered in English with their keys. */
 export function tAttrs(map: Record<string, string>): Attrs {
   const result: Attrs = {}
   for (const [name, key] of Object.entries(map)) {
-    result[name] = en(key)
+    result[name] = tr(key)
   }
   result['data-i18n-attr'] = Object.entries(map).map(([name, key]) => `${name}:${key}`).join(';')
   return result

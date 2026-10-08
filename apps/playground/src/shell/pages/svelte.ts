@@ -7,7 +7,7 @@ export const sveltePage: BindingPage = {
   pkg: '@passcore/svelte',
   folder: 'packages/svelte',
   install: 'pnpm add @passcore/svelte',
-  demos: [
+  demos: () => [
     {
       id: 'default',
       title: 'demo.default.title',

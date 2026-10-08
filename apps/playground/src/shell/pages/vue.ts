@@ -7,7 +7,7 @@ export const vuePage: BindingPage = {
   pkg: '@passcore/vue',
   folder: 'packages/vue',
   install: 'pnpm add @passcore/vue',
-  demos: [
+  demos: () => [
     {
       id: 'default',
       title: 'demo.default.title',

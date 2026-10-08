@@ -1,34 +1,19 @@
 import { isLang, LANG_STORAGE_KEY, LANGS, type Lang } from '../common/langs'
 
 /**
- * The language of the whole site, shared by every page: the stored choice, else the browser's language
- * when it is English, Spanish or Catalan, else English. The page's boot script (src/shell/layout.ts)
- * already applied the same choice to `<html lang>` before the first paint.
+ * The language of the page: the one its HTML was rendered in (`<html lang>`, written at build time from the
+ * URL: `/es/...` is Spanish). Switching language is a navigation to the other URL, see src/lib/site.ts.
  */
 
 export type { Lang }
 export { LANGS }
 
-function detect(): Lang {
-  try {
-    const stored = localStorage.getItem(LANG_STORAGE_KEY)
-    if (isLang(stored)) {
-      return stored
-    }
-  }
-  catch {
-    // storage can be disabled: fall back to the browser's languages
-  }
-  for (const wanted of navigator.languages ?? [navigator.language]) {
-    const code = wanted.slice(0, 2).toLowerCase()
-    if (isLang(code)) {
-      return code
-    }
-  }
-  return 'en'
+function read(): Lang {
+  const lang = document.documentElement.lang
+  return isLang(lang) ? lang : 'en'
 }
 
-let current: Lang = detect()
+let current: Lang = read()
 const listeners = new Set<(lang: Lang) => void>()
 
 export function currentLang(): Lang {

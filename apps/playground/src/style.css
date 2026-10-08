@@ -117,18 +117,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Spanish and Catalan pages appear once their texts are in place (see the boot script); never later than 1.2 s */
-.i18n-pending body {
-  visibility: hidden;
-  animation: i18n-fallback 0s 1.2s forwards;
-}
-
-@keyframes i18n-fallback {
-  to {
-    visibility: visible;
-  }
-}
-
 h1,
 h2,
 h3 {
@@ -401,6 +389,9 @@ main:focus {
 }
 
 .lang-switch__button {
+  display: inline-grid;
+  place-items: center;
+  text-decoration: none;
   min-width: 2.5rem;
   min-height: 2rem;
   padding: 0 0.55rem;
@@ -420,7 +411,7 @@ main:focus {
   background: var(--bg-subtle);
 }
 
-.lang-switch__button[aria-pressed='true'] {
+.lang-switch__button[aria-current='true'] {
   background: var(--ink);
   color: var(--bg);
 }
@@ -2546,10 +2537,6 @@ passcore-meter {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-
-  .i18n-pending body {
-    animation-duration: 0s !important;
   }
 }
 

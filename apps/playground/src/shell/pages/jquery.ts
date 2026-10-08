@@ -7,7 +7,7 @@ export const jqueryPage: BindingPage = {
   pkg: '@passcore/jquery',
   folder: 'packages/jquery',
   install: 'pnpm add @passcore/jquery jquery',
-  demos: [
+  demos: () => [
     {
       id: 'default',
       title: 'demo.default.title',

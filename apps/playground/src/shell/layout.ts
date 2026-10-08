@@ -1,41 +1,42 @@
 import { iconSvg, faviconHref, logoSvg } from '../common/icons.ts'
 import { LANG_NAMES, LANG_STORAGE_KEY, LANGS, THEME_STORAGE_KEY } from '../common/langs.ts'
 import { url, type PageId } from './routes.ts'
-import { attrs, en, tAttrs, text } from './t.ts'
+import { attrs, lang, tAttrs, text, tr } from './t.ts'
 
 export type { PageId } from './routes.ts'
 
-export const PAGES: Array<{ id: PageId, href: string, nav: string }> = [
-  { id: 'index', href: url('index'), nav: 'nav.home' },
-  { id: 'inspector', href: url('inspector'), nav: 'nav.inspector' },
-  { id: 'jquery', href: url('jquery'), nav: 'nav.jquery' },
-  { id: 'vanilla', href: url('vanilla'), nav: 'nav.vanilla' },
-  { id: 'react', href: url('react'), nav: 'nav.react' },
-  { id: 'vue', href: url('vue'), nav: 'nav.vue' },
-  { id: 'svelte', href: url('svelte'), nav: 'nav.svelte' },
+const NAV: Array<{ id: PageId, nav: string }> = [
+  { id: 'index', nav: 'nav.home' },
+  { id: 'inspector', nav: 'nav.inspector' },
+  { id: 'jquery', nav: 'nav.jquery' },
+  { id: 'vanilla', nav: 'nav.vanilla' },
+  { id: 'react', nav: 'nav.react' },
+  { id: 'vue', nav: 'nav.vue' },
+  { id: 'svelte', nav: 'nav.svelte' },
 ]
 
 export const REPO = 'https://github.com/elboletaire/password-strength-meter'
 
-/**
- * Runs before the first paint: the language (stored, or the browser's when it is one of ours) and the theme,
- * so the page doesn't flash. Pages in Spanish or Catalan stay invisible until their texts are in place
- * (`i18n-pending`, removed by src/lib/site.ts; the stylesheet shows the page anyway after a moment).
- */
+/** Runs before the first paint: the theme, so the page doesn't flash. The language is the page's own (`<html lang>`). */
 const BOOT = `(function () {
-  var root = document.documentElement, langs = ${JSON.stringify(LANGS)}, lang = null, theme = null
-  try { lang = localStorage.getItem('${LANG_STORAGE_KEY}'); theme = localStorage.getItem('${THEME_STORAGE_KEY}') } catch (e) {}
-  if (langs.indexOf(lang) < 0) {
-    lang = 'en'
-    var wanted = navigator.languages || [navigator.language]
-    for (var i = 0; i < wanted.length; i++) {
-      var code = String(wanted[i] || '').slice(0, 2).toLowerCase()
-      if (langs.indexOf(code) >= 0) { lang = code; break }
-    }
-  }
-  root.lang = lang
-  if (lang !== 'en') root.classList.add('i18n-pending')
-  if (theme === 'light' || theme === 'dark') root.dataset.theme = theme
+  var theme = null
+  try { theme = localStorage.getItem('${THEME_STORAGE_KEY}') } catch (e) {}
+  if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme
+})()`
+
+/**
+ * English pages only: a visitor who chose Spanish or Catalan before is sent to the same page in that language,
+ * with its #hash, unless they come from a page of the site (then they are navigating, not arriving). The URL
+ * always wins for everyone else, crawlers included: they have no stored choice, so they are never redirected.
+ */
+const redirectScript = (): string => `(function () {
+  var lang = null
+  try { lang = localStorage.getItem('${LANG_STORAGE_KEY}') } catch (e) {}
+  if (lang !== 'es' && lang !== 'ca') return
+  var base = ${JSON.stringify(import.meta.env.BASE_URL)}
+  if (document.referrer.indexOf(location.origin + base) === 0) return
+  if (location.pathname.indexOf(base) !== 0) return
+  location.replace(base + lang + '/' + location.pathname.slice(base.length) + location.search + location.hash)
 })()`
 
 const GA_ID = 'G-STPVDBEE54'
@@ -54,17 +55,18 @@ export function head(page: PageId): string {
     ${text('title', `meta.${page}.title`)}
     <meta${attrs({ name: 'description', ...tAttrs({ content: `meta.${page}.description` }) })}>
     <link rel="icon" href="${faviconHref()}">
-    <script>${BOOT}</script>${analytics()}`
+    <script>${BOOT}</script>${lang() === 'en' ? `\n    <script>${redirectScript()}</script>` : ''}${analytics()}`
 }
 
 function header(page: PageId): string {
-  const nav = PAGES.map(({ id, href, nav: key }) => `<li>${text('a', key, { 'href': href, 'class': 'site-nav__link', 'aria-current': id === page ? 'page' : undefined })}</li>`).join('\n          ')
-  const langs = LANGS.map((lang) => `<button${attrs({ 'type': 'button', 'class': 'lang-switch__button', 'data-lang': lang, lang, 'aria-label': LANG_NAMES[lang], 'aria-pressed': lang === 'en' ? 'true' : 'false' })}>${lang.toUpperCase()}</button>`).join('')
+  const nav = NAV.map(({ id, nav: key }) => `<li>${text('a', key, { 'href': url(id, lang()), 'class': 'site-nav__link', 'aria-current': id === page ? 'page' : undefined })}</li>`).join('\n          ')
+  const current = lang()
+  const langs = LANGS.map((code) => `<a${attrs({ 'class': 'lang-switch__button', 'href': url(page, code), 'hreflang': code, 'lang': code, 'data-lang': code, 'aria-label': LANG_NAMES[code], 'aria-current': code === current ? 'true' : undefined })}>${code.toUpperCase()}</a>`).join('')
 
-  return `<a class="skip-link" href="#main" data-i18n="a11y.skip">${en('a11y.skip')}</a>
+  return `<a class="skip-link" href="#main" data-i18n="a11y.skip">${tr('a11y.skip')}</a>
     <header class="site-header">
       <div class="site-header__inner">
-        <a class="brand" href="${url('index')}">
+        <a class="brand" href="${url('index', lang())}">
           ${logoSvg(30)}
           <span class="brand__name">passcore</span>
           ${text('span', 'brand.tag', { class: 'brand__tag' })}
@@ -76,7 +78,7 @@ function header(page: PageId): string {
         </nav>
         <div class="site-tools">
           <div${attrs({ class: 'lang-switch', role: 'group', ...tAttrs({ 'aria-label': 'lang.label' }) })}>${langs}</div>
-          <button${attrs({ 'type': 'button', 'class': 'icon-button theme-toggle', 'data-theme-toggle': true, 'aria-label': en('theme.toDark') })}>${iconSvg('moon', 20, 'icon theme-toggle__moon')}${iconSvg('sun', 20, 'icon theme-toggle__sun')}</button>
+          <button${attrs({ 'type': 'button', 'class': 'icon-button theme-toggle', 'data-theme-toggle': true, 'aria-label': tr('theme.toDark') })}>${iconSvg('moon', 20, 'icon theme-toggle__moon')}${iconSvg('sun', 20, 'icon theme-toggle__sun')}</button>
         </div>
       </div>
     </header>`

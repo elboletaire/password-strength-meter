@@ -52,7 +52,7 @@
   },
   "peerDependencies": {
     "@types/jquery": "*",
-    "jquery": ">=1.11.0"
+    "jquery": "^3.0.0 || ^4.0.0"
   },
   "peerDependenciesMeta": {
     "@types/jquery": {

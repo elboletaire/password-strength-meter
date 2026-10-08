@@ -38,7 +38,7 @@ describe('$.fn.password', () => {
     it('generates a text id for inputs without one', () => {
       $('#password').removeAttr('id').password()
       const id = $('.pass-text').attr('id') as string
-      expect(id).toMatch(/^passcore-\d+-strength$/)
+      expect(id).toMatch(/^passcore-jq-\d+-strength$/)
       expect($('input[type=password]').attr('aria-describedby')).toBe(id)
     })
 
@@ -443,6 +443,149 @@ describe('$.fn.password', () => {
         .on('password.text', (e, text: string) => texts.push(text))
       type('k8#Qz!2mWp')
       expect(texts).toEqual(['Good password'])
+    })
+  })
+
+  describe('re-initialization', () => {
+    it('replaces the meter instead of adding a second one', () => {
+      $('#password').password()
+      $('#password').password({ showPercent: true })
+      expect(wrapper().length).toBe(1)
+      expect($('.pass-percent').length).toBe(1)
+      expect($('#password').attr('aria-describedby')).toBe('password-strength')
+    })
+
+    it('keeps a single set of listeners', () => {
+      $('#password').password({ animate: false })
+      $('#password').password({ animate: false })
+      const scores: number[] = []
+      $('#password').on('password.score', (e, percent: number) => scores.push(percent))
+      type('abc')
+      expect(scores).toEqual([7])
+    })
+
+    it('keeps the input\'s own aria-describedby once', () => {
+      $('#password').attr('aria-describedby', 'hint').password()
+      $('#password').password()
+      expect($('#password').attr('aria-describedby')).toBe('hint password-strength')
+    })
+  })
+
+  describe('destroy', () => {
+    it('removes the markup, the container class and the aria-describedby link', () => {
+      $('#password').password({ animate: false })
+      expect($('.pass-strength-visible').length).toBe(1)
+
+      $('#password').password('destroy')
+      expect(wrapper().length).toBe(0)
+      expect($('.pass-strength-visible').length).toBe(0)
+      expect($('#password').attr('aria-describedby')).toBeUndefined()
+    })
+
+    it('restores the aria-describedby the input had', () => {
+      $('#password').attr('aria-describedby', 'hint').password()
+      $('#password').password('destroy')
+      expect($('#password').attr('aria-describedby')).toBe('hint')
+    })
+
+    it('removes the listeners', () => {
+      $('#password').password({ animate: false })
+      const scores: number[] = []
+      $('#password').on('password.score', (e, percent: number) => scores.push(percent))
+      $('#password').password('destroy')
+      type('k8#Qz!2mWp')
+      $('#password').trigger('input').trigger('change')
+      expect(scores).toEqual([])
+    })
+
+    it('leaves the other meters alone', () => {
+      $('#password').password({ animate: false })
+      $('#username').password({ animate: false })
+      $('#password').password('destroy')
+      expect(wrapper().length).toBe(1)
+      expect($('#username').parent().find('.pass-text').text()).toBe('Type your password')
+    })
+
+    it('returns the jQuery object and allows a new meter afterwards', () => {
+      const $input = $('#password').password({ animate: false })
+      expect($input.password('destroy')).toBe($input)
+      $input.password({ showPercent: true })
+      expect(wrapper().length).toBe(1)
+      expect($('.pass-percent').length).toBe(1)
+    })
+  })
+
+  describe('refresh', () => {
+    it('re-evaluates after another field changed', () => {
+      $('#username').val('johndoe')
+      $('#password').password({ userInputs: ['#username'] })
+      type('johndoe99')
+      expect($('.pass-text').text()).toBe('Don\'t use your personal details')
+
+      $('#username').val('someone')
+      $('#password').password('refresh')
+      expect($('.pass-text').text()).toBe('Fair password')
+    })
+
+    it('rewrites the texts after a language change, without password.text', () => {
+      let language = 'en'
+      const texts: string[] = []
+      $('#password').password({ translate: (key) => `${language}:${key}` })
+        .on('password.text', (e, text: string) => texts.push(text))
+      type('abc')
+
+      language = 'es'
+      $('#password').password('refresh')
+      expect($('.pass-text').text()).toBe('es:rule.minLength')
+      expect($('.pass-meter').attr('aria-valuetext')).toBe('es:level.very-weak')
+      expect(texts).toEqual(['en:rule.minLength'])
+    })
+
+    it('triggers password.score like an update, and password.text only on a new message', () => {
+      const scores: number[] = []
+      const texts: string[] = []
+      $('#password').password({ animate: false })
+        .on('password.score', (e, percent: number) => scores.push(percent))
+        .on('password.text', (e, text: string) => texts.push(text))
+      $('#password').val('k8#Qz!2mWp')
+      $('#password').password('refresh')
+      $('#password').password('refresh')
+      expect(scores).toEqual([66, 66])
+      expect(texts).toEqual(['Good password'])
+    })
+
+    it('returns the jQuery object', () => {
+      const $input = $('#password').password({ animate: false })
+      expect($input.password('refresh')).toBe($input)
+    })
+
+    it('does nothing on an element without a meter', () => {
+      expect(() => $('#password').password('refresh')).not.toThrow()
+      expect(wrapper().length).toBe(0)
+    })
+  })
+
+  describe('userInputs with several matches and functions', () => {
+    it('reads the value of every matched element', () => {
+      $('body').append('<input class="name" value="johndoe"><input class="name" value="someone">')
+      $('#password').password({ userInputs: ['.name'] })
+      type('johndoe99')
+      expect($('.pass-text').text()).toBe('Don\'t use your personal details')
+      type('someone99')
+      expect($('.pass-text').text()).toBe('Don\'t use your personal details')
+      type('k8#Qz!2mWp')
+      expect($('.pass-text').text()).toBe('Good password')
+    })
+
+    it('reads a function on every update', () => {
+      let name = 'johndoe'
+      $('#password').password({ userInputs: [() => name] })
+      type('johndoe99')
+      expect($('.pass-text').text()).toBe('Don\'t use your personal details')
+
+      name = 'someone'
+      type('johndoe99')
+      expect($('.pass-text').text()).not.toBe('Don\'t use your personal details')
     })
   })
 })

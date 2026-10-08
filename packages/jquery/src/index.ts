@@ -3,4 +3,5 @@ import { install } from './plugin'
 
 install($)
 
-export { defaults, install, type FieldRef, type PasswordOptions, type PluginOptions } from './plugin'
+export { install, type FieldRef, type PasswordOptions } from './plugin'
+export type { Level, Result, Translate, Translations } from '@passcore/core'

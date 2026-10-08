@@ -23,4 +23,11 @@ describe.skipIf(!existsSync(bundle))('dist/password.min.js', () => {
     expect($('.pass-percent').text()).toBe('30%')
     window.close()
   })
+
+  it('keeps the license banner, with the attribution for the bundled password list', () => {
+    const code = readFileSync(bundle, 'utf8')
+    expect(code.startsWith('/*!\n * @passcore/jquery v')).toBe(true)
+    expect(code).toContain('MIT License')
+    expect(code).toContain('SecLists')
+  })
 })

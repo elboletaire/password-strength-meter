@@ -1,6 +1,6 @@
 # @passcore/jquery
 
-An accessible password strength meter plugin for jQuery, built on [`@passcore/core`](../core).
+An accessible password strength meter plugin for jQuery, built on [`@passcore/core`](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core/README.md).
 
 [Try it in the playground](https://elboletaire.github.io/password-strength-meter/jquery.html).
 
@@ -25,10 +25,12 @@ If your page uses another jQuery instance, register the plugin on it with `insta
 Without a bundler, load the standalone build after jQuery. It bundles `@passcore/core` and expects a global `jQuery`:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@passcore/jquery/dist/styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@passcore/jquery@1/dist/styles.css">
 <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@passcore/jquery/dist/password.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@passcore/jquery@1/dist/password.min.js"></script>
 ```
+
+The standalone build registers the plugin on the global `jQuery` and exposes `passcoreJQuery`, whose only member is `install`: `passcoreJQuery.install($other)` registers the plugin on another jQuery instance.
 
 The meter is appended to the input's closest `div` (see `closestSelector`):
 
@@ -44,7 +46,7 @@ The meter is appended to the input's closest `div` (see `closestSelector`):
 ```js
 $('#password').password({
   // plugin
-  userInputs: [],          // fields (selectors, elements or jQuery objects) the password must not contain, read on every update
+  userInputs: [],          // fields the password must not contain: selectors, elements, jQuery objects or () => string; read on every update
   translations: {},        // texts in i18next's JSON format, merged over the English defaults (see Translations)
   locale: 'en',            // used to pick plural forms
   translate: undefined,    // (key, params) => string, e.g. i18next's t; replaces translations and locale
@@ -58,13 +60,27 @@ $('#password').password({
   // passed to @passcore/core
   targetBits: 100,
   estimator: undefined,
-  commonWords: undefined,  // replaces the common-password list
+  commonPasswords: undefined, // replaces the common-password list
   rules: { minLength: 8 }, // merged with the default rules
   levels: { strong: 80 },  // merged with the default levels
 })
 ```
 
-See the [`@passcore/core` README](../core#options) for the core options.
+See the [`@passcore/core` README](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core/README.md#options) for the core options.
+
+Calling `.password(options)` again on the same input replaces its meter: the previous markup and listeners are removed first, so the input never gets two meters. Calling it on a set of inputs gives each of them its own meter.
+
+## Commands
+
+```js
+$('#password').password('refresh')  // re-evaluates now, e.g. after a field in userInputs changed or the language did
+$('#password').password('destroy')  // removes the meter: markup, listeners, aria-describedby and the container class
+```
+
+Both return the jQuery object. On an input without a meter they do nothing. `refresh` updates the meter like an update does: `password.score` fires, and `password.text` fires if the message changed.
+
+To change the options of a meter, call `.password(options)` again. To remove it, use `destroy`.
+
 
 ## Translations
 
@@ -102,9 +118,9 @@ $('#password').password({
 })
 ```
 
-The texts are translated on every update, and the plugin has no way to know that your `translate` function started answering in another language. After switching language, trigger an update so the texts are rewritten: `$('#password').trigger('input')`. (`label` is read once, so set it from the language you start with.)
+The texts are translated on every update. When your app switches language, call `$('#password').password('refresh')` to rewrite them. (`label` is read once, when the meter is created, so set it from the language you start with.)
 
-The keys are `empty`, `level.very-weak`, `level.weak`, `level.fair`, `level.good`, `level.strong`, `rule.notCommon`, `rule.notUserInputs`, and the plural forms of `rule.minLength`, `rule.maxLength`, `rule.lowercase`, `rule.uppercase`, `rule.numbers` and `rule.symbols`. See [`locales/en.json`](../../locales/en.json) for the English texts.
+The keys are `empty`, `level.very-weak`, `level.weak`, `level.fair`, `level.good`, `level.strong`, `rule.notCommon`, `rule.notUserInputs`, and the plural forms of `rule.minLength`, `rule.maxLength`, `rule.lowercase`, `rule.uppercase`, `rule.numbers` and `rule.symbols`. See [`locales/en.json`](https://github.com/elboletaire/password-strength-meter/blob/master/locales/en.json) for the English texts.
 
 Texts are inserted as text, not HTML.
 
@@ -113,13 +129,17 @@ Texts are inserted as text, not HTML.
 ```js
 $('#password').on('password.score', (e, percent, result) => {
   // on every update: once per keystroke (input and keyup), and when the value changes without a key
-  // (pasting with the mouse, autofill, drag and drop). result is the @passcore/core result
+  // (pasting with the mouse, autofill, drag and drop), and on refresh. result is the @passcore/core result
 })
 
 $('#password').on('password.text', (e, text, result) => {
-  // when the message changes (also when showText is false)
+  // when the message (key or params) changes, also when showText is false. Not on creation, nor on a language change
 })
 ```
+
+`password.score` fires when the evaluated result changes, and on every update (every keystroke): it is the documented exception, as it always was. `password.text` fires when the message (key or params) changes. A language change rewrites the text without firing `password.text`.
+
+`userInputs` entries are read on every update, so the meter follows the other fields as the user types. A selector or a jQuery object reads every matched element, and a function is called each time.
 
 ## Markup and styling
 
@@ -147,6 +167,8 @@ The input gets `aria-describedby` pointing to the text. The wrapper has a `pass-
 }
 ```
 
+In forced-colors mode (high contrast), the meter gets a border and the bar takes the system highlight color.
+
 ## Migrating from `password-strength-meter` 2.x/3.x and earlier @passcore/jquery versions
 
 | Old option | Replacement |
@@ -162,6 +184,13 @@ The input gets `aria-describedby` pointing to the text. The wrapper has a `pass-
 | `messages` (0.2) | `translations` (i18next JSON format, `{{count}}` placeholders) or `translate` |
 
 The scores are different: the new estimate puts length first and is stricter with common patterns. `password.score` now receives the percent (0 to 100, never negative) and the full result, and `password.text` receives the text and the result.
+
+## Upgrading from 0.x
+
+- `commonWords` is now `commonPasswords`.
+- `defaults` and the `PluginOptions` type are no longer exported; `install`, `PasswordOptions` and `FieldRef` are.
+- `userInputs` reads every element matched by a selector, and accepts a function returning the value.
+- To refresh the texts after a language change, call `.password('refresh')` instead of triggering an input event.
 
 ## Compatibility
 

@@ -1,6 +1,7 @@
 import $ from 'jquery'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { defaults, install } from '../src'
+import * as entry from '../src'
+import { install } from '../src'
 
 beforeEach(() => {
   $.fx.off = true
@@ -21,18 +22,8 @@ describe('install', () => {
 })
 
 describe('exports', () => {
-  it('exposes the plugin defaults', () => {
-    expect(defaults).toEqual({
-      userInputs: [],
-      translations: {},
-      locale: 'en',
-      showPercent: false,
-      showText: true,
-      label: 'Password strength',
-      animate: true,
-      animateSpeed: 'fast',
-      closestSelector: 'div',
-    })
+  it('exports only install at runtime (the types are erased)', () => {
+    expect(Object.keys(entry)).toEqual(['install'])
   })
 })
 
@@ -51,11 +42,10 @@ describe('$.fn.password', () => {
     expect($('#other').parent().find('.pass-text').text()).toBe('Type your password')
   })
 
-  it('does not change the defaults when options are given', () => {
+  it('does not share options between inputs', () => {
     $('#password').password({ showPercent: true, translations: { empty: 'x' } })
-    expect(defaults.showPercent).toBe(false)
-    expect(defaults.translations).toEqual({})
     $('#other').password({ animate: false })
+    expect($('#other').parent().find('.pass-percent').length).toBe(0)
     expect($('#other').parent().find('.pass-text').text()).toBe('Type your password')
   })
 })

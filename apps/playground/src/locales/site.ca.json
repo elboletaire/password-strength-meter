@@ -1,0 +1,409 @@
+{
+  "meta": {
+    "index": {
+      "title": "Passcore: indicadors de seguretat de contrasenyes per a qualsevol projecte",
+      "description": "Passcore calcula com és de difícil endevinar una contrasenya, comprova les teves regles i explica què cal canviar. Un nucli sense dependències i indicadors per a jQuery, JavaScript pur, React, Vue i Svelte."
+    },
+    "inspector": {
+      "title": "Inspector del nucli · Passcore",
+      "description": "Escriu una contrasenya i mira tot el que retorna @passcore/core: bits, percentatge, nivell, regles i el missatge traduït."
+    },
+    "jquery": {
+      "title": "Connector de jQuery · Passcore",
+      "description": "Demostracions en directe de @passcore/jquery, el connector de jQuery que mesura la seguretat de les contrasenyes, amb el codi de cadascuna."
+    },
+    "vanilla": {
+      "title": "JavaScript pur · Passcore",
+      "description": "Demostracions en directe de @passcore/vanilla: una funció i un element personalitzat <password-meter>, amb el codi de cadascuna."
+    },
+    "react": {
+      "title": "React · Passcore",
+      "description": "Demostracions en directe de @passcore/react: el component PasswordStrengthMeter i el hook usePasswordStrength."
+    },
+    "vue": {
+      "title": "Vue · Passcore",
+      "description": "Demostracions en directe de @passcore/vue: el component PasswordStrengthMeter i el composable usePasswordStrength."
+    },
+    "svelte": {
+      "title": "Svelte · Passcore",
+      "description": "Demostracions en directe de @passcore/svelte: el component PasswordStrengthMeter i la funció auxiliar passwordStrength."
+    }
+  },
+  "a11y": {
+    "skip": "Salta al contingut",
+    "copied": "S’ha copiat el codi al porta-retalls",
+    "copyFailed": "No s’ha pogut copiar el codi: selecciona’l i copia’l a mà"
+  },
+  "brand": {
+    "tag": "espai de proves"
+  },
+  "nav": {
+    "label": "Principal",
+    "home": "Inici",
+    "inspector": "Inspector",
+    "jquery": "jQuery",
+    "vanilla": "JS pur",
+    "react": "React",
+    "vue": "Vue",
+    "svelte": "Svelte"
+  },
+  "lang": {
+    "label": "Llengua"
+  },
+  "theme": {
+    "toDark": "Canvia al tema fosc",
+    "toLight": "Canvia al tema clar"
+  },
+  "reveal": {
+    "show": "Mostra la contrasenya",
+    "hide": "Amaga la contrasenya"
+  },
+  "code": {
+    "copy": "Copia",
+    "copied": "Copiat"
+  },
+  "footer": {
+    "tagline": "Indicadors de seguretat de contrasenyes per a qualsevol projecte.",
+    "privacy": "Tot s’executa al teu navegador: res del que escrius aquí no surt d’aquesta pàgina.",
+    "source": "Codi font",
+    "packages": "Paquets",
+    "license": "Llicència GPL-3.0",
+    "credits": "Fet per Òscar Casajuana i col·laboradors."
+  },
+  "field": {
+    "password": "Contrasenya",
+    "username": "Nom d’usuari",
+    "usernamePlaceholder": "jordipuig"
+  },
+  "meter": {
+    "label": "Seguretat de la contrasenya"
+  },
+  "level": {
+    "empty": "Buida",
+    "very-weak": "Molt feble",
+    "weak": "Feble",
+    "fair": "Acceptable",
+    "good": "Bona",
+    "strong": "Forta"
+  },
+  "events": {
+    "score": "Puntuació",
+    "send": "Envia",
+    "hint": "El botó s’activa tan bon punt la puntuació supera el 75 %.",
+    "sent": "Enviat! Bé, de fet no: d’aquesta pàgina no en surt res."
+  },
+  "demo": {
+    "live": "En directe",
+    "default": {
+      "title": "Per defecte"
+    },
+    "always": {
+      "title": "Sempre visible, amb el percentatge"
+    },
+    "percent": {
+      "title": "Amb el percentatge"
+    },
+    "linked": {
+      "title": "Vinculat a un nom d’usuari"
+    },
+    "translations": {
+      "title": "Traduccions incloses"
+    },
+    "i18next": {
+      "title": "Traduccions amb i18next"
+    },
+    "events": {
+      "title": "Callbacks i esdeveniments"
+    },
+    "group": {
+      "title": "Grup de camps"
+    },
+    "container": {
+      "title": "Contenidor propi"
+    },
+    "element": {
+      "title": "L’element <password-meter>"
+    },
+    "options": {
+      "title": "Opcions de l’element des de JavaScript"
+    },
+    "hook": {
+      "react": {
+        "title": "La teva pròpia interfície amb el hook"
+      },
+      "vue": {
+        "title": "La teva pròpia interfície amb el composable"
+      },
+      "svelte": {
+        "title": "La teva pròpia interfície amb la funció auxiliar"
+      }
+    },
+    "theming": {
+      "title": "Temes",
+      "text": "Els colors, la pista i l’alçada són propietats personalitzades de CSS: de <code>--pass-color-very-weak</code> a <code>--pass-color-strong</code>, <code>--pass-track</code> i <code>--pass-height</code>. Juga-hi aquí: el CSS de sota canvia alhora."
+    }
+  },
+  "studio": {
+    "legend": "Propietats personalitzades",
+    "track": "Pista",
+    "height": "Alçada",
+    "samples": "Una mostra per nivell",
+    "presets": "Combinacions",
+    "preset": {
+      "ocean": "Oceà",
+      "mono": "Monocrom",
+      "neon": "Neó"
+    },
+    "reset": "Restableix",
+    "note": "Els controls només canvien aquesta previsualització, de manera que les altres demostracions mantenen el seu aspecte. Defineix les propietats a <code>:root</code> per aplicar el tema a tot un lloc web."
+  },
+  "toc": {
+    "label": "En aquesta pàgina"
+  },
+  "binding": {
+    "readme": "Llegeix el README",
+    "note": "<strong>Tots els indicadors d’aquesta pàgina parlen la teva llengua.</strong> L’espai de proves dona a cadascun els textos de la llengua que triïs a dalt i el seu nom accessible. Perquè els fragments de codi siguin breus, només les demostracions de traducció mostren com es fa; el botó per mostrar i amagar la contrasenya és de l’espai de proves, no del paquet."
+  },
+  "checklist": {
+    "title": "Requisits",
+    "met": "complert",
+    "missing": "pendent",
+    "rule": {
+      "minLength_one": "Almenys {{count}} caràcter",
+      "minLength_many": "Almenys {{count}} caràcters",
+      "minLength_other": "Almenys {{count}} caràcters",
+      "maxLength_one": "Com a màxim {{count}} caràcter",
+      "maxLength_many": "Com a màxim {{count}} caràcters",
+      "maxLength_other": "Com a màxim {{count}} caràcters",
+      "notCommon": "Que no sigui una contrasenya comuna",
+      "notUserInputs": "Sense dades personals",
+      "lowercase_one": "Una lletra minúscula",
+      "lowercase_many": "{{count}} lletres minúscules",
+      "lowercase_other": "{{count}} lletres minúscules",
+      "uppercase_one": "Una lletra majúscula",
+      "uppercase_many": "{{count}} lletres majúscules",
+      "uppercase_other": "{{count}} lletres majúscules",
+      "numbers_one": "Un número",
+      "numbers_many": "{{count}} números",
+      "numbers_other": "{{count}} números",
+      "symbols_one": "Un símbol",
+      "symbols_many": "{{count}} símbols",
+      "symbols_other": "{{count}} símbols"
+    }
+  },
+  "home": {
+    "eyebrow": "Indicadors de seguretat de contrasenyes",
+    "title": "La seguretat d’una contrasenya, <em>mesurada amb honestedat.</em>",
+    "lead": "Passcore calcula com és de difícil endevinar una contrasenya, la compara amb les teves regles i diu a cada persona què ha de canviar, en la seva llengua. Un nucli petit i sense dependències, amb indicadors a punt per fer servir a jQuery, JavaScript pur, React, Vue i Svelte.",
+    "ctaInspector": "Obre l’inspector",
+    "ctaBindings": "Mira els paquets",
+    "try": {
+      "title": "Prova-ho",
+      "label": "Escriu una contrasenya",
+      "bits": "Estimació",
+      "bitsUnit": "bits",
+      "level": "Nivell",
+      "rules": "Regles",
+      "rulesValue": "{{passed}} de {{total}} complertes",
+      "samples": "O prova’n una d’aquestes:"
+    },
+    "features": {
+      "eyebrow": "Per què Passcore",
+      "title": "Números honestos, paraules clares i qualsevol framework",
+      "estimate": {
+        "title": "Estimacions, no il·lusions",
+        "text": "El primer és la llargada. Les repeticions, les seqüències, els recorreguts de teclat i les contrasenyes comunes gairebé no compten, encara que siguin en leetspeak: <code>P@ssw0rd!</code> no és una contrasenya segura."
+      },
+      "rules": {
+        "title": "Regles que s’entenen",
+        "text": "Llargada mínima, tipus de caràcters, contrasenyes comunes i dades personals. La primera regla que no es compleix es converteix en el missatge, perquè cada persona sàpiga què ha de corregir."
+      },
+      "a11y": {
+        "title": "Marcatge accessible",
+        "text": "Un <code>role=\"meter\"</code> de debò amb un valor que es llegeix en veu alta, una regió en directe discreta per al missatge i <code>aria-describedby</code> per associar-lo al camp."
+      },
+      "i18n": {
+        "title": "En qualsevol llengua",
+        "text": "Textos en el format JSON d’i18next, amb plurals inclosos. Tots els paquets porten anglès, castellà i català, o pots fer servir la teva pròpia funció <code>t</code>."
+      },
+      "theme": {
+        "title": "Temes amb set propietats",
+        "text": "Els colors, la pista i l’alçada són propietats personalitzades de CSS: adapta-ho al teu sistema de disseny sense barallar-te amb l’especificitat."
+      },
+      "core": {
+        "title": "Un nucli sense dependències",
+        "text": "<code>@passcore/core</code> no toca el DOM ni conté textos: retorna dades i claus de missatge, així que funciona a tot arreu, també al servidor."
+      }
+    },
+    "bindings": {
+      "eyebrow": "Paquets",
+      "title": "Tria la teva tecnologia",
+      "lead": "Tots els paquets generen el mateix marcatge amb el mateix full d’estils, de manera que canviar de framework no canvia el que veu la gent.",
+      "seeDemos": "Mira les demostracions",
+      "openInspector": "Obre l’inspector",
+      "core": {
+        "title": "Nucli",
+        "text": "Tot el que retorna l’estimació, amb totes les opcions a mà."
+      },
+      "jquery": {
+        "title": "jQuery",
+        "text": "<code>$.fn.password()</code> en qualsevol camp, amb esdeveniments i un indicador que apareix lliscant."
+      },
+      "vanilla": {
+        "title": "JS pur",
+        "text": "Una funció i un element personalitzat <code>&lt;password-meter&gt;</code>. Sense cap framework."
+      },
+      "react": {
+        "title": "React",
+        "text": "Un component controlat i el hook <code>usePasswordStrength()</code>."
+      },
+      "vue": {
+        "title": "Vue",
+        "text": "Un component i un composable, per a Vue 3.5 o posterior."
+      },
+      "svelte": {
+        "title": "Svelte",
+        "text": "Un component i una funció auxiliar basada en runes, per a Svelte 5."
+      }
+    },
+    "install": {
+      "eyebrow": "Primers passos",
+      "title": "Instal·lació",
+      "lead": "Tria un paquet i el teu gestor de paquets: aquí tens l’ordre i un primer fragment de codi.",
+      "packages": "Paquets",
+      "manager": "Gestor de paquets"
+    }
+  },
+  "inspector": {
+    "title": "Inspector del nucli",
+    "lead": "Escriu una contrasenya i mira tot el que retorna <code>@passcore/core</code>: l’estimació, el percentatge, el nivell, cada regla i el missatge que mostraria un paquet. Canvia les opcions i observa com reaccionen les regles i la puntuació.",
+    "input": {
+      "title": "Entrada",
+      "personal": "Dades personals",
+      "personalPlaceholder": "jordipuig, jordi@exemple.cat",
+      "personalHint": "Separades per comes. La contrasenya no les pot contenir: es passen com a <code>userInputs</code>."
+    },
+    "options": {
+      "title": "Opcions",
+      "reset": "Restableix",
+      "text": "Cada canvi torna a crear el mesurador amb <code>createMeter()</code>.",
+      "minLength": {
+        "label": "Llargada mínima",
+        "hint": "Amb 0, la regla es desactiva."
+      },
+      "targetBits": {
+        "label": "Bits objectiu",
+        "hint": "Els bits que equivalen al 100 %."
+      },
+      "lowercase": {
+        "label": "Minúscules",
+        "hint": "Quantitat mínima. Amb 0, es desactiva."
+      },
+      "uppercase": {
+        "label": "Majúscules",
+        "hint": "Quantitat mínima. Amb 0, es desactiva."
+      },
+      "numbers": {
+        "label": "Números",
+        "hint": "Quantitat mínima. Amb 0, es desactiva."
+      },
+      "symbols": {
+        "label": "Símbols",
+        "hint": "Quantitat mínima. Amb 0, es desactiva."
+      },
+      "words": {
+        "label": "Més paraules comunes",
+        "hint": "Separades per comes o salts de línia. S’afegeixen a la llista integrada de contrasenyes comunes."
+      }
+    },
+    "result": {
+      "title": "Resultat",
+      "bits": "Bits",
+      "percent": "Percentatge",
+      "level": "Nivell",
+      "valid": "Vàlida",
+      "message": "Missatge",
+      "key": "Clau",
+      "params": "Paràmetres",
+      "translated": "Traduït",
+      "rules": "Regles",
+      "rule": "Regla",
+      "outcome": "Resultat",
+      "ruleParams": "Paràmetres",
+      "passed": "Compleix",
+      "failed": "No compleix",
+      "none": "Cap",
+      "raw": "Resultat en brut (JSON)"
+    }
+  },
+  "jquery": {
+    "title": "Connector de jQuery",
+    "lead": "<code>@passcore/jquery</code> afegeix <code>$.fn.password()</code> a jQuery 3 i 4. Aplica’l a un camp de contrasenya i afegirà un indicador accessible al contenidor més proper, a més de llançar esdeveniments mentre s’escriu.",
+    "demo": {
+      "default": "Tal com ve, l’indicador espera amagat fins que el camp rep el focus i aleshores apareix lliscant. Si el camp es queda buit, torna a amagar-se.",
+      "always": "Amb <code>animate: false</code> l’indicador es veu des del principi, i <code>showPercent</code> hi afegeix el número.",
+      "linked": "Amb <code>userInputs</code> la contrasenya no pot contenir el nom d’usuari: prova d’escriure’l als dos camps. Els camps es llegeixen a cada pulsació.",
+      "translations": "Els fitxers inclosos van a <code>translations</code>, i <code>locale</code> tria les formes del plural. Canvia la llengua a dalt: el connector llegeix els textos una sola vegada, així que l’espai de proves el torna a muntar.",
+      "i18next": "<code>translate</code> rep la funció <code>t</code> d’una instància d’i18next, aquí la del mateix espai de proves. El connector només reescriu el missatge quan canvia, així que un canvi de llengua obliga a tornar-lo a muntar.",
+      "events": "<code>password.score</code> es llança a cada pulsació, amb el percentatge i el resultat complet. Aquí controla la puntuació i el botó Envia.",
+      "group": "Per defecte, l’indicador va al <code>div</code> més proper. Amb <code>closestSelector: '.form-group'</code> es col·loca a sota de tot el grup de camps."
+    }
+  },
+  "vanilla": {
+    "title": "JavaScript pur",
+    "lead": "<code>@passcore/vanilla</code> no necessita cap framework ni jQuery: crida <code>createPasswordMeter()</code> sobre un camp, o escriu un element <code>&lt;password-meter&gt;</code> allà on vulguis l’indicador.",
+    "demo": {
+      "default": "Amb <code>hideUntilFocus</code> l’indicador es manté amagat fins que el camp rep el focus, i torna a amagar-se quan el perd si el camp és buit.",
+      "always": "Sense <code>hideUntilFocus</code> l’indicador es veu des del principi, i <code>showPercent</code> hi afegeix el número.",
+      "linked": "Amb <code>userInputs</code> la contrasenya no pot contenir el nom d’usuari. Les cadenes són selectors i es llegeixen a cada pulsació; també admet funcions.",
+      "translations": "Els fitxers inclosos van a <code>translations</code>, <code>locale</code> tria les formes del plural i <code>label</code> dona nom a l’indicador per als lectors de pantalla. Les opcions es llegeixen una sola vegada, així que una altra llengua vol dir un altre indicador.",
+      "i18next": "<code>translate</code> rep la funció <code>t</code> d’una instància d’i18next, aquí la del mateix espai de proves. Els textos es tradueixen a cada actualització, així que per canviar de llengua n’hi ha prou amb <code>refresh()</code>.",
+      "events": "El callback <code>onScore</code> i l’esdeveniment <code>passcore:score</code>, que es propaga, reben el percentatge a cada actualització. Aquí controlen el botó Envia i la puntuació.",
+      "group": "Per defecte, l’indicador va just després del camp. <code>container</code> l’afegeix en un altre lloc: aquí, a sota de tot el grup de camps.",
+      "element": "<code>&lt;password-meter&gt;</code> dibuixa l’indicador just on l’escrius. Els atributs cobreixen les opcions senzilles: <code>min-length</code>, <code>show-percent</code>, <code>user-inputs</code>, <code>locale</code>, <code>label</code> i alguna més.",
+      "options": "El que no cap en un atribut (traduccions, regles, callbacks) va a la propietat <code>options</code>, que es combina amb els atributs. Aquest, a més, demana un número i un símbol."
+    }
+  },
+  "react": {
+    "title": "React",
+    "lead": "<code>@passcore/react</code> ofereix un component controlat, <code>&lt;PasswordStrengthMeter&gt;</code>, i el hook <code>usePasswordStrength()</code>, per a React 18 o posterior.",
+    "demo": {
+      "default": "El component és controlat: rep la contrasenya com a prop i mai no toca el teu camp. No té cap estat amagat, així que l’indicador sempre es veu; <code>id</code> l’associa al camp.",
+      "percent": "<code>showPercent</code> afegeix el número al costat de la barra.",
+      "linked": "Amb <code>userInputs</code> la contrasenya no pot contenir el nom d’usuari. Passa-li els valors actuals, directament de l’estat.",
+      "translations": "Els fitxers inclosos van a <code>translations</code>, <code>locale</code> tria les formes del plural i <code>label</code> dona nom a l’indicador per als lectors de pantalla. Canvia la llengua a dalt: props noves, textos nous.",
+      "i18next": "<code>translate</code> rep la funció <code>t</code> d’una instància d’i18next, aquí la del mateix espai de proves. La funció no canvia mai, així que <code>locale</code> indica al component quan ha de tornar a traduir.",
+      "events": "<code>onScore</code> rep el percentatge cada vegada que canvia el resultat (mai en muntar-se). Aquí controla la puntuació i el botó Envia.",
+      "group": "L’indicador és un element més: posa’l després del grup de camps i n’ocuparà tota l’amplada.",
+      "hook": "<code>usePasswordStrength()</code> retorna el resultat i els textos traduïts perquè facis servir el teu propi marcatge. Aquí: una barra de cinc passos i una llista amb <code>result.rules</code>, amb més regles activades."
+    }
+  },
+  "vue": {
+    "title": "Vue",
+    "lead": "<code>@passcore/vue</code> ofereix un component, <code>&lt;PasswordStrengthMeter&gt;</code>, i el composable <code>usePasswordStrength()</code>, per a Vue 3.5 o posterior.",
+    "demo": {
+      "default": "El component rep la contrasenya com a prop, així que funciona amb qualsevol <code>v-model</code>. Sempre es veu; <code>id</code> l’associa al camp.",
+      "percent": "<code>show-percent</code> afegeix el número al costat de la barra.",
+      "linked": "Amb <code>user-inputs</code> la contrasenya no pot contenir el nom d’usuari. Passa-li els valors actuals, directament de les teves refs.",
+      "translations": "Els fitxers inclosos van a <code>translations</code>, <code>locale</code> tria les formes del plural i <code>label</code> dona nom a l’indicador per als lectors de pantalla. Canvia la llengua a dalt: props noves, textos nous.",
+      "i18next": "<code>translate</code> rep la funció <code>t</code> d’una instància d’i18next, aquí la del mateix espai de proves. La funció no canvia mai, així que <code>locale</code> indica al component quan ha de tornar a traduir.",
+      "events": "L’esdeveniment <code>score</code> porta el percentatge cada vegada que canvia el resultat (mai en muntar-se). Aquí controla la puntuació i el botó Envia.",
+      "group": "L’indicador és un element més: posa’l després del grup de camps i n’ocuparà tota l’amplada.",
+      "hook": "<code>usePasswordStrength()</code> retorna refs amb el resultat i els textos traduïts perquè facis servir el teu propi marcatge. Aquí: una barra de cinc passos i una llista amb <code>result.rules</code>, amb més regles activades."
+    }
+  },
+  "svelte": {
+    "title": "Svelte",
+    "lead": "<code>@passcore/svelte</code> ofereix un component, <code>&lt;PasswordStrengthMeter&gt;</code>, i <code>passwordStrength()</code>, una funció auxiliar basada en runes, per a Svelte 5.",
+    "demo": {
+      "default": "El component rep la contrasenya com a prop, així que n’hi ha prou amb un <code>bind:value</code> al teu camp. Sempre es veu; <code>id</code> l’associa al camp.",
+      "percent": "<code>showPercent</code> afegeix el número al costat de la barra.",
+      "linked": "Amb <code>userInputs</code> la contrasenya no pot contenir el nom d’usuari. Passa-li els valors actuals, directament del teu estat.",
+      "translations": "Els fitxers inclosos van a <code>translations</code>, <code>locale</code> tria les formes del plural i <code>label</code> dona nom a l’indicador per als lectors de pantalla. Canvia la llengua a dalt: props noves, textos nous.",
+      "i18next": "<code>translate</code> rep la funció <code>t</code> d’una instància d’i18next, aquí la del mateix espai de proves. La funció no canvia mai, així que <code>locale</code> indica al component quan ha de tornar a traduir.",
+      "events": "<code>onscore</code> rep el percentatge cada vegada que canvia el resultat (mai en muntar-se). Aquí controla la puntuació i el botó Envia.",
+      "group": "L’indicador és un element més: posa’l després del grup de camps i n’ocuparà tota l’amplada.",
+      "hook": "<code>passwordStrength()</code> retorna getters amb el resultat i els textos traduïts perquè facis servir el teu propi marcatge. Aquí: una barra de cinc passos i una llista amb <code>result.rules</code>, amb més regles activades."
+    }
+  }
+}

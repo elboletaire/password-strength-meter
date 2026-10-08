@@ -1,11 +1,11 @@
 <script lang="ts">
   import { PasswordStrengthMeter } from '@passcore/svelte'
+  import { lang } from './lang.svelte'
+  import PasswordField from './PasswordField.svelte'
 
   let password = $state('')
 </script>
 
-<div class="field">
-  <label for="svelte-percent">Password</label>
-  <input id="svelte-percent" type="password" autocomplete="new-password" aria-describedby="svelte-percent-strength" bind:value={password} />
-  <PasswordStrengthMeter id="svelte-percent-strength" {password} showPercent />
-</div>
+<PasswordField id="svelte-percent" bind:value={password} describedBy="svelte-percent-strength">
+  <PasswordStrengthMeter id="svelte-percent-strength" {password} showPercent {...lang.meterTexts} />
+</PasswordField>

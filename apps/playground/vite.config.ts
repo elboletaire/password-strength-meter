@@ -2,14 +2,34 @@ import { fileURLToPath, URL } from 'node:url'
 import react from '@vitejs/plugin-react'
 import vue from '@vitejs/plugin-vue'
 import { svelte, vitePreprocess } from '@sveltejs/vite-plugin-svelte'
-import { defineConfig } from 'vite'
+import { basename } from 'node:path'
+import { defineConfig, type Plugin } from 'vite'
+import { isPageId, renderPage } from './src/shell/index.ts'
 
 const fromHere = (path: string) => fileURLToPath(new URL(path, import.meta.url))
+
+/** Fills the `<!--@head-->` and `<!--@body-->` of each page with its markup (see src/shell/index.ts). */
+function pageShell(): Plugin {
+  return {
+    name: 'playground-page-shell',
+    transformIndexHtml: {
+      order: 'pre',
+      handler(html, { filename }) {
+        const page = basename(filename, '.html')
+        if (!isPageId(page)) {
+          throw new Error(`No page shell for ${filename}`)
+        }
+        return renderPage(page, html)
+      },
+    },
+  }
+}
 
 export default defineConfig({
   // relative asset URLs, so the build works under any GitHub Pages path
   base: './',
   plugins: [
+    pageShell(),
     react(),
     vue(),
     svelte({ preprocess: vitePreprocess() }),
@@ -45,6 +65,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         index: fromHere('./index.html'),
+        inspector: fromHere('./inspector.html'),
         jquery: fromHere('./jquery.html'),
         vanilla: fromHere('./vanilla.html'),
         react: fromHere('./react.html'),

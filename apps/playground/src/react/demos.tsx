@@ -2,227 +2,174 @@ import { PasswordStrengthMeter, usePasswordStrength } from '@passcore/react'
 import ca from '@passcore/react/locales/ca.json'
 import en from '@passcore/react/locales/en.json'
 import es from '@passcore/react/locales/es.json'
-import { useEffect, useState, type FormEvent } from 'react'
-import { LOCK_PATH } from '../cards'
-import { translate } from '../i18n'
-import { currentLang, onLanguageChange, type Lang } from '../site'
+import { useState, type FormEvent } from 'react'
+import { CHECKLIST_RULES, describeRule, litSteps, ruleState, STEPS } from '../lib/checklist'
+import { meterLabel, t, translate } from '../lib/i18n'
+import { Icon, meterTexts, PasswordField, PasswordInput, useLang } from './shared'
 
 const bundled = { en, es, ca }
 
-/** The language of the header, as state: a change re-renders the demo. */
-function useLang(): Lang {
-  const [lang, setLang] = useState(currentLang)
-  useEffect(() => onLanguageChange(setLang), [])
-  return lang
-}
-
 export function DefaultDemo() {
+  const lang = useLang()
   const [password, setPassword] = useState('')
 
   return (
-    <div className="field">
-      <label htmlFor="react-default">Password</label>
-      <input
-        id="react-default"
-        type="password"
-        autoComplete="new-password"
-        aria-describedby="react-default-strength"
-        value={password}
-        onChange={(event) => setPassword(event.target.value)}
-      />
-      <PasswordStrengthMeter id="react-default-strength" password={password} />
-    </div>
+    <PasswordField id="react-default" value={password} onChange={setPassword} describedBy="react-default-strength">
+      <PasswordStrengthMeter id="react-default-strength" password={password} {...meterTexts(lang)} />
+    </PasswordField>
   )
 }
 
 export function PercentDemo() {
+  const lang = useLang()
   const [password, setPassword] = useState('')
 
   return (
-    <div className="field">
-      <label htmlFor="react-percent">Password</label>
-      <input
-        id="react-percent"
-        type="password"
-        autoComplete="new-password"
-        aria-describedby="react-percent-strength"
-        value={password}
-        onChange={(event) => setPassword(event.target.value)}
-      />
-      <PasswordStrengthMeter id="react-percent-strength" password={password} showPercent />
-    </div>
+    <PasswordField id="react-percent" value={password} onChange={setPassword} describedBy="react-percent-strength">
+      <PasswordStrengthMeter id="react-percent-strength" password={password} showPercent {...meterTexts(lang)} />
+    </PasswordField>
   )
 }
 
 export function LinkedDemo() {
+  const lang = useLang()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   return (
     <>
       <div className="field">
-        <label htmlFor="react-username">Username</label>
+        <label className="field__label" htmlFor="react-username">{t('field.username')}</label>
         <input
+          className="input"
           id="react-username"
           type="text"
           autoComplete="username"
-          placeholder="johndoe"
+          autoCapitalize="off"
+          spellCheck={false}
+          placeholder={t('field.usernamePlaceholder')}
           value={username}
           onChange={(event) => setUsername(event.target.value)}
         />
       </div>
-      <div className="field">
-        <label htmlFor="react-linked">Password</label>
-        <input
-          id="react-linked"
-          type="password"
-          autoComplete="new-password"
-          aria-describedby="react-linked-strength"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-        <PasswordStrengthMeter id="react-linked-strength" password={password} userInputs={[username]} showPercent />
-      </div>
+      <PasswordField id="react-linked" value={password} onChange={setPassword} describedBy="react-linked-strength">
+        <PasswordStrengthMeter id="react-linked-strength" password={password} userInputs={[username]} showPercent {...meterTexts(lang)} />
+      </PasswordField>
     </>
   )
 }
 
 export function TranslationsDemo() {
-  const [password, setPassword] = useState('')
   const lang = useLang()
+  const [password, setPassword] = useState('')
 
   return (
-    <div className="field">
-      <label htmlFor="react-translations">Password</label>
-      <input
-        id="react-translations"
-        type="password"
-        autoComplete="new-password"
-        aria-describedby="react-translations-strength"
-        value={password}
-        onChange={(event) => setPassword(event.target.value)}
-      />
+    <PasswordField id="react-translations" value={password} onChange={setPassword} describedBy="react-translations-strength">
       <PasswordStrengthMeter
         id="react-translations-strength"
         password={password}
         translations={bundled[lang]}
         locale={lang}
+        label={meterLabel()}
         showPercent
       />
-    </div>
+    </PasswordField>
   )
 }
 
 export function I18nDemo() {
+  const lang = useLang()
   const [password, setPassword] = useState('')
-  // the language of the header, as state: the arrow below is new on each render, so the texts follow it
-  useLang()
 
+  // `translate` keeps its identity in every language: `locale` tells the component to translate again
   return (
-    <div className="field">
-      <label htmlFor="react-i18next">Password</label>
-      <input
-        id="react-i18next"
-        type="password"
-        autoComplete="new-password"
-        aria-describedby="react-i18next-strength"
-        value={password}
-        onChange={(event) => setPassword(event.target.value)}
-      />
+    <PasswordField id="react-i18next" value={password} onChange={setPassword} describedBy="react-i18next-strength">
       <PasswordStrengthMeter
         id="react-i18next-strength"
         password={password}
-        translate={(key, params) => translate(key, params)}
+        translate={translate}
+        locale={lang}
+        label={meterLabel()}
         showPercent
       />
-    </div>
+    </PasswordField>
   )
 }
 
 export function EventsDemo() {
+  const lang = useLang()
   const [password, setPassword] = useState('')
   const [percent, setPercent] = useState(0)
-  const [status, setStatus] = useState('')
+  const [sent, setSent] = useState(false)
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setStatus('Submitted in the playground: nothing was sent.')
+    setSent(true)
   }
 
   return (
-    <form onSubmit={submit}>
-      <div className="field">
-        <label htmlFor="react-events">Password</label>
-        <input
-          id="react-events"
-          type="password"
-          autoComplete="new-password"
-          aria-describedby="react-events-strength"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-        <PasswordStrengthMeter
-          id="react-events-strength"
-          password={password}
-          onScore={(score) => setPercent(score)}
-        />
+    <form className="events" onSubmit={submit} noValidate>
+      <PasswordField id="react-events" value={password} onChange={setPassword} describedBy="react-events-strength">
+        <PasswordStrengthMeter id="react-events-strength" password={password} onScore={setPercent} {...meterTexts(lang)} />
+      </PasswordField>
+      <div className="events__bar">
+        <p className="events__score">
+          <span>{t('events.score')}</span>
+          {' '}
+          <output htmlFor="react-events">{`${percent}%`}</output>
+        </p>
+        <button type="submit" className="btn btn--primary" disabled={percent <= 75}>
+          <span>{t('events.send')}</span>
+          <Icon name="arrowRight" size={18} />
+        </button>
       </div>
-      <output className="hint" htmlFor="react-events">{`Score: ${percent}%`}</output>
-      <div className="actions">
-        <button type="submit" className="btn btn--primary" disabled={percent <= 75}>Send</button>
-        <p className="hint" role="status">{status}</p>
-      </div>
+      <p className="hint">{t('events.hint')}</p>
+      <p className="events__status" role="status">{sent ? t('events.sent') : ''}</p>
     </form>
   )
 }
 
 export function GroupDemo() {
+  const lang = useLang()
   const [password, setPassword] = useState('')
 
   return (
-    <div className="form-group">
-      <label htmlFor="react-group">Password</label>
+    <div className="form-group field">
+      <label className="field__label" htmlFor="react-group">{t('field.password')}</label>
       <div className="input-group">
-        <span className="input-group__addon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="16" height="16" focusable="false">
-            <path fill="currentColor" d={LOCK_PATH} />
-          </svg>
-        </span>
-        <input
-          id="react-group"
-          type="password"
-          autoComplete="new-password"
-          aria-describedby="react-group-strength"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
+        <span className="input-group__addon" aria-hidden="true"><Icon name="lock" size={18} /></span>
+        <PasswordInput id="react-group" value={password} onChange={setPassword} describedBy="react-group-strength" />
       </div>
-      <PasswordStrengthMeter id="react-group-strength" password={password} />
+      <PasswordStrengthMeter id="react-group-strength" password={password} {...meterTexts(lang)} />
     </div>
   )
 }
 
-/** The hook drives a custom UI: a checklist of the rules, and the message. */
+/** The hook drives a custom UI: five steps, the message and a checklist of the rules. */
 export function HookDemo() {
+  const lang = useLang()
   const [password, setPassword] = useState('')
-  const { percent, rules, text, levelText } = usePasswordStrength(password)
+  const { level, rules, text } = usePasswordStrength(password, {
+    translations: bundled[lang],
+    locale: lang,
+    rules: CHECKLIST_RULES,
+  })
+  const lit = litSteps(level)
 
   return (
-    <div className="field">
-      <label htmlFor="react-hook">Password</label>
-      <input
-        id="react-hook"
-        type="password"
-        autoComplete="new-password"
-        value={password}
-        onChange={(event) => setPassword(event.target.value)}
-      />
-      <p className="hint" aria-live="polite">{`${text} (${percent}%, ${levelText})`}</p>
-      <ul className="checklist">
+    <div className="custom">
+      <PasswordField id="react-hook" value={password} onChange={setPassword} describedBy="react-hook-text" />
+      <div className="steps" data-level={level} aria-hidden="true">
+        {STEPS.map((step, index) => <span key={step} className={index < lit ? 'steps__step steps__step--on' : 'steps__step'} />)}
+      </div>
+      <p className="custom__text" id="react-hook-text" aria-live="polite">{text}</p>
+      <p className="checklist__title" id="react-hook-rules">{t('checklist.title')}</p>
+      <ul className="checklist" aria-labelledby="react-hook-rules">
         {rules.map((rule) => (
-          <li key={rule.id}>
-            <span className={rule.passed ? 'badge badge--ok' : 'badge badge--bad'}>{rule.passed ? 'passed' : 'failed'}</span>
-            <code>{rule.id}</code>
+          <li key={rule.id} className="checklist__item" data-passed={rule.passed}>
+            <Icon name={rule.passed ? 'check' : 'cross'} size={16} className="icon checklist__icon" />
+            <span>{describeRule(rule)}</span>
+            <span className="visually-hidden">{`, ${ruleState(rule.passed)}`}</span>
           </li>
         ))}
       </ul>
@@ -231,20 +178,12 @@ export function HookDemo() {
 }
 
 export function ThemeDemo() {
+  const lang = useLang()
   const [password, setPassword] = useState('')
 
   return (
-    <div className="field">
-      <label htmlFor="react-theme">Password</label>
-      <input
-        id="react-theme"
-        type="password"
-        autoComplete="new-password"
-        aria-describedby="react-theme-strength"
-        value={password}
-        onChange={(event) => setPassword(event.target.value)}
-      />
-      <PasswordStrengthMeter id="react-theme-strength" password={password} showPercent />
-    </div>
+    <PasswordField id="react-theme" value={password} onChange={setPassword} describedBy="react-theme-strength">
+      <PasswordStrengthMeter id="react-theme-strength" password={password} showPercent {...meterTexts(lang)} />
+    </PasswordField>
   )
 }

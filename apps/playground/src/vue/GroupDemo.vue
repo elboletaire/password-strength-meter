@@ -1,22 +1,22 @@
 <script setup lang="ts">
 import { PasswordStrengthMeter } from '@passcore/vue'
 import { ref } from 'vue'
-import { LOCK_PATH } from '../cards'
+import Icon from './Icon.vue'
+import PasswordInput from './PasswordInput.vue'
+import { useMeterTexts, useT } from './use-lang'
 
 const password = ref('')
+const texts = useMeterTexts()
+const { t } = useT()
 </script>
 
 <template>
-  <div class="form-group">
-    <label for="vue-group">Password</label>
+  <div class="form-group field">
+    <label class="field__label" for="vue-group">{{ t('field.password') }}</label>
     <div class="input-group">
-      <span class="input-group__addon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="16" height="16" focusable="false">
-          <path fill="currentColor" :d="LOCK_PATH" />
-        </svg>
-      </span>
-      <input id="vue-group" v-model="password" type="password" autocomplete="new-password" aria-describedby="vue-group-strength">
+      <span class="input-group__addon" aria-hidden="true"><Icon name="lock" :size="18" /></span>
+      <PasswordInput id="vue-group" v-model="password" described-by="vue-group-strength" />
     </div>
-    <PasswordStrengthMeter id="vue-group-strength" :password="password" />
+    <PasswordStrengthMeter id="vue-group-strength" :password="password" v-bind="texts" />
   </div>
 </template>

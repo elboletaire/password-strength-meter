@@ -1,56 +1,10 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="light dark" />
-    <meta name="description" content="Passcore playground: the @passcore/react component and hook, with their code." />
-    <link rel="icon" href="data:," />
-    <title>React - Passcore playground</title>
+    <!--@head-->
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
-
-    <header class="site-header">
-      <div class="site-header__inner">
-        <a class="brand" href="./">Passcore <span>playground</span></a>
-
-        <nav aria-label="Bindings">
-          <ul class="nav">
-            <li><a href="./">Core inspector</a></li>
-            <li><a href="./jquery.html">jQuery</a></li>
-            <li><a href="./vanilla.html">Vanilla</a></li>
-            <li><a href="./react.html" aria-current="page">React</a></li>
-            <li><a href="./vue.html">Vue</a></li>
-            <li><a href="./svelte.html">Svelte</a></li>
-          </ul>
-        </nav>
-
-        <div class="lang" role="group" aria-label="Language of the meter texts">
-          <button type="button" data-lang="en" aria-pressed="true" lang="en">English</button>
-          <button type="button" data-lang="es" aria-pressed="false" lang="es">Español</button>
-          <button type="button" data-lang="ca" aria-pressed="false" lang="ca">Català</button>
-        </div>
-      </div>
-    </header>
-
-    <main id="main">
-      <section class="intro">
-        <h1>React</h1>
-        <p>
-          Each card below is a setup of <code>@passcore/react</code>, with the code that runs it: the <code>&lt;PasswordStrengthMeter&gt;</code> component, and the <code>usePasswordStrength()</code> hook for a custom UI. The language switcher above changes the texts of the translations cards.
-        </p>
-      </section>
-
-      <div class="cards" id="cards"></div>
-    </main>
-
-    <footer class="site-footer">
-      <p>
-        Passcore playground. <a href="https://github.com/elboletaire/password-strength-meter">Source on GitHub</a>, GPL-3.0.
-      </p>
-    </footer>
-
-    <script type="module" src="./src/react.tsx"></script>
+    <!--@body-->
+    <script type="module" src="./src/pages/react.tsx"></script>
   </body>
 </html>

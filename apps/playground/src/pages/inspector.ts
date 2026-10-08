@@ -1,12 +1,13 @@
-import '@passcore/jquery/styles.css'
+import '../lib/site'
+import '@passcore/vanilla/styles.css'
 import { commonPasswords, createMeter, translationParams, type MeterResult, type PartialOptions } from '@passcore/core'
-import { translate } from './i18n'
-import { currentLang, onLanguageChange, type Lang } from './site'
+import { formatNumber, meterLabel, t, translate } from '../lib/i18n'
+import { onLanguageChange } from '../lib/lang'
 
 const byId = <T extends HTMLElement>(id: string): T => {
   const element = document.getElementById(id)
   if (!element) {
-    throw new Error(`Missing #${id} in index.html`)
+    throw new Error(`Missing #${id} in inspector.html`)
   }
   return element as T
 }
@@ -23,22 +24,22 @@ const DEFAULT_OPTIONS = {
 const LEVEL_CLASSES = ['empty', 'very-weak', 'weak', 'fair', 'good', 'strong'].map((level) => `pass-level-${level}`)
 
 const passwordInput = byId<HTMLInputElement>('password')
-const toggleButton = byId<HTMLButtonElement>('toggle-password')
 const personalInput = byId<HTMLInputElement>('personal')
-const meterWrapper = byId<HTMLElement>('meter-wrapper')
-const meterElement = byId<HTMLElement>('meter')
-const meterBar = byId<HTMLElement>('meter-bar')
-const meterPercent = byId<HTMLElement>('meter-percent')
-const meterText = byId<HTMLElement>('meter-text')
-const outBits = byId<HTMLElement>('out-bits')
-const outPercent = byId<HTMLElement>('out-percent')
-const outLevel = byId<HTMLElement>('out-level')
-const outValid = byId<HTMLElement>('out-valid')
-const outMessageKey = byId<HTMLElement>('out-message-key')
-const outMessageParams = byId<HTMLElement>('out-message-params')
-const outMessageText = byId<HTMLElement>('out-message-text')
+const meterWrapper = byId('meter-wrapper')
+const meterElement = byId('meter')
+const meterBar = byId('meter-bar')
+const meterPercent = byId('meter-percent')
+const meterText = byId('meter-text')
+const gaugeFill = byId('gauge-fill')
+const outBits = byId('out-bits')
+const outPercent = byId('out-percent')
+const outLevel = byId('out-level')
+const outValid = byId('out-valid')
+const outMessageKey = byId('out-message-key')
+const outMessageParams = byId('out-message-params')
+const outMessageText = byId('out-message-text')
 const outRules = byId<HTMLTableSectionElement>('out-rules')
-const outRaw = byId<HTMLElement>('out-raw')
+const outRaw = byId('out-raw')
 const optionsForm = byId<HTMLFormElement>('options')
 const optionInputs = {
   minLength: byId<HTMLInputElement>('opt-min-length'),
@@ -97,13 +98,16 @@ function ruleRow(id: string, passed: boolean, params: Record<string, number>): H
   const status = document.createElement('td')
   const badge = document.createElement('span')
   badge.className = passed ? 'badge badge--ok' : 'badge badge--bad'
-  badge.textContent = passed ? 'passed' : 'failed'
+  badge.textContent = t(passed ? 'inspector.result.passed' : 'inspector.result.failed')
   status.append(badge)
 
   const paramsCell = document.createElement('td')
   const entries = Object.entries(params)
   if (entries.length === 0) {
-    paramsCell.textContent = '-'
+    const none = document.createElement('span')
+    none.className = 'muted'
+    none.textContent = t('inspector.result.none')
+    paramsCell.append(none)
   }
   else {
     paramsCell.append(codeElement(entries.map(([key, value]) => `${key}: ${value}`).join(', ')))
@@ -118,33 +122,33 @@ function render(): void {
   const text = translate(result.message.key, translationParams(result.message))
   const levelText = translate(result.level === 'empty' ? 'empty' : `level.${result.level}`)
 
-  // the meter, with the same markup and classes the bindings render
+  // the meter, with the markup and classes of the bindings
   meterWrapper.classList.remove(...LEVEL_CLASSES)
   meterWrapper.classList.add(`pass-level-${result.level}`)
   meterWrapper.classList.toggle('pass-invalid', !result.valid)
+  meterElement.setAttribute('aria-label', meterLabel())
   meterElement.setAttribute('aria-valuenow', String(result.percent))
   meterElement.setAttribute('aria-valuetext', levelText)
   meterBar.style.width = `${result.percent}%`
   meterPercent.textContent = `${result.percent}%`
-  meterText.textContent = text
+  if (meterText.textContent !== text) {
+    meterText.textContent = text
+  }
 
   // everything the core returns
-  outBits.textContent = result.bits.toFixed(1)
-  outPercent.textContent = `${result.percent}%`
+  outBits.textContent = formatNumber(result.bits, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+  outPercent.textContent = formatNumber(result.percent / 100, { style: 'percent' })
   outLevel.replaceChildren(codeElement(result.level))
   outValid.replaceChildren(codeElement(String(result.valid)))
+  outValid.dataset.valid = String(result.valid)
+  gaugeFill.style.width = `${result.percent}%`
+  gaugeFill.dataset.level = result.level
   outMessageKey.textContent = result.message.key
   outMessageParams.textContent = JSON.stringify(result.message.params)
   outMessageText.textContent = text
   outRules.replaceChildren(...result.rules.map((rule) => ruleRow(rule.id, rule.passed, rule.params)))
   outRaw.textContent = JSON.stringify(result, null, 2)
 }
-
-toggleButton.addEventListener('click', () => {
-  const reveal = passwordInput.type === 'password'
-  passwordInput.type = reveal ? 'text' : 'password'
-  toggleButton.setAttribute('aria-pressed', String(reveal))
-})
 
 passwordInput.addEventListener('input', render)
 personalInput.addEventListener('input', render)
@@ -167,13 +171,7 @@ resetButton.addEventListener('click', () => {
   render()
 })
 
-onLanguageChange((lang: Lang) => {
-  // i18n.ts changes the language on the same event, before this listener runs
-  meterText.lang = lang
-  outMessageText.lang = lang
-  render()
-})
+// the i18n module changes the language on the same event, before this listener runs
+onLanguageChange(render)
 
-meterText.lang = currentLang()
-outMessageText.lang = currentLang()
 render()

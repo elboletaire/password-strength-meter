@@ -1,31 +1,38 @@
 <script setup lang="ts">
 import { PasswordStrengthMeter } from '@passcore/vue'
 import { ref } from 'vue'
+import Icon from './Icon.vue'
+import PasswordField from './PasswordField.vue'
+import { useMeterTexts, useT } from './use-lang'
 
 const password = ref('')
 const percent = ref(0)
-const status = ref('')
+const sent = ref(false)
+const texts = useMeterTexts()
+const { t } = useT()
 
 const onScore = (value: number): void => {
   percent.value = value
 }
-
-const submit = (): void => {
-  status.value = 'Submitted in the playground: nothing was sent.'
-}
 </script>
 
 <template>
-  <form @submit.prevent="submit">
-    <div class="field">
-      <label for="vue-events">Password</label>
-      <input id="vue-events" v-model="password" type="password" autocomplete="new-password" aria-describedby="vue-events-strength">
-      <PasswordStrengthMeter id="vue-events-strength" :password="password" @score="onScore" />
+  <form class="events" novalidate @submit.prevent="sent = true">
+    <PasswordField id="vue-events" v-model="password" described-by="vue-events-strength">
+      <PasswordStrengthMeter id="vue-events-strength" :password="password" v-bind="texts" @score="onScore" />
+    </PasswordField>
+    <div class="events__bar">
+      <p class="events__score">
+        <span>{{ t('events.score') }}</span>
+        {{ ' ' }}
+        <output for="vue-events">{{ percent }}%</output>
+      </p>
+      <button type="submit" class="btn btn--primary" :disabled="percent <= 75">
+        <span>{{ t('events.send') }}</span>
+        <Icon name="arrowRight" :size="18" />
+      </button>
     </div>
-    <p class="hint">Score: <output for="vue-events">{{ percent }}%</output></p>
-    <div class="actions">
-      <button type="submit" class="btn btn--primary" :disabled="percent <= 75">Send</button>
-      <p class="hint" role="status">{{ status }}</p>
-    </div>
+    <p class="hint">{{ t('events.hint') }}</p>
+    <p class="events__status" role="status">{{ sent ? t('events.sent') : '' }}</p>
   </form>
 </template>

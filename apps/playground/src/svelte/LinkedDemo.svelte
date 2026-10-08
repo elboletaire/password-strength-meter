@@ -1,16 +1,25 @@
 <script lang="ts">
   import { PasswordStrengthMeter } from '@passcore/svelte'
+  import { lang } from './lang.svelte'
+  import PasswordField from './PasswordField.svelte'
 
   let username = $state('')
   let password = $state('')
 </script>
 
 <div class="field">
-  <label for="svelte-username">Username</label>
-  <input id="svelte-username" type="text" autocomplete="username" placeholder="johndoe" bind:value={username} />
+  <label class="field__label" for="svelte-username">{lang.t('field.username')}</label>
+  <input
+    id="svelte-username"
+    class="input"
+    type="text"
+    autocomplete="username"
+    autocapitalize="off"
+    spellcheck="false"
+    placeholder={lang.t('field.usernamePlaceholder')}
+    bind:value={username}
+  />
 </div>
-<div class="field">
-  <label for="svelte-linked">Password</label>
-  <input id="svelte-linked" type="password" autocomplete="new-password" aria-describedby="svelte-linked-strength" bind:value={password} />
-  <PasswordStrengthMeter id="svelte-linked-strength" {password} userInputs={[username]} showPercent />
-</div>
+<PasswordField id="svelte-linked" bind:value={password} describedBy="svelte-linked-strength">
+  <PasswordStrengthMeter id="svelte-linked-strength" {password} userInputs={[username]} showPercent {...lang.meterTexts} />
+</PasswordField>

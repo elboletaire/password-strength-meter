@@ -2,6 +2,8 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "jsx": "react-jsx",
+    // the page shell is imported by vite.config.ts, which Node loads as is: imports name their files
+    "allowImportingTsExtensions": true,
     "types": ["node", "vite/client"],
     // a child config replaces `paths`, so the workspace packages are listed again, with their subpaths
     "paths": {

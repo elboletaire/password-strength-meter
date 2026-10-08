@@ -1,11 +1,22 @@
 # @passcore/core
 
+[![npm version](https://img.shields.io/npm/v/@passcore/core)](https://www.npmjs.com/package/@passcore/core)
+[![npm downloads](https://img.shields.io/npm/dm/@passcore/core)](https://www.npmjs.com/package/@passcore/core)
+[![CI](https://img.shields.io/github/actions/workflow/status/elboletaire/password-strength-meter/ci.yml?branch=master)](https://github.com/elboletaire/password-strength-meter/actions/workflows/ci.yml)
+[![minzipped size](https://img.shields.io/bundlephobia/minzip/@passcore/core)](https://bundlephobia.com/package/@passcore/core)
+[![license](https://img.shields.io/npm/l/@passcore/core)](https://github.com/elboletaire/password-strength-meter/blob/master/LICENSE)
+[![types](https://img.shields.io/npm/types/@passcore/core)](https://www.npmjs.com/package/@passcore/core)
+
 Framework-agnostic password strength estimation and rules. It has no dependencies, no DOM access and no texts: it returns data and message keys that bindings render and translate.
 
-[Try it in the playground](https://elboletaire.github.io/password-strength-meter/inspector.html).
+- **Length first:** repeats, sequences, keyboard runs, common passwords and personal details are discounted.
+- **Rules apart from strength:** minimum length, character types and more are reported on their own.
+- **Server and browser:** ESM and CommonJS builds, fully typed, safe to run anywhere.
+
+[Try it in the playground](https://elboletaire.github.io/password-strength-meter/inspector/) or see the [other packages](https://github.com/elboletaire/password-strength-meter#packages) (React, Vue, Svelte, jQuery and vanilla JS) that render a ready-made meter on top of this one.
 
 ```bash
-pnpm add @passcore/core
+pnpm add @passcore/core   # or npm install / yarn add
 ```
 
 ## Usage

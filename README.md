@@ -1,19 +1,25 @@
 # Passcore
 
+[![CI](https://img.shields.io/github/actions/workflow/status/elboletaire/password-strength-meter/ci.yml?branch=master)](https://github.com/elboletaire/password-strength-meter/actions/workflows/ci.yml)
+[![license](https://img.shields.io/github/license/elboletaire/password-strength-meter)](LICENSE)
+
 Accessible password strength meters for every framework, built on one small core.
 
+[Live demo](https://elboletaire.github.io/password-strength-meter/)
+
+> [!NOTE]
 > **About the name.** *Passcore* is the name of the packages (`@passcore/*`). It plays on *pass score* (the score of a password, written with one `s` because "passscore" repeated too many letters) and on *core* (the small core every package shares). This repository is still called `password-strength-meter` because that is how it started: as a jQuery plugin with that name. The original `password-strength-meter` package on npm is now a compatibility release; see [Looking for the old plugin?](#looking-for-the-old-plugin).
 
 ## Packages
 
-| Package | For |
-|---|---|
-| [`@passcore/core`](packages/core) | Strength estimation and password rules. No dependencies, no DOM, no texts: use it to build your own UI or to validate on the server |
-| [`@passcore/jquery`](packages/jquery) | `$.fn.password`: a jQuery plugin with an accessible meter |
-| [`@passcore/vanilla`](packages/vanilla) | `createPasswordMeter()` for any page, and a `<passcore-meter>` custom element |
-| [`@passcore/react`](packages/react) | A hook and a component for React |
-| [`@passcore/vue`](packages/vue) | A composable and a component for Vue 3 |
-| [`@passcore/svelte`](packages/svelte) | A component and a rune-based helper for Svelte 5 |
+| Package | Version | For |
+|---|---|---|
+| [`@passcore/core`](packages/core) | [![npm](https://img.shields.io/npm/v/@passcore/core)](https://www.npmjs.com/package/@passcore/core) | Strength estimation and password rules. No dependencies, no DOM, no texts: use it to build your own UI or to validate on the server |
+| [`@passcore/jquery`](packages/jquery) | [![npm](https://img.shields.io/npm/v/@passcore/jquery)](https://www.npmjs.com/package/@passcore/jquery) | `$.fn.password`: a jQuery plugin with an accessible meter |
+| [`@passcore/vanilla`](packages/vanilla) | [![npm](https://img.shields.io/npm/v/@passcore/vanilla)](https://www.npmjs.com/package/@passcore/vanilla) | `createPasswordMeter()` for any page, and a `<passcore-meter>` custom element |
+| [`@passcore/react`](packages/react) | [![npm](https://img.shields.io/npm/v/@passcore/react)](https://www.npmjs.com/package/@passcore/react) | A hook and a component for React |
+| [`@passcore/vue`](packages/vue) | [![npm](https://img.shields.io/npm/v/@passcore/vue)](https://www.npmjs.com/package/@passcore/vue) | A composable and a component for Vue 3 |
+| [`@passcore/svelte`](packages/svelte) | [![npm](https://img.shields.io/npm/v/@passcore/svelte)](https://www.npmjs.com/package/@passcore/svelte) | A component and a rune-based helper for Svelte 5 |
 
 Pick the one for your stack: each binding depends on `@passcore/core` and renders the same markup, so they all behave and look alike.
 
@@ -72,7 +78,3 @@ pnpm build       # the packages (the playground has its own build)
 ```
 
 Releases are managed with [changesets](.changeset/README.md).
-
-## License
-
-MIT

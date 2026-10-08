@@ -1,8 +1,20 @@
 # @passcore/jquery
 
+[![npm version](https://img.shields.io/npm/v/@passcore/jquery)](https://www.npmjs.com/package/@passcore/jquery)
+[![npm downloads](https://img.shields.io/npm/dm/@passcore/jquery)](https://www.npmjs.com/package/@passcore/jquery)
+[![CI](https://img.shields.io/github/actions/workflow/status/elboletaire/password-strength-meter/ci.yml?branch=master)](https://github.com/elboletaire/password-strength-meter/actions/workflows/ci.yml)
+[![minzipped size](https://img.shields.io/bundlephobia/minzip/@passcore/jquery)](https://bundlephobia.com/package/@passcore/jquery)
+[![license](https://img.shields.io/npm/l/@passcore/jquery)](https://github.com/elboletaire/password-strength-meter/blob/master/LICENSE)
+[![types](https://img.shields.io/npm/types/@passcore/jquery)](https://www.npmjs.com/package/@passcore/jquery)
+
 An accessible password strength meter plugin for jQuery, built on [`@passcore/core`](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core/README.md).
 
-[Try it in the playground](https://elboletaire.github.io/password-strength-meter/jquery.html).
+[Live demo](https://elboletaire.github.io/password-strength-meter/jquery/) in the playground.
+
+- One call: `$('#password').password()`.
+- Accessible: a `role="meter"` bar and a polite live-region message linked to the input.
+- Translated: English, Spanish and Catalan included, or bring your own `translate` (i18next works out of the box).
+- Themeable with CSS custom properties, no images. Works with jQuery 3 and 4.
 
 ```bash
 pnpm add @passcore/jquery jquery
@@ -32,7 +44,7 @@ Without a bundler, load the standalone build after jQuery. It bundles `@passcore
 
 The standalone build registers the plugin on the global `jQuery` and exposes `passcoreJQuery`, whose only member is `install`: `passcoreJQuery.install($other)` registers the plugin on another jQuery instance.
 
-The meter is appended to the input's closest `div` (see `closestSelector`):
+The meter is appended to the input's closest `div` (see `closestSelector`), so the input needs a wrapper element:
 
 ```html
 <div class="form-group">
@@ -80,7 +92,6 @@ $('#password').password('destroy')  // removes the meter: markup, listeners, ari
 Both return the jQuery object. On an input without a meter they do nothing. `refresh` updates the meter like an update does: `password.score` fires, and `password.text` fires if the message changed.
 
 To change the options of a meter, call `.password(options)` again. To remove it, use `destroy`.
-
 
 ## Translations
 
@@ -170,6 +181,9 @@ The input gets `aria-describedby` pointing to the text. The wrapper has a `pass-
 In forced-colors mode (high contrast), the meter gets a border and the bar takes the system highlight color.
 
 ## Migrating from `password-strength-meter` 2.x/3.x and earlier @passcore/jquery versions
+
+> [!NOTE]
+> The old `password-strength-meter` package is now a compatibility release. New projects should use `@passcore/jquery`.
 
 | Old option | Replacement |
 |---|---|

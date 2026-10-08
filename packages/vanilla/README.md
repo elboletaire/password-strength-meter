@@ -1,8 +1,20 @@
 # @passcore/vanilla
 
-An accessible password strength meter for any page, with no framework and no jQuery: a function, and a `<passcore-meter>` custom element. Built on [`@passcore/core`](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core).
+[![npm version](https://img.shields.io/npm/v/@passcore/vanilla)](https://www.npmjs.com/package/@passcore/vanilla)
+[![npm downloads](https://img.shields.io/npm/dm/@passcore/vanilla)](https://www.npmjs.com/package/@passcore/vanilla)
+[![CI](https://img.shields.io/github/actions/workflow/status/elboletaire/password-strength-meter/ci.yml?branch=master)](https://github.com/elboletaire/password-strength-meter/actions/workflows/ci.yml)
+[![minzipped size](https://img.shields.io/bundlephobia/minzip/@passcore/vanilla)](https://bundlephobia.com/package/@passcore/vanilla)
+[![license](https://img.shields.io/npm/l/@passcore/vanilla)](https://github.com/elboletaire/password-strength-meter/blob/master/LICENSE)
+[![types](https://img.shields.io/npm/types/@passcore/vanilla)](https://www.npmjs.com/package/@passcore/vanilla)
 
-[Try it in the playground](https://elboletaire.github.io/password-strength-meter/vanilla.html).
+An accessible password strength meter for any page, with no framework and no jQuery: a function, and a `<passcore-meter>` custom element. Built on [`@passcore/core`](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core/README.md).
+
+[Live demo](https://elboletaire.github.io/password-strength-meter/vanilla/) in the playground.
+
+- Two ways in: `createPasswordMeter()` or a `<passcore-meter>` element.
+- Accessible: a `role="meter"` bar and a polite live-region message linked to the input.
+- Translated: English, Spanish and Catalan included, or bring your own `translate` (i18next works out of the box).
+- Themeable with CSS custom properties, no images. Standalone builds need no other dependency.
 
 ```bash
 pnpm add @passcore/vanilla
@@ -81,7 +93,8 @@ createPasswordMeter(input, {
 
 See the [`@passcore/core` README](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core/README.md#options) for the core options, and its [stability section](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core/README.md#stability) for what may change in minor releases.
 
-A string in `userInputs` is a **selector**, not a value (unlike in the React, Vue and Svelte packages, which take values). Every element matching it contributes its value, so `'#username, #email'` works too. To pass a value, use a function: `userInputs: [() => user.email]`. An invalid selector throws when the meter is created.
+> [!IMPORTANT]
+> A string in `userInputs` is a **selector**, not a value (unlike in the React, Vue and Svelte packages, which take values). Every element matching it contributes its value, so `'#username, #email'` works too. To pass a value, use a function: `userInputs: [() => user.email]`. An invalid selector throws when the meter is created.
 
 It returns an object with:
 
@@ -221,6 +234,6 @@ In forced colors mode (for example Windows high contrast), the meter gets a syst
 
 The standalone builds use ES2015 syntax, but the core needs Unicode property escapes in regular expressions and `Intl.PluralRules`: every current browser, not Internet Explorer. The `<passcore-meter>` element also needs custom elements support.
 
-## License
+## Third-party data
 
-MIT. The standalone builds include a list of common passwords from [SecLists](https://github.com/danielmiessler/SecLists), MIT License, Copyright (c) 2018 Daniel Miessler.
+The standalone builds include a list of common passwords from [SecLists](https://github.com/danielmiessler/SecLists), MIT License, Copyright (c) 2018 Daniel Miessler.

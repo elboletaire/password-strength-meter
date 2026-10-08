@@ -1,9 +1,10 @@
-const $ = jQuery = require('jquery')
-
-require('../src/password')
+// Port of the legacy test/password.spec.js (jest) to vitest
+import $ from 'jquery'
+import { beforeEach, describe, expect, it } from 'vitest'
+import '../src'
 
 beforeEach(() => {
-  jQuery.fx.off = true
+  $.fx.off = true
   document.body.innerHTML = `<div><input type="password" id="password" />
 <input type="text" id="username" /></div>`
 })
@@ -12,7 +13,6 @@ describe('$.fn.password', () => {
   describe('init:', () => {
     it('creates the required layers next to the input', () => {
       $('#password').password()
-      expect($('.pass-wrapper').length).toBeTruthy()
       expect($('.pass-wrapper').length).toBeTruthy()
       expect($('.pass-colorbar').length).toBeTruthy()
       expect($('.pass-graybar').length).toBeTruthy()
@@ -65,6 +65,7 @@ describe('$.fn.password', () => {
         $('#password').password({ animate: false, enterPass: 'hi' })
         expect($('.pass-text').text()).toEqual('hi')
       })
+
       it('closestSelector: fixes issue with input-groups', () => {
         document.body.innerHTML = `<div class="form-group">
         <div class="input-group">
@@ -82,7 +83,6 @@ describe('$.fn.password', () => {
         expect($('.form-group > .pass-wrapper').length).toBeTruthy()
       })
     })
-
   })
 
   describe('behavior:', () => {
@@ -91,7 +91,7 @@ describe('$.fn.password', () => {
 
       expect($('.pass-percent').length).toBeTruthy()
 
-      var percentage = $('.pass-percent').text()
+      const percentage = $('.pass-percent').text()
 
       $('input').val('testing').trigger('keyup')
 
@@ -107,10 +107,10 @@ describe('$.fn.password', () => {
     it('field match works, showing containsField text', () => {
       $('#username').val('test')
       $('#password').password({
-          field: '#username',
-          containsField: 'hi',
-          fieldPartialMatch: false
-        })
+        field: '#username',
+        containsField: 'hi',
+        fieldPartialMatch: false,
+      })
         .val('test').trigger('keyup')
 
       expect($('.pass-text').text()).toEqual('hi')
@@ -126,10 +126,10 @@ describe('$.fn.password', () => {
     it('fieldPartialMatch works as expected', () => {
       $('#username').val('test')
       $('#password').password({
-          field: '#username',
-          containsField: 'hi',
-          fieldPartialMatch: true
-        })
+        field: '#username',
+        containsField: 'hi',
+        fieldPartialMatch: true,
+      })
         .val('tester').trigger('keyup')
 
       expect($('.pass-text').text()).toEqual('hi')
@@ -143,22 +143,22 @@ describe('$.fn.password', () => {
     }
 
     it('gives us the really insecure password error', () => {
-      $('#password').password({steps}).val('tester').trigger('keyup')
+      $('#password').password({ steps }).val('tester').trigger('keyup')
       expect($('.pass-text').text()).toEqual(steps[13])
     })
 
     it('gives us the weak password warning', () => {
-      $('#password').password({steps}).val('tester23').trigger('keyup')
+      $('#password').password({ steps }).val('tester23').trigger('keyup')
       expect($('.pass-text').text()).toEqual(steps[33])
     })
 
     it('gives us the medium password warning', () => {
-      $('#password').password({steps}).val('!Tester23').trigger('keyup')
+      $('#password').password({ steps }).val('!Tester23').trigger('keyup')
       expect($('.pass-text').text()).toEqual(steps[67])
     })
 
     it('gives us the strong password warning', () => {
-      $('#password').password({steps}).val('!Tester23$#').trigger('keyup')
+      $('#password').password({ steps }).val('!Tester23$#').trigger('keyup')
       expect($('.pass-text').text()).toEqual(steps[94])
     })
 
@@ -168,33 +168,35 @@ describe('$.fn.password', () => {
       33: 'Weak; try combining letters & numbers',
       13: 'Really insecure password',
     }
+
+    // the legacy test passed `steps` here; use the unsorted ones it declared
     it('steps order does not really affect messages', () => {
-      $('#password').password({steps}).val('!Tester23$#').trigger('keyup')
+      $('#password').password({ steps: unsortedSteps }).val('!Tester23$#').trigger('keyup')
       expect($('.pass-text').text()).toEqual(steps[94])
     })
 
+    it('ensures score is corrected when it surpasses the threshold', async () => {
+      const score = await new Promise<number>((resolve) => {
+        $('#password').password()
+          .on('password.text', (e, text, score) => resolve(score))
+          .val('_~%8::%nqy^7e~!!z!;N')
+          .trigger('keyup')
+      })
 
-    it('ensures score is corrected when it surpasses the threshold', (done) => {
-      $('#password').password({ badPass: 'hi' })
-        .on('password.text', (e, text, score) => {
-
-          expect(score).toBeLessThan(101)
-
-          done()
-        })
-        .val('_~%8::%nqy^7e~!!z!;N')
-        .trigger('keyup')
+      expect(score).toBeLessThan(101)
     })
 
     it('uses no color background image by default', () => {
       $('#password').password()
 
-      expect('').toEqual($('.pass-colorbar').css('background-image'))
+      // jsdom >= 25 reports the computed initial value ('none') instead of ''
+      expect('none').toEqual($('.pass-colorbar').css('background-image'))
+      expect($('.pass-colorbar').prop('style').backgroundImage).toEqual('')
     })
 
     it('makes background image style adjustments if turned on', () => {
-      $('#password').password({useColorBarImage: true}).val('Tester23$').trigger('keyup')
-      $colorbar = $('.pass-colorbar')
+      $('#password').password({ useColorBarImage: true }).val('Tester23$').trigger('keyup')
+      const $colorbar = $('.pass-colorbar')
 
       expect('0px -91px').toEqual($colorbar.css('background-position'))
       expect('91%').toEqual($colorbar.css('width'))
@@ -205,8 +207,8 @@ describe('$.fn.password', () => {
         customColorBarRGB: {
           green: [0, 100],
           red: [10, 150],
-          blue: 50
-        }
+          blue: 50,
+        },
       }).val('!Tester23$').trigger('keyup')
 
       expect('rgb(10, 100, 50)').toEqual($('.pass-colorbar').css('background-color'))
@@ -216,8 +218,8 @@ describe('$.fn.password', () => {
       $('#password').password({
         customColorBarRGB: {
           green: [0, 100],
-          red: [10, 150]
-        }
+          red: [10, 150],
+        },
       }).val('abc').trigger('keyup')
 
       expect('rgb(150, 0, 10)').toEqual($('.pass-colorbar').css('background-color'))

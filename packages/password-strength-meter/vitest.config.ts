@@ -6,7 +6,7 @@ export default defineProject({
     alias: workspaceAlias,
   },
   test: {
-    name: 'core',
-    environment: 'node',
+    name: 'password-strength-meter',
+    environment: 'jsdom',
   },
 })

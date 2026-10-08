@@ -5,8 +5,8 @@ import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
   {
-    // src/ and test/ hold the legacy plugin until it is fully ported
-    ignores: ['**/dist/**', '**/coverage/**', 'src/**', 'test/**'],
+    // src/ holds the legacy plugin, kept to regenerate the golden fixture
+    ignores: ['**/dist/**', '**/coverage/**', 'src/**'],
   },
   js.configs.recommended,
   tseslint.configs.recommended,

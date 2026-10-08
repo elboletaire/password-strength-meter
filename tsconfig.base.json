@@ -12,6 +12,10 @@
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "noEmit": true
+    "noEmit": true,
+    "paths": {
+      "@passcore/core": ["./packages/core/src/index.ts"],
+      "@passcore/jquery": ["./packages/jquery/src/index.ts"]
+    }
   }
 }

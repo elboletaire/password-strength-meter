@@ -6,7 +6,7 @@ export default defineProject({
     alias: workspaceAlias,
   },
   test: {
-    name: 'core',
-    environment: 'node',
+    name: 'jquery',
+    environment: 'jsdom',
   },
 })

@@ -1,6 +1,6 @@
 # @passcore/svelte
 
-An accessible password strength meter for Svelte 5, built on [`@passcore/core`](../core). It ships a `<PasswordStrengthMeter>` component and a rune-based helper, `passwordStrength()`, to build your own markup.
+An accessible password strength meter for Svelte 5, built on [`@passcore/core`](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core/README.md). It ships a `<PasswordStrengthMeter>` component and a rune-based helper, `passwordStrength()`, to build your own markup.
 
 [Try it in the playground](https://elboletaire.github.io/password-strength-meter/svelte.html).
 
@@ -28,20 +28,20 @@ The component is controlled: pass the password as a prop. The input is yours, so
 ## Markup
 
 ```html
-<div class="pass-wrapper pass-level-weak pass-invalid">
+<div class="pass-wrapper pass-level-weak">
   <div class="pass-meter" role="meter" aria-label="Password strength" aria-valuemin="0" aria-valuemax="100" aria-valuenow="30" aria-valuetext="Weak password">
     <div class="pass-bar" style="width: 30%"></div>
   </div>
   <span class="pass-percent">30%</span>
-  <span class="pass-text" id="password-strength" aria-live="polite">Use at least 8 characters</span>
+  <span class="pass-text" id="password-strength" aria-live="polite">Weak password</span>
 </div>
 ```
 
-The wrapper has a `pass-level-*` class and, while a rule fails, `pass-invalid`. The percent is only rendered with `showPercent`, and the text unless `showText` is `false`.
+The wrapper has a `pass-level-*` class and, while the password is not valid (a rule fails), `pass-invalid`. The percent is only rendered with `showPercent`, and the text unless `showText` is `false`.
 
 ## Options
 
-Props of the component. Core options (`targetBits`, `estimator`, `commonWords`, `rules`, `levels`) are props too, see the [`@passcore/core` README](../core#options).
+Props of the component. Core options (`targetBits`, `estimator`, `commonPasswords`, `rules`, `levels`) are props too, see the [`@passcore/core` README](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core/README.md#options).
 
 | Prop | Default | Description |
 |---|---|---|
@@ -68,14 +68,13 @@ Props of the component. Core options (`targetBits`, `estimator`, `commonWords`, 
 />
 ```
 
-- `onscore` fires whenever the evaluated result changes (the password, the user inputs or the options).
-- `ontext` fires only when the message changes (its key or params), not on every keystroke.
+`onscore` fires when the evaluated result changes (not on creation); `ontext` when the message (key or params) changes. A language change rewrites the text without firing `ontext`.
 
 Neither fires on mount, and re-rendering with the same password does not fire them again.
 
 ## The helper
 
-`passwordStrength()` evaluates a password with the same options and returns getters for the result and its texts. It is rune-based, so use it in a component or in a `.svelte.ts` module:
+`passwordStrength()` evaluates a password with the same options (`PasswordStrengthOptions`: the core options plus `userInputs`, `translations`, `locale` and `translate`) and returns getters for the result and its texts. It is rune-based, so use it in a component or in a `.svelte.ts` module:
 
 ```ts
 import { passwordStrength } from '@passcore/svelte'
@@ -88,7 +87,7 @@ strength.text     // the translated message
 strength.levelText // the translated level, for aria-valuetext
 ```
 
-The core meter is memoized: it is recreated only when `targetBits`, `estimator`, `commonWords`, `rules` or `levels` change so typing does not prepare the word list again. `rules`, `levels` and `commonWords` are compared by value, so inline objects and arrays are fine; `estimator` is a function and is compared by identity.
+The core meter is memoized: it is recreated only when `targetBits`, `estimator`, `commonPasswords`, `rules` or `levels` change so typing does not prepare the word list again. `rules`, `levels` and `commonPasswords` are compared by value, so inline objects and arrays are fine; `estimator` is a function and is compared by identity.
 
 ## Translations
 
@@ -132,7 +131,7 @@ Here `language` is a piece of state that holds the current language (set it in `
 
 When you use `translate`, pass the current language as `locale` too: changing `locale` refreshes the texts, even if your `translate` function keeps the same identity when the language changes.
 
-The keys are `empty`, `level.very-weak`, `level.weak`, `level.fair`, `level.good`, `level.strong`, `rule.notCommon`, `rule.notUserInputs`, and the plural forms of `rule.minLength`, `rule.maxLength`, `rule.lowercase`, `rule.uppercase`, `rule.numbers` and `rule.symbols`. See [`locales/en.json`](../../locales/en.json) for the English texts.
+The keys are `empty`, `level.very-weak`, `level.weak`, `level.fair`, `level.good`, `level.strong`, `rule.notCommon`, `rule.notUserInputs`, and the plural forms of `rule.minLength`, `rule.maxLength`, `rule.lowercase`, `rule.uppercase`, `rule.numbers` and `rule.symbols`. See [`locales/en.json`](https://github.com/elboletaire/password-strength-meter/blob/master/locales/en.json) for the English texts.
 
 Texts are inserted as text, not HTML.
 

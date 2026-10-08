@@ -74,7 +74,7 @@ describe('callbacks', () => {
     const ontext = vi.fn()
     const props = () => ({
       password: 'Tester23$',
-      commonWords: ['acmecorp'],
+      commonPasswords: ['acmecorp'],
       rules: { minLength: 8 },
       userInputs: ['john'],
       onscore,

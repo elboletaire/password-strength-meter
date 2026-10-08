@@ -112,8 +112,8 @@ describe('passwordStrength', () => {
     expect(created.count).toBe(2)
   })
 
-  it('uses the common words it is given', () => {
-    const strength = passwordStrength(() => 'zebra-horse', () => ({ commonWords: ['zebra-horse'] }))
+  it('uses the common passwords it is given', () => {
+    const strength = passwordStrength(() => 'zebra-horse', () => ({ commonPasswords: ['zebra-horse'] }))
     expect(strength.result.valid).toBe(false)
     expect(strength.text).toBe('This password is too common')
   })

@@ -1,42 +1,40 @@
 import {
   createMeter,
   createTranslator,
-  mergeDeep,
   translationParams,
   type Level,
   type Meter,
-  type MeterResult,
-  type PartialOptions,
+  type MeterOptions,
   type Result,
   type Translate,
   type Translations,
 } from '@passcore/core'
 import en from '../../../../locales/en.json'
 
-export type { Level, MeterResult, Result, Translate, Translations }
+export type { Level, Result, Translate, Translations }
 
-/** Options shared by the component and the helper. */
-export interface PasswordOptions extends PartialOptions {
+/** Options of passwordStrength(), and the base of the component props. */
+export interface PasswordStrengthOptions extends MeterOptions {
   /** Values the password must not contain (username, email...). */
-  userInputs?: string[]
-  /** Translations in i18next's JSON format, deep-merged over the bundled English ones. */
+  userInputs?: readonly string[]
+  /** Translations in i18next's JSON format, merged over the bundled English ones. */
   translations?: Translations
   /** Locale used to pick plural forms, default 'en'. */
   locale?: string
   /** Translates a message key with its params (e.g. i18next's `t`); replaces `translations` and `locale`. */
   translate?: Translate
+}
+
+/** Props of the PasswordStrengthMeter component. */
+export interface PasswordStrengthMeterProps extends PasswordStrengthOptions {
+  /** The password to evaluate. */
+  password: string
   /** Show the score percentage, default false. */
   showPercent?: boolean
   /** Show the message, default true. */
   showText?: boolean
   /** aria-label of the meter, default 'Password strength'. */
   label?: string
-}
-
-/** Props of the PasswordStrengthMeter component. */
-export interface PasswordStrengthMeterProps extends PasswordOptions {
-  /** The password to evaluate. */
-  password: string
   /** Id of the text element, for aria-describedby on the input. */
   id?: string
   /** Added to the wrapper. */
@@ -59,30 +57,30 @@ export interface PasswordStrength {
 
 /**
  * Evaluates a password on every change. The core meter is memoized: it is only
- * recreated when targetBits, estimator, commonWords, rules or levels change
+ * recreated when targetBits, estimator, commonPasswords, rules or levels change
  * (compared by value, except the estimator function, which is compared by
  * identity), so typing never prepares the word list again.
  */
-export function passwordStrength(getPassword: () => string, getOptions: () => PasswordOptions = () => ({})): PasswordStrength {
-  let memo: { targetBits: unknown, estimator: unknown, commonWords: string | undefined, rules: string, levels: string, meter: Meter } | undefined
+export function passwordStrength(getPassword: () => string, getOptions: () => PasswordStrengthOptions = () => ({})): PasswordStrength {
+  let memo: { targetBits: unknown, estimator: unknown, commonPasswords: string | undefined, rules: string, levels: string, meter: Meter } | undefined
 
   const meter = $derived.by(() => {
     const options = getOptions()
-    const commonWords = options.commonWords && JSON.stringify(options.commonWords)
+    const commonPasswords = options.commonPasswords && JSON.stringify(options.commonPasswords)
     const rules = JSON.stringify(options.rules ?? {})
     const levels = JSON.stringify(options.levels ?? {})
     if (!memo || memo.targetBits !== options.targetBits || memo.estimator !== options.estimator
-      || memo.commonWords !== commonWords || memo.rules !== rules || memo.levels !== levels) {
+      || memo.commonPasswords !== commonPasswords || memo.rules !== rules || memo.levels !== levels) {
       memo = {
         targetBits: options.targetBits,
         estimator: options.estimator,
-        commonWords,
+        commonPasswords,
         rules,
         levels,
         meter: createMeter({
           targetBits: options.targetBits,
           estimator: options.estimator,
-          commonWords: options.commonWords,
+          commonPasswords: options.commonPasswords,
           rules: options.rules,
           levels: options.levels,
         }),
@@ -91,15 +89,11 @@ export function passwordStrength(getPassword: () => string, getOptions: () => Pa
     return memo.meter
   })
 
-  // messageChanged is stateful (it compares with the previous evaluation): leave it out
-  const result: Result = $derived.by(() => {
-    const { messageChanged, ...evaluated } = meter.evaluate(getPassword(), getOptions().userInputs ?? [])
-    return evaluated
-  })
+  const result: Result = $derived(meter.evaluate(getPassword(), getOptions().userInputs))
 
   const translator: Translate = $derived.by(() => {
     const options = getOptions()
-    return options.translate ?? createTranslator(mergeDeep<Translations>(en, options.translations), options.locale ?? 'en')
+    return options.translate ?? createTranslator([en, options.translations ?? {}], options.locale ?? 'en')
   })
 
   // with a `translate` function, `locale` is the signal that the language changed: reading it here

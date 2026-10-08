@@ -41,6 +41,21 @@ The message is `empty` for an empty password; otherwise the first failing rule (
 
 Message keys: `empty`, `level.very-weak`, `level.weak`, `level.fair`, `level.good`, `level.strong`, `rule.minLength` (`{ min }`), `rule.maxLength` (`{ max }`), `rule.notCommon`, `rule.notUserInputs`, `rule.lowercase`, `rule.uppercase`, `rule.numbers`, `rule.symbols` (`{ min }`).
 
+## Translating messages
+
+The core has no texts, but it can turn message keys into text with translations in [i18next](https://www.i18next.com)'s JSON format (nested keys, `{{count}}` placeholders, plural forms such as `_one` and `_other`). The bindings ship English, Spanish and Catalan files in that format.
+
+```ts
+import { createTranslator, translationParams } from '@passcore/core'
+
+const translate = createTranslator(translations, 'ca')   // translations: a parsed locale JSON
+translate(result.message.key, translationParams(result.message))
+```
+
+`translationParams()` adds `count` (from `min` or `max`), which selects the plural form. With i18next, pass the same params to its `t`: `t(result.message.key, { ns: 'passcore', ...translationParams(result.message) })`.
+
+`createTranslator()` picks the plural form with `Intl.PluralRules`, falls back to `_other` and then to the plain key, and returns the key itself when nothing matches.
+
 ## Options
 
 ```ts

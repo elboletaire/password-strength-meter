@@ -43,7 +43,9 @@ The meter is appended to the input's closest `div` (see `closestSelector`):
 $('#password').password({
   // plugin
   userInputs: [],          // fields (selectors, elements or jQuery objects) the password must not contain, read on every keyup
-  messages: {},            // message overrides, see below
+  translations: {},        // texts in i18next's JSON format, merged over the English defaults (see Translations)
+  locale: 'en',            // used to pick plural forms
+  translate: undefined,    // (key, params) => string, e.g. i18next's t; replaces translations and locale
   showPercent: false,
   showText: true,
   animate: true,           // hide the meter until focus, and slide it in and out
@@ -61,36 +63,43 @@ $('#password').password({
 
 See the [`@passcore/core` README](../core#options) for the core options.
 
-## Messages
+## Translations
 
-| Key | Default |
-|---|---|
-| `empty` | Type your password |
-| `level.very-weak` | Very weak password |
-| `level.weak` | Weak password |
-| `level.fair` | Fair password |
-| `level.good` | Good password |
-| `level.strong` | Strong password |
-| `rule.minLength` | Use at least {min} characters |
-| `rule.maxLength` | Use at most {max} characters |
-| `rule.notCommon` | This password is too common |
-| `rule.notUserInputs` | Don't use your personal details |
-| `rule.lowercase` | Add a lowercase letter / Add at least {min} lowercase letters |
-| `rule.uppercase` | Add an uppercase letter / Add at least {min} uppercase letters |
-| `rule.numbers` | Add a number / Add at least {min} numbers |
-| `rule.symbols` | Add a symbol / Add at least {min} symbols |
+Texts use [i18next](https://www.i18next.com)'s JSON format: nested keys, `{{count}}` placeholders and plural forms (`_one`, `_other`, plus `_many` and others where the language needs them). English is built in, and Spanish and Catalan ship with the package:
 
-Override any of them with strings (`{param}` placeholders are replaced) or functions of the params:
+```js
+import ca from '@passcore/jquery/locales/ca.json'
+
+$('#password').password({ translations: ca, locale: 'ca' })
+```
+
+Override some texts by passing only those keys; the rest keep their defaults:
 
 ```js
 $('#password').password({
-  messages: {
-    'empty': 'Escriu la contrasenya',
-    'rule.minLength': 'Com a mínim {min} caràcters',
-    'rule.numbers': ({ min }) => (min === 1 ? 'Afegeix un número' : `Afegeix ${min} números`),
+  translations: {
+    rule: {
+      minLength_one: 'At least {{count}} character, please',
+      minLength_other: 'At least {{count}} characters, please',
+    },
   },
 })
 ```
+
+If your app already uses i18next, load the files into a namespace and pass its `t`:
+
+```js
+import i18next from 'i18next'
+import es from '@passcore/jquery/locales/es.json'
+
+i18next.addResourceBundle('es', 'passcore', es)
+
+$('#password').password({
+  translate: (key, params) => i18next.t(key, { ns: 'passcore', ...params }),
+})
+```
+
+The keys are `empty`, `level.very-weak`, `level.weak`, `level.fair`, `level.good`, `level.strong`, `rule.notCommon`, `rule.notUserInputs`, and the plural forms of `rule.minLength`, `rule.maxLength`, `rule.lowercase`, `rule.uppercase`, `rule.numbers` and `rule.symbols`. See [`locales/en.json`](../../locales/en.json) for the English texts.
 
 Texts are inserted as text, not HTML.
 
@@ -132,18 +141,19 @@ The input gets `aria-describedby` pointing to the text. The wrapper has a `pass-
 }
 ```
 
-## Migrating from `password-strength-meter` 2.x/3.x and @passcore/jquery 0.1
+## Migrating from `password-strength-meter` 2.x/3.x and earlier @passcore/jquery versions
 
 | Old option | Replacement |
 |---|---|
-| `enterPass` | `messages.empty` |
-| `shortPass` | `messages['rule.minLength']` |
-| `containsField` | `messages['rule.notUserInputs']` |
-| `steps` | `levels` (thresholds) and `messages['level.*']` (texts) |
+| `enterPass` | `translations.empty` |
+| `shortPass` | `translations.rule.minLength_one` / `minLength_other` |
+| `containsField` | `translations.rule.notUserInputs` |
+| `steps` | `levels` (thresholds) and `translations.level` (texts) |
 | `minimumLength` | `rules.minLength` (default is now 8) |
 | `field` | `userInputs: [field]` |
 | `fieldPartialMatch` | removed: user inputs are always matched anywhere in the password |
 | `useColorBarImage`, `customColorBarRGB` | removed: style levels with the CSS custom properties |
+| `messages` (0.2) | `translations` (i18next JSON format, `{{count}}` placeholders) or `translate` |
 
 The scores are different: the new estimate puts length first and is stricter with common patterns. `password.score` now receives the percent (0 to 100, never negative) and the full result, and `password.text` receives the text and the result.
 

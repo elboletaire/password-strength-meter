@@ -159,4 +159,4 @@ The scores are different: the new estimate puts length first and is stricter wit
 
 ## Compatibility
 
-Tested with jQuery 3 and 4. The standalone build targets ES2015.
+Tested with jQuery 3 and 4. The standalone build uses ES2015 syntax, but the core needs Unicode property escapes in regular expressions and `Intl.PluralRules`: every current browser, not Internet Explorer.

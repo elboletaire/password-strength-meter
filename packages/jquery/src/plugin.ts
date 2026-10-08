@@ -15,7 +15,7 @@ import en from '../../../locales/en.json'
 export type FieldRef = JQuery.Selector | Element | JQuery
 
 export interface PluginOptions {
-  /** Fields whose values the password must not contain (username, email...), read on every keyup. */
+  /** Fields whose values the password must not contain (username, email...), read on every update. */
   userInputs: FieldRef[]
   /** Translations in i18next's JSON format, deep-merged over the bundled English ones. */
   translations: Translations
@@ -57,7 +57,8 @@ declare global {
     /**
      * Attaches a password strength meter to each matched input.
      *
-     * Triggers `password.score` (percent, result) on every keyup and
+     * Updates on every `input` and `keyup` event (typing, pasting, autofill), once per keystroke.
+     * Triggers `password.score` (percent, result) on every update and
      * `password.text` (text, result) when the message changes.
      */
     password(options?: PasswordOptions): this
@@ -129,7 +130,20 @@ function attach($: JQueryStatic, $object: JQuery, plugin: PluginOptions, transla
   // initial state, also covering pre-filled inputs
   $text?.text(render(evaluate()))
 
-  $object.on('keyup', () => {
+  // What the last update evaluated, and whether an `input` event made it. Typing fires `input` and then
+  // `keyup`: the `keyup` is skipped when it would only repeat that update.
+  let lastState = JSON.stringify([$object.val() ?? '', userInputs()])
+  let fromInput = false
+
+  const update = (isInput: boolean): void => {
+    const state = JSON.stringify([$object.val() ?? '', userInputs()])
+    if (!isInput && fromInput && state === lastState) {
+      fromInput = false
+      return
+    }
+    fromInput = isInput
+    lastState = state
+
     const result = evaluate()
     const text = render(result)
     $object.trigger('password.score', [result.percent, result])
@@ -137,7 +151,11 @@ function attach($: JQueryStatic, $object: JQuery, plugin: PluginOptions, transla
       $text?.text(text)
       $object.trigger('password.text', [text, result])
     }
-  })
+  }
+
+  // `input` covers what `keyup` misses: pasting with the mouse, autofill and drag and drop
+  $object.on('input', () => update(true))
+  $object.on('keyup', () => update(false))
 
   if (plugin.animate) {
     $object.on('focus', () => {

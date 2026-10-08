@@ -226,6 +226,64 @@ describe('$.fn.password', () => {
     })
   })
 
+  describe('input events (paste, autofill, drag and drop)', () => {
+    const track = () => {
+      const scores: number[] = []
+      const texts: string[] = []
+      $('#password').password()
+        .on('password.score', (e, percent: number) => scores.push(percent))
+        .on('password.text', (e, text: string) => texts.push(text))
+      return { scores, texts }
+    }
+    const change = (value: string) => $('#password').val(value).trigger('input')
+
+    it('updates the meter when the value changes without a key release', () => {
+      const { scores, texts } = track()
+      change('k8#Qz!2mWp')
+      expect($('.pass-text').text()).toBe('Good password')
+      expect($('.pass-bar').prop('style').width).toBe('66%')
+      expect(scores).toEqual([66])
+      expect(texts).toEqual(['Good password'])
+    })
+
+    it('does not fire twice for a keystroke: the input event, then the keyup', () => {
+      const { scores } = track()
+      change('abc')
+      $('#password').trigger('keyup')
+      change('abcd')
+      $('#password').trigger('keyup')
+      expect(scores).toEqual([7, 8])
+    })
+
+    it('still fires on every keyup that is not preceded by an input event', () => {
+      const { scores } = track()
+      type('abc')
+      $('#password').trigger('keyup')
+      $('#password').trigger('keyup')
+      expect(scores).toEqual([7, 7, 7])
+    })
+
+    it('skips only the first keyup after an input event: later ones fire as before', () => {
+      const { scores } = track()
+      change('abc')
+      $('#password').trigger('keyup')
+      $('#password').trigger('keyup')
+      expect(scores).toEqual([7, 7])
+    })
+
+    it('does not skip the keyup when the evaluated state changed since the input event', () => {
+      $('#username').val('johndoe')
+      $('#password').password({ userInputs: ['#username'] })
+      const scores: number[] = []
+      $('#password').on('password.score', (e, percent: number) => scores.push(percent))
+      change('johndoe99')
+      $('#username').val('someone')
+      $('#password').trigger('keyup')
+      expect(scores).toHaveLength(2)
+      expect($('.pass-text').text()).not.toBe('Don\'t use your personal details')
+    })
+  })
+
   describe('events', () => {
     it('triggers password.score with the percent and the result on every keyup', () => {
       const scores: Array<[number, string]> = []

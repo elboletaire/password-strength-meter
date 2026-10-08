@@ -42,7 +42,7 @@ The meter is appended to the input's closest `div` (see `closestSelector`):
 ```js
 $('#password').password({
   // plugin
-  userInputs: [],          // fields (selectors, elements or jQuery objects) the password must not contain, read on every keyup
+  userInputs: [],          // fields (selectors, elements or jQuery objects) the password must not contain, read on every update
   translations: {},        // texts in i18next's JSON format, merged over the English defaults (see Translations)
   locale: 'en',            // used to pick plural forms
   translate: undefined,    // (key, params) => string, e.g. i18next's t; replaces translations and locale
@@ -107,7 +107,8 @@ Texts are inserted as text, not HTML.
 
 ```js
 $('#password').on('password.score', (e, percent, result) => {
-  // on every keyup; result is the @passcore/core result (level, valid, rules...)
+  // on every update: once per keystroke (input and keyup), and when the value changes without a key
+  // (pasting with the mouse, autofill, drag and drop). result is the @passcore/core result
 })
 
 $('#password').on('password.text', (e, text, result) => {

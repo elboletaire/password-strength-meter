@@ -37,6 +37,15 @@ const BOOT = `(function () {
   if (theme === 'light' || theme === 'dark') root.dataset.theme = theme
 })()`
 
+const GA_ID = 'G-STPVDBEE54'
+
+/** Google Analytics, in production builds only, so `pnpm dev` doesn't count as a visit. */
+const analytics = () => process.env.NODE_ENV === 'production'
+  ? `
+    <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${GA_ID}')</script>`
+  : ''
+
 export function head(page: PageId): string {
   return `<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,7 +54,7 @@ export function head(page: PageId): string {
     <meta${attrs({ name: 'description', ...tAttrs({ content: `meta.${page}.description` }) })}>
     <link rel="icon" href="${faviconHref()}">
     <link rel="preload" href="./src/fonts/jetbrains-mono-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-    <script>${BOOT}</script>`
+    <script>${BOOT}</script>${analytics()}`
 }
 
 function header(page: PageId): string {

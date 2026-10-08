@@ -1,0 +1,53 @@
+/*
+ * @passcore/vue default styles. Customize with these custom properties,
+ * on .pass-wrapper or any ancestor (e.g. :root):
+ *   --pass-height, --pass-track,
+ *   --pass-color-very-weak, --pass-color-weak, --pass-color-fair,
+ *   --pass-color-good, --pass-color-strong
+ */
+.pass-meter {
+  height: var(--pass-height, 4px);
+  background-color: var(--pass-track, #e5e7eb);
+  overflow: hidden;
+}
+
+.pass-bar {
+  width: 0;
+  height: 100%;
+  background-color: transparent;
+  transition: width 0.2s ease, background-color 0.2s ease;
+}
+
+.pass-level-very-weak .pass-bar {
+  background-color: var(--pass-color-very-weak, #dc2626);
+}
+
+.pass-level-weak .pass-bar {
+  background-color: var(--pass-color-weak, #ea580c);
+}
+
+.pass-level-fair .pass-bar {
+  background-color: var(--pass-color-fair, #ca8a04);
+}
+
+.pass-level-good .pass-bar {
+  background-color: var(--pass-color-good, #65a30d);
+}
+
+.pass-level-strong .pass-bar {
+  background-color: var(--pass-color-strong, #16a34a);
+}
+
+.pass-invalid .pass-bar {
+  opacity: 0.5;
+}
+
+.pass-percent {
+  margin-right: 5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pass-bar {
+    transition: none;
+  }
+}

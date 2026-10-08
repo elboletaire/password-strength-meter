@@ -50,7 +50,7 @@
     "@passcore/core": "workspace:^"
   },
   "peerDependencies": {
-    "vue": ">=3.3"
+    "vue": "^3.5.0"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "catalog:",

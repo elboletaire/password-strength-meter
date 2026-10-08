@@ -1,70 +1,43 @@
 {
-  "name": "password-strength-meter",
-  "version": "2.1.0",
-  "description": "A password strength meter plugin for jQuery",
-  "main": "dist/password.min.js",
-  "scripts": {
-    "test": "eslint src && jest",
-    "postversion": "git push && git push --tags && npm publish"
-  },
+  "name": "passcore-monorepo",
+  "private": true,
+  "type": "module",
+  "description": "Password strength meter: framework-agnostic core plus framework bindings",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/elboletaire/password-strength-meter.git"
+    "url": "git+https://github.com/elboletaire/password-strength-meter.git"
   },
-  "keywords": [
-    "jquery-plugin",
-    "ecosystem:jquery",
-    "jquery",
-    "plugin",
-    "password",
-    "strength",
-    "meter",
-    "form",
-    "forms"
-  ],
   "author": "Òscar Casajuana <elboletaire@gmail.com> (https://github.com/elboletaire)",
   "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/elboletaire/password-strength-meter/issues"
+  "packageManager": "pnpm@10.32.1",
+  "engines": {
+    "node": ">=22.12"
   },
-  "homepage": "https://github.com/elboletaire/password-strength-meter#readme",
+  "scripts": {
+    "build": "pnpm -r --filter './packages/**' build",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "typecheck": "pnpm -r typecheck",
+    "check:packages": "pnpm -r --filter './packages/**' check:package",
+    "golden:legacy": "node scripts/legacy-golden.cjs",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm build && changeset publish"
+  },
   "devDependencies": {
-    "brfs": "^2.0.2",
-    "eslint": "^7.0.0",
-    "gulp": "^4.0.2",
-    "gulp-chmod": "^3.0.0",
-    "gulp-clean": "^0.4.0",
-    "gulp-clean-css": "^4.2.0",
-    "gulp-rename": "^2.0.0",
-    "gulp-replace": "^1.0.0",
-    "gulp-uglify": "^3.0.2",
-    "jest": "^26.0.1",
-    "jquery": "^3.1.1"
-  },
-  "peerDependencies": {
-    "jquery": ">=1.14.0"
-  },
-  "files": [
-    "dist",
-    "LICENSE.md",
-    "src/example.png"
-  ],
-  "jest": {
-    "testMatch": [
-      "<rootDir>/test/**/?*.(spec|test).{js,jsx,mjs}"
-    ],
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"
-    ],
-    "testEnvironment": "jsdom",
-    "moduleFileExtensions": [
-      "web.js",
-      "mjs",
-      "js",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node"
-    ]
+    "@changesets/changelog-github": "catalog:",
+    "@changesets/cli": "catalog:",
+    "@eslint/js": "catalog:",
+    "@stylistic/eslint-plugin": "catalog:",
+    "@types/node": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
+    "eslint": "catalog:",
+    "globals": "catalog:",
+    "jquery": "catalog:",
+    "jsdom": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:",
+    "vitest": "catalog:"
   }
 }

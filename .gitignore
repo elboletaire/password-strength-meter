@@ -1,7 +1,5 @@
-/node_modules
-/dist
+node_modules
+dist
+coverage
 *.log
-/bower_components
-/coverage
-
-yarn.lock
+*.tsbuildinfo

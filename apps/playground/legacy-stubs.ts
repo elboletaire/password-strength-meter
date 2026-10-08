@@ -1,5 +1,6 @@
 import type { Plugin } from 'vite'
 import { PAGE_IDS } from './src/shell/routes.ts'
+import { absolute } from './src/shell/site.ts'
 
 /**
  * A stub for each URL of the former site (`/jquery.html`, ...): it sends the visitor to the page's new URL
@@ -22,6 +23,7 @@ export function legacyStubs(): Plugin {
       }
       for (const id of PAGE_IDS.filter((page) => page !== 'index')) {
         const target = `${base}${id}/`
+        const canonical = absolute(target)
         this.emitFile({
           type: 'asset',
           fileName: `${id}.html`,
@@ -31,7 +33,7 @@ export function legacyStubs(): Plugin {
     <meta charset="UTF-8">
     <title>Passcore</title>
     <meta name="robots" content="noindex">
-    <link rel="canonical" href="${target}">
+    <link rel="canonical" href="${canonical}">
     <meta http-equiv="refresh" content="0; url=${target}">
     <script>location.replace(${JSON.stringify(target)} + location.hash)</script>
   </head>

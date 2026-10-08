@@ -1,6 +1,8 @@
 import { iconSvg, faviconHref, logoSvg } from '../common/icons.ts'
 import { LANG_NAMES, LANG_STORAGE_KEY, LANGS, THEME_STORAGE_KEY } from '../common/langs.ts'
 import { url, type PageId } from './routes.ts'
+import { seo } from './seo.ts'
+import { REPO } from './site.ts'
 import { attrs, lang, tAttrs, text, tr } from './t.ts'
 
 export type { PageId } from './routes.ts'
@@ -15,7 +17,7 @@ const NAV: Array<{ id: PageId, nav: string }> = [
   { id: 'svelte', nav: 'nav.svelte' },
 ]
 
-export const REPO = 'https://github.com/elboletaire/password-strength-meter'
+export { REPO }
 
 /** Runs before the first paint: the theme, so the page doesn't flash. The language is the page's own (`<html lang>`). */
 const BOOT = `(function () {
@@ -55,6 +57,7 @@ export function head(page: PageId): string {
     ${text('title', `meta.${page}.title`)}
     <meta${attrs({ name: 'description', ...tAttrs({ content: `meta.${page}.description` }) })}>
     <link rel="icon" href="${faviconHref()}">
+    ${seo(page)}
     <script>${BOOT}</script>${lang() === 'en' ? `\n    <script>${redirectScript()}</script>` : ''}${analytics()}`
 }
 

@@ -87,7 +87,7 @@ function footer(): string {
         <ul class="site-footer__links">
           <li><a href="${REPO}" rel="noopener">${text('span', 'footer.source')}${iconSvg('external', 14)}</a></li>
           <li><a href="${REPO}/tree/master/packages" rel="noopener">${text('span', 'footer.packages')}${iconSvg('external', 14)}</a></li>
-          <li><a href="${REPO}/blob/master/LICENSE.md" rel="noopener">${text('span', 'footer.license')}${iconSvg('external', 14)}</a></li>
+          <li><a href="${REPO}/blob/master/LICENSE" rel="noopener">${text('span', 'footer.license')}${iconSvg('external', 14)}</a></li>
         </ul>
         ${text('p', 'footer.credits', { class: 'site-footer__credits' })}
       </div>

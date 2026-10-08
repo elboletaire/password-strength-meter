@@ -17,7 +17,7 @@
     "url": "git+https://github.com/elboletaire/password-strength-meter.git",
     "directory": "packages/core"
   },
-  "license": "GPL-3.0",
+  "license": "MIT",
   "author": "Òscar Casajuana <elboletaire@gmail.com> (https://github.com/elboletaire)",
   "type": "module",
   "sideEffects": false,

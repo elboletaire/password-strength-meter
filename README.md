@@ -2,7 +2,7 @@
 
 Accessible password strength meters for every framework, built on one small core.
 
-> **About the name.** *Passcore* is the name of the packages (`@passcore/*`). This repository is still called `password-strength-meter` because that is how it started: as a jQuery plugin with that name. The original `password-strength-meter` package on npm is now a compatibility release; see [Looking for the old plugin?](#looking-for-the-old-plugin).
+> **About the name.** *Passcore* is the name of the packages (`@passcore/*`). It plays on *pass score* (the score of a password, written with one `s` because "passscore" repeated too many letters) and on *core* (the small core every package shares). This repository is still called `password-strength-meter` because that is how it started: as a jQuery plugin with that name. The original `password-strength-meter` package on npm is now a compatibility release; see [Looking for the old plugin?](#looking-for-the-old-plugin).
 
 ## Packages
 
@@ -75,4 +75,4 @@ Releases are managed with [changesets](.changeset/README.md).
 
 ## License
 
-GPL-3.0
+MIT

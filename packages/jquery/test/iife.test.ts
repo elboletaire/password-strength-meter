@@ -19,8 +19,8 @@ describe.skipIf(!existsSync(bundle))('dist/password.min.js', () => {
     const $ = window.jQuery
     $('#password').password({ animate: false, showPercent: true }).val('Tester23$').trigger('keyup')
 
-    expect($('.pass-text').text()).toBe('Medium; try using special characters')
-    expect($('.pass-percent').text()).toBe('91%')
+    expect($('.pass-text').text()).toBe('Weak password')
+    expect($('.pass-percent').text()).toBe('30%')
     window.close()
   })
 })

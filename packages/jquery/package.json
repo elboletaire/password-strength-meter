@@ -31,7 +31,6 @@
     },
     "./password.min.js": "./dist/password.min.js",
     "./styles.css": "./dist/styles.css",
-    "./passwordstrength.jpg": "./dist/passwordstrength.jpg",
     "./package.json": "./package.json"
   },
   "main": "./dist/index.cjs",
@@ -45,7 +44,7 @@
   "scripts": {
     "build": "tsdown",
     "typecheck": "tsc",
-    "check:package": "publint --strict && attw --pack --profile node16 --exclude-entrypoints password.min.js styles.css passwordstrength.jpg"
+    "check:package": "publint --strict && attw --pack --profile node16 --exclude-entrypoints password.min.js styles.css"
   },
   "dependencies": {
     "@passcore/core": "workspace:^"

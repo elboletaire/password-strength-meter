@@ -1,6 +1,6 @@
 import { defineConfig } from 'tsdown'
 
-const assets = ['../core/src/styles.css', '../core/src/passwordstrength.jpg']
+const assets = ['src/styles.css']
 
 export default defineConfig([
   {

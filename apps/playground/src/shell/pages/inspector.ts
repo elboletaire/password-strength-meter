@@ -10,7 +10,7 @@ const NUMBER_OPTIONS = [
   { id: 'opt-symbols', key: 'symbols', value: 0, min: 0 },
 ]
 
-/** The meter of the inspector: the bindings' markup, drawn from the core result by src/pages/inspector.ts. */
+/** The meter of the inspector: the bindings' markup, drawn from the core result by pages/inspector/+client.ts. */
 const METER = `<div class="pass-wrapper pass-level-empty pass-invalid" id="meter-wrapper">
           <div class="pass-meter" id="meter" role="meter" aria-label="Password strength" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="Type your password">
             <div class="pass-bar" id="meter-bar" style="width: 0%"></div>

@@ -1,8 +1,8 @@
-import '../lib/site'
+import '../../src/lib/site'
 import '@passcore/react/styles.css'
 import { StrictMode, type ReactElement } from 'react'
 import { createRoot } from 'react-dom/client'
-import { initStudio } from '../lib/studio'
+import { initStudio } from '../../src/lib/studio'
 import {
   ChecklistDemo,
   DefaultDemo,
@@ -13,8 +13,8 @@ import {
   PercentDemo,
   ThemeDemo,
   TranslationsDemo,
-} from '../react/demos'
-import { slot } from '../lib/slot'
+} from '../../src/react/demos'
+import { slot } from '../../src/lib/slot'
 
 function mount(name: string, element: ReactElement): void {
   createRoot(slot(name)).render(<StrictMode>{element}</StrictMode>)

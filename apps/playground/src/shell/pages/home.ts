@@ -1,6 +1,7 @@
 import { escapeHtml } from '../../common/escape.ts'
 import { iconSvg, type IconName } from '../../common/icons.ts'
 import { checklistHtml, codeBlock, commandLine, passwordField, usernameField, type CodeLang } from '../components.ts'
+import { url } from '../routes.ts'
 import { attrs, rich, tAttrs, text } from '../t.ts'
 
 const SAMPLES = ['123456', 'qwerty123', 'P@ssw0rd!', 'Tr0ub4dor&3', 'correct horse battery staple']
@@ -29,7 +30,7 @@ const BINDINGS: Binding[] = [
     id: 'core',
     monogram: '{}',
     name: '@passcore/core',
-    href: './inspector.html',
+    href: url('inspector'),
     install: '@passcore/core',
     lang: 'ts',
     code: `import { createMeter } from '@passcore/core'
@@ -44,7 +45,7 @@ result.message // { key: 'rule.minLength', params: { min: 10 } }`,
     id: 'jquery',
     monogram: '$',
     name: '@passcore/jquery',
-    href: './jquery.html',
+    href: url('jquery'),
     install: '@passcore/jquery jquery',
     lang: 'js',
     code: `import $ from 'jquery'
@@ -57,7 +58,7 @@ $('#password').password({ userInputs: ['#username'] })`,
     id: 'vanilla',
     monogram: 'JS',
     name: '@passcore/vanilla',
-    href: './vanilla.html',
+    href: url('vanilla'),
     install: '@passcore/vanilla',
     lang: 'js',
     code: `import { createPasswordMeter } from '@passcore/vanilla'
@@ -69,7 +70,7 @@ createPasswordMeter('#password', { showPercent: true })`,
     id: 'react',
     monogram: '</>',
     name: '@passcore/react',
-    href: './react.html',
+    href: url('react'),
     install: '@passcore/react',
     lang: 'tsx',
     code: `import { PasswordStrengthMeter } from '@passcore/react'
@@ -81,7 +82,7 @@ import '@passcore/react/styles.css'
     id: 'vue',
     monogram: 'V',
     name: '@passcore/vue',
-    href: './vue.html',
+    href: url('vue'),
     install: '@passcore/vue',
     lang: 'vue',
     code: `<script setup>
@@ -97,7 +98,7 @@ import '@passcore/vue/styles.css'
     id: 'svelte',
     monogram: 'S',
     name: '@passcore/svelte',
-    href: './svelte.html',
+    href: url('svelte'),
     install: '@passcore/svelte',
     lang: 'svelte',
     code: `<script>
@@ -120,7 +121,7 @@ function hero(): string {
             ${rich('h1', 'home.title', { id: 'hero-title', class: 'hero__title' })}
             ${text('p', 'home.lead', { class: 'lead hero__lead' })}
             <div class="hero__actions">
-              <a class="btn btn--primary btn--large" href="./inspector.html">${text('span', 'home.ctaInspector')}${iconSvg('arrowRight', 18)}</a>
+              <a class="btn btn--primary btn--large" href="${url('inspector')}">${text('span', 'home.ctaInspector')}${iconSvg('arrowRight', 18)}</a>
               <a class="btn btn--quiet btn--large" href="#bindings">${text('span', 'home.ctaBindings')}</a>
             </div>
           </div>
@@ -158,11 +159,11 @@ function hero(): string {
 }
 
 const CHECKLIST_PAGES = [
-  { href: './jquery.html#demo-checklist', nav: 'nav.jquery' },
-  { href: './vanilla.html#demo-checklist', nav: 'nav.vanilla' },
-  { href: './react.html#demo-checklist', nav: 'nav.react' },
-  { href: './vue.html#demo-checklist', nav: 'nav.vue' },
-  { href: './svelte.html#demo-checklist', nav: 'nav.svelte' },
+  { href: url('jquery', 'demo-checklist'), nav: 'nav.jquery' },
+  { href: url('vanilla', 'demo-checklist'), nav: 'nav.vanilla' },
+  { href: url('react', 'demo-checklist'), nav: 'nav.react' },
+  { href: url('vue', 'demo-checklist'), nav: 'nav.vue' },
+  { href: url('svelte', 'demo-checklist'), nav: 'nav.svelte' },
 ]
 
 /** The requirements checklist, live, with links to the same demo on every binding page. */

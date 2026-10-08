@@ -1,13 +1,13 @@
-import '../lib/site'
+import '../../src/lib/site'
 import $ from 'jquery'
 import '@passcore/jquery'
 import '@passcore/jquery/styles.css'
 import type { Result } from '@passcore/core'
 import type { PasswordOptions } from '@passcore/jquery'
-import { REQUIREMENT_RULES, requirementState, requirementsSummary, setLiveText } from '../lib/checklist'
-import { locales, meterLabel, t, translate } from '../lib/i18n'
-import { currentLang, onLanguageChange } from '../lib/lang'
-import { initStudio } from '../lib/studio'
+import { REQUIREMENT_RULES, requirementState, requirementsSummary, setLiveText } from '../../src/lib/checklist'
+import { locales, meterLabel, t, translate } from '../../src/lib/i18n'
+import { currentLang, onLanguageChange } from '../../src/lib/lang'
+import { initStudio } from '../../src/lib/studio'
 
 // respect the reduced motion preference: jQuery's slides complete at once
 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

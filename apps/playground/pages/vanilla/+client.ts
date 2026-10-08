@@ -1,4 +1,4 @@
-import '../lib/site'
+import '../../src/lib/site'
 import '@passcore/vanilla/styles.css'
 import { createPasswordMeter, type PasswordMeter, type PasswordMeterOptions } from '@passcore/vanilla'
 import '@passcore/vanilla/element'
@@ -7,10 +7,10 @@ import ca from '@passcore/vanilla/locales/ca.json'
 import en from '@passcore/vanilla/locales/en.json'
 import es from '@passcore/vanilla/locales/es.json'
 import type { Result } from '@passcore/core'
-import { REQUIREMENT_RULES, requirementState, requirementsSummary, setLiveText } from '../lib/checklist'
-import { meterLabel, t, translate } from '../lib/i18n'
-import { currentLang, onLanguageChange } from '../lib/lang'
-import { initStudio } from '../lib/studio'
+import { REQUIREMENT_RULES, requirementState, requirementsSummary, setLiveText } from '../../src/lib/checklist'
+import { meterLabel, t, translate } from '../../src/lib/i18n'
+import { currentLang, onLanguageChange } from '../../src/lib/lang'
+import { initStudio } from '../../src/lib/studio'
 
 const bundled = { en, es, ca }
 

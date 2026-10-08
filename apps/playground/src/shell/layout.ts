@@ -1,17 +1,18 @@
 import { iconSvg, faviconHref, logoSvg } from '../common/icons.ts'
 import { LANG_NAMES, LANG_STORAGE_KEY, LANGS, THEME_STORAGE_KEY } from '../common/langs.ts'
+import { url, type PageId } from './routes.ts'
 import { attrs, en, tAttrs, text } from './t.ts'
 
-export type PageId = 'index' | 'inspector' | 'jquery' | 'vanilla' | 'react' | 'vue' | 'svelte'
+export type { PageId } from './routes.ts'
 
 export const PAGES: Array<{ id: PageId, href: string, nav: string }> = [
-  { id: 'index', href: './', nav: 'nav.home' },
-  { id: 'inspector', href: './inspector.html', nav: 'nav.inspector' },
-  { id: 'jquery', href: './jquery.html', nav: 'nav.jquery' },
-  { id: 'vanilla', href: './vanilla.html', nav: 'nav.vanilla' },
-  { id: 'react', href: './react.html', nav: 'nav.react' },
-  { id: 'vue', href: './vue.html', nav: 'nav.vue' },
-  { id: 'svelte', href: './svelte.html', nav: 'nav.svelte' },
+  { id: 'index', href: url('index'), nav: 'nav.home' },
+  { id: 'inspector', href: url('inspector'), nav: 'nav.inspector' },
+  { id: 'jquery', href: url('jquery'), nav: 'nav.jquery' },
+  { id: 'vanilla', href: url('vanilla'), nav: 'nav.vanilla' },
+  { id: 'react', href: url('react'), nav: 'nav.react' },
+  { id: 'vue', href: url('vue'), nav: 'nav.vue' },
+  { id: 'svelte', href: url('svelte'), nav: 'nav.svelte' },
 ]
 
 export const REPO = 'https://github.com/elboletaire/password-strength-meter'
@@ -53,7 +54,6 @@ export function head(page: PageId): string {
     ${text('title', `meta.${page}.title`)}
     <meta${attrs({ name: 'description', ...tAttrs({ content: `meta.${page}.description` }) })}>
     <link rel="icon" href="${faviconHref()}">
-    <link rel="preload" href="./src/fonts/jetbrains-mono-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
     <script>${BOOT}</script>${analytics()}`
 }
 
@@ -64,7 +64,7 @@ function header(page: PageId): string {
   return `<a class="skip-link" href="#main" data-i18n="a11y.skip">${en('a11y.skip')}</a>
     <header class="site-header">
       <div class="site-header__inner">
-        <a class="brand" href="./">
+        <a class="brand" href="${url('index')}">
           ${logoSvg(30)}
           <span class="brand__name">passcore</span>
           ${text('span', 'brand.tag', { class: 'brand__tag' })}

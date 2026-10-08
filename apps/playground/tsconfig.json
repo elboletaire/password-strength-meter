@@ -2,9 +2,9 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    // the page shell is imported by vite.config.ts, which Node loads as is: imports name their files
+    // the shell and the Vike files name their imports' extensions
     "allowImportingTsExtensions": true,
-    "types": ["node", "vite/client"],
+    "types": ["node", "vite/client", "vike/types"],
     // a child config replaces `paths`, so the workspace packages are listed again, with their subpaths
     "paths": {
       "@passcore/core": ["../../packages/core/src/index.ts"],
@@ -26,5 +26,5 @@
       "@passcore/svelte/locales/*": ["../../locales/*"]
     }
   },
-  "include": ["src", "*.config.ts"]
+  "include": ["src", "pages", "*.config.ts", "legacy-stubs.ts"]
 }

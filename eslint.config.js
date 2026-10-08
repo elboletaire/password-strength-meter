@@ -35,6 +35,18 @@ export default tseslint.config(
     ...reactHooks.configs.flat.recommended,
   },
   {
+    // these run on the server, at build time (Vike pre-rendering): no DOM, no framework runtimes, nothing from the browser entries
+    files: ['apps/playground/pages/**/+Page.ts', 'apps/playground/pages/**/+onRenderHtml.ts', 'apps/playground/src/shell/**/*.ts'],
+    rules: {
+      'no-restricted-imports': ['error', {
+        patterns: [
+          { group: ['jquery', 'react-dom/client', 'vue', 'svelte', 'svelte/*'], message: 'Server-side code can\'t import client runtimes: mount them from the page\'s +client file.' },
+          { group: ['**/lib/**'], message: 'src/lib holds the browser code: import it from a +client file.' },
+        ],
+      }],
+    },
+  },
+  {
     files: ['**/*.cjs'],
     rules: {
       '@typescript-eslint/no-require-imports': 'off',

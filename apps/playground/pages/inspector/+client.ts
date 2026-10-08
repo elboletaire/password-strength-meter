@@ -1,13 +1,13 @@
-import '../lib/site'
+import '../../src/lib/site'
 import '@passcore/vanilla/styles.css'
 import { commonPasswords, createMeter, translationParams, type MeterOptions, type Result } from '@passcore/core'
-import { formatNumber, meterLabel, t, translate } from '../lib/i18n'
-import { onLanguageChange } from '../lib/lang'
+import { formatNumber, meterLabel, t, translate } from '../../src/lib/i18n'
+import { onLanguageChange } from '../../src/lib/lang'
 
 const byId = <T extends HTMLElement>(id: string): T => {
   const element = document.getElementById(id)
   if (!element) {
-    throw new Error(`Missing #${id} in inspector.html`)
+    throw new Error(`Missing #${id} in the inspector page`)
   }
   return element as T
 }

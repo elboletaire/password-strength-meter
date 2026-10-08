@@ -36,7 +36,7 @@ export function normalize(value: string): string {
  * Splits user inputs into normalized tokens of at least 3 characters,
  * on anything that is not a letter or a digit (so emails and full names split too).
  */
-export function tokenize(userInputs: string[]): string[] {
+export function tokenize(userInputs: readonly string[]): string[] {
   const tokens = new Set<string>()
   for (const input of userInputs) {
     for (const part of input.split(/[^\p{L}\p{N}]+/u)) {

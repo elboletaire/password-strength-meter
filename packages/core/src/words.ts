@@ -17,7 +17,7 @@ export interface WordList {
 /**
  * Normalizes and indexes a list of common words. Do it once per meter.
  */
-export function prepareWords(words: string[]): WordList {
+export function prepareWords(words: readonly string[]): WordList {
   const byFirstChar = new Map<string, string[][]>()
   const set = new Set<string>()
   for (const word of words) {

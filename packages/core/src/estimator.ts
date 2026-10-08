@@ -8,7 +8,7 @@ import { findWords, type WordList } from './words'
  * classes used, with patterns worth 1 bit and known words worth only their
  * dictionary size.
  */
-export function estimateBits(password: string, userInputs: string[], words: WordList): number {
+export function estimateBits(password: string, userInputs: readonly string[], words: WordList): number {
   const chars = toChars(password)
   if (!chars.length) {
     return 0

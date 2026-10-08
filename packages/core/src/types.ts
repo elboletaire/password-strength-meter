@@ -29,22 +29,36 @@ export interface Rules {
 /** Lower bound (in percent) of each level. */
 export type Levels = Record<Exclude<Level, 'empty'>, number>
 
-export type Estimator = (password: string, userInputs: string[]) => number
+export type Estimator = (password: string, userInputs: readonly string[]) => number
 
-export interface Options {
+/** What you pass to createMeter(): every field is optional and merged over the defaults. */
+export interface MeterOptions {
   /** Estimated bits that count as 100%. */
-  targetBits: number
+  targetBits?: number
   /** Replaces the built-in strength estimate; returns bits. */
   estimator?: Estimator
   /** Common passwords; replaces the built-in list. */
-  commonWords: string[]
-  rules: Rules
-  levels: Levels
-}
-
-export type PartialOptions = Partial<Omit<Options, 'rules' | 'levels'>> & {
+  commonPasswords?: readonly string[]
   rules?: Partial<Rules>
   levels?: Partial<Levels>
+}
+
+/** The complete, frozen options of a meter (`meter.options`). */
+export interface ResolvedOptions {
+  /** Estimated bits that count as 100%. */
+  readonly targetBits: number
+  /** Replaces the built-in strength estimate; returns bits. */
+  readonly estimator?: Estimator
+  /** Common passwords; replaces the built-in list. */
+  readonly commonPasswords: readonly string[]
+  readonly rules: Readonly<Rules>
+  readonly levels: Readonly<Levels>
+}
+
+/** Options for evaluate(): the meter options plus the user inputs to check against. */
+export type EvaluateOptions = MeterOptions & {
+  /** Values the password must not contain, such as the username or email. */
+  userInputs?: readonly string[]
 }
 
 export interface RuleResult {
@@ -72,7 +86,15 @@ export interface Result {
   message: Message
 }
 
-export interface MeterResult extends Result {
-  /** Whether the message differs from the previous evaluation. */
-  messageChanged: boolean
+export interface Meter {
+  /** The resolved, frozen options. */
+  readonly options: ResolvedOptions
+  /** Evaluates a password. Pure: the same input always gives the same result. */
+  evaluate(password: string, userInputs?: readonly string[]): Result
 }
+
+/** Nested translations, in i18next's JSON format. */
+export type Translations = { [key: string]: string | Translations }
+
+/** Turns a message key and its params into text, e.g. a translator or i18next's `t`. */
+export type Translate = (key: MessageKey, params?: Params) => string

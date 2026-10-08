@@ -2,7 +2,8 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import i18next from 'i18next'
 import { describe, expect, it } from 'vitest'
-import { createTranslator, RULE_ORDER, translationParams, type MessageKey, type Params } from '../src'
+import { createTranslator, translationParams, type MessageKey, type Params } from '../src'
+import { RULE_ORDER } from '../src/rules'
 
 const dir = join(import.meta.dirname, '../../../locales')
 const languages = readdirSync(dir).filter((file) => file.endsWith('.json')).map((file) => file.replace('.json', ''))

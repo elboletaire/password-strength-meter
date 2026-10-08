@@ -31,7 +31,7 @@ const table: Array<[password: string, level: Level, valid: boolean, message: Mes
 
 describe('scoring expectations', () => {
   it.each(table)('%s → %s', (password, level, valid, message, userInputs) => {
-    const result = evaluate(password, {}, userInputs)
+    const result = evaluate(password, { userInputs })
     expect({ level: result.level, valid: result.valid, message: result.message.key })
       .toEqual({ level, valid, message })
   })

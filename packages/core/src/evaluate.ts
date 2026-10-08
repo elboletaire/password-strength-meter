@@ -1,14 +1,14 @@
 import { estimateBits } from './estimator'
-import { resolveOptions } from './options'
+import { deepFreeze, resolveOptions } from './options'
 import { checkRules } from './rules'
-import type { Level, Levels, Message, MeterResult, Options, PartialOptions, Result } from './types'
+import type { EvaluateOptions, Level, Levels, Message, Meter, MeterOptions, ResolvedOptions, Result } from './types'
 import { prepareWords, type WordList } from './words'
 
 /**
  * The level whose lower bound is the highest one not above `percent`
  * (or the lowest level, if every bound is above it).
  */
-export function levelFor(percent: number, levels: Levels): Exclude<Level, 'empty'> {
+export function levelFor(percent: number, levels: Readonly<Levels>): Exclude<Level, 'empty'> {
   const sorted = (Object.entries(levels) as Array<[Exclude<Level, 'empty'>, number]>)
     .sort((a, b) => a[1] - b[1])
   let level = (sorted[0] as [Exclude<Level, 'empty'>, number])[0]
@@ -20,7 +20,7 @@ export function levelFor(percent: number, levels: Levels): Exclude<Level, 'empty
   return level
 }
 
-function compute(password: string, options: Options, words: WordList, userInputs: string[]): Result {
+function computeResult(password: string, options: ResolvedOptions, words: WordList, userInputs: readonly string[]): Result {
   const rules = checkRules(password, options.rules, words, userInputs)
   const valid = rules.every((rule) => rule.passed)
 
@@ -44,40 +44,32 @@ function compute(password: string, options: Options, words: WordList, userInputs
   return { bits, percent, level, valid, rules, message }
 }
 
-/**
- * Evaluates a password with the given options. Stateless: for repeated
- * evaluations (e.g. on every keystroke) use createMeter(), which prepares
- * the word list once and tracks message changes.
- */
-export function evaluate(password: string, options?: PartialOptions, userInputs: string[] = []): Result {
-  const resolved = resolveOptions(options)
-  return compute(password, resolved, prepareWords(resolved.commonWords), userInputs)
+/** Computes a result and freezes it, so results are never mutated by their holder. */
+function compute(password: string, options: ResolvedOptions, words: WordList, userInputs: readonly string[]): Result {
+  return deepFreeze(computeResult(password, options, words, userInputs))
 }
 
-export interface Meter {
-  readonly options: Options
-  evaluate(password: string, userInputs?: string[]): MeterResult
-}
-
-const sameMessage = (a: Message, b: Message): boolean =>
-  a.key === b.key && JSON.stringify(a.params) === JSON.stringify(b.params)
-
 /**
- * Creates a meter: resolves the options and prepares the word list once,
- * and reports whether each evaluation changed the message.
+ * Creates a meter: resolves the options and prepares the word list once.
+ * The meter is pure: evaluating the same password always gives the same result.
  */
-export function createMeter(options?: PartialOptions): Meter {
+export function createMeter(options: MeterOptions = {}): Meter {
   const resolved = resolveOptions(options)
-  const words = prepareWords(resolved.commonWords)
-  let previous: Message = { key: 'empty', params: {} }
+  const words = prepareWords(resolved.commonPasswords)
 
   return {
     options: resolved,
     evaluate(password, userInputs = []) {
-      const result = compute(password, resolved, words, userInputs)
-      const messageChanged = !sameMessage(result.message, previous)
-      previous = result.message
-      return { ...result, messageChanged }
+      return compute(password, resolved, words, userInputs)
     },
   }
+}
+
+/**
+ * Evaluates a password once, with the given options (`userInputs` included).
+ * For repeated evaluations (e.g. on every keystroke) use createMeter().
+ */
+export function evaluate(password: string, options: EvaluateOptions = {}): Result {
+  const { userInputs = [], ...meterOptions } = options
+  return createMeter(meterOptions).evaluate(password, userInputs)
 }

@@ -8,8 +8,8 @@ const password = fc.array(fc.constantFrom(...alphabet), { maxLength: 30 }).map((
 describe('properties', () => {
   it('never lowers the estimate when a character is appended (without known words)', () => {
     fc.assert(fc.property(password, fc.constantFrom(...alphabet), (value, char) => {
-      const before = evaluate(value, { commonWords: [] }).bits
-      const after = evaluate(value + char, { commonWords: [] }).bits
+      const before = evaluate(value, { commonPasswords: [] }).bits
+      const after = evaluate(value + char, { commonPasswords: [] }).bits
       expect(after).toBeGreaterThanOrEqual(before - 1e-9)
     }))
   })

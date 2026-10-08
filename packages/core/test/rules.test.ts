@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { toChars } from '../src/normalize'
-import { defaults } from '../src/options'
+import { defaultOptions } from '../src/options'
 import { checkRules, containsUserInput, isCommon } from '../src/rules'
 import { prepareWords } from '../src/words'
 
-const words = prepareWords(defaults.commonWords)
+const words = prepareWords(defaultOptions.commonPasswords)
 const common = (password: string) => isCommon(toChars(password), words)
 
 describe('isCommon', () => {
@@ -41,7 +41,7 @@ describe('containsUserInput', () => {
 
 describe('checkRules', () => {
   it('reports the default rules in order', () => {
-    expect(checkRules('abc', defaults.rules, words, [])).toEqual([
+    expect(checkRules('abc', defaultOptions.rules, words, [])).toEqual([
       { id: 'minLength', passed: false, params: { min: 8 } },
       { id: 'notCommon', passed: true, params: {} },
       { id: 'notUserInputs', passed: true, params: {} },
@@ -49,7 +49,7 @@ describe('checkRules', () => {
   })
 
   it('reports every enabled rule with its params', () => {
-    const rules = { ...defaults.rules, maxLength: 4, lowercase: 1, uppercase: 1, numbers: 2, symbols: 1 }
+    const rules = { ...defaultOptions.rules, maxLength: 4, lowercase: 1, uppercase: 1, numbers: 2, symbols: 1 }
     expect(checkRules('aB1!x', rules, words, []).map(({ id, passed, params }) => [id, passed, params])).toEqual([
       ['minLength', false, { min: 8 }],
       ['maxLength', false, { max: 4 }],
@@ -63,12 +63,12 @@ describe('checkRules', () => {
   })
 
   it('skips disabled rules', () => {
-    const rules = { ...defaults.rules, minLength: 0, notCommon: false, notUserInputs: false }
+    const rules = { ...defaultOptions.rules, minLength: 0, notCommon: false, notUserInputs: false }
     expect(checkRules('abc', rules, words, [])).toEqual([])
   })
 
   it('counts length in code points', () => {
-    const rules = { ...defaults.rules, minLength: 4 }
+    const rules = { ...defaultOptions.rules, minLength: 4 }
     expect(checkRules('🔒🔒🔒🔒', rules, words, [])[0]).toEqual({ id: 'minLength', passed: true, params: { min: 4 } })
   })
 })

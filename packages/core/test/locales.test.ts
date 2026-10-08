@@ -1,7 +1,8 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { RULE_ORDER, type Translations } from '../src'
+import type { Translations } from '../src'
+import { RULE_ORDER } from '../src/rules'
 
 const dir = join(import.meta.dirname, '../../../locales')
 const files = readdirSync(dir).filter((file) => file.endsWith('.json'))

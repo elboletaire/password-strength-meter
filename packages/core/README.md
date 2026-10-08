@@ -17,7 +17,7 @@ const meter = createMeter({ rules: { minLength: 10 } })
 const result = meter.evaluate('correct horse battery staple', ['johndoe', 'john@example.com'])
 ```
 
-Use `createMeter()` when evaluating repeatedly (on every keystroke): it prepares the word list once and reports `messageChanged`. For one-off checks, `evaluate(password, options, userInputs)` does the same without state.
+Use `createMeter()` when evaluating repeatedly (on every keystroke): it resolves the options and prepares the word list once. `meter.evaluate(password, userInputs)` is pure: it returns a new result and keeps no state, so to know whether the message changed, compare the previous `result.message` (key and params) yourself. For one-off checks, `evaluate(password, options)` gives the same result as `createMeter(options).evaluate(...)`, with the user inputs in the options: `evaluate(password, { userInputs: ['johndoe'] })`.
 
 `userInputs` are values the password must not contain, such as the username, email or name. They're passed on every call because they usually change while the user types.
 
@@ -35,7 +35,6 @@ Use `createMeter()` when evaluating repeatedly (on every keystroke): it prepares
     { id: 'notUserInputs', passed: true, params: {} },
   ],
   message: { key: 'level.strong', params: {} },
-  messageChanged: true,      // meter.evaluate() only
 }
 ```
 
@@ -79,6 +78,8 @@ const translate = createTranslator(translations, 'ca')   // translations: a pars
 translate(result.message.key, translationParams(result.message))
 ```
 
+`createTranslator()` also accepts a list of layers, deep-merged in order (later layers win; only plain objects are merged, and the layers are not modified). For example, English as the base and your own overrides on top: `createTranslator([en, overrides], 'ca')`.
+
 `translationParams()` adds `count` (from `min` or `max`), which selects the plural form. With i18next, pass the same params to its `t`: `t(result.message.key, { ns: 'passcore', ...translationParams(result.message) })`.
 
 `createTranslator()` picks the plural form with `Intl.PluralRules`, falls back to `_other` and then to the plain key, and returns the key itself when nothing matches.
@@ -89,7 +90,7 @@ translate(result.message.key, translationParams(result.message))
 createMeter({
   targetBits: 100,              // bits that count as 100%
   estimator: undefined,         // (password, userInputs) => bits, replaces the built-in estimate
-  commonWords: commonPasswords, // replaces the built-in list of common passwords
+  commonPasswords: commonPasswords, // replaces the built-in list of common passwords
   rules: {
     minLength: 8,               // 0 disables it
     maxLength: 0,               // 0 disables it
@@ -104,18 +105,29 @@ createMeter({
 })
 ```
 
-Options are deep-merged over the defaults, so `{ rules: { numbers: 1 } }` keeps the other rules.
+Options are deep-merged over the defaults, so `{ rules: { numbers: 1 } }` keeps the other rules. The defaults are exported as `defaultOptions`, and `meter.options` is the complete resolved set (with the same shape).
 
 To extend the common-password list instead of replacing it:
 
 ```ts
 import { commonPasswords, createMeter } from '@passcore/core'
 
-createMeter({ commonWords: [...commonPasswords, 'acme', 'acme2024'] })
+createMeter({ commonPasswords: [...commonPasswords, 'acme', 'acme2024'] })
 ```
+
+## Immutability
+
+Options and results are never shared: a meter copies the options it is given, so `meter.options`, `defaultOptions` and `commonPasswords` are frozen and never change, and mutating an object or array you passed in does not change a meter or the defaults. Every evaluation returns a new, frozen result.
 
 ## How strength is estimated
 
 Each character is worth `log2(pool)` bits, where the pool is the sum of the character classes used (lowercase 26, uppercase 26, digits 10, ASCII symbols 33, anything else 100). Characters that continue a pattern are worth 1 bit: repeats (`aaa`), sequences (`abc`, `321`), QWERTY runs (`qwer`) and repeated blocks (`abcabc`). Common passwords and user inputs, also matched with simple leetspeak (`p@ssw0rd`), are worth only a few bits. Without known words, adding a character never lowers the estimate.
 
 The built-in common-password list is the top 200 of [SecLists](https://github.com/danielmiessler/SecLists)' `xato-net-10-million-passwords-1000.txt` (MIT License, Copyright (c) 2018 Daniel Miessler).
+
+## Stability
+
+- **Stable (a major release to change):** option names and defaults of `rules` (`minLength` 8, `notCommon` and `notUserInputs` on, the rest off), the `levels` thresholds, `targetBits` 100, the result shape, message keys, rule ids and their order (`minLength`, `maxLength`, `notCommon`, `notUserInputs`, `lowercase`, `uppercase`, `numbers`, `symbols`), the locale keys, the CSS classes and `--pass-*` custom properties, the markup and ARIA, the bundled **list of common passwords** (frozen for all of 1.x).
+- **Tunable in minor releases:** how the built-in estimate works (pool sizes, bits per pattern, the leetspeak map, bits per matched word): `bits`, `percent` and `level` for a given password may change.
+- New rules may be added in minor releases, disabled by default: the `RuleId` and `MessageKey` unions and the locale keys can grow.
+- An empty password is `valid: true` when no rule is enabled for it (for example `minLength: 0`). `Params` values are numbers.

@@ -1,6 +1,22 @@
 export { commonPasswords } from './common-passwords'
-export { createMeter, evaluate, levelFor, type Meter } from './evaluate'
-export { defaults, mergeDeep, resolveOptions } from './options'
-export { RULE_ORDER } from './rules'
-export { createTranslator, translationParams, type Translate, type Translations } from './translate'
-export type * from './types'
+export { createMeter, evaluate } from './evaluate'
+export { defaultOptions } from './options'
+export { createTranslator, translationParams } from './translate'
+export type {
+  Estimator,
+  EvaluateOptions,
+  Level,
+  Levels,
+  Message,
+  MessageKey,
+  Meter,
+  MeterOptions,
+  Params,
+  ResolvedOptions,
+  Result,
+  RuleId,
+  RuleResult,
+  Rules,
+  Translate,
+  Translations,
+} from './types'

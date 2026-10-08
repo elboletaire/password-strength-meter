@@ -48,7 +48,7 @@ export function isCommon(chars: string[], words: WordList): boolean {
 /**
  * Whether the password contains any user-input token (plain substring, after normalization).
  */
-export function containsUserInput(password: string, userInputs: string[]): boolean {
+export function containsUserInput(password: string, userInputs: readonly string[]): boolean {
   const normalized = normalize(password)
   return tokenize(userInputs).some((token) => normalized.includes(token))
 }
@@ -56,7 +56,7 @@ export function containsUserInput(password: string, userInputs: string[]): boole
 /**
  * Evaluates the enabled rules, in RULE_ORDER.
  */
-export function checkRules(password: string, rules: Rules, words: WordList, userInputs: string[]): RuleResult[] {
+export function checkRules(password: string, rules: Rules, words: WordList, userInputs: readonly string[]): RuleResult[] {
   const chars = toChars(password)
   const results: RuleResult[] = []
 

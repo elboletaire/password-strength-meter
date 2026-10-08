@@ -1,16 +1,17 @@
 import { describe, expect, it, vi } from 'vitest'
-import { commonPasswords, createMeter, defaults, evaluate, levelFor } from '../src'
+import { commonPasswords, createMeter, defaultOptions, evaluate } from '../src'
+import { levelFor } from '../src/evaluate'
 
 describe('levelFor', () => {
   it('picks the highest level whose lower bound is not above the percent', () => {
-    expect(levelFor(0, defaults.levels)).toBe('very-weak')
-    expect(levelFor(20, defaults.levels)).toBe('weak')
-    expect(levelFor(79, defaults.levels)).toBe('good')
-    expect(levelFor(80, defaults.levels)).toBe('strong')
+    expect(levelFor(0, defaultOptions.levels)).toBe('very-weak')
+    expect(levelFor(20, defaultOptions.levels)).toBe('weak')
+    expect(levelFor(79, defaultOptions.levels)).toBe('good')
+    expect(levelFor(80, defaultOptions.levels)).toBe('strong')
   })
 
   it('falls back to the lowest level', () => {
-    expect(levelFor(5, { ...defaults.levels, 'very-weak': 10 })).toBe('very-weak')
+    expect(levelFor(5, { ...defaultOptions.levels, 'very-weak': 10 })).toBe('very-weak')
   })
 })
 
@@ -51,9 +52,9 @@ describe('evaluate', () => {
     expect(evaluate('k8#Qz!2mWp', { targetBits: bits * 2 }).percent).toBe(50)
   })
 
-  it('uses a custom estimator', () => {
+  it('uses a custom estimator, with the user inputs', () => {
     const estimator = vi.fn(() => 42)
-    const result = evaluate('anything', { estimator }, ['john'])
+    const result = evaluate('anything', { estimator, userInputs: ['john'] })
     expect(estimator).toHaveBeenCalledWith('anything', ['john'])
     expect(result.bits).toBe(42)
     expect(result.percent).toBe(42)
@@ -69,40 +70,50 @@ describe('evaluate', () => {
     expect(evaluate('password', { estimator: () => 100 }).valid).toBe(false)
   })
 
-  it('uses commonWords for both the estimate and notCommon', () => {
-    expect(evaluate('acmecorp', { commonWords: ['acmecorp'] }).message.key).toBe('rule.notCommon')
-    expect(evaluate('password', { commonWords: [] }).rules.find((rule) => rule.id === 'notCommon')?.passed).toBe(true)
-    expect(evaluate('acmecorp', { commonWords: [...commonPasswords, 'acmecorp'] }).message.key).toBe('rule.notCommon')
-    expect(evaluate('acmecorp', { commonWords: [] }).bits).toBeGreaterThan(evaluate('acmecorp', { commonWords: ['acmecorp'] }).bits)
+  it('takes userInputs from the options and rejects passwords containing them', () => {
+    const result = evaluate('xJohnx!pass', { userInputs: ['john'] })
+    expect(result.valid).toBe(false)
+    expect(result.message).toEqual({ key: 'rule.notUserInputs', params: {} })
+    expect(evaluate('xJohnx!pass').valid).toBe(true)
+  })
+
+  it('uses commonPasswords for both the estimate and notCommon', () => {
+    expect(evaluate('acmecorp', { commonPasswords: ['acmecorp'] }).message.key).toBe('rule.notCommon')
+    expect(evaluate('password', { commonPasswords: [] }).rules.find((rule) => rule.id === 'notCommon')?.passed).toBe(true)
+    expect(evaluate('acmecorp', { commonPasswords: [...commonPasswords, 'acmecorp'] }).message.key).toBe('rule.notCommon')
+    expect(evaluate('acmecorp', { commonPasswords: [] }).bits).toBeGreaterThan(evaluate('acmecorp', { commonPasswords: ['acmecorp'] }).bits)
   })
 })
 
 describe('createMeter', () => {
   it('exposes the resolved options', () => {
-    expect(createMeter({ rules: { numbers: 1 } }).options.rules).toEqual({ ...defaults.rules, numbers: 1 })
+    expect(createMeter({ rules: { numbers: 1 } }).options.rules).toEqual({ ...defaultOptions.rules, numbers: 1 })
   })
 
-  it('reports message changes between evaluations', () => {
+  it('evaluates purely: the same password gives the same result every time', () => {
     const meter = createMeter()
-    expect(meter.evaluate('').messageChanged).toBe(false)
-    expect(meter.evaluate('a').messageChanged).toBe(true)
-    expect(meter.evaluate('ab').messageChanged).toBe(false)
-    expect(meter.evaluate('Xk9!mQ2#pL7&').messageChanged).toBe(true)
-    expect(meter.evaluate('Xk9!mQ2#pL7&').messageChanged).toBe(false)
+    const first = meter.evaluate('Xk9!mQ2#pL7&')
+    expect(meter.evaluate('a')).toEqual(meter.evaluate('a'))
+    expect(meter.evaluate('Xk9!mQ2#pL7&')).toEqual(first)
+    expect(first).not.toHaveProperty('messageChanged')
   })
 
-  it('reports param changes as message changes', () => {
-    const meter = createMeter({ rules: { minLength: 0, numbers: 1 } })
-    meter.evaluate('abc')
-    const other = createMeter({ rules: { minLength: 0, numbers: 2 } })
-    other.evaluate('abc')
-    expect(meter.evaluate('abc').message.params).toEqual({ min: 1 })
-    expect(other.evaluate('abc').message.params).toEqual({ min: 2 })
+  it('takes user inputs as an argument', () => {
+    const meter = createMeter()
+    expect(meter.evaluate('xJohnx!pass', ['john']).message.key).toBe('rule.notUserInputs')
+    expect(meter.evaluate('xJohnx!pass').valid).toBe(true)
   })
 
   it('returns the same results as evaluate()', () => {
-    const { messageChanged, ...result } = createMeter().evaluate('Tester23$', ['john'])
-    expect(messageChanged).toBe(true)
-    expect(result).toEqual(evaluate('Tester23$', {}, ['john']))
+    expect(createMeter().evaluate('Tester23$', ['john'])).toEqual(evaluate('Tester23$', { userInputs: ['john'] }))
+    expect(createMeter({ rules: { numbers: 2 } }).evaluate('abcdefgh')).toEqual(evaluate('abcdefgh', { rules: { numbers: 2 } }))
+  })
+
+  it('does not share state between meters', () => {
+    const rules = { numbers: 1 }
+    const meter = createMeter({ rules })
+    rules.numbers = 3
+    expect(meter.options.rules.numbers).toBe(1)
+    expect(createMeter().options.rules.numbers).toBe(0)
   })
 })

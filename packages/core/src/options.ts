@@ -1,9 +1,10 @@
 import { commonPasswords } from './common-passwords'
-import type { Options, PartialOptions } from './types'
+import type { MeterOptions, ResolvedOptions } from './types'
 
-export const defaults: Options = {
+/** The default options, deep-frozen. */
+export const defaultOptions: Readonly<ResolvedOptions> = deepFreeze({
   targetBits: 100,
-  commonWords: commonPasswords,
+  commonPasswords,
   rules: {
     minLength: 8,
     maxLength: 0,
@@ -21,10 +22,11 @@ export const defaults: Options = {
     'good': 60,
     'strong': 80,
   },
-}
+})
 
-const isPlainObject = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null && !Array.isArray(value)
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
 
 /**
  * Deep-merges partial objects over `base`: plain objects are merged key by key,
@@ -48,6 +50,36 @@ export function mergeDeep<T>(base: T, ...sources: unknown[]): T {
   return result as T
 }
 
-export function resolveOptions(options?: PartialOptions): Options {
-  return mergeDeep(defaults, options)
+/** Copies plain objects and arrays deeply; anything else (functions, primitives) is kept as is. */
+function copy<T>(value: T): T {
+  if (Array.isArray(value)) {
+    return value.map(copy) as T
+  }
+  if (isPlainObject(value)) {
+    return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, copy(item)])) as T
+  }
+  return value
+}
+
+/** Freezes an object, its plain objects and its arrays, recursively. */
+export function deepFreeze<T>(value: T): T {
+  if (Array.isArray(value)) {
+    value.forEach(deepFreeze)
+  }
+  else if (isPlainObject(value)) {
+    Object.values(value).forEach(deepFreeze)
+  }
+  else {
+    // primitives, and functions such as an estimator, belong to the caller
+    return value
+  }
+  return Object.freeze(value)
+}
+
+/**
+ * Resolves the options of a meter: the defaults merged with the given ones.
+ * Everything is copied, so the result never shares objects with the defaults or the caller.
+ */
+export function resolveOptions(options: MeterOptions = {}): ResolvedOptions {
+  return deepFreeze(copy(mergeDeep(defaultOptions, options))) as ResolvedOptions
 }

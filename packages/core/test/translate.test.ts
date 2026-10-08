@@ -49,3 +49,42 @@ describe('createTranslator', () => {
     expect(createTranslator({ level: 'not an object' })('level.good')).toBe('level.good')
   })
 })
+
+describe('createTranslator layers', () => {
+  it('deep-merges layers in order, later layers winning', () => {
+    const base = { empty: 'base empty', level: { good: 'base good', weak: 'base weak' }, rule: { numbers: 'base numbers' } }
+    const middle = { level: { good: 'middle good' }, rule: { numbers: 'middle numbers' } }
+    const top = { level: { weak: 'top weak' } }
+    const translate = createTranslator([base, middle, top])
+    expect(translate('empty')).toBe('base empty')
+    expect(translate('level.good')).toBe('middle good')
+    expect(translate('level.weak')).toBe('top weak')
+    expect(translate('rule.numbers')).toBe('middle numbers')
+  })
+
+  it('does not mutate the layers', () => {
+    const base = { level: { good: 'base good' } }
+    const top = { level: { weak: 'top weak' } }
+    const snapshot = JSON.stringify([base, top])
+    createTranslator([base, top])('level.good')
+    expect(JSON.stringify([base, top])).toBe(snapshot)
+    expect(base).toEqual({ level: { good: 'base good' } })
+  })
+
+  it('only merges plain objects: a string replaces an object, and the other way around', () => {
+    const translate = createTranslator([{ level: { good: 'x' } }, { level: 'flat' }])
+    expect(translate('level.good')).toBe('level.good')
+    const back = createTranslator([{ level: 'flat' }, { level: { good: 'nested' } }])
+    expect(back('level.good')).toBe('nested')
+  })
+
+  it('accepts a single layer and an empty list of layers', () => {
+    expect(createTranslator([en])('empty')).toBe('Type your password')
+    expect(createTranslator([])('empty')).toBe('empty')
+  })
+
+  it('uses the locale for plural forms with layers', () => {
+    const translate = createTranslator([en, { rule: { numbers_other: '{{count}} numbers' } }], 'es')
+    expect(translate('rule.numbers', { min: 3, count: 3 })).toBe('3 numbers')
+  })
+})

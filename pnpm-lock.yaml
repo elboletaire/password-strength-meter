@@ -89,9 +89,6 @@ importers:
       globals:
         specifier: 'catalog:'
         version: 17.13.0
-      jquery:
-        specifier: 'catalog:'
-        version: 3.7.1
       jsdom:
         specifier: 'catalog:'
         version: 29.1.1
@@ -141,34 +138,6 @@ importers:
       jquery4:
         specifier: npm:jquery@^4.0.0
         version: jquery@4.0.0
-      jsdom:
-        specifier: 'catalog:'
-        version: 29.1.1
-      publint:
-        specifier: 'catalog:'
-        version: 0.3.25
-      tsdown:
-        specifier: 'catalog:'
-        version: 0.23.0(@arethetypeswrong/core@0.18.5)(publint@0.3.25)(typescript@6.0.3)
-      typescript:
-        specifier: 'catalog:'
-        version: 6.0.3
-
-  packages/password-strength-meter:
-    dependencies:
-      '@passcore/jquery':
-        specifier: workspace:^
-        version: link:../jquery
-    devDependencies:
-      '@arethetypeswrong/cli':
-        specifier: 'catalog:'
-        version: 0.18.5
-      '@types/jquery':
-        specifier: 'catalog:'
-        version: 3.5.34
-      jquery:
-        specifier: 'catalog:'
-        version: 3.7.1
       jsdom:
         specifier: 'catalog:'
         version: 29.1.1

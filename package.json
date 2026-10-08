@@ -20,7 +20,6 @@
     "lint": "eslint .",
     "typecheck": "pnpm -r typecheck",
     "check:packages": "pnpm -r --filter './packages/**' check:package",
-    "golden:legacy": "node scripts/legacy-golden.cjs",
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "pnpm build && changeset publish"
@@ -34,7 +33,6 @@
     "@vitest/coverage-v8": "catalog:",
     "eslint": "catalog:",
     "globals": "catalog:",
-    "jquery": "catalog:",
     "jsdom": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",

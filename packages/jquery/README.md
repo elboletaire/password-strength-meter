@@ -48,6 +48,7 @@ $('#password').password({
   translate: undefined,    // (key, params) => string, e.g. i18next's t; replaces translations and locale
   showPercent: false,
   showText: true,
+  label: 'Password strength', // accessible name (aria-label) of the meter
   animate: true,           // hide the meter until focus, and slide it in and out
   animateSpeed: 'fast',
   closestSelector: 'div',  // ancestor the meter is appended to
@@ -98,6 +99,8 @@ $('#password').password({
   translate: (key, params) => i18next.t(key, { ns: 'passcore', ...params }),
 })
 ```
+
+The texts are translated on every update, and the plugin has no way to know that your `translate` function started answering in another language. After switching language, trigger an update so the texts are rewritten: `$('#password').trigger('input')`. (`label` is read once, so set it from the language you start with.)
 
 The keys are `empty`, `level.very-weak`, `level.weak`, `level.fair`, `level.good`, `level.strong`, `rule.notCommon`, `rule.notUserInputs`, and the plural forms of `rule.minLength`, `rule.maxLength`, `rule.lowercase`, `rule.uppercase`, `rule.numbers` and `rule.symbols`. See [`locales/en.json`](../../locales/en.json) for the English texts.
 

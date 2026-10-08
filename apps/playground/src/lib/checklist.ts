@@ -1,24 +1,49 @@
-import type { Level } from '@passcore/core'
+import { requirementKey, requirementState } from '../common/requirements'
 import { t } from './i18n'
 
+export { REQUIREMENT_RULES, requirementState, type RequirementState } from '../common/requirements'
+
 /**
- * Helpers of the custom UIs built with the hook (React), the composable (Vue) and the helper (Svelte):
- * a five-step bar and a checklist of the rules.
+ * Texts of the requirements checklists (markup: `checklistHtml()` in src/shell/components.ts for the plain
+ * pages, and the Checklist demos of React, Vue and Svelte).
  */
 
-/** The rules the custom UIs turn on, over the defaults (minimum length, common passwords, personal details). */
-export const CHECKLIST_RULES = { uppercase: 1, numbers: 1, symbols: 1 }
-
-export const STEPS: Level[] = ['very-weak', 'weak', 'fair', 'good', 'strong']
-
-/** How many of the five steps a level lights up. */
-export const litSteps = (level: Level): number => STEPS.indexOf(level) + 1
-
-/** A rule, in words: "At least 8 characters", "An uppercase letter"... */
-export function describeRule(rule: { id: string, params: Record<string, number> }): string {
-  const count = rule.params.min ?? rule.params.max
-  return t(`checklist.rule.${rule.id}`, count === undefined ? undefined : { count })
+/** A rule, in words: "At least 8 characters", "A lowercase letter"... (neutral labels, not the failure messages). */
+export function requirementLabel(rule: { id: string, params: Record<string, number> }): string {
+  const [key, params] = requirementKey(rule)
+  return t(key, params)
 }
 
-/** The word screen readers hear after each rule. */
-export const ruleState = (passed: boolean): string => t(passed ? 'checklist.met' : 'checklist.missing')
+/** What screen readers hear after a requirement: "met" or "not met"; nothing before anything is typed. */
+export function requirementStateText(state: 'idle' | 'met' | 'unmet'): string {
+  return state === 'idle' ? '' : t(`requirements.${state}`)
+}
+
+/** "5 of 7 requirements met", or "7 requirements to meet" before anything is typed. */
+export function requirementsSummary(rules: Array<{ passed: boolean }>, typed: boolean): string {
+  const total = rules.length
+  return typed
+    ? t('requirements.summary', { met: rules.filter((rule) => rule.passed).length, total })
+    : t('requirements.summaryIdle', { total })
+}
+
+/** Writes a live region only when its text changes, so screen readers hear it once per change. */
+export function setLiveText(element: Element, text: string): void {
+  if (element.textContent !== text) {
+    element.textContent = text
+  }
+}
+
+/** Renders `result.rules` into a checklist of the plain pages (`checklistHtml(id)`): states and summary. */
+export function renderChecklist(id: string, rules: Array<{ id: string, passed: boolean }>, typed: boolean): void {
+  for (const rule of rules) {
+    const item = document.querySelector<HTMLElement>(`#${id} [data-rule="${rule.id}"]`)
+    if (item) {
+      item.dataset.state = requirementState(typed, rule.passed)
+    }
+  }
+  const summary = document.getElementById(`${id}-summary`)
+  if (summary) {
+    setLiveText(summary, requirementsSummary(rules, typed))
+  }
+}

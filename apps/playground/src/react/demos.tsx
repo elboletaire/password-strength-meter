@@ -3,7 +3,7 @@ import ca from '@passcore/react/locales/ca.json'
 import en from '@passcore/react/locales/en.json'
 import es from '@passcore/react/locales/es.json'
 import { useState, type FormEvent } from 'react'
-import { CHECKLIST_RULES, describeRule, litSteps, ruleState, STEPS } from '../lib/checklist'
+import { REQUIREMENT_RULES, requirementLabel, requirementState, requirementStateText, requirementsSummary } from '../lib/checklist'
 import { meterLabel, t, translate } from '../lib/i18n'
 import { Icon, meterTexts, PasswordField, PasswordInput, useLang } from './shared'
 
@@ -145,35 +145,60 @@ export function GroupDemo() {
   )
 }
 
-/** The hook drives a custom UI: five steps, the message and a checklist of the rules. */
-export function HookDemo() {
+const STATE_ICONS = { idle: 'dash', met: 'check', unmet: 'cross' } as const
+
+/** The hook drives your own UI: a checklist of `result.rules`, next to the meter of the component. */
+export function ChecklistDemo() {
   const lang = useLang()
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const { level, rules, text } = usePasswordStrength(password, {
+  const result = usePasswordStrength(password, {
     translations: bundled[lang],
     locale: lang,
-    rules: CHECKLIST_RULES,
+    userInputs: [username],
+    rules: REQUIREMENT_RULES,
   })
-  const lit = litSteps(level)
+  const typed = password !== ''
 
   return (
-    <div className="custom">
-      <PasswordField id="react-hook" value={password} onChange={setPassword} describedBy="react-hook-text" />
-      <div className="steps" data-level={level} aria-hidden="true">
-        {STEPS.map((step, index) => <span key={step} className={index < lit ? 'steps__step steps__step--on' : 'steps__step'} />)}
+    <>
+      <div className="field">
+        <label className="field__label" htmlFor="react-signup-username">{t('field.username')}</label>
+        <input
+          className="input"
+          id="react-signup-username"
+          type="text"
+          autoComplete="username"
+          autoCapitalize="off"
+          spellCheck={false}
+          placeholder={t('field.usernamePlaceholder')}
+          value={username}
+          onChange={(event) => setUsername(event.target.value)}
+        />
       </div>
-      <p className="custom__text" id="react-hook-text" aria-live="polite">{text}</p>
-      <p className="checklist__title" id="react-hook-rules">{t('checklist.title')}</p>
-      <ul className="checklist" aria-labelledby="react-hook-rules">
-        {rules.map((rule) => (
-          <li key={rule.id} className="checklist__item" data-passed={rule.passed}>
-            <Icon name={rule.passed ? 'check' : 'cross'} size={16} className="icon checklist__icon" />
-            <span>{describeRule(rule)}</span>
-            <span className="visually-hidden">{`, ${ruleState(rule.passed)}`}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
+      <PasswordField id="react-signup" value={password} onChange={setPassword} describedBy="react-signup-strength react-checklist-summary">
+        <PasswordStrengthMeter id="react-signup-strength" password={password} userInputs={[username]} rules={REQUIREMENT_RULES} {...meterTexts(lang)} />
+      </PasswordField>
+      <div className="reqs">
+        <p className="reqs__title" id="react-checklist-title">{t('requirements.title')}</p>
+        <ul className="reqs__list" aria-labelledby="react-checklist-title">
+          {result.rules.map((rule) => {
+            const state = requirementState(typed, rule.passed)
+            return (
+              <li key={rule.id} className="req" data-rule={rule.id} data-state={state}>
+                <span className="req__icon" aria-hidden="true">
+                  <Icon name={STATE_ICONS[state]} size={14} className={`icon req__icon-${state}`} />
+                </span>
+                <span className="req__label">{requirementLabel(rule)}</span>
+                {state !== 'idle' && <span className="visually-hidden">{`, ${requirementStateText(state)}`}</span>}
+              </li>
+            )
+          })}
+        </ul>
+        {/* a live region: React only touches the text when it changes, so it is heard once per change */}
+        <p className="reqs__summary" id="react-checklist-summary" aria-live="polite">{requirementsSummary(result.rules, typed)}</p>
+      </div>
+    </>
   )
 }
 

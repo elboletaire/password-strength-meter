@@ -1,5 +1,5 @@
 import type { BindingPage } from '../binding.ts'
-import { eventsForm, inputGroup, passwordField, usernameField } from '../components.ts'
+import { checklistHtml, eventsForm, inputGroup, passwordField, usernameField } from '../components.ts'
 import { studioDemo } from '../studio.ts'
 
 export const jqueryPage: BindingPage = {
@@ -19,6 +19,38 @@ import '@passcore/jquery'
 import '@passcore/jquery/styles.css'
 
 $('#default-password').password()`,
+    },
+    {
+      id: 'checklist',
+      title: 'demo.checklist.title',
+      text: 'jquery.demo.checklist',
+      demo: usernameField('signup-username') + passwordField({ id: 'signup-password', input: { 'aria-describedby': 'checklist-summary' } }) + checklistHtml('checklist'),
+      lang: 'js',
+      code: `// the list: <li data-rule="minLength" data-state="idle">At least 8 characters</li>, and so on
+const $summary = $('#checklist-summary')
+
+$('#signup-password')
+  .password({
+    userInputs: ['#signup-username'],
+    rules: { minLength: 8, lowercase: 1, uppercase: 1, numbers: 1, symbols: 1 },
+    animate: false,
+  })
+  .on('password.score', (event, percent, result) => {
+    const typed = event.target.value !== ''
+    for (const rule of result.rules) {
+      $(\`#checklist [data-rule="\${rule.id}"]\`)
+        .attr('data-state', !typed ? 'idle' : rule.passed ? 'met' : 'unmet')
+    }
+    // a live region: only touch it when the count changes
+    const met = result.rules.filter((rule) => rule.passed).length
+    const text = typed ? \`\${met} of \${result.rules.length} requirements met\` : \`\${result.rules.length} requirements to meet\`
+    if ($summary.text() !== text) {
+      $summary.text(text)
+    }
+  })
+
+// the plugin reads the username when the password changes: update on its changes too
+$('#signup-username').on('input', () => $('#signup-password').trigger('input'))`,
     },
     {
       id: 'always',
@@ -85,7 +117,7 @@ mount()
 
 // the plugin has no refresh(): mount it again with the new language
 i18next.on('languageChanged', () => {
-  $input.off('keyup focus blur').closest('div').children('.pass-wrapper').remove()
+  $input.off('input keyup focus blur').closest('div').children('.pass-wrapper').remove()
   mount()
 })`,
     },

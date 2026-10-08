@@ -127,20 +127,12 @@
     "options": {
       "title": "Opciones del elemento desde JavaScript"
     },
-    "hook": {
-      "react": {
-        "title": "Tu propia interfaz con el hook"
-      },
-      "vue": {
-        "title": "Tu propia interfaz con el composable"
-      },
-      "svelte": {
-        "title": "Tu propia interfaz con la función auxiliar"
-      }
-    },
     "theming": {
       "title": "Temas",
       "text": "Los colores, la pista y la altura son propiedades personalizadas de CSS: de <code>--pass-color-very-weak</code> a <code>--pass-color-strong</code>, <code>--pass-track</code> y <code>--pass-height</code>. Juega con ellas aquí: el CSS de abajo cambia a la vez."
+    },
+    "checklist": {
+      "title": "Lista de requisitos"
     }
   },
   "studio": {
@@ -163,33 +155,6 @@
   "binding": {
     "readme": "Leer el README",
     "note": "<strong>Todos los indicadores de esta página hablan tu idioma.</strong> La zona de pruebas le da a cada uno los textos del idioma que elijas arriba y su nombre accesible. Para que los fragmentos de código sean breves, solo las demos de traducción muestran cómo se hace; el botón para mostrar y ocultar la contraseña es de la zona de pruebas, no del paquete."
-  },
-  "checklist": {
-    "title": "Requisitos",
-    "met": "cumplido",
-    "missing": "pendiente",
-    "rule": {
-      "minLength_one": "Al menos {{count}} carácter",
-      "minLength_many": "Al menos {{count}} caracteres",
-      "minLength_other": "Al menos {{count}} caracteres",
-      "maxLength_one": "Como máximo {{count}} carácter",
-      "maxLength_many": "Como máximo {{count}} caracteres",
-      "maxLength_other": "Como máximo {{count}} caracteres",
-      "notCommon": "Que no sea una contraseña común",
-      "notUserInputs": "Sin datos personales",
-      "lowercase_one": "Una letra minúscula",
-      "lowercase_many": "{{count}} letras minúsculas",
-      "lowercase_other": "{{count}} letras minúsculas",
-      "uppercase_one": "Una letra mayúscula",
-      "uppercase_many": "{{count}} letras mayúsculas",
-      "uppercase_other": "{{count}} letras mayúsculas",
-      "numbers_one": "Un número",
-      "numbers_many": "{{count}} números",
-      "numbers_other": "{{count}} números",
-      "symbols_one": "Un símbolo",
-      "symbols_many": "{{count}} símbolos",
-      "symbols_other": "{{count}} símbolos"
-    }
   },
   "home": {
     "eyebrow": "Indicadores de seguridad de contraseñas",
@@ -272,6 +237,13 @@
       "lead": "Elige un paquete y tu gestor de paquetes: aquí tienes el comando y un primer fragmento de código.",
       "packages": "Paquetes",
       "manager": "Gestor de paquetes"
+    },
+    "reqs": {
+      "eyebrow": "Formularios de registro",
+      "title": "Muestra todos los requisitos",
+      "lead": "Cada resultado enumera todas las reglas activas y si se cumplen, así que la lista que todo el mundo espera en un formulario de registro se hace en pocas líneas con cualquier paquete. Prueba con un nombre de usuario y luego con una contraseña que lo contenga.",
+      "build": "Hazlo con",
+      "card": "Crea una cuenta"
     }
   },
   "inspector": {
@@ -340,6 +312,7 @@
     "title": "Plugin de jQuery",
     "lead": "<code>@passcore/jquery</code> añade <code>$.fn.password()</code> a jQuery 3 y 4. Aplícalo a un campo de contraseña y añadirá un indicador accesible al contenedor más cercano, además de lanzar eventos mientras se escribe.",
     "demo": {
+      "checklist": "El clásico formulario de registro: todas las condiciones, en rojo o en verde mientras se escribe. <code>password.score</code> trae el resultado completo, y <code>result.rules</code> enumera todas las reglas activas, por orden, con su <code>id</code>, <code>passed</code> y <code>params</code>. El plugin lee el nombre de usuario cuando cambia la contraseña, así que ese campo también lanza una actualización. Cada elemento se queda en gris hasta que se escribe algo: una contraseña vacía tampoco es “común”, y mostrarlo en verde sería engañoso.",
       "default": "Tal cual, el indicador espera oculto hasta que el campo recibe el foco y entonces aparece deslizándose. Si el campo se queda vacío, vuelve a ocultarse.",
       "always": "Con <code>animate: false</code> el indicador se ve desde el principio, y <code>showPercent</code> añade el número.",
       "linked": "Con <code>userInputs</code> la contraseña no puede contener el nombre de usuario: prueba a escribirlo en los dos campos. Los campos se leen con cada pulsación.",
@@ -353,6 +326,7 @@
     "title": "JavaScript puro",
     "lead": "<code>@passcore/vanilla</code> no necesita ningún framework ni jQuery: llama a <code>createPasswordMeter()</code> sobre un campo, o escribe un elemento <code>&lt;password-meter&gt;</code> donde quieras el indicador.",
     "demo": {
+      "checklist": "El clásico formulario de registro: todas las condiciones, en rojo o en verde mientras se escribe. El callback <code>onScore</code> (o el evento <code>passcore:score</code>, que se propaga) trae el resultado completo, y <code>result.rules</code> enumera todas las reglas activas, por orden, con su <code>id</code>, <code>passed</code> y <code>params</code>. Al escribir el nombre de usuario se llama a <code>refresh()</code>, para que la regla de los datos personales lo tenga en cuenta. Cada elemento se queda en gris hasta que se escribe algo: una contraseña vacía tampoco es “común”, y mostrarlo en verde sería engañoso.",
       "default": "Con <code>hideUntilFocus</code> el indicador se mantiene oculto hasta que el campo recibe el foco, y vuelve a ocultarse al perderlo si el campo está vacío.",
       "always": "Sin <code>hideUntilFocus</code> el indicador se ve desde el principio, y <code>showPercent</code> añade el número.",
       "linked": "Con <code>userInputs</code> la contraseña no puede contener el nombre de usuario. Las cadenas son selectores y se leen con cada pulsación; también admite funciones.",
@@ -368,42 +342,71 @@
     "title": "React",
     "lead": "<code>@passcore/react</code> ofrece un componente controlado, <code>&lt;PasswordStrengthMeter&gt;</code>, y el hook <code>usePasswordStrength()</code>, para React 18 o posterior.",
     "demo": {
+      "checklist": "El clásico formulario de registro, con tu propio marcado: <code>usePasswordStrength()</code> devuelve el resultado, y <code>result.rules</code> enumera todas las reglas activas, por orden, con su <code>id</code>, <code>passed</code> y <code>params</code>. El componente dibuja la barra al lado. Cada elemento se queda en gris hasta que se escribe algo: una contraseña vacía tampoco es “común”, y mostrarlo en verde sería engañoso.",
       "default": "El componente es controlado: recibe la contraseña como prop y nunca toca tu campo. No tiene estado oculto, así que el indicador siempre se ve; <code>id</code> lo asocia al campo.",
       "percent": "<code>showPercent</code> añade el número junto a la barra.",
       "linked": "Con <code>userInputs</code> la contraseña no puede contener el nombre de usuario. Pásale los valores actuales, directamente desde el estado.",
       "translations": "Los archivos incluidos van en <code>translations</code>, <code>locale</code> elige las formas del plural y <code>label</code> da nombre al indicador para los lectores de pantalla. Cambia el idioma arriba: props nuevas, textos nuevos.",
       "i18next": "<code>translate</code> recibe la función <code>t</code> de una instancia de i18next, aquí la de la propia zona de pruebas. La función no cambia nunca, así que <code>locale</code> le indica al componente cuándo debe volver a traducir.",
       "events": "<code>onScore</code> recibe el porcentaje cada vez que cambia el resultado (nunca al montarse). Aquí controla la puntuación y el botón Enviar.",
-      "group": "El indicador es un elemento más: ponlo después del grupo de campos y ocupará todo el ancho del grupo.",
-      "hook": "<code>usePasswordStrength()</code> devuelve el resultado y sus textos traducidos para que uses tu propio marcado. Aquí: una barra de cinco pasos y una lista con <code>result.rules</code>, con más reglas activadas."
+      "group": "El indicador es un elemento más: ponlo después del grupo de campos y ocupará todo el ancho del grupo."
     }
   },
   "vue": {
     "title": "Vue",
     "lead": "<code>@passcore/vue</code> ofrece un componente, <code>&lt;PasswordStrengthMeter&gt;</code>, y el composable <code>usePasswordStrength()</code>, para Vue 3.5 o posterior.",
     "demo": {
+      "checklist": "El clásico formulario de registro, con tu propio marcado: el composable <code>usePasswordStrength()</code> devuelve el resultado como ref, y <code>result.rules</code> enumera todas las reglas activas, por orden, con su <code>id</code>, <code>passed</code> y <code>params</code>. El componente dibuja la barra al lado. Cada elemento se queda en gris hasta que se escribe algo: una contraseña vacía tampoco es “común”, y mostrarlo en verde sería engañoso.",
       "default": "El componente recibe la contraseña como prop, así que funciona con cualquier <code>v-model</code>. Siempre se ve; <code>id</code> lo asocia al campo.",
       "percent": "<code>show-percent</code> añade el número junto a la barra.",
       "linked": "Con <code>user-inputs</code> la contraseña no puede contener el nombre de usuario. Pásale los valores actuales, directamente desde tus refs.",
       "translations": "Los archivos incluidos van en <code>translations</code>, <code>locale</code> elige las formas del plural y <code>label</code> da nombre al indicador para los lectores de pantalla. Cambia el idioma arriba: props nuevas, textos nuevos.",
       "i18next": "<code>translate</code> recibe la función <code>t</code> de una instancia de i18next, aquí la de la propia zona de pruebas. La función no cambia nunca, así que <code>locale</code> le indica al componente cuándo debe volver a traducir.",
       "events": "El evento <code>score</code> trae el porcentaje cada vez que cambia el resultado (nunca al montarse). Aquí controla la puntuación y el botón Enviar.",
-      "group": "El indicador es un elemento más: ponlo después del grupo de campos y ocupará todo el ancho del grupo.",
-      "hook": "<code>usePasswordStrength()</code> devuelve refs con el resultado y sus textos traducidos para que uses tu propio marcado. Aquí: una barra de cinco pasos y una lista con <code>result.rules</code>, con más reglas activadas."
+      "group": "El indicador es un elemento más: ponlo después del grupo de campos y ocupará todo el ancho del grupo."
     }
   },
   "svelte": {
     "title": "Svelte",
     "lead": "<code>@passcore/svelte</code> ofrece un componente, <code>&lt;PasswordStrengthMeter&gt;</code>, y <code>passwordStrength()</code>, una función auxiliar basada en runas, para Svelte 5.",
     "demo": {
+      "checklist": "El clásico formulario de registro, con tu propio marcado: <code>passwordStrength()</code> devuelve el resultado como getter, y <code>result.rules</code> enumera todas las reglas activas, por orden, con su <code>id</code>, <code>passed</code> y <code>params</code>. El componente dibuja la barra al lado. Cada elemento se queda en gris hasta que se escribe algo: una contraseña vacía tampoco es “común”, y mostrarlo en verde sería engañoso.",
       "default": "El componente recibe la contraseña como prop, así que basta con un <code>bind:value</code> en tu campo. Siempre se ve; <code>id</code> lo asocia al campo.",
       "percent": "<code>showPercent</code> añade el número junto a la barra.",
       "linked": "Con <code>userInputs</code> la contraseña no puede contener el nombre de usuario. Pásale los valores actuales, directamente desde tu estado.",
       "translations": "Los archivos incluidos van en <code>translations</code>, <code>locale</code> elige las formas del plural y <code>label</code> da nombre al indicador para los lectores de pantalla. Cambia el idioma arriba: props nuevas, textos nuevos.",
       "i18next": "<code>translate</code> recibe la función <code>t</code> de una instancia de i18next, aquí la de la propia zona de pruebas. La función no cambia nunca, así que <code>locale</code> le indica al componente cuándo debe volver a traducir.",
       "events": "<code>onscore</code> recibe el porcentaje cada vez que cambia el resultado (nunca al montarse). Aquí controla la puntuación y el botón Enviar.",
-      "group": "El indicador es un elemento más: ponlo después del grupo de campos y ocupará todo el ancho del grupo.",
-      "hook": "<code>passwordStrength()</code> devuelve getters con el resultado y sus textos traducidos para que uses tu propio marcado. Aquí: una barra de cinco pasos y una lista con <code>result.rules</code>, con más reglas activadas."
+      "group": "El indicador es un elemento más: ponlo después del grupo de campos y ocupará todo el ancho del grupo."
+    }
+  },
+  "requirements": {
+    "title": "Requisitos",
+    "met": "cumplido",
+    "unmet": "no cumplido",
+    "summaryIdle": "{{total}} requisitos por cumplir",
+    "summary": "{{met}} de {{total}} requisitos cumplidos",
+    "rule": {
+      "minLength_one": "Al menos {{count}} carácter",
+      "minLength_many": "Al menos {{count}} caracteres",
+      "minLength_other": "Al menos {{count}} caracteres",
+      "maxLength_one": "Como máximo {{count}} carácter",
+      "maxLength_many": "Como máximo {{count}} caracteres",
+      "maxLength_other": "Como máximo {{count}} caracteres",
+      "notCommon": "Que no sea una contraseña común",
+      "notUserInputs": "Sin datos personales, como tu nombre de usuario",
+      "lowercase_one": "Una letra minúscula",
+      "lowercase_many": "Al menos {{count}} letras minúsculas",
+      "lowercase_other": "Al menos {{count}} letras minúsculas",
+      "uppercase_one": "Una letra mayúscula",
+      "uppercase_many": "Al menos {{count}} letras mayúsculas",
+      "uppercase_other": "Al menos {{count}} letras mayúsculas",
+      "numbers_one": "Un número",
+      "numbers_many": "Al menos {{count}} números",
+      "numbers_other": "Al menos {{count}} números",
+      "symbols_one": "Un símbolo",
+      "symbols_many": "Al menos {{count}} símbolos",
+      "symbols_other": "Al menos {{count}} símbolos"
     }
   }
 }

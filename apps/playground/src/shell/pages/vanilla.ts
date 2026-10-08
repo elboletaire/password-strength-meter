@@ -1,5 +1,5 @@
 import type { BindingPage } from '../binding.ts'
-import { eventsForm, inputGroup, passwordField, usernameField } from '../components.ts'
+import { checklistHtml, eventsForm, inputGroup, passwordField, usernameField } from '../components.ts'
 import { studioDemo } from '../studio.ts'
 
 export const vanillaPage: BindingPage = {
@@ -18,6 +18,40 @@ export const vanillaPage: BindingPage = {
 import '@passcore/vanilla/styles.css'
 
 createPasswordMeter('#default-password', { hideUntilFocus: true })`,
+    },
+    {
+      id: 'checklist',
+      title: 'demo.checklist.title',
+      text: 'vanilla.demo.checklist',
+      demo: usernameField('signup-username') + passwordField({ id: 'signup-password', input: { 'aria-describedby': 'checklist-summary' } }) + checklistHtml('checklist'),
+      lang: 'js',
+      code: `// the list: <li data-rule="minLength" data-state="idle">At least 8 characters</li>, and so on
+const input = document.querySelector('#signup-password')
+const summary = document.querySelector('#checklist-summary')
+
+function check(result) {
+  const typed = input.value !== ''
+  for (const rule of result.rules) {
+    const item = document.querySelector(\`#checklist [data-rule="\${rule.id}"]\`)
+    item.dataset.state = !typed ? 'idle' : rule.passed ? 'met' : 'unmet'
+  }
+  // a live region: only touch it when the count changes
+  const met = result.rules.filter((rule) => rule.passed).length
+  const text = typed ? \`\${met} of \${result.rules.length} requirements met\` : \`\${result.rules.length} requirements to meet\`
+  if (summary.textContent !== text) {
+    summary.textContent = text
+  }
+}
+
+const meter = createPasswordMeter(input, {
+  userInputs: ['#signup-username'],
+  rules: { minLength: 8, lowercase: 1, uppercase: 1, numbers: 1, symbols: 1 },
+  onScore: (percent, result) => check(result),
+})
+// or: input.addEventListener('passcore:score', (event) => check(event.detail.result))
+
+// the username is read on each update: refresh when it changes
+document.querySelector('#signup-username').addEventListener('input', () => meter.refresh())`,
     },
     {
       id: 'always',

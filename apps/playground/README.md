@@ -2,9 +2,9 @@
 
 The demo site of the password strength meters: a Vite multi-page static site, in English, Spanish and Catalan. Every page runs the real packages (`@passcore/*`, resolved to their sources through Vite aliases).
 
-- `index.html`: the overview. A live meter (`@passcore/vanilla`) with a readout of the result and sample passwords, the features, the bindings and an install panel (per package and package manager).
+- `index.html`: the overview. A live meter (`@passcore/vanilla`) with a readout of the result and sample passwords, a live requirements checklist (a signup form) linking to the same demo on each binding page, the features, the bindings and an install panel (per package and package manager).
 - `inspector.html`: the core inspector. Type a password and see everything `@passcore/core` returns (bits, percent, level, valid, every rule, the message key and its translation), with options for the rules, the target bits, extra common words and personal details (`userInputs`).
-- `jquery.html`, `vanilla.html`, `react.html`, `vue.html`, `svelte.html`: one page per binding, each demo next to the code that runs it: default, always visible with the percent, linked to a username, bundled translations, i18next translations, callbacks and events, input group or container, the custom element and its `options` (vanilla), a custom UI built with the hook, composable or helper (React, Vue, Svelte), and a theming studio over the `--pass-*` custom properties.
+- `jquery.html`, `vanilla.html`, `react.html`, `vue.html`, `svelte.html`: one page per binding, each demo next to the code that runs it: default, a requirements checklist (every rule of `result.rules`, neutral until something is typed, then met or not met: from `password.score`, `onScore`, the hook, the composable or the helper), always visible with the percent, linked to a username, bundled translations, i18next translations, callbacks and events, input group or container, the custom element and its `options` (vanilla) and a theming studio over the `--pass-*` custom properties.
 
 ## Running it
 

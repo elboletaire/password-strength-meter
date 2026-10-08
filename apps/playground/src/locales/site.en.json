@@ -127,20 +127,12 @@
     "options": {
       "title": "Element options from script"
     },
-    "hook": {
-      "react": {
-        "title": "Your own UI with the hook"
-      },
-      "vue": {
-        "title": "Your own UI with the composable"
-      },
-      "svelte": {
-        "title": "Your own UI with the helper"
-      }
-    },
     "theming": {
       "title": "Theming",
       "text": "Colours, track and height are CSS custom properties: <code>--pass-color-very-weak</code> to <code>--pass-color-strong</code>, <code>--pass-track</code> and <code>--pass-height</code>. Play with them here; the CSS below follows along."
+    },
+    "checklist": {
+      "title": "Requirements checklist"
     }
   },
   "studio": {
@@ -163,27 +155,6 @@
   "binding": {
     "readme": "Read the README",
     "note": "<strong>Every meter on this page speaks your language.</strong> The playground gives each one the texts of the language you pick at the top, and its accessible name. To keep the snippets short, only the translation demos show how; the show and hide button in the fields belongs to the playground, not to the package."
-  },
-  "checklist": {
-    "title": "Requirements",
-    "met": "met",
-    "missing": "missing",
-    "rule": {
-      "minLength_one": "At least {{count}} character",
-      "minLength_other": "At least {{count}} characters",
-      "maxLength_one": "At most {{count}} character",
-      "maxLength_other": "At most {{count}} characters",
-      "notCommon": "Not a common password",
-      "notUserInputs": "No personal details",
-      "lowercase_one": "A lowercase letter",
-      "lowercase_other": "{{count}} lowercase letters",
-      "uppercase_one": "An uppercase letter",
-      "uppercase_other": "{{count}} uppercase letters",
-      "numbers_one": "A number",
-      "numbers_other": "{{count}} numbers",
-      "symbols_one": "A symbol",
-      "symbols_other": "{{count}} symbols"
-    }
   },
   "home": {
     "eyebrow": "Password strength meters",
@@ -266,6 +237,13 @@
       "lead": "Pick a package and your package manager; the command and a first snippet follow.",
       "packages": "Packages",
       "manager": "Package manager"
+    },
+    "reqs": {
+      "eyebrow": "Signup forms",
+      "title": "Show every requirement",
+      "lead": "Every result lists each enabled rule and whether it passes, so the checklist people expect on a signup form takes a few lines with any binding. Try a username, then a password that contains it.",
+      "build": "Build it with",
+      "card": "Create an account"
     }
   },
   "inspector": {
@@ -334,6 +312,7 @@
     "title": "jQuery plugin",
     "lead": "<code>@passcore/jquery</code> adds <code>$.fn.password()</code> to jQuery 3 and 4. Point it at a password input and it appends an accessible meter to the closest container, and fires events as people type.",
     "demo": {
+      "checklist": "The classic signup form: every condition, red or green as people type. <code>password.score</code> brings the full result, and <code>result.rules</code> lists every enabled rule, in order, with its <code>id</code>, <code>passed</code> and <code>params</code>. The plugin reads the username when the password changes, so its field triggers an update too. Every item stays grey until something is typed: an empty password is “not common” too, and saying so in green would mislead.",
       "default": "Out of the box, the meter waits out of sight until the field gets focus, then slides in. It slides away again if the field is left empty.",
       "always": "With <code>animate: false</code> the meter is there from the start, and <code>showPercent</code> adds the number.",
       "linked": "With <code>userInputs</code> the password can’t contain the username: try typing it in both fields. The fields are read on every keystroke.",
@@ -347,6 +326,7 @@
     "title": "Vanilla JavaScript",
     "lead": "<code>@passcore/vanilla</code> needs no framework and no jQuery: call <code>createPasswordMeter()</code> on an input, or write a <code>&lt;password-meter&gt;</code> element where you want the meter.",
     "demo": {
+      "checklist": "The classic signup form: every condition, red or green as people type. The <code>onScore</code> callback (or the bubbling <code>passcore:score</code> event) brings the full result, and <code>result.rules</code> lists every enabled rule, in order, with its <code>id</code>, <code>passed</code> and <code>params</code>. Typing a username calls <code>refresh()</code>, so the personal details rule follows it. Every item stays grey until something is typed: an empty password is “not common” too, and saying so in green would mislead.",
       "default": "With <code>hideUntilFocus</code> the meter stays hidden until the field gets focus, and hides again on blur while the field is empty.",
       "always": "Without <code>hideUntilFocus</code> the meter is shown from the start, and <code>showPercent</code> adds the number.",
       "linked": "With <code>userInputs</code> the password can’t contain the username. Strings are selectors, read on every keystroke; functions work too.",
@@ -362,42 +342,65 @@
     "title": "React",
     "lead": "<code>@passcore/react</code> brings a controlled <code>&lt;PasswordStrengthMeter&gt;</code> component and the <code>usePasswordStrength()</code> hook, for React 18 and later.",
     "demo": {
+      "checklist": "The classic signup form, built with your own markup: <code>usePasswordStrength()</code> returns the result, and <code>result.rules</code> lists every enabled rule, in order, with its <code>id</code>, <code>passed</code> and <code>params</code>. The component draws the bar next to it. Every item stays grey until something is typed: an empty password is “not common” too, and saying so in green would mislead.",
       "default": "The component is controlled: it takes the password as a prop and never touches your input. It has no hidden state, so the meter is always shown; <code>id</code> links it to the field.",
       "percent": "<code>showPercent</code> adds the number next to the bar.",
       "linked": "With <code>userInputs</code> the password can’t contain the username. Pass the current values, straight from state.",
       "translations": "The bundled files go in <code>translations</code>, <code>locale</code> picks the plural forms and <code>label</code> names the meter for screen readers. Switch the language at the top: new props, new texts.",
       "i18next": "<code>translate</code> takes the <code>t</code> of an i18next instance, here the playground’s own. The function never changes, so <code>locale</code> tells the component when to translate again.",
       "events": "<code>onScore</code> gets the percent whenever the result changes (never on mount). Here it drives the score and the Send button.",
-      "group": "The meter is just another element: put it after the input group and it spans the whole group.",
-      "hook": "<code>usePasswordStrength()</code> returns the result and its translated texts for your own markup. Here: a five-step bar and a checklist of <code>result.rules</code>, with more rules turned on."
+      "group": "The meter is just another element: put it after the input group and it spans the whole group."
     }
   },
   "vue": {
     "title": "Vue",
     "lead": "<code>@passcore/vue</code> brings a <code>&lt;PasswordStrengthMeter&gt;</code> component and the <code>usePasswordStrength()</code> composable, for Vue 3.5 and later.",
     "demo": {
+      "checklist": "The classic signup form, built with your own markup: the <code>usePasswordStrength()</code> composable returns the result as a ref, and <code>result.rules</code> lists every enabled rule, in order, with its <code>id</code>, <code>passed</code> and <code>params</code>. The component draws the bar next to it. Every item stays grey until something is typed: an empty password is “not common” too, and saying so in green would mislead.",
       "default": "The component gets the password as a prop, so it works with any <code>v-model</code>. It is always shown; <code>id</code> links it to the field.",
       "percent": "<code>show-percent</code> adds the number next to the bar.",
       "linked": "With <code>user-inputs</code> the password can’t contain the username. Pass the current values, straight from your refs.",
       "translations": "The bundled files go in <code>translations</code>, <code>locale</code> picks the plural forms and <code>label</code> names the meter for screen readers. Switch the language at the top: new props, new texts.",
       "i18next": "<code>translate</code> takes the <code>t</code> of an i18next instance, here the playground’s own. The function never changes, so <code>locale</code> tells the component when to translate again.",
       "events": "The <code>score</code> event brings the percent whenever the result changes (never on mount). Here it drives the score and the Send button.",
-      "group": "The meter is just another element: put it after the input group and it spans the whole group.",
-      "hook": "<code>usePasswordStrength()</code> returns refs with the result and its translated texts for your own markup. Here: a five-step bar and a checklist of <code>result.rules</code>, with more rules turned on."
+      "group": "The meter is just another element: put it after the input group and it spans the whole group."
     }
   },
   "svelte": {
     "title": "Svelte",
     "lead": "<code>@passcore/svelte</code> brings a <code>&lt;PasswordStrengthMeter&gt;</code> component and <code>passwordStrength()</code>, a rune-based helper, for Svelte 5.",
     "demo": {
+      "checklist": "The classic signup form, built with your own markup: <code>passwordStrength()</code> returns the result as a getter, and <code>result.rules</code> lists every enabled rule, in order, with its <code>id</code>, <code>passed</code> and <code>params</code>. The component draws the bar next to it. Every item stays grey until something is typed: an empty password is “not common” too, and saying so in green would mislead.",
       "default": "The component gets the password as a prop, so <code>bind:value</code> on your input is all it takes. It is always shown; <code>id</code> links it to the field.",
       "percent": "<code>showPercent</code> adds the number next to the bar.",
       "linked": "With <code>userInputs</code> the password can’t contain the username. Pass the current values, straight from your state.",
       "translations": "The bundled files go in <code>translations</code>, <code>locale</code> picks the plural forms and <code>label</code> names the meter for screen readers. Switch the language at the top: new props, new texts.",
       "i18next": "<code>translate</code> takes the <code>t</code> of an i18next instance, here the playground’s own. The function never changes, so <code>locale</code> tells the component when to translate again.",
       "events": "<code>onscore</code> gets the percent whenever the result changes (never on mount). Here it drives the score and the Send button.",
-      "group": "The meter is just another element: put it after the input group and it spans the whole group.",
-      "hook": "<code>passwordStrength()</code> returns getters for the result and its translated texts, for your own markup. Here: a five-step bar and a checklist of <code>result.rules</code>, with more rules turned on."
+      "group": "The meter is just another element: put it after the input group and it spans the whole group."
+    }
+  },
+  "requirements": {
+    "title": "Requirements",
+    "met": "met",
+    "unmet": "not met",
+    "summaryIdle": "{{total}} requirements to meet",
+    "summary": "{{met}} of {{total}} requirements met",
+    "rule": {
+      "minLength_one": "At least {{count}} character",
+      "minLength_other": "At least {{count}} characters",
+      "maxLength_one": "At most {{count}} character",
+      "maxLength_other": "At most {{count}} characters",
+      "notCommon": "Not a common password",
+      "notUserInputs": "No personal details, like your username",
+      "lowercase_one": "A lowercase letter",
+      "lowercase_other": "At least {{count}} lowercase letters",
+      "uppercase_one": "An uppercase letter",
+      "uppercase_other": "At least {{count}} uppercase letters",
+      "numbers_one": "A number",
+      "numbers_other": "At least {{count}} numbers",
+      "symbols_one": "A symbol",
+      "symbols_other": "At least {{count}} symbols"
     }
   }
 }

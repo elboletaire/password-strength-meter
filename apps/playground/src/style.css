@@ -1187,6 +1187,85 @@ main:focus {
   margin-top: 0.15rem;
 }
 
+/* home: requirements */
+
+.reqs-feature {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .reqs-feature {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+.reqs-feature__copy {
+  display: grid;
+  justify-items: start;
+  gap: 0.9rem;
+}
+
+.reqs-feature__copy .eyebrow {
+  margin-bottom: 0;
+}
+
+.reqs-feature__build {
+  margin-top: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.reqs-feature__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip--link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  text-decoration: none;
+  line-height: 2.2rem;
+}
+
+.chip--link:hover {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.chip--link .icon {
+  transition: transform 0.15s ease;
+}
+
+.chip--link:hover .icon {
+  transform: translateX(2px);
+}
+
+.signup {
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--bg-raised);
+  box-shadow: var(--shadow-lg);
+}
+
+.signup__title {
+  margin-bottom: 1.25rem;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+
 /* home: features */
 
 .features {
@@ -1797,36 +1876,16 @@ password-meter {
   display: none;
 }
 
-/* the custom UIs of the hook, composable and helper */
+/* the requirements checklist: neutral until something is typed, then red (not met) or green (met).
+   The state is also an icon (dash, cross, check) and a hidden word, never the colour alone. */
 
-.steps {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0.3rem;
-  margin-top: 0.9rem;
-}
-
-.steps__step {
-  height: 0.5rem;
-  border-radius: 999px;
-  background: var(--pass-track);
-  transition: background-color 0.2s ease;
-}
-
-.steps[data-level='very-weak'] .steps__step--on { background: var(--ramp-1); }
-.steps[data-level='weak'] .steps__step--on { background: var(--ramp-2); }
-.steps[data-level='fair'] .steps__step--on { background: var(--ramp-3); }
-.steps[data-level='good'] .steps__step--on { background: var(--ramp-4); }
-.steps[data-level='strong'] .steps__step--on { background: var(--ramp-5); }
-
-.custom__text {
-  margin-top: 0.6rem;
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
-.checklist__title {
+.reqs {
   margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--line-strong);
+}
+
+.reqs__title {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 700;
@@ -1835,38 +1894,101 @@ password-meter {
   color: var(--ink-3);
 }
 
-.checklist {
+.reqs__list {
   display: grid;
-  gap: 0.35rem;
-  margin: 0.6rem 0 0;
+  gap: 0.4rem;
+  margin: 0.7rem 0 0;
   padding: 0;
   list-style: none;
 }
 
-.checklist__item {
+.req {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.65rem;
   font-size: 0.92rem;
+  line-height: 1.35;
+  color: var(--ink-2);
+  transition: color 0.2s ease;
+}
+
+.req__icon {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 1.4rem;
+  height: 1.4rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--bg-subtle);
+  color: var(--ink-3);
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.req__icon .icon {
+  stroke-width: 2.6;
+  animation: req-pop 0.24s ease-out;
+}
+
+@keyframes req-pop {
+  from {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+}
+
+.req[data-state='met'] {
+  color: var(--ok);
+}
+
+.req[data-state='met'] .req__icon {
+  border-color: transparent;
+  background: var(--ok-soft);
+  color: var(--ok);
+}
+
+.req[data-state='unmet'] {
+  color: var(--bad);
+}
+
+.req[data-state='unmet'] .req__icon {
+  border-color: transparent;
+  background: var(--bad-soft);
+  color: var(--bad);
+}
+
+/* the plain pages render every icon and both words: only the ones of the state stay */
+.req:not([data-state='idle']) .req__icon-idle,
+.req:not([data-state='met']) .req__icon-met,
+.req:not([data-state='unmet']) .req__icon-unmet,
+.req:not([data-state='met']) .req__sr--met,
+.req:not([data-state='unmet']) .req__sr--unmet {
+  display: none;
+}
+
+.reqs__summary {
+  margin-top: 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
   color: var(--ink-2);
 }
 
-.checklist__icon {
-  padding: 2px;
-  border-radius: 50%;
-  background: var(--bad-soft);
-  color: var(--bad);
-  width: 1.3rem;
-  height: 1.3rem;
-}
+@media (forced-colors: active) {
+  /* forced colours drop background colours, and with them the bar of the meter: draw it in system colours */
+  .pass-meter {
+    border: 1px solid CanvasText;
+  }
 
-.checklist__item[data-passed='true'] {
-  color: var(--ink);
-}
+  .pass-bar {
+    forced-color-adjust: none;
+    background-color: Highlight !important;
+  }
 
-.checklist__item[data-passed='true'] .checklist__icon {
-  background: var(--ok-soft);
-  color: var(--ok);
+  .req__icon,
+  .req[data-state] .req__icon {
+    border-color: CanvasText;
+  }
 }
 
 /* theming studio */

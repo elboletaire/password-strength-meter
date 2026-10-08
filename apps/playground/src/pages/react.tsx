@@ -4,10 +4,10 @@ import { StrictMode, type ReactElement } from 'react'
 import { createRoot } from 'react-dom/client'
 import { initStudio } from '../lib/studio'
 import {
+  ChecklistDemo,
   DefaultDemo,
   EventsDemo,
   GroupDemo,
-  HookDemo,
   I18nDemo,
   LinkedDemo,
   PercentDemo,
@@ -21,13 +21,13 @@ function mount(name: string, element: ReactElement): void {
 }
 
 mount('default', <DefaultDemo />)
+mount('checklist', <ChecklistDemo />)
 mount('percent', <PercentDemo />)
 mount('linked', <LinkedDemo />)
 mount('translations', <TranslationsDemo />)
 mount('i18next', <I18nDemo />)
 mount('events', <EventsDemo />)
 mount('group', <GroupDemo />)
-mount('hook', <HookDemo />)
 mount('theme', <ThemeDemo />)
 
 initStudio()

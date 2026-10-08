@@ -28,6 +28,37 @@ const password = ref('')
 </template>`,
     },
     {
+      id: 'checklist',
+      title: 'demo.checklist.title',
+      text: 'vue.demo.checklist',
+      demo: slot('checklist', 25),
+      lang: 'vue',
+      code: `<script setup>
+import { computed, ref } from 'vue'
+import { PasswordStrengthMeter, usePasswordStrength } from '@passcore/vue'
+
+const rules = { minLength: 8, lowercase: 1, uppercase: 1, numbers: 1, symbols: 1 }
+const username = ref('')
+const password = ref('')
+
+const { result } = usePasswordStrength(password, () => ({ userInputs: [username.value], rules }))
+const typed = computed(() => password.value !== '')
+const met = computed(() => result.value.rules.filter((rule) => rule.passed).length)
+</script>
+
+<template>
+  <PasswordStrengthMeter :password="password" :user-inputs="[username]" :rules="rules" />
+  <ul>
+    <li v-for="rule in result.rules" :key="rule.id" :data-state="!typed ? 'idle' : rule.passed ? 'met' : 'unmet'">
+      {{ t(\`requirements.rule.\${rule.id}\`, { count: rule.params.min }) }}
+    </li>
+  </ul>
+  <p aria-live="polite">
+    {{ typed ? \`\${met} of \${result.rules.length} requirements met\` : \`\${result.rules.length} requirements to meet\` }}
+  </p>
+</template>`,
+    },
+    {
       id: 'percent',
       title: 'demo.percent.title',
       text: 'vue.demo.percent',
@@ -125,29 +156,6 @@ const percent = ref(0)
   </div>
   <PasswordStrengthMeter :password="password" />
 </div>`,
-    },
-    {
-      id: 'hook',
-      title: 'demo.hook.vue.title',
-      text: 'vue.demo.hook',
-      demo: slot('hook', 19),
-      lang: 'vue',
-      code: `<script setup>
-import { usePasswordStrength } from '@passcore/vue'
-
-const { result, text } = usePasswordStrength(password, {
-  rules: { uppercase: 1, numbers: 1, symbols: 1 },
-})
-</script>
-
-<template>
-  <p :data-level="result.level">{{ text }}</p>
-  <ul>
-    <li v-for="rule in result.rules" :key="rule.id" :data-passed="rule.passed">
-      {{ describe(rule) }}
-    </li>
-  </ul>
-</template>`,
     },
     studioDemo(`<div class="slot" data-slot="theme" style="min-height: 6.5rem"></div>`),
   ],

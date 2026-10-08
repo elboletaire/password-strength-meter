@@ -25,6 +25,36 @@ export const sveltePage: BindingPage = {
 <PasswordStrengthMeter id="password-strength" {password} />`,
     },
     {
+      id: 'checklist',
+      title: 'demo.checklist.title',
+      text: 'svelte.demo.checklist',
+      demo: slot('checklist', 25),
+      lang: 'svelte',
+      code: `<script>
+  import { PasswordStrengthMeter, passwordStrength } from '@passcore/svelte'
+
+  const rules = { minLength: 8, lowercase: 1, uppercase: 1, numbers: 1, symbols: 1 }
+  let username = $state('')
+  let password = $state('')
+
+  const strength = passwordStrength(() => password, () => ({ userInputs: [username], rules }))
+  const typed = $derived(password !== '')
+  const met = $derived(strength.result.rules.filter((rule) => rule.passed).length)
+</script>
+
+<PasswordStrengthMeter {password} userInputs={[username]} {rules} />
+<ul>
+  {#each strength.result.rules as rule (rule.id)}
+    <li data-state={!typed ? 'idle' : rule.passed ? 'met' : 'unmet'}>
+      {t(\`requirements.rule.\${rule.id}\`, { count: rule.params.min })}
+    </li>
+  {/each}
+</ul>
+<p aria-live="polite">
+  {typed ? \`\${met} of \${strength.result.rules.length} requirements met\` : \`\${strength.result.rules.length} requirements to meet\`}
+</p>`,
+    },
+    {
       id: 'percent',
       title: 'demo.percent.title',
       text: 'svelte.demo.percent',
@@ -115,27 +145,6 @@ export const sveltePage: BindingPage = {
   </div>
   <PasswordStrengthMeter {password} />
 </div>`,
-    },
-    {
-      id: 'hook',
-      title: 'demo.hook.svelte.title',
-      text: 'svelte.demo.hook',
-      demo: slot('hook', 19),
-      lang: 'svelte',
-      code: `<script>
-  import { passwordStrength } from '@passcore/svelte'
-
-  const strength = passwordStrength(() => password, () => ({
-    rules: { uppercase: 1, numbers: 1, symbols: 1 },
-  }))
-</script>
-
-<p data-level={strength.result.level}>{strength.text}</p>
-<ul>
-  {#each strength.result.rules as rule (rule.id)}
-    <li data-passed={rule.passed}>{describe(rule)}</li>
-  {/each}
-</ul>`,
     },
     studioDemo(`<div class="slot" data-slot="theme" style="min-height: 6.5rem"></div>`),
   ],

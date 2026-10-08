@@ -1,6 +1,6 @@
 import { escapeHtml } from '../../common/escape.ts'
 import { iconSvg, type IconName } from '../../common/icons.ts'
-import { codeBlock, commandLine, passwordField, type CodeLang } from '../components.ts'
+import { checklistHtml, codeBlock, commandLine, passwordField, usernameField, type CodeLang } from '../components.ts'
 import { attrs, rich, tAttrs, text } from '../t.ts'
 
 const SAMPLES = ['123456', 'qwerty123', 'P@ssw0rd!', 'Tr0ub4dor&3', 'correct horse battery staple']
@@ -157,6 +157,38 @@ function hero(): string {
       </section>`
 }
 
+const CHECKLIST_PAGES = [
+  { href: './jquery.html#demo-checklist', nav: 'nav.jquery' },
+  { href: './vanilla.html#demo-checklist', nav: 'nav.vanilla' },
+  { href: './react.html#demo-checklist', nav: 'nav.react' },
+  { href: './vue.html#demo-checklist', nav: 'nav.vue' },
+  { href: './svelte.html#demo-checklist', nav: 'nav.svelte' },
+]
+
+/** The requirements checklist, live, with links to the same demo on every binding page. */
+function requirements(): string {
+  const links = CHECKLIST_PAGES.map(({ href, nav }) => `<li><a class="chip chip--link" href="${href}">${text('span', nav)}${iconSvg('arrowRight', 16)}</a></li>`).join('\n              ')
+  return `<section class="section" aria-labelledby="reqs-title">
+        <div class="reqs-feature">
+          <div class="reqs-feature__copy">
+            ${text('p', 'home.reqs.eyebrow', { class: 'eyebrow' })}
+            ${text('h2', 'home.reqs.title', { id: 'reqs-title', class: 'section__title' })}
+            ${text('p', 'home.reqs.lead', { class: 'lead' })}
+            ${text('p', 'home.reqs.build', { class: 'reqs-feature__build', id: 'reqs-build' })}
+            <ul class="reqs-feature__links" aria-labelledby="reqs-build">
+              ${links}
+            </ul>
+          </div>
+          <div class="signup">
+            ${text('h3', 'home.reqs.card', { class: 'signup__title' })}
+            ${usernameField('home-username')}
+            ${passwordField({ id: 'home-password', input: { 'aria-describedby': 'home-checklist-summary' } })}
+            ${checklistHtml('home-checklist')}
+          </div>
+        </div>
+      </section>`
+}
+
 function features(): string {
   const items = FEATURES.map(({ id, icon }) => `<li class="feature">
             <span class="feature__icon">${iconSvg(icon, 22)}</span>
@@ -228,5 +260,5 @@ function install(): string {
 }
 
 export function homeMain(): string {
-  return [hero(), features(), bindings(), install()].join('\n\n      ')
+  return [hero(), requirements(), features(), bindings(), install()].join('\n\n      ')
 }

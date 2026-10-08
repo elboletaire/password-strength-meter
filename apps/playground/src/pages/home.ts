@@ -2,6 +2,7 @@ import '../lib/site'
 import '@passcore/vanilla/styles.css'
 import type { MeterResult } from '@passcore/core'
 import { createPasswordMeter, type PasswordMeter } from '@passcore/vanilla'
+import { REQUIREMENT_RULES, renderChecklist } from '../lib/checklist'
 import { formatNumber, locales, meterLabel, t } from '../lib/i18n'
 import { currentLang, onLanguageChange } from '../lib/lang'
 
@@ -52,4 +53,28 @@ document.querySelectorAll<HTMLButtonElement>('[data-sample]').forEach((button) =
     input.value = button.dataset.sample ?? ''
     input.dispatchEvent(new Event('input', { bubbles: true }))
   })
+})
+
+// the requirements checklist: @passcore/vanilla again, its `result.rules` drawn as a checklist
+const signupInput = byId<HTMLInputElement>('home-password')
+
+const createSignup = (): PasswordMeter => createPasswordMeter(signupInput, {
+  translations: locales[currentLang()],
+  locale: currentLang(),
+  label: meterLabel(),
+  userInputs: ['#home-username'],
+  rules: REQUIREMENT_RULES,
+  onScore: (_percent, result) => renderChecklist('home-checklist', result.rules, signupInput.value !== ''),
+})
+
+let signup = createSignup()
+renderChecklist('home-checklist', signup.result.rules, signupInput.value !== '')
+
+// the username is read on each update: refresh when it changes
+byId('home-username').addEventListener('input', () => signup.refresh())
+
+onLanguageChange(() => {
+  signup.destroy()
+  signup = createSignup()
+  renderChecklist('home-checklist', signup.result.rules, signupInput.value !== '')
 })

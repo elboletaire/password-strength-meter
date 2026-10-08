@@ -1,6 +1,7 @@
 import { escapeHtml } from '../common/escape.ts'
 import { highlight } from '../common/highlight.ts'
 import { iconSvg } from '../common/icons.ts'
+import { REQUIREMENTS, requirementKey } from '../common/requirements.ts'
 import { attrs, en, rich, tAttrs, text, type Attrs } from './t.ts'
 
 /**
@@ -166,3 +167,33 @@ export function demoSection(demo: Demo, index: number): string {
 
 /** A framework slot: the component mounts into it; the minimum height keeps the page from jumping. */
 export const slot = (name: string, minHeight = 7): string => `<div class="slot" data-slot="${name}" style="min-height: ${minHeight}rem"></div>`
+
+/** The icons of a requirement: the stylesheet shows the one of its state (idle, met, unmet). */
+export function requirementIcons(): string {
+  return `<span class="req__icon" aria-hidden="true">${iconSvg('dash', 14, 'icon req__icon-idle')}${iconSvg('check', 14, 'icon req__icon-met')}${iconSvg('cross', 14, 'icon req__icon-unmet')}</span>`
+}
+
+/**
+ * The requirements checklist of the plain pages (jQuery, vanilla, home): one item per rule, in the order the
+ * core reports them, all neutral until the script sets `data-state` from `result.rules`. Screen readers hear
+ * "met" or "not met" after each item (the stylesheet keeps only the one of the state), and the summary is a
+ * polite live region, written by the script (not by the page translations, so a language switch updates it once).
+ */
+export function checklistHtml(id: string): string {
+  const items = REQUIREMENTS.map((requirement) => {
+    const [key, params] = requirementKey({ id: requirement.id, params: requirement.min === undefined ? {} : { min: requirement.min } })
+    return `<li class="req" data-rule="${requirement.id}" data-state="idle">
+      ${requirementIcons()}
+      ${text('span', key, { class: 'req__label' }, params)}
+      <span class="visually-hidden req__sr req__sr--met">, ${text('span', 'requirements.met')}</span>
+      <span class="visually-hidden req__sr req__sr--unmet">, ${text('span', 'requirements.unmet')}</span>
+    </li>`
+  }).join('\n    ')
+  return `<div class="reqs" id="${id}">
+  ${text('p', 'requirements.title', { class: 'reqs__title', id: `${id}-title` })}
+  <ul class="reqs__list" aria-labelledby="${id}-title">
+    ${items}
+  </ul>
+  <p class="reqs__summary" id="${id}-summary" aria-live="polite">${escapeHtml(en('requirements.summaryIdle', { total: REQUIREMENTS.length }))}</p>
+</div>`
+}

@@ -29,6 +29,32 @@ const [password, setPassword] = useState('')
 <PasswordStrengthMeter id="password-strength" password={password} />`,
     },
     {
+      id: 'checklist',
+      title: 'demo.checklist.title',
+      text: 'react.demo.checklist',
+      demo: slot('checklist', 25),
+      lang: 'tsx',
+      code: `import { PasswordStrengthMeter, usePasswordStrength } from '@passcore/react'
+
+const rules = { minLength: 8, lowercase: 1, uppercase: 1, numbers: 1, symbols: 1 }
+
+const result = usePasswordStrength(password, { userInputs: [username], rules })
+const typed = password !== ''
+const met = result.rules.filter((rule) => rule.passed).length
+
+<PasswordStrengthMeter password={password} userInputs={[username]} rules={rules} />
+<ul>
+  {result.rules.map((rule) => (
+    <li key={rule.id} data-state={!typed ? 'idle' : rule.passed ? 'met' : 'unmet'}>
+      {t(\`requirements.rule.\${rule.id}\`, { count: rule.params.min })}
+    </li>
+  ))}
+</ul>
+<p aria-live="polite">
+  {typed ? \`\${met} of \${result.rules.length} requirements met\` : \`\${result.rules.length} requirements to meet\`}
+</p>`,
+    },
+    {
       id: 'percent',
       title: 'demo.percent.title',
       text: 'react.demo.percent',
@@ -131,27 +157,6 @@ const translate = (key, params) => i18next.t(key, { ns: 'passcore', ...params })
   </div>
   <PasswordStrengthMeter password={password} />
 </div>`,
-    },
-    {
-      id: 'hook',
-      title: 'demo.hook.react.title',
-      text: 'react.demo.hook',
-      demo: slot('hook', 19),
-      lang: 'tsx',
-      code: `import { usePasswordStrength } from '@passcore/react'
-
-const { level, rules, text } = usePasswordStrength(password, {
-  rules: { uppercase: 1, numbers: 1, symbols: 1 },
-})
-
-<p data-level={level}>{text}</p>
-<ul>
-  {rules.map((rule) => (
-    <li key={rule.id} data-passed={rule.passed}>
-      {describe(rule)}
-    </li>
-  ))}
-</ul>`,
     },
     studioDemo(`<div class="slot" data-slot="theme" style="min-height: 6.5rem"></div>`),
   ],

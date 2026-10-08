@@ -2,7 +2,9 @@ import '../lib/site'
 import $ from 'jquery'
 import '@passcore/jquery'
 import '@passcore/jquery/styles.css'
+import type { MeterResult } from '@passcore/core'
 import type { PasswordOptions } from '@passcore/jquery'
+import { REQUIREMENT_RULES, requirementState, requirementsSummary, setLiveText } from '../lib/checklist'
 import { locales, meterLabel, t, translate } from '../lib/i18n'
 import { currentLang, onLanguageChange } from '../lib/lang'
 import { initStudio } from '../lib/studio'
@@ -43,7 +45,7 @@ function attach(mount: Mount): void {
 
 function detach({ input, closest }: Mount): void {
   const container = input.closest(closest)
-  input.off('keyup focus blur')
+  input.off('input keyup focus blur')
   container.children('.pass-wrapper').remove()
   container.removeClass('pass-strength-visible')
   // the plugin appends its text id on every mount: take it out again
@@ -73,6 +75,29 @@ onLanguageChange(() => {
 
 // default: hidden until the field gets focus
 mount('#default-password', () => texts())
+
+// requirements checklist: every rule of `result.rules`, neutral until something is typed
+const $summary = $('#checklist-summary')
+function check(result: MeterResult, typed: boolean): void {
+  for (const rule of result.rules) {
+    $(`#checklist [data-rule="${rule.id}"]`).attr('data-state', requirementState(typed, rule.passed))
+  }
+  // a live region: only touch it when the count changes
+  setLiveText($summary[0] as HTMLElement, requirementsSummary(result.rules, typed))
+}
+
+mount('#signup-password', () => ({ ...texts(), userInputs: ['#signup-username'], rules: REQUIREMENT_RULES, animate: false }))
+  .on('password.score', (event, _percent: number, result: MeterResult) => {
+    check(result, String($(event.target).val() ?? '') !== '')
+  })
+
+// the plugin reads the username when the password changes: update on its changes too
+$('#signup-username').on('input', () => $('#signup-password').trigger('input'))
+
+// the summary is written by this script, in the page's language: render it now, and again after the
+// language change has mounted the meter again
+$('#signup-password').trigger('input')
+onLanguageChange(() => $('#signup-password').trigger('input'))
 
 mount('#always-password', () => ({ ...texts(), animate: false, showPercent: true }))
 

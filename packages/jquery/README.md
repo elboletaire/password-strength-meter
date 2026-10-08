@@ -66,7 +66,7 @@ $('#password').password({
 })
 ```
 
-See the [`@passcore/core` README](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core/README.md#options) for the core options.
+See the [`@passcore/core` README](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core/README.md#options) for the core options. The [stability policy](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core/README.md#stability) says what can change in a minor release.
 
 Calling `.password(options)` again on the same input replaces its meter: the previous markup and listeners are removed first, so the input never gets two meters. Calling it on a set of inputs gives each of them its own meter.
 
@@ -144,12 +144,12 @@ $('#password').on('password.text', (e, text, result) => {
 ## Markup and styling
 
 ```html
-<div class="pass-wrapper pass-level-weak pass-invalid">
+<div class="pass-wrapper pass-level-weak">
   <div class="pass-meter" role="meter" aria-label="Password strength" aria-valuemin="0" aria-valuemax="100" aria-valuenow="30" aria-valuetext="Weak password">
     <div class="pass-bar" style="width: 30%"></div>
   </div>
   <span class="pass-percent">30%</span>
-  <span class="pass-text" id="password-strength" aria-live="polite">Use at least 8 characters</span>
+  <span class="pass-text" id="password-strength" aria-live="polite">Weak password</span>
 </div>
 ```
 

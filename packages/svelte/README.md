@@ -41,7 +41,7 @@ The wrapper has a `pass-level-*` class and, while the password is not valid (a r
 
 ## Options
 
-Props of the component. Core options (`targetBits`, `estimator`, `commonPasswords`, `rules`, `levels`) are props too, see the [`@passcore/core` README](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core/README.md#options).
+Props of the component. Core options (`targetBits`, `estimator`, `commonPasswords`, `rules`, `levels`) are props too, see the [`@passcore/core` README](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core/README.md#options). The [stability policy](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core/README.md#stability) says what can change in a minor release.
 
 | Prop | Default | Description |
 |---|---|---|

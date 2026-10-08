@@ -163,12 +163,12 @@ When you use `translate`, pass the current language as `locale` too: changing `l
 ## Markup and styling
 
 ```html
-<div class="pass-wrapper pass-level-weak pass-invalid">
+<div class="pass-wrapper pass-level-weak">
   <div class="pass-meter" role="meter" aria-label="Password strength" aria-valuemin="0" aria-valuemax="100" aria-valuenow="30" aria-valuetext="Weak password">
     <div class="pass-bar" style="width: 30%"></div>
   </div>
   <span class="pass-percent">30%</span>
-  <span class="pass-text" id="password-strength" aria-live="polite">Use at least 8 characters</span>
+  <span class="pass-text" id="password-strength" aria-live="polite">Weak password</span>
 </div>
 ```
 

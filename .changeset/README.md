@@ -6,7 +6,7 @@ On `master`, the release workflow opens a "Version Packages" pull request that b
 
 ## Versioning notes
 
-- `@passcore/*` packages follow semver since 1.0.0: `major` for breaking changes, `minor` for new features, `patch` for fixes. The scoring weights (the common-password list, the bits of each pattern, the level thresholds) are tuned in minor releases: they change scores, not the API.
+- `@passcore/*` packages follow semver since 1.0.0: `major` for breaking changes, `minor` for new features, `patch` for fixes. How the built-in estimate works (pool sizes, bits per pattern, the leetspeak map, bits per matched word) is tuned in minor releases: it changes scores, not the API. The common-password list, the `levels` thresholds, the rule defaults and the message keys are stable (see the Stability section of the core README).
 - `password-strength-meter` (the 2.x/3.x jQuery package) is no longer part of this workspace. Its 3.x line lives on the `v3` branch, for fixes only.
 
 ## Publishing

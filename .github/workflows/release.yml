@@ -23,12 +23,13 @@ jobs:
           node-version: 24
           registry-url: https://registry.npmjs.org
       - run: pnpm install --frozen-lockfile
-      - uses: changesets/action@v1
+      # v2 is the release for @changesets/cli v3: v1 publishes but can't detect what it
+      # published, so it neither pushes the git tags nor creates the GitHub releases
+      - uses: changesets/action@v2
         with:
-          version: pnpm version-packages
-          publish: pnpm release
-          title: 'chore: version packages'
-          commit: 'chore: version packages'
+          version-script: pnpm version-packages
+          publish-script: pnpm release
+          pr-title: 'chore: version packages'
+          commit-message: 'chore: version packages'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true

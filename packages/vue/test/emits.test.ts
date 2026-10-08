@@ -27,9 +27,9 @@ describe('PasswordStrengthMeter events', () => {
   it('does not emit when a parent passes new but equal objects', async () => {
     const props = { password: 'Tester23$' }
     const { emitted, rerender } = render(PasswordStrengthMeter, {
-      props: { ...props, commonWords: ['acmecorp'], rules: { minLength: 8 }, userInputs: ['john'] },
+      props: { ...props, commonPasswords: ['acmecorp'], rules: { minLength: 8 }, userInputs: ['john'] },
     })
-    await rerender({ ...props, commonWords: ['acmecorp'], rules: { minLength: 8 }, userInputs: ['john'] })
+    await rerender({ ...props, commonPasswords: ['acmecorp'], rules: { minLength: 8 }, userInputs: ['john'] })
     expect(emitted('score')).toBeUndefined()
     expect(emitted('text')).toBeUndefined()
   })

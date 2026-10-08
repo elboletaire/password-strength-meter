@@ -1,6 +1,6 @@
 # @passcore/vue
 
-An accessible password strength meter for Vue 3, built on [`@passcore/core`](../core): a composable (`usePasswordStrength`) and a component (`PasswordStrengthMeter`).
+An accessible password strength meter for Vue 3, built on [`@passcore/core`](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core): a composable (`usePasswordStrength`) and a component (`PasswordStrengthMeter`).
 
 [Try it in the playground](https://elboletaire.github.io/password-strength-meter/vue.html).
 
@@ -65,7 +65,7 @@ The component takes them as props, and the composable as its second argument:
   // passed to @passcore/core
   targetBits: 100,
   estimator: undefined,
-  commonWords: undefined,  // replaces the common-password list
+  commonPasswords: undefined, // replaces the common-password list
   rules: { minLength: 8 }, // merged with the default rules
   levels: { strong: 80 },  // merged with the default levels
 }
@@ -73,13 +73,13 @@ The component takes them as props, and the composable as its second argument:
 
 The component also takes `password` (required, a string) and `id`, the id of the text element for `aria-describedby`.
 
-Core options are memoized: the meter is only recreated when `targetBits`, `estimator`, `commonWords`, `rules` or `levels` change, so typing does not rebuild the word list. `rules`, `levels` and `commonWords` are compared by value, so inline objects and arrays are fine; `estimator` is a function and is compared by identity, so define it outside the template.
+Core options are memoized: the meter is only recreated when `targetBits`, `estimator`, `commonPasswords`, `rules` or `levels` change, so typing does not rebuild the word list. `rules`, `levels` and `commonPasswords` are compared by value, so inline objects and arrays are fine; `estimator` is a function and is compared by identity, so define it outside the template.
 
-See the [`@passcore/core` README](../core#options) for the core options.
+See the [`@passcore/core` README](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core#options) for the core options, and its [stability section](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core#stability) for what may change in minor releases.
 
 ## Events
 
-The component emits events after mount, when the evaluated result changes:
+The component emits events when the evaluated result changes:
 
 ```vue
 <PasswordStrengthMeter
@@ -89,10 +89,8 @@ The component emits events after mount, when the evaluated result changes:
 />
 ```
 
-- `score(percent, result)`: when the password, the user inputs or the options change the result.
-- `text(text, result)`: only when the message changes (its key or params), not on every keystroke.
-
-Nothing is emitted on mount.
+- `score(percent, result)` fires when the evaluated result changes (not on mount), whether the password, the user inputs or the options changed it.
+- `text(text, result)` fires when the message (key or params) changes, not on every keystroke. A language change rewrites the text without emitting `text`.
 
 ## Translations
 
@@ -117,7 +115,7 @@ const translations = {
 }
 ```
 
-The keys are `empty`, `level.very-weak`, `level.weak`, `level.fair`, `level.good`, `level.strong`, `rule.notCommon`, `rule.notUserInputs`, and the plural forms of `rule.minLength`, `rule.maxLength`, `rule.lowercase`, `rule.uppercase`, `rule.numbers` and `rule.symbols`. See [`locales/en.json`](../../locales/en.json) for the English texts.
+The keys are `empty`, `level.very-weak`, `level.weak`, `level.fair`, `level.good`, `level.strong`, `rule.notCommon`, `rule.notUserInputs`, and the plural forms of `rule.minLength`, `rule.maxLength`, `rule.lowercase`, `rule.uppercase`, `rule.numbers` and `rule.symbols`. See [`locales/en.json`](https://github.com/elboletaire/password-strength-meter/blob/master/locales/en.json) for the English texts.
 
 Texts are inserted as text, not HTML.
 

@@ -2,7 +2,7 @@ import { effectScope, ref } from 'vue'
 import { describe, expect, it } from 'vitest'
 import { evaluate } from '@passcore/core'
 import ca from '../../../locales/ca.json'
-import { usePasswordStrength, type PasswordOptions } from '../src/use-password-strength'
+import { usePasswordStrength, type PasswordStrengthOptions } from '../src/use-password-strength'
 import { fixtures } from './fixtures'
 
 type Password = Parameters<typeof usePasswordStrength>[0]
@@ -59,7 +59,7 @@ describe('usePasswordStrength', () => {
   })
 
   it('rejects passwords containing user inputs, read from the options', () => {
-    const options = ref<PasswordOptions>({ userInputs: ['johndoe'] })
+    const options = ref<PasswordStrengthOptions>({ userInputs: ['johndoe'] })
     const { result, text } = strength('johndoe99', options)
     expect(result.value.valid).toBe(false)
     expect(text.value).toBe('Don\'t use your personal details')
@@ -99,7 +99,7 @@ describe('usePasswordStrength', () => {
 
   it('keeps the same result when the options change by value', () => {
     const password = ref('k8#Qz!2mWp')
-    const options = ref<PasswordOptions>({ rules: { minLength: 8 } })
+    const options = ref<PasswordStrengthOptions>({ rules: { minLength: 8 } })
     const { result } = strength(password, options)
     const first = result.value
 
@@ -112,7 +112,7 @@ describe('usePasswordStrength', () => {
   })
 
   it('does not evaluate again when only translations change', () => {
-    const options = ref<PasswordOptions>({})
+    const options = ref<PasswordStrengthOptions>({})
     const { result, text } = strength('abc', options)
     const first = result.value
     options.value = { translations: { empty: 'Empty' } }
@@ -123,7 +123,7 @@ describe('usePasswordStrength', () => {
   it('refreshes the texts when the locale changes, even with a stable translate function', () => {
     let language = 'en'
     const stable = (key: string) => `${language}:${key}`
-    const options = ref<PasswordOptions>({ translate: stable, locale: 'en' })
+    const options = ref<PasswordStrengthOptions>({ translate: stable, locale: 'en' })
     const { text, levelText } = strength('abc', options)
     expect(text.value).toBe('en:rule.minLength')
     expect(levelText.value).toBe('en:level.very-weak')

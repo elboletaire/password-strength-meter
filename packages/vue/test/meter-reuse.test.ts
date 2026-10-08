@@ -1,6 +1,6 @@
 import { effectScope, ref } from 'vue'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { usePasswordStrength, type PasswordOptions } from '../src/use-password-strength'
+import { usePasswordStrength, type PasswordStrengthOptions } from '../src/use-password-strength'
 
 const created = vi.hoisted(() => ({ count: 0 }))
 
@@ -41,16 +41,16 @@ describe('usePasswordStrength meter reuse', () => {
   })
 
   it('does not recreate the meter for new but equal options', () => {
-    const options = ref<PasswordOptions>({ rules: { minLength: 8 }, levels: { strong: 80 }, commonWords: ['acme'], userInputs: ['john'] })
+    const options = ref<PasswordStrengthOptions>({ rules: { minLength: 8 }, levels: { strong: 80 }, commonPasswords: ['acme'], userInputs: ['john'] })
     const { result } = run(() => usePasswordStrength('abc', options))
     expect(result.value.valid).toBe(false)
-    options.value = { rules: { minLength: 8 }, levels: { strong: 80 }, commonWords: ['acme'], userInputs: ['john'] }
+    options.value = { rules: { minLength: 8 }, levels: { strong: 80 }, commonPasswords: ['acme'], userInputs: ['john'] }
     expect(result.value.valid).toBe(false)
     expect(created.count).toBe(1)
   })
 
-  it('recreates the meter when rules, levels, targetBits or commonWords change by value', () => {
-    const options = ref<PasswordOptions>({ rules: { minLength: 8 } })
+  it('recreates the meter when rules, levels, targetBits or commonPasswords change by value', () => {
+    const options = ref<PasswordStrengthOptions>({ rules: { minLength: 8 } })
     const { result } = run(() => usePasswordStrength('abcdefghij', options))
     expect(result.value.valid).toBe(true)
 
@@ -62,7 +62,7 @@ describe('usePasswordStrength meter reuse', () => {
     expect(result.value.percent).toBeGreaterThan(0)
     expect(created.count).toBe(3)
 
-    options.value = { rules: { minLength: 12 }, targetBits: 50, commonWords: ['abcdefghij'] }
+    options.value = { rules: { minLength: 12 }, targetBits: 50, commonPasswords: ['abcdefghij'] }
     expect(result.value.message.key).toBe('rule.minLength')
     expect(created.count).toBe(4)
   })

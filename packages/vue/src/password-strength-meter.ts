@@ -1,12 +1,18 @@
 import type { Estimator, Levels, Result, Rules, Translate, Translations } from '@passcore/core'
 import { defineComponent, h, watch, type PropType } from 'vue'
-import { usePasswordStrength, type PasswordOptions } from './use-password-strength'
+import { usePasswordStrength, type PasswordStrengthOptions } from './use-password-strength'
 
-export interface PasswordStrengthMeterProps extends PasswordOptions {
+export interface PasswordStrengthMeterProps extends PasswordStrengthOptions {
   /** The password to evaluate (controlled). */
   password: string
   /** id of the text element, for the input's aria-describedby. */
   id?: string
+  /** Show the score percentage, default false. */
+  showPercent?: boolean
+  /** Show the message, default true. */
+  showText?: boolean
+  /** aria-label of the meter, default 'Password strength'. */
+  label?: string
 }
 
 /**
@@ -18,10 +24,10 @@ export const PasswordStrengthMeter = defineComponent({
   props: {
     password: { type: String, required: true },
     id: String,
-    userInputs: Array as PropType<string[]>,
+    userInputs: Array as PropType<readonly string[]>,
     targetBits: Number,
     estimator: Function as PropType<Estimator>,
-    commonWords: Array as PropType<string[]>,
+    commonPasswords: Array as PropType<readonly string[]>,
     rules: Object as PropType<Partial<Rules>>,
     levels: Object as PropType<Partial<Levels>>,
     translations: Object as PropType<Translations>,

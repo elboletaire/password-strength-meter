@@ -408,5 +408,10 @@
       "symbols_many": "Al menos {{count}} símbolos",
       "symbols_other": "Al menos {{count}} símbolos"
     }
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "message": "No hemos encontrado la página que buscas. Puede que la dirección haya cambiado.",
+    "back": "Volver al inicio"
   }
 }

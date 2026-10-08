@@ -1,6 +1,6 @@
 import { LANGS, type Lang } from '../common/langs.ts'
-import { url, type PageId } from './routes.ts'
-import { absolute, REPO } from './site.ts'
+import type { PageId } from './routes.ts'
+import { absolute, pageUrl, REPO } from './site.ts'
 import { attrs, lang, tr } from './t.ts'
 
 const OG_LOCALES: Record<Lang, string> = { en: 'en_US', es: 'es_ES', ca: 'ca_ES' }
@@ -18,9 +18,6 @@ const PACKAGES: Partial<Record<PageId, string>> = {
 }
 
 const NAME = 'Passcore'
-
-/** The absolute URL of a page in a language: the canonical of that language, and its hreflang target. */
-export const pageUrl = (page: PageId, code: Lang): string => absolute(url(page, code))
 
 /** JSON for a `<script>`: a `<` becomes `<`, so no text can close the tag. */
 const json = (data: unknown): string => JSON.stringify(data).replace(/</g, '\\u003c')

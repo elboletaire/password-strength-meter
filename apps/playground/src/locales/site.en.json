@@ -402,5 +402,10 @@
       "symbols_one": "A symbol",
       "symbols_other": "At least {{count}} symbols"
     }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "message": "We couldn't find the page you're looking for. The address may have changed.",
+    "back": "Back to the home page"
   }
 }

@@ -5,6 +5,7 @@ import { svelte, vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import vike from 'vike/plugin'
 import { defineConfig } from 'vite'
 import { legacyStubs } from './legacy-stubs.ts'
+import { sitemapFile } from './sitemap.ts'
 
 const fromHere = (path: string) => fileURLToPath(new URL(path, import.meta.url))
 
@@ -14,6 +15,7 @@ export default defineConfig({
   plugins: [
     vike(),
     legacyStubs(),
+    sitemapFile(),
     react(),
     vue(),
     svelte({ preprocess: vitePreprocess() }),

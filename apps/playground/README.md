@@ -19,12 +19,12 @@ pnpm --filter playground dev        # or: pnpm dev
 
 ```bash
 pnpm --filter playground build      # static files in apps/playground/dist/client
-pnpm --filter playground preview    # serve the build locally
+pnpm --filter playground preview    # serve the build locally, like GitHub Pages (run build first)
 pnpm --filter playground typecheck  # tsc, then svelte-check for the .svelte files
 pnpm --filter playground check      # checks the build: every page, its language, head tags, links and the sitemap
 ```
 
-The site lives under the GitHub Pages project path: `base` is `/password-strength-meter/` (absolute, in `vite.config.ts`), and `vike dev` and `vike preview` serve under it too. Pages have clean URLs with a trailing slash (`/password-strength-meter/react/`); the former `*.html` URLs (`/jquery.html`, ...) are kept as small redirect stubs that preserve the `#hash` (`legacy-stubs.ts`). The build also writes `sitemap.xml` (`sitemap.ts`, one entry per page and language) and `404.html` (`pages/_error`, translated in the browser from the URL). CI builds and checks the site on every pull request; `.github/workflows/pages.yml` builds it, checks it and deploys `dist/client` on pushes to `master`. Note that `vike preview` (like `vike dev`) serves `/react/` differently from GitHub Pages: check the build with a plain static server when it matters. The site makes no request to other hosts: the only web font (JetBrains Mono, `src/fonts/`, SIL Open Font License) is served with the site.
+The site lives under the GitHub Pages project path: `base` is `/password-strength-meter/` (absolute, in `vite.config.ts`), and `vike dev` serves under it too. Pages have clean URLs with a trailing slash (`/password-strength-meter/react/`); the former `*.html` URLs (`/jquery.html`, ...) are kept as small redirect stubs that preserve the `#hash` (`legacy-stubs.ts`). The build also writes `sitemap.xml` (`sitemap.ts`, one entry per page and language) and `404.html` (`pages/_error`, translated in the browser from the URL). CI builds and checks the site on every pull request; `.github/workflows/pages.yml` builds it, checks it and deploys `dist/client` on pushes to `master`. `pnpm --filter playground preview` (`scripts/preview.ts`) serves the build the way GitHub Pages does; `vike preview` can't be used, because it serves the legacy stub for `/react/` and the stub redirects back in a loop. `vike dev` also redirects slash URLs, so check the build with `preview` when it matters. The site makes no request to other hosts: the only web font (JetBrains Mono, `src/fonts/`, SIL Open Font License) is served with the site.
 
 ## How it is put together
 

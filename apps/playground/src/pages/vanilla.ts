@@ -1,12 +1,12 @@
 import '../lib/site'
 import '@passcore/vanilla/styles.css'
-import { createPasswordMeter, type PasswordMeter, type VanillaOptions } from '@passcore/vanilla'
+import { createPasswordMeter, type PasswordMeter, type PasswordMeterOptions } from '@passcore/vanilla'
 import '@passcore/vanilla/element'
-import type { PasswordMeterElement } from '@passcore/vanilla/element'
+import type { PasscoreMeterElement } from '@passcore/vanilla/element'
 import ca from '@passcore/vanilla/locales/ca.json'
 import en from '@passcore/vanilla/locales/en.json'
 import es from '@passcore/vanilla/locales/es.json'
-import type { MeterResult } from '@passcore/core'
+import type { Result } from '@passcore/core'
 import { REQUIREMENT_RULES, requirementState, requirementsSummary, setLiveText } from '../lib/checklist'
 import { meterLabel, t, translate } from '../lib/i18n'
 import { currentLang, onLanguageChange } from '../lib/lang'
@@ -15,13 +15,13 @@ import { initStudio } from '../lib/studio'
 const bundled = { en, es, ca }
 
 /** The texts and the accessible name in the current language, for every demo. */
-const texts = (): VanillaOptions => ({ translations: bundled[currentLang()], locale: currentLang(), label: meterLabel() })
+const texts = (): PasswordMeterOptions => ({ translations: bundled[currentLang()], locale: currentLang(), label: meterLabel() })
 
 /**
  * The options are read once, so the demos are created through this helper, which creates them again
  * when the language changes. The i18next demo doesn't need it: it refreshes instead (see below).
  */
-function mount(input: string | HTMLInputElement, options: () => VanillaOptions): () => PasswordMeter {
+function mount(input: string | HTMLInputElement, options: () => PasswordMeterOptions): () => PasswordMeter {
   let meter: PasswordMeter = createPasswordMeter(input, options())
   onLanguageChange(() => {
     meter.destroy()
@@ -45,7 +45,7 @@ mount('#default-password', () => ({ ...texts(), hideUntilFocus: true }))
 const signupInput = byId<HTMLInputElement>('signup-password')
 const summary = byId('checklist-summary')
 
-function check(result: MeterResult): void {
+function check(result: Result): void {
   const typed = signupInput.value !== ''
   for (const rule of result.rules) {
     const item = document.querySelector<HTMLElement>(`#checklist [data-rule="${rule.id}"]`)
@@ -120,10 +120,10 @@ onLanguageChange(() => {
 mount('#group-password', () => ({ ...texts(), container: '#group-field' }))
 
 // the custom element: attributes in the markup; the language as attributes and the texts as options
-const elementMeter = document.querySelector<PasswordMeterElement>('password-meter[for="element-password"]')
-const optionsMeter = document.querySelector<PasswordMeterElement>('password-meter[for="options-password"]')
+const elementMeter = document.querySelector<PasscoreMeterElement>('passcore-meter[for="element-password"]')
+const optionsMeter = document.querySelector<PasscoreMeterElement>('passcore-meter[for="options-password"]')
 if (!elementMeter || !optionsMeter) {
-  throw new Error('Missing the password-meter elements of the page')
+  throw new Error('Missing the passcore-meter elements of the page')
 }
 
 function localizeElements(): void {

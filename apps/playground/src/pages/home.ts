@@ -1,6 +1,6 @@
 import '../lib/site'
 import '@passcore/vanilla/styles.css'
-import type { MeterResult } from '@passcore/core'
+import type { Result } from '@passcore/core'
 import { createPasswordMeter, type PasswordMeter } from '@passcore/vanilla'
 import { REQUIREMENT_RULES, renderChecklist } from '../lib/checklist'
 import { formatNumber, locales, meterLabel, t } from '../lib/i18n'
@@ -23,7 +23,7 @@ const bits = byId('hero-bits')
 const level = byId('hero-level')
 const rules = byId('hero-rules')
 
-function show(result: MeterResult): void {
+function show(result: Result): void {
   bits.textContent = formatNumber(Math.round(result.bits))
   level.textContent = t(`level.${result.level}`)
   level.dataset.level = result.level

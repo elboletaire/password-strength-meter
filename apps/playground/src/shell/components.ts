@@ -15,7 +15,7 @@ export interface PasswordFieldOptions {
   autocomplete?: string
   /** Extra attributes of the input. */
   input?: Attrs
-  /** Extra markup after the input box, inside the field (e.g. a `<password-meter>`). */
+  /** Extra markup after the input box, inside the field (e.g. a `<passcore-meter>`). */
   after?: string
   /** Class of the field wrapper. Default `field`. */
   className?: string

@@ -146,7 +146,7 @@ input.addEventListener('passcore:score', (event) => {
       title: 'demo.element.title',
       text: 'vanilla.demo.element',
       demo: usernameField('element-username')
-        + passwordField({ id: 'element-password', after: '<password-meter for="element-password" min-length="10" show-percent user-inputs="#element-username"></password-meter>' }),
+        + passwordField({ id: 'element-password', after: '<passcore-meter for="element-password" min-length="10" show-percent user-inputs="#element-username"></passcore-meter>' }),
       lang: 'html',
       code: `<script type="module">
   import '@passcore/vanilla/element'
@@ -154,20 +154,20 @@ input.addEventListener('passcore:score', (event) => {
 
 <input type="text" id="element-username">
 <input type="password" id="element-password">
-<password-meter
+<passcore-meter
   for="element-password"
   min-length="10"
   show-percent
   user-inputs="#element-username"
-></password-meter>`,
+></passcore-meter>`,
     },
     {
       id: 'options',
       title: 'demo.options.title',
       text: 'vanilla.demo.options',
-      demo: passwordField({ id: 'options-password', after: '<password-meter for="options-password" show-percent></password-meter>' }),
+      demo: passwordField({ id: 'options-password', after: '<passcore-meter for="options-password" show-percent></passcore-meter>' }),
       lang: 'js',
-      code: `const element = document.querySelector('password-meter[for="options-password"]')
+      code: `const element = document.querySelector('passcore-meter[for="options-password"]')
 
 // merged over the attributes: show-percent still applies
 element.options = {

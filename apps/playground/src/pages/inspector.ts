@@ -1,6 +1,6 @@
 import '../lib/site'
 import '@passcore/vanilla/styles.css'
-import { commonPasswords, createMeter, translationParams, type MeterResult, type PartialOptions } from '@passcore/core'
+import { commonPasswords, createMeter, translationParams, type MeterOptions, type Result } from '@passcore/core'
 import { formatNumber, meterLabel, t, translate } from '../lib/i18n'
 import { onLanguageChange } from '../lib/lang'
 
@@ -66,7 +66,7 @@ const readNumber = (input: HTMLInputElement, fallback: number): number => {
 
 /** Creates the core meter from the options form. Word list and rules are prepared once per change. */
 function createMeterFromForm() {
-  const options: PartialOptions = {
+  const options: MeterOptions = {
     targetBits: Math.max(1, readNumber(optionInputs.targetBits, DEFAULT_OPTIONS.targetBits)),
     rules: {
       minLength: readNumber(optionInputs.minLength, DEFAULT_OPTIONS.minLength),
@@ -75,7 +75,7 @@ function createMeterFromForm() {
       numbers: readNumber(optionInputs.numbers, DEFAULT_OPTIONS.numbers),
       symbols: readNumber(optionInputs.symbols, DEFAULT_OPTIONS.symbols),
     },
-    commonWords: [...commonPasswords, ...splitList(wordsInput.value)],
+    commonPasswords: [...commonPasswords, ...splitList(wordsInput.value)],
   }
   return createMeter(options)
 }
@@ -118,7 +118,7 @@ function ruleRow(id: string, passed: boolean, params: Record<string, number>): H
 }
 
 function render(): void {
-  const result: MeterResult = meter.evaluate(passwordInput.value, splitList(personalInput.value))
+  const result: Result = meter.evaluate(passwordInput.value, splitList(personalInput.value))
   const text = translate(result.message.key, translationParams(result.message))
   const levelText = translate(result.level === 'empty' ? 'empty' : `level.${result.level}`)
 

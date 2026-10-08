@@ -115,9 +115,9 @@ const mount = () => $input.password({
 
 mount()
 
-// the plugin has no refresh(): mount it again with the new language
+// the texts are read when the meter is mounted: destroy it and mount it again in the new language
 i18next.on('languageChanged', () => {
-  $input.off('input keyup change focus blur').closest('div').children('.pass-wrapper').remove()
+  $input.password('destroy')
   mount()
 })`,
     },

@@ -38,7 +38,7 @@ const [password, setPassword] = useState('')
 
 const rules = { minLength: 8, lowercase: 1, uppercase: 1, numbers: 1, symbols: 1 }
 
-const result = usePasswordStrength(password, { userInputs: [username], rules })
+const { result } = usePasswordStrength(password, { userInputs: [username], rules })
 const typed = password !== ''
 const met = result.rules.filter((rule) => rule.passed).length
 

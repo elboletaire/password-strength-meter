@@ -14,7 +14,7 @@
     },
     "vanilla": {
       "title": "Vanilla JavaScript · Passcore",
-      "description": "Live demos of @passcore/vanilla: a function and a <password-meter> custom element, with the code that runs each one."
+      "description": "Live demos of @passcore/vanilla: a function and a <passcore-meter> custom element, with the code that runs each one."
     },
     "react": {
       "title": "React · Passcore",
@@ -122,7 +122,7 @@
       "title": "Custom container"
     },
     "element": {
-      "title": "The <password-meter> element"
+      "title": "The <passcore-meter> element"
     },
     "options": {
       "title": "Element options from script"
@@ -216,7 +216,7 @@
       },
       "vanilla": {
         "title": "Vanilla JS",
-        "text": "A function and a <code>&lt;password-meter&gt;</code> custom element. No framework needed."
+        "text": "A function and a <code>&lt;passcore-meter&gt;</code> custom element. No framework needed."
       },
       "react": {
         "title": "React",
@@ -324,7 +324,7 @@
   },
   "vanilla": {
     "title": "Vanilla JavaScript",
-    "lead": "<code>@passcore/vanilla</code> needs no framework and no jQuery: call <code>createPasswordMeter()</code> on an input, or write a <code>&lt;password-meter&gt;</code> element where you want the meter.",
+    "lead": "<code>@passcore/vanilla</code> needs no framework and no jQuery: call <code>createPasswordMeter()</code> on an input, or write a <code>&lt;passcore-meter&gt;</code> element where you want the meter.",
     "demo": {
       "checklist": "The classic signup form: every condition, red or green as people type. The <code>onScore</code> callback (or the bubbling <code>passcore:score</code> event) brings the full result, and <code>result.rules</code> lists every enabled rule, in order, with its <code>id</code>, <code>passed</code> and <code>params</code>. Typing a username calls <code>refresh()</code>, so the personal details rule follows it. Every item stays grey until something is typed: an empty password is “not common” too, and saying so in green would mislead.",
       "default": "With <code>hideUntilFocus</code> the meter stays hidden until the field gets focus, and hides again on blur while the field is empty.",
@@ -334,7 +334,7 @@
       "i18next": "<code>translate</code> takes the <code>t</code> of an i18next instance, here the playground’s own. Texts are translated on every update, so <code>refresh()</code> is all a language change needs.",
       "events": "The <code>onScore</code> callback and the bubbling <code>passcore:score</code> event both get the percent on every update. Here they drive the Send button and the score.",
       "group": "The meter goes right after the input by default. <code>container</code> appends it elsewhere: here, below the whole input group.",
-      "element": "<code>&lt;password-meter&gt;</code> renders the meter where you write it. Attributes cover the simple options: <code>min-length</code>, <code>show-percent</code>, <code>user-inputs</code>, <code>locale</code>, <code>label</code> and a few more.",
+      "element": "<code>&lt;passcore-meter&gt;</code> renders the meter where you write it. Attributes cover the simple options: <code>min-length</code>, <code>show-percent</code>, <code>user-inputs</code>, <code>locale</code>, <code>label</code> and a few more.",
       "options": "What attributes can’t hold (translations, rules, callbacks) goes in the <code>options</code> property, merged over the attributes. This one also asks for a number and a symbol."
     }
   },

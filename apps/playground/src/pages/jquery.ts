@@ -2,7 +2,7 @@ import '../lib/site'
 import $ from 'jquery'
 import '@passcore/jquery'
 import '@passcore/jquery/styles.css'
-import type { MeterResult } from '@passcore/core'
+import type { Result } from '@passcore/core'
 import type { PasswordOptions } from '@passcore/jquery'
 import { REQUIREMENT_RULES, requirementState, requirementsSummary, setLiveText } from '../lib/checklist'
 import { locales, meterLabel, t, translate } from '../lib/i18n'
@@ -15,10 +15,8 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 }
 
 /**
- * The plugin reads its options once and has no way to refresh or destroy a meter, so each demo is
- * mounted through this helper, which mounts it again in the new language. Every demo gets the texts
- * of the current language; the plugin has no option for the accessible name of the meter, so the
- * helper sets it on the markup the plugin rendered.
+ * The bundled texts are read when a meter is created, so each demo is mounted through this helper, which
+ * destroys it and mounts it again in the new language. Every demo gets the texts of the current language.
  */
 interface Mount {
   input: JQuery<HTMLElement>
@@ -32,10 +30,9 @@ const mounts: Mount[] = []
 const texts = (): PasswordOptions => ({ translations: locales[currentLang()], locale: currentLang() })
 
 function attach(mount: Mount): void {
-  mount.input.password({ closestSelector: mount.closest, ...mount.options() })
+  mount.input.password({ closestSelector: mount.closest, label: meterLabel(), ...mount.options() })
   const container = mount.input.closest(mount.closest)
   const wrapper = container.children('.pass-wrapper')
-  wrapper.children('.pass-meter').attr('aria-label', meterLabel())
   // mounted again over a typed password: keep the meter in sight
   if (String(mount.input.val() ?? '') !== '' && wrapper.css('display') === 'none') {
     wrapper.show()
@@ -43,20 +40,8 @@ function attach(mount: Mount): void {
   }
 }
 
-function detach({ input, closest }: Mount): void {
-  const container = input.closest(closest)
-  input.off('input keyup change focus blur')
-  container.children('.pass-wrapper').remove()
-  container.removeClass('pass-strength-visible')
-  // the plugin appends its text id on every mount: take it out again
-  const own = `${input.attr('id') ?? ''}-strength`
-  const rest = (input.attr('aria-describedby') ?? '').split(/\s+/).filter((id) => id && id !== own)
-  if (rest.length) {
-    input.attr('aria-describedby', rest.join(' '))
-  }
-  else {
-    input.removeAttr('aria-describedby')
-  }
+function detach({ input }: Mount): void {
+  input.password('destroy')
 }
 
 function mount(selector: string, options: () => PasswordOptions, closest = 'div'): JQuery<HTMLElement> {
@@ -78,7 +63,7 @@ mount('#default-password', () => texts())
 
 // requirements checklist: every rule of `result.rules`, neutral until something is typed
 const $summary = $('#checklist-summary')
-function check(result: MeterResult, typed: boolean): void {
+function check(result: Result, typed: boolean): void {
   for (const rule of result.rules) {
     $(`#checklist [data-rule="${rule.id}"]`).attr('data-state', requirementState(typed, rule.passed))
   }
@@ -87,7 +72,7 @@ function check(result: MeterResult, typed: boolean): void {
 }
 
 mount('#signup-password', () => ({ ...texts(), userInputs: ['#signup-username'], rules: REQUIREMENT_RULES, animate: false }))
-  .on('password.score', (event, _percent: number, result: MeterResult) => {
+  .on('password.score', (event, _percent: number, result: Result) => {
     check(result, String($(event.target).val() ?? '') !== '')
   })
 

@@ -152,7 +152,7 @@ export function ChecklistDemo() {
   const lang = useLang()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const result = usePasswordStrength(password, {
+  const { result } = usePasswordStrength(password, {
     translations: bundled[lang],
     locale: lang,
     userInputs: [username],

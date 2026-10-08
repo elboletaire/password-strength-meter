@@ -14,7 +14,7 @@
     },
     "vanilla": {
       "title": "JavaScript puro · Passcore",
-      "description": "Demos en vivo de @passcore/vanilla: una función y un elemento personalizado <password-meter>, con el código de cada una."
+      "description": "Demos en vivo de @passcore/vanilla: una función y un elemento personalizado <passcore-meter>, con el código de cada una."
     },
     "react": {
       "title": "React · Passcore",
@@ -122,7 +122,7 @@
       "title": "Contenedor propio"
     },
     "element": {
-      "title": "El elemento <password-meter>"
+      "title": "El elemento <passcore-meter>"
     },
     "options": {
       "title": "Opciones del elemento desde JavaScript"
@@ -216,7 +216,7 @@
       },
       "vanilla": {
         "title": "JS puro",
-        "text": "Una función y un elemento personalizado <code>&lt;password-meter&gt;</code>. Sin ningún framework."
+        "text": "Una función y un elemento personalizado <code>&lt;passcore-meter&gt;</code>. Sin ningún framework."
       },
       "react": {
         "title": "React",
@@ -324,7 +324,7 @@
   },
   "vanilla": {
     "title": "JavaScript puro",
-    "lead": "<code>@passcore/vanilla</code> no necesita ningún framework ni jQuery: llama a <code>createPasswordMeter()</code> sobre un campo, o escribe un elemento <code>&lt;password-meter&gt;</code> donde quieras el indicador.",
+    "lead": "<code>@passcore/vanilla</code> no necesita ningún framework ni jQuery: llama a <code>createPasswordMeter()</code> sobre un campo, o escribe un elemento <code>&lt;passcore-meter&gt;</code> donde quieras el indicador.",
     "demo": {
       "checklist": "El clásico formulario de registro: todas las condiciones, en rojo o en verde mientras se escribe. El callback <code>onScore</code> (o el evento <code>passcore:score</code>, que se propaga) trae el resultado completo, y <code>result.rules</code> enumera todas las reglas activas, por orden, con su <code>id</code>, <code>passed</code> y <code>params</code>. Al escribir el nombre de usuario se llama a <code>refresh()</code>, para que la regla de los datos personales lo tenga en cuenta. Cada elemento se queda en gris hasta que se escribe algo: una contraseña vacía tampoco es “común”, y mostrarlo en verde sería engañoso.",
       "default": "Con <code>hideUntilFocus</code> el indicador se mantiene oculto hasta que el campo recibe el foco, y vuelve a ocultarse al perderlo si el campo está vacío.",
@@ -334,7 +334,7 @@
       "i18next": "<code>translate</code> recibe la función <code>t</code> de una instancia de i18next, aquí la de la propia zona de pruebas. Los textos se traducen en cada actualización, así que para cambiar de idioma basta con <code>refresh()</code>.",
       "events": "El callback <code>onScore</code> y el evento <code>passcore:score</code>, que se propaga, reciben el porcentaje en cada actualización. Aquí controlan el botón Enviar y la puntuación.",
       "group": "Por defecto, el indicador va justo después del campo. <code>container</code> lo añade en otro sitio: aquí, debajo de todo el grupo de campos.",
-      "element": "<code>&lt;password-meter&gt;</code> dibuja el indicador justo donde lo escribes. Los atributos cubren las opciones sencillas: <code>min-length</code>, <code>show-percent</code>, <code>user-inputs</code>, <code>locale</code>, <code>label</code> y alguna más.",
+      "element": "<code>&lt;passcore-meter&gt;</code> dibuja el indicador justo donde lo escribes. Los atributos cubren las opciones sencillas: <code>min-length</code>, <code>show-percent</code>, <code>user-inputs</code>, <code>locale</code>, <code>label</code> y alguna más.",
       "options": "Lo que no cabe en un atributo (traducciones, reglas, callbacks) va en la propiedad <code>options</code>, que se combina con los atributos. Este, además, pide un número y un símbolo."
     }
   },

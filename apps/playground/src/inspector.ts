@@ -1,7 +1,7 @@
 import '@passcore/jquery/styles.css'
 import { commonPasswords, createMeter, translationParams, type MeterResult, type PartialOptions } from '@passcore/core'
-import i18next from 'i18next'
-import { currentLang, LANGS, locales, onLanguageChange, type Lang } from './site'
+import { translate } from './i18n'
+import { currentLang, onLanguageChange, type Lang } from './site'
 
 const byId = <T extends HTMLElement>(id: string): T => {
   const element = document.getElementById(id)
@@ -21,18 +21,6 @@ const DEFAULT_OPTIONS = {
 }
 
 const LEVEL_CLASSES = ['empty', 'very-weak', 'weak', 'fair', 'good', 'strong'].map((level) => `pass-level-${level}`)
-
-// i18next with the three bundled files, in the `passcore` namespace
-const i18n = i18next.createInstance()
-void i18n.init({
-  lng: currentLang(),
-  fallbackLng: 'en',
-  defaultNS: 'passcore',
-  ns: ['passcore'],
-  resources: Object.fromEntries(LANGS.map((lang) => [lang, { passcore: locales[lang] }])),
-  interpolation: { escapeValue: false },
-  initAsync: false,
-})
 
 const passwordInput = byId<HTMLInputElement>('password')
 const toggleButton = byId<HTMLButtonElement>('toggle-password')
@@ -92,8 +80,6 @@ function createMeterFromForm() {
 }
 
 let meter = createMeterFromForm()
-
-const translate = (key: string, params?: Record<string, number>): string => i18n.t(key, { ns: 'passcore', ...params })
 
 function codeElement(text: string): HTMLElement {
   const code = document.createElement('code')
@@ -182,11 +168,10 @@ resetButton.addEventListener('click', () => {
 })
 
 onLanguageChange((lang: Lang) => {
-  void i18n.changeLanguage(lang).then(() => {
-    meterText.lang = lang
-    outMessageText.lang = lang
-    render()
-  })
+  // i18n.ts changes the language on the same event, before this listener runs
+  meterText.lang = lang
+  outMessageText.lang = lang
+  render()
 })
 
 meterText.lang = currentLang()

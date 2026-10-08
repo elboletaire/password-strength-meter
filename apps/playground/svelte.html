@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="description" content="Passcore playground: the @passcore/jquery plugin in its usual setups, with their code." />
+    <meta name="description" content="Passcore playground: the @passcore/svelte component and helper, with their code." />
     <link rel="icon" href="data:," />
-    <title>jQuery - Passcore playground</title>
+    <title>Svelte - Passcore playground</title>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -18,11 +18,11 @@
         <nav aria-label="Bindings">
           <ul class="nav">
             <li><a href="./">Core inspector</a></li>
-            <li><a href="./jquery.html" aria-current="page">jQuery</a></li>
+            <li><a href="./jquery.html">jQuery</a></li>
             <li><a href="./vanilla.html">Vanilla</a></li>
             <li><a href="./react.html">React</a></li>
             <li><a href="./vue.html">Vue</a></li>
-            <li><a href="./svelte.html">Svelte</a></li>
+            <li><a href="./svelte.html" aria-current="page">Svelte</a></li>
           </ul>
         </nav>
 
@@ -36,10 +36,9 @@
 
     <main id="main">
       <section class="intro">
-        <h1>jQuery plugin</h1>
+        <h1>Svelte</h1>
         <p>
-          <code>@passcore/jquery</code> adds <code>$.fn.password()</code> to a jQuery instance. Each card below is a
-          setup of the plugin, with the code that runs it. The language switcher above changes the texts of the translations card.
+          Each card below is a setup of <code>@passcore/svelte</code>, with the code that runs it: the <code>&lt;PasswordStrengthMeter&gt;</code> component, and the <code>passwordStrength()</code> helper for a custom UI. The language switcher above changes the texts of the translations cards.
         </p>
       </section>
 
@@ -52,6 +51,6 @@
       </p>
     </footer>
 
-    <script type="module" src="./src/jquery.ts"></script>
+    <script type="module" src="./src/svelte.ts"></script>
   </body>
 </html>

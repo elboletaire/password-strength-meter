@@ -2,7 +2,27 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "types": ["node", "vite/client"]
+    "types": ["node", "vite/client"],
+    // a child config replaces `paths`, so the workspace packages are listed again, with their subpaths
+    "paths": {
+      "@passcore/core": ["../../packages/core/src/index.ts"],
+      "@passcore/jquery": ["../../packages/jquery/src/index.ts"],
+      "@passcore/jquery/styles.css": ["../../packages/jquery/src/styles.css"],
+      "@passcore/jquery/locales/*": ["../../locales/*"],
+      "@passcore/vanilla": ["../../packages/vanilla/src/index.ts"],
+      "@passcore/vanilla/element": ["../../packages/vanilla/src/element.ts"],
+      "@passcore/vanilla/styles.css": ["../../packages/vanilla/src/styles.css"],
+      "@passcore/vanilla/locales/*": ["../../locales/*"],
+      "@passcore/react": ["../../packages/react/src/index.ts"],
+      "@passcore/react/styles.css": ["../../packages/react/src/styles.css"],
+      "@passcore/react/locales/*": ["../../locales/*"],
+      "@passcore/vue": ["../../packages/vue/src/index.ts"],
+      "@passcore/vue/styles.css": ["../../packages/vue/src/styles.css"],
+      "@passcore/vue/locales/*": ["../../locales/*"],
+      "@passcore/svelte": ["../../packages/svelte/src/lib/index.ts"],
+      "@passcore/svelte/styles.css": ["../../packages/svelte/src/lib/styles.css"],
+      "@passcore/svelte/locales/*": ["../../locales/*"]
+    }
   },
   "include": ["src", "*.config.ts"]
 }

@@ -162,16 +162,12 @@ code {
   flex-basis: 100%;
 }
 
-.nav a,
-.nav__soon {
+.nav a {
   display: inline-block;
   padding: 0.3rem 0.65rem;
   border-radius: 999px;
   font-size: 0.92rem;
   text-decoration: none;
-}
-
-.nav a {
   color: var(--text);
 }
 
@@ -183,22 +179,6 @@ code {
   background: var(--accent-soft);
   color: var(--accent-text);
   font-weight: 600;
-}
-
-.nav__soon {
-  color: var(--muted);
-  cursor: not-allowed;
-}
-
-.nav__soon em {
-  font-style: normal;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-left: 0.25rem;
-  padding: 0 0.4rem;
-  border: 1px dashed var(--border-strong);
-  border-radius: 999px;
 }
 
 .lang {
@@ -599,7 +579,9 @@ pre {
   overflow-x: auto;
   font-size: 0.85rem;
   line-height: 1.55;
-  white-space: pre;
+  /* long lines wrap inside the card, the indentation of the code is kept */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 pre code {
@@ -634,7 +616,12 @@ pre code {
   color: var(--text);
 }
 
-/* jQuery demos */
+/* hideUntilFocus (vanilla): the site's .pass-wrapper sets display, so this comes after it to win */
+.pass-hidden {
+  display: none;
+}
+
+/* the demo cards */
 
 .demo {
   display: flex;
@@ -677,6 +664,28 @@ pre code {
   padding: 0;
   display: grid;
   gap: 0.6rem;
+}
+
+/* the checklist of the hook demos */
+
+.checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.92rem;
+}
+
+.checklist li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* the custom element is a block: the meter inside it lays out like the others */
+password-meter {
+  display: block;
 }
 
 .swatches .pass-wrapper {

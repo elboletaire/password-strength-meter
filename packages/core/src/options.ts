@@ -1,76 +1,53 @@
-/**
- * Messages shown once the score passes each threshold, keyed by score.
- */
-export type Steps = Record<number | string, string>
+import { commonPasswords } from './common-passwords'
+import type { Options, PartialOptions } from './types'
 
-/**
- * Color ranges used to paint the bar when `useColorBarImage` is disabled.
- * `red` and `green` are `[min, max]` ranges; `blue` is a fixed base value.
- */
-export interface ColorBarRGB {
-  red?: [number, number]
-  green?: [number, number]
-  blue?: number
-}
-
-export interface MeterOptions {
-  /** Text shown while the password is empty. */
-  enterPass: string
-  /** Text shown while the password is shorter than `minimumLength`. */
-  shortPass: string
-  /** Text shown when the password matches (or contains) the field value. */
-  containsField: string
-  /** Score thresholds and their messages. */
-  steps: Steps
-  /** Below this length the score is -1. */
-  minimumLength: number
-  /** Whether a password containing the field value (not only equal to it) is rejected. */
-  fieldPartialMatch: boolean
-  /** Use the legacy background image instead of a computed color. */
-  useColorBarImage: boolean
-  customColorBarRGB: ColorBarRGB
-}
-
-export const defaults: MeterOptions = {
-  enterPass: 'Type your password',
-  shortPass: 'The password is too short',
-  containsField: 'The password contains your username',
-  steps: {
-    13: 'Really insecure password',
-    33: 'Weak; try combining letters & numbers',
-    67: 'Medium; try using special characters',
-    94: 'Strong password',
+export const defaults: Options = {
+  targetBits: 100,
+  commonWords: commonPasswords,
+  rules: {
+    minLength: 8,
+    maxLength: 0,
+    lowercase: 0,
+    uppercase: 0,
+    numbers: 0,
+    symbols: 0,
+    notUserInputs: true,
+    notCommon: true,
   },
-  minimumLength: 4,
-  fieldPartialMatch: true,
-  useColorBarImage: false,
-  customColorBarRGB: {
-    red: [0, 240],
-    green: [0, 240],
-    blue: 10,
+  levels: {
+    'very-weak': 0,
+    'weak': 20,
+    'fair': 40,
+    'good': 60,
+    'strong': 80,
   },
 }
 
+const isPlainObject = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value)
+
 /**
- * Shallow-merges option objects over `base`, skipping `undefined` values
- * like `$.extend` did (nested objects such as `steps` are replaced, not merged).
+ * Deep-merges partial objects over `base`: plain objects are merged key by key,
+ * anything else (arrays, functions, primitives) is replaced, and `undefined` is ignored.
  */
-export function mergeOptions<T extends object>(base: T, ...sources: Array<Partial<T> | undefined>): T {
-  const result = { ...base }
+export function mergeDeep<T>(base: T, ...sources: unknown[]): T {
+  const result: Record<string, unknown> = { ...(base as Record<string, unknown>) }
   for (const source of sources) {
-    if (!source) {
+    if (!isPlainObject(source)) {
       continue
     }
-    for (const key of Object.keys(source) as Array<keyof T>) {
-      const value = source[key]
-      if (value !== undefined) {
-        result[key] = value as T[keyof T]
+    for (const [key, value] of Object.entries(source)) {
+      if (value === undefined) {
+        continue
       }
+      result[key] = isPlainObject(value) && isPlainObject(result[key])
+        ? mergeDeep(result[key], value)
+        : value
     }
   }
-  return result
+  return result as T
 }
 
-export function resolveOptions(options?: Partial<MeterOptions>): MeterOptions {
-  return mergeOptions(defaults, options)
+export function resolveOptions(options?: PartialOptions): Options {
+  return mergeDeep(defaults, options)
 }

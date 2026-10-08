@@ -14,6 +14,7 @@ catalog:
   '@types/node': ^22.20.5
   '@vitest/coverage-v8': ^5.0.3
   eslint: ^10.12.0
+  fast-check: ^4.10.2
   globals: ^17.13.0
   jquery: ^3.7.1
   jsdom: ^29.1.1

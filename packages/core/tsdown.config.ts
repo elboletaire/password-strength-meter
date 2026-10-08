@@ -5,5 +5,4 @@ export default defineConfig({
   format: ['esm', 'cjs'],
   platform: 'neutral',
   dts: true,
-  copy: ['src/styles.css', 'src/passwordstrength.jpg'],
 })

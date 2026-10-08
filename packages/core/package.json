@@ -1,7 +1,7 @@
 {
   "name": "@passcore/core",
   "version": "0.1.0",
-  "description": "Framework-agnostic password strength scoring used by the @passcore meters",
+  "description": "Framework-agnostic password strength estimation and rules used by the @passcore meters",
   "keywords": [
     "password",
     "strength",
@@ -20,16 +20,12 @@
   "license": "GPL-3.0",
   "author": "Òscar Casajuana <elboletaire@gmail.com> (https://github.com/elboletaire)",
   "type": "module",
-  "sideEffects": [
-    "*.css"
-  ],
+  "sideEffects": false,
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./styles.css": "./dist/styles.css",
-    "./passwordstrength.jpg": "./dist/passwordstrength.jpg",
     "./package.json": "./package.json"
   },
   "main": "./dist/index.cjs",
@@ -41,10 +37,11 @@
   "scripts": {
     "build": "tsdown",
     "typecheck": "tsc",
-    "check:package": "publint --strict && attw --pack --profile node16 --exclude-entrypoints styles.css passwordstrength.jpg"
+    "check:package": "publint --strict && attw --pack --profile node16"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "catalog:",
+    "fast-check": "catalog:",
     "publint": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:"

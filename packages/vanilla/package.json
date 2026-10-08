@@ -24,6 +24,7 @@
   "author": "Òscar Casajuana <elboletaire@gmail.com> (https://github.com/elboletaire)",
   "type": "module",
   "sideEffects": [
+    "*.css",
     "./dist/element.js",
     "./dist/element.cjs",
     "./dist/passcore-element.min.js"

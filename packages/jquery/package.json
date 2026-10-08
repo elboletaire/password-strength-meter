@@ -1,6 +1,6 @@
 {
   "name": "@passcore/jquery",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "A password strength meter plugin for jQuery",
   "keywords": [
     "jquery-plugin",

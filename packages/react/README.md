@@ -1,6 +1,6 @@
 # @passcore/react
 
-An accessible password strength meter for React: a hook and a component, built on [`@passcore/core`](../core). Requires React 18 or later.
+An accessible password strength meter for React: a hook and a component, built on [`@passcore/core`](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core). Works with React 18 and 19.
 
 [Try it in the playground](https://elboletaire.github.io/password-strength-meter/react.html).
 
@@ -40,20 +40,20 @@ The meter is rendered next to your input, wherever you put it. The wrapper is a 
 
 ### Hook
 
-`usePasswordStrength(password, options?)` evaluates a password and returns the core result with the translated texts, for a custom UI:
+`usePasswordStrength(password, options?)` evaluates a password and returns `{ result, text, levelText }`: the core `result` (percent, level, validity, rules and message), the translated message and the translated level, for a custom UI:
 
 ```tsx
 import { usePasswordStrength } from '@passcore/react'
 
 function Strength({ password }: { password: string }) {
-  const { percent, level, valid, text, levelText } = usePasswordStrength(password)
-  return <p data-level={level} data-valid={valid}>{text} ({percent}%, {levelText})</p>
+  const { result, text, levelText } = usePasswordStrength(password)
+  return <p data-level={result.level} data-valid={result.valid}>{text} ({result.percent}%, {levelText})</p>
 }
 ```
 
 ## Options
 
-Both the hook and the component take these options. The component also takes `id`, `className`, `onScore` and `onText`.
+The hook takes the options in the first table. The component takes the same options plus the props in the second one.
 
 | Option | Default | Description |
 |---|---|---|
@@ -61,20 +61,30 @@ Both the hook and the component take these options. The component also takes `id
 | `translations` | `{}` | Texts in i18next's JSON format, deep-merged over the English ones (see [Translations](#translations)). |
 | `locale` | `'en'` | Locale used to pick plural forms. |
 | `translate` | `undefined` | `(key, params) => string`, e.g. i18next's `t`. Replaces `translations` and `locale`. |
+| `targetBits` | `100` | Estimated bits that count as 100%. |
+| `estimator` | `undefined` | `(password, userInputs) => bits`, replaces the built-in estimate. |
+| `commonPasswords` | `undefined` | Common passwords, replacing the built-in list. |
+| `rules` | `{ minLength: 8, ... }` | Rules, merged with the defaults (see the [`@passcore/core` README](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core#options)). |
+| `levels` | `{ 'very-weak': 0, ... }` | Lower bound of each level, merged with the defaults. |
+
+The component also takes these props:
+
+| Prop | Default | Description |
+|---|---|---|
+| `password` | | The password to evaluate (required). |
+| `id` | `undefined` | `id` of the text element, for `aria-describedby` on the input. |
+| `className` | `undefined` | Added to the wrapper. |
 | `showPercent` | `false` | Show the score percentage. |
 | `showText` | `true` | Show the message. |
 | `label` | `'Password strength'` | `aria-label` of the meter. |
-| `targetBits` | `100` | Estimated bits that count as 100%. |
-| `estimator` | `undefined` | `(password, userInputs) => bits`, replaces the built-in estimate. |
-| `commonWords` | `undefined` | Common passwords, replacing the built-in list. |
-| `rules` | `{ minLength: 8, ... }` | Rules, merged with the defaults (see the [`@passcore/core` README](../core#options)). |
-| `levels` | `{ 'very-weak': 0, ... }` | Lower bound of each level, merged with the defaults. |
+| `onScore` | `undefined` | `(percent, result) => void`, see [Events](#events). |
+| `onText` | `undefined` | `(text, result) => void`, see [Events](#events). |
 
-`rules`, `levels` and `commonWords` are compared by value, so inline objects and arrays are fine. `estimator` is a function and is compared by identity: define it outside the component, or memoize it, to avoid recreating the meter on every render.
+`rules`, `levels` and `commonPasswords` are compared by value, so inline objects and arrays are fine. `estimator` is a function and is compared by identity: define it outside the component, or memoize it, to avoid recreating the meter on every render.
 
 ## Events
 
-`onScore(percent, result)` is called whenever the evaluated result changes: when the password, the user inputs or the options change it. `onText(text, result)` is called only when the message changes (its key or params), also when `showText` is false. Neither is called on mount, and StrictMode does not call them twice.
+`onScore` fires when the evaluated result changes (not on creation); `onText` fires when the message (key or params) changes. A language change rewrites the text without firing `onText`.
 
 ```tsx
 <PasswordStrengthMeter
@@ -83,6 +93,8 @@ Both the hook and the component take these options. The component also takes `id
   onText={(text) => console.log(text)}
 />
 ```
+
+`onText` is also called when `showText` is false, and neither is called on mount. StrictMode does not call them twice.
 
 ## Translations
 
@@ -131,7 +143,7 @@ function PasswordField({ password }: { password: string }) {
 
 When you use `translate`, pass the current language as `locale` too: changing `locale` refreshes the texts, even if your `translate` function keeps the same identity when the language changes.
 
-The keys are `empty`, `level.very-weak`, `level.weak`, `level.fair`, `level.good`, `level.strong`, `rule.notCommon`, `rule.notUserInputs`, and the plural forms of `rule.minLength`, `rule.maxLength`, `rule.lowercase`, `rule.uppercase`, `rule.numbers` and `rule.symbols`. See [`locales/en.json`](../../locales/en.json) for the English texts.
+The keys are `empty`, `level.very-weak`, `level.weak`, `level.fair`, `level.good`, `level.strong`, `rule.notCommon`, `rule.notUserInputs`, and the plural forms of `rule.minLength`, `rule.maxLength`, `rule.lowercase`, `rule.uppercase`, `rule.numbers` and `rule.symbols`. See [`locales/en.json`](https://github.com/elboletaire/password-strength-meter/blob/master/locales/en.json) for the English texts.
 
 Texts are inserted as text, not HTML.
 
@@ -156,10 +168,12 @@ Import the stylesheet once (`@passcore/react/styles.css`) and customize the mete
 }
 ```
 
+The stylesheet also follows the forced colors mode: in Windows High Contrast and similar modes, the meter gets a border and the bar uses the system highlight color.
+
 The markup, identical to `@passcore/jquery` and `@passcore/vanilla`, is:
 
 ```html
-<div class="pass-wrapper pass-level-weak pass-invalid">
+<div class="pass-wrapper pass-level-weak">
   <div class="pass-meter" role="meter" aria-label="Password strength" aria-valuemin="0"
        aria-valuemax="100" aria-valuenow="30" aria-valuetext="Weak password">
     <div class="pass-bar" style="width: 30%"></div>
@@ -169,4 +183,6 @@ The markup, identical to `@passcore/jquery` and `@passcore/vanilla`, is:
 </div>
 ```
 
-The wrapper has a `pass-level-<level>` class and `pass-invalid` while the password does not pass every rule. Add your own class with `className`.
+The wrapper has a `pass-level-<level>` class and `pass-invalid` while the password does not pass every rule (a weak password can still be valid, with the default rules). Add your own class with `className`.
+
+The [stability policy](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core#stability) describes what may change in minor releases.

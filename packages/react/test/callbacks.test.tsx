@@ -36,8 +36,8 @@ describe('onScore and onText', () => {
     const onScore = vi.fn()
     const onText = vi.fn()
     const props = { password: 'Tester23$', onScore, onText }
-    const { rerender } = render(<PasswordStrengthMeter {...props} commonWords={['acmecorp']} rules={{ minLength: 8 }} userInputs={['john']} />)
-    rerender(<PasswordStrengthMeter {...props} commonWords={['acmecorp']} rules={{ minLength: 8 }} userInputs={['john']} />)
+    const { rerender } = render(<PasswordStrengthMeter {...props} commonPasswords={['acmecorp']} rules={{ minLength: 8 }} userInputs={['john']} />)
+    rerender(<PasswordStrengthMeter {...props} commonPasswords={['acmecorp']} rules={{ minLength: 8 }} userInputs={['john']} />)
     expect(onScore).not.toHaveBeenCalled()
     expect(onText).not.toHaveBeenCalled()
   })

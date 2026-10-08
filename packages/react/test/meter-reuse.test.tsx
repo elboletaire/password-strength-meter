@@ -1,6 +1,6 @@
 import { cleanup, renderHook } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { usePasswordStrength, type PasswordOptions } from '../src'
+import { usePasswordStrength, type PasswordStrengthOptions } from '../src'
 
 const created = vi.hoisted(() => ({ count: 0 }))
 
@@ -18,7 +18,7 @@ vi.mock('@passcore/core', async (importOriginal) => {
 
 interface ProbeProps {
   password: string
-  options?: PasswordOptions
+  options?: PasswordStrengthOptions
 }
 
 function useProbe({ password, options }: ProbeProps) {
@@ -41,27 +41,27 @@ describe('usePasswordStrength meter reuse', () => {
   })
 
   it('does not recreate the meter for new but equal options', () => {
-    const options = (): PasswordOptions => ({ rules: { minLength: 8 }, levels: { strong: 80 }, commonWords: ['acme'], userInputs: ['john'] })
+    const options = (): PasswordStrengthOptions => ({ rules: { minLength: 8 }, levels: { strong: 80 }, commonPasswords: ['acme'], userInputs: ['john'] })
     const { rerender } = renderHook(useProbe, { initialProps: { password: 'abc', options: options() } as ProbeProps })
     rerender({ password: 'abc', options: options() })
     rerender({ password: 'abcd', options: options() })
     expect(created.count).toBe(1)
   })
 
-  it('recreates the meter when rules, targetBits or commonWords change by value', () => {
+  it('recreates the meter when rules, targetBits or commonPasswords change by value', () => {
     const { rerender, result } = renderHook(useProbe, {
       initialProps: { password: 'abcdefghij', options: { rules: { minLength: 8 } } } as ProbeProps,
     })
-    expect(result.current.valid).toBe(true)
+    expect(result.current.result.valid).toBe(true)
 
     rerender({ password: 'abcdefghij', options: { rules: { minLength: 12 } } })
-    expect(result.current.valid).toBe(false)
+    expect(result.current.result.valid).toBe(false)
     expect(created.count).toBe(2)
 
     rerender({ password: 'abcdefghij', options: { rules: { minLength: 12 }, targetBits: 50 } })
     expect(created.count).toBe(3)
 
-    rerender({ password: 'abcdefghij', options: { rules: { minLength: 12 }, targetBits: 50, commonWords: ['abcdefghij'] } })
+    rerender({ password: 'abcdefghij', options: { rules: { minLength: 12 }, targetBits: 50, commonPasswords: ['abcdefghij'] } })
     expect(created.count).toBe(4)
   })
 })

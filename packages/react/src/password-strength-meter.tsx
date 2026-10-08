@@ -1,13 +1,19 @@
 import type { Result } from '@passcore/core'
 import { useEffect, useMemo, useRef, type ReactElement } from 'react'
-import { useStrengthResult, useTranslatedStrength, type PasswordOptions } from './use-password-strength'
+import { usePasswordStrength, type PasswordStrengthOptions } from './use-password-strength'
 
-export interface PasswordStrengthMeterProps extends PasswordOptions {
+export interface PasswordStrengthMeterProps extends PasswordStrengthOptions {
   password: string
   /** id of the text element, for aria-describedby on the input. */
   id?: string
   /** Added to the wrapper. */
   className?: string
+  /** Show the score percentage. Default false. */
+  showPercent?: boolean
+  /** Show the message. Default true. */
+  showText?: boolean
+  /** aria-label of the meter. Default 'Password strength'. */
+  label?: string
   /** Called with the percent and the core result when the evaluated result changes (not on mount). */
   onScore?: (percent: number, result: Result) => void
   /** Called with the translated text when the message changes (not on mount). */
@@ -19,15 +25,23 @@ export interface PasswordStrengthMeterProps extends PasswordOptions {
  * an optional percentage and the message, linked to the input with `id`.
  */
 export function PasswordStrengthMeter(props: PasswordStrengthMeterProps): ReactElement {
-  const { password, id, className, onScore, onText, ...options } = props
-  const result = useStrengthResult(password, options)
-  const strength = useTranslatedStrength(result, options)
-  const { showPercent = false, showText = true, label = 'Password strength' } = options
+  const {
+    password,
+    id,
+    className,
+    showPercent = false,
+    showText = true,
+    label = 'Password strength',
+    onScore,
+    onText,
+    ...options
+  } = props
+  const { result, text, levelText } = usePasswordStrength(password, options)
 
   // the latest callbacks and text, read by the effects below (updated after each commit)
-  const latest = useRef({ onScore, onText, text: strength.text })
+  const latest = useRef({ onScore, onText, text })
   useEffect(() => {
-    latest.current = { onScore, onText, text: strength.text }
+    latest.current = { onScore, onText, text }
   })
 
   // by value: a new but equal result (e.g. the same options passed again) doesn't fire onScore
@@ -70,14 +84,14 @@ export function PasswordStrengthMeter(props: PasswordStrengthMeterProps): ReactE
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={result.percent}
-        aria-valuetext={strength.levelText}
+        aria-valuetext={levelText}
       >
         <div className="pass-bar" style={{ width: `${result.percent}%` }} />
       </div>
       {showPercent && (
         <span className="pass-percent">{`${result.percent}%`}</span>
       )}
-      {showText && <span className="pass-text" id={id} aria-live="polite">{strength.text}</span>}
+      {showText && <span className="pass-text" id={id} aria-live="polite">{text}</span>}
     </div>
   )
 }

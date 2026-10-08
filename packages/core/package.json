@@ -1,6 +1,6 @@
 {
   "name": "@passcore/core",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Framework-agnostic password strength scoring used by the @passcore meters",
   "keywords": [
     "password",

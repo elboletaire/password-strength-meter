@@ -46,7 +46,8 @@ function run(options: object, c: GoldenCase) {
   }
 }
 
-describe('legacy golden fixture', () => {
+// each test replays hundreds or thousands of cases, too many for the default 5s on CI runners
+describe('legacy golden fixture', { timeout: 60_000 }, () => {
   for (const scenario of golden.scenarios) {
     it(`${scenario.name}: matches the legacy plugin for ${scenario.cases.length} cases`, () => {
       for (const c of scenario.cases as GoldenCase[]) {

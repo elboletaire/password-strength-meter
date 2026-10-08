@@ -31,7 +31,8 @@ function render(text: string, style: object) {
   }
 }
 
-describe('legacy golden fixture', () => {
+// each test replays hundreds or thousands of cases, too many for the default 5s on CI runners
+describe('legacy golden fixture', { timeout: 60_000 }, () => {
   for (const scenario of golden.scenarios) {
     // `field` (a selector) belongs to the jQuery binding; core receives its value
     const { field, ...options } = scenario.options as Partial<MeterOptions> & { field?: string }

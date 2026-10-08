@@ -1,5 +1,16 @@
 # @passcore/jquery
 
+## 0.3.0
+
+### Minor Changes
+
+- [#64](https://github.com/elboletaire/password-strength-meter/pull/64) [`8bab984`](https://github.com/elboletaire/password-strength-meter/commit/8bab984ff771dda06bb9f8d15b3c948be27bf317) Thanks [@elboletaire](https://github.com/elboletaire)! - Add translations in i18next's JSON format: English, Spanish and Catalan locale files, and an i18next-compatible translator in the core (`createTranslator`, `translationParams`). `@passcore/jquery` replaces the `messages` option with `translations`, `locale` and `translate` (e.g. i18next's `t`), and exports the locale files as `@passcore/jquery/locales/*.json`.
+
+### Patch Changes
+
+- Updated dependencies [[`8bab984`](https://github.com/elboletaire/password-strength-meter/commit/8bab984ff771dda06bb9f8d15b3c948be27bf317)]:
+  - @passcore/core@0.2.1
+
 ## 0.2.0
 
 ### Minor Changes

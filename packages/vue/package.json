@@ -1,0 +1,66 @@
+{
+  "name": "@passcore/vue",
+  "version": "0.1.0",
+  "description": "Password strength meter for Vue 3: a composable and a component",
+  "keywords": [
+    "password",
+    "strength",
+    "meter",
+    "form",
+    "vue",
+    "composable",
+    "component"
+  ],
+  "homepage": "https://github.com/elboletaire/password-strength-meter#readme",
+  "bugs": {
+    "url": "https://github.com/elboletaire/password-strength-meter/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elboletaire/password-strength-meter.git",
+    "directory": "packages/vue"
+  },
+  "license": "GPL-3.0",
+  "author": "Òscar Casajuana <elboletaire@gmail.com> (https://github.com/elboletaire)",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./locales/*.json": "./dist/locales/*.json",
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.cts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc",
+    "check:package": "publint --strict && attw --pack --profile node16 --exclude-entrypoints styles.css locales/en.json locales/es.json locales/ca.json"
+  },
+  "dependencies": {
+    "@passcore/core": "workspace:^"
+  },
+  "peerDependencies": {
+    "vue": ">=3.3"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "catalog:",
+    "publint": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "@testing-library/dom": "catalog:",
+    "@testing-library/vue": "catalog:",
+    "@types/jsdom": "catalog:",
+    "jsdom": "catalog:",
+    "vue": "catalog:"
+  }
+}

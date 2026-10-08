@@ -1,0 +1,70 @@
+{
+  "name": "@passcore/vanilla",
+  "version": "0.1.0",
+  "description": "A framework-free password strength meter: a function and a <password-meter> custom element",
+  "keywords": [
+    "password",
+    "strength",
+    "meter",
+    "form",
+    "vanilla",
+    "web-component",
+    "custom-element"
+  ],
+  "homepage": "https://github.com/elboletaire/password-strength-meter#readme",
+  "bugs": {
+    "url": "https://github.com/elboletaire/password-strength-meter/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elboletaire/password-strength-meter.git",
+    "directory": "packages/vanilla"
+  },
+  "license": "GPL-3.0",
+  "author": "Òscar Casajuana <elboletaire@gmail.com> (https://github.com/elboletaire)",
+  "type": "module",
+  "sideEffects": [
+    "./dist/element.js",
+    "./dist/element.cjs",
+    "./dist/passcore-element.min.js"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./element": {
+      "import": "./dist/element.js",
+      "require": "./dist/element.cjs"
+    },
+    "./passcore.min.js": "./dist/passcore.min.js",
+    "./passcore-element.min.js": "./dist/passcore-element.min.js",
+    "./styles.css": "./dist/styles.css",
+    "./locales/*.json": "./dist/locales/*.json",
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.cts",
+  "unpkg": "./dist/passcore.min.js",
+  "jsdelivr": "./dist/passcore.min.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc",
+    "check:package": "publint --strict && attw --pack --profile node16 --exclude-entrypoints passcore.min.js passcore-element.min.js styles.css locales/en.json locales/es.json locales/ca.json"
+  },
+  "dependencies": {
+    "@passcore/core": "workspace:^"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "catalog:",
+    "publint": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "@types/jsdom": "catalog:",
+    "jsdom": "catalog:"
+  }
+}

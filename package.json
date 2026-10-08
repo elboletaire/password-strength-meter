@@ -20,6 +20,7 @@
     "lint": "eslint .",
     "typecheck": "pnpm -r typecheck",
     "check:packages": "pnpm -r --filter './packages/**' check:package",
+    "dev": "pnpm --filter playground dev",
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "pnpm build && changeset publish"
@@ -32,6 +33,7 @@
     "@types/node": "catalog:",
     "@vitest/coverage-v8": "catalog:",
     "eslint": "catalog:",
+    "eslint-plugin-react-hooks": "catalog:",
     "globals": "catalog:",
     "jsdom": "catalog:",
     "typescript": "catalog:",

@@ -1,0 +1,67 @@
+{
+  "name": "@passcore/svelte",
+  "version": "0.1.0",
+  "description": "Password strength meter for Svelte 5: a component and a rune-based helper",
+  "keywords": [
+    "password",
+    "strength",
+    "meter",
+    "form",
+    "svelte",
+    "component"
+  ],
+  "homepage": "https://github.com/elboletaire/password-strength-meter#readme",
+  "bugs": {
+    "url": "https://github.com/elboletaire/password-strength-meter/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elboletaire/password-strength-meter.git",
+    "directory": "packages/svelte"
+  },
+  "license": "GPL-3.0",
+  "author": "Òscar Casajuana <elboletaire@gmail.com> (https://github.com/elboletaire)",
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "svelte": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./locales/*.json": "./dist/locales/*.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "svelte-package -i src/lib -o dist && node scripts/copy-assets.mjs",
+    "typecheck": "svelte-check --tsconfig ./tsconfig.json",
+    "check:package": "publint --strict"
+  },
+  "dependencies": {
+    "@passcore/core": "workspace:^"
+  },
+  "peerDependencies": {
+    "svelte": "^5.0.0"
+  },
+  "devDependencies": {
+    "@sveltejs/package": "catalog:",
+    "@sveltejs/vite-plugin-svelte": "catalog:",
+    "@testing-library/dom": "catalog:",
+    "@testing-library/svelte": "catalog:",
+    "@types/jsdom": "catalog:",
+    "jsdom": "catalog:",
+    "publint": "catalog:",
+    "svelte": "catalog:",
+    "svelte-check": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:"
+  }
+}

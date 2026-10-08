@@ -1,5 +1,6 @@
 import js from '@eslint/js'
 import stylistic from '@stylistic/eslint-plugin'
+import reactHooks from 'eslint-plugin-react-hooks'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
@@ -28,6 +29,10 @@ export default tseslint.config(
     rules: {
       '@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true }],
     },
+  },
+  {
+    files: ['packages/react/**/*.{ts,tsx}', 'apps/playground/**/*.{ts,tsx}'],
+    ...reactHooks.configs.flat.recommended,
   },
   {
     files: ['**/*.cjs'],

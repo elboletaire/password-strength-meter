@@ -15,7 +15,11 @@
     "noEmit": true,
     "paths": {
       "@passcore/core": ["./packages/core/src/index.ts"],
-      "@passcore/jquery": ["./packages/jquery/src/index.ts"]
+      "@passcore/jquery": ["./packages/jquery/src/index.ts"],
+      "@passcore/vanilla": ["./packages/vanilla/src/index.ts"],
+      "@passcore/react": ["./packages/react/src/index.ts"],
+      "@passcore/vue": ["./packages/vue/src/index.ts"],
+      "@passcore/svelte": ["./packages/svelte/src/lib/index.ts"]
     }
   }
 }

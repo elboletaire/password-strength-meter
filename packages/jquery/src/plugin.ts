@@ -73,7 +73,11 @@ let uid = 0
 function attach($: JQueryStatic, $object: JQuery, plugin: PluginOptions, translate: Translate, core: PartialOptions): void {
   const meter = createMeter(core)
   const $container = $object.closest(plugin.closestSelector)
-  let shown = true
+  // the meter is shown while the field has the focus or a value: the state decides, not which event came last
+  let focused = $object.is(':focus')
+  const wanted = (): boolean => focused || String($object.val() ?? '').length > 0
+  // where the meter is heading (shown or hidden), which may differ from what is on screen mid-animation
+  let visible = !plugin.animate || wanted()
 
   const $bar = $('<div>').addClass('pass-bar')
   const $meter = $('<div>').addClass('pass-meter').attr({
@@ -99,11 +103,11 @@ function attach($: JQueryStatic, $object: JQuery, plugin: PluginOptions, transla
     $object.attr('aria-describedby', describedBy ? describedBy + ' ' + id : id)
   }
 
-  $container.addClass('pass-strength-visible')
-  if (plugin.animate) {
+  if (visible) {
+    $container.addClass('pass-strength-visible')
+  }
+  else {
     $wrapper.css('display', 'none')
-    shown = false
-    $container.removeClass('pass-strength-visible')
   }
 
   $container.append($wrapper)
@@ -133,18 +137,45 @@ function attach($: JQueryStatic, $object: JQuery, plugin: PluginOptions, transla
   // initial state, also covering pre-filled inputs
   $text?.text(render(evaluate()))
 
+  // Slides the meter in or out to match the state of the field. Password managers take the focus away with an
+  // overlay, then fill the field and refocus it while the meter is still sliding out: an animation in flight
+  // gives way to the new state instead of finishing the old one.
+  const sync = (): void => {
+    if (!plugin.animate || wanted() === visible) {
+      return
+    }
+    visible = !visible
+    $wrapper.stop(true, true)
+    if (visible) {
+      $wrapper.slideDown(plugin.animateSpeed, () => {
+        $container.addClass('pass-strength-visible')
+      })
+    }
+    else {
+      $wrapper.slideUp(plugin.animateSpeed, () => {
+        $container.removeClass('pass-strength-visible')
+      })
+    }
+  }
+
   // What the last update evaluated, and whether an `input` event made it. Typing fires `input` and then
   // `keyup`: the `keyup` is skipped when it would only repeat that update.
   let lastState = JSON.stringify([$object.val() ?? '', userInputs()])
   let fromInput = false
 
-  const update = (isInput: boolean): void => {
+  const update = (source: 'input' | 'keyup' | 'change'): void => {
+    sync()
+
     const state = JSON.stringify([$object.val() ?? '', userInputs()])
-    if (!isInput && fromInput && state === lastState) {
+    if (source === 'keyup' && fromInput && state === lastState) {
       fromInput = false
       return
     }
-    fromInput = isInput
+    // `change` comes after typing too, when the field is left: it only matters if the value changed since
+    if (source === 'change' && state === lastState) {
+      return
+    }
+    fromInput = source !== 'keyup'
     lastState = state
 
     const result = evaluate()
@@ -159,29 +190,18 @@ function attach($: JQueryStatic, $object: JQuery, plugin: PluginOptions, transla
     }
   }
 
-  // `input` covers what `keyup` misses: pasting with the mouse, autofill and drag and drop
-  $object.on('input', () => update(true))
-  $object.on('keyup', () => update(false))
-
-  if (plugin.animate) {
-    $object.on('focus', () => {
-      if (!shown) {
-        $wrapper.slideDown(plugin.animateSpeed, () => {
-          shown = true
-          $container.addClass('pass-strength-visible')
-        })
-      }
-    })
-
-    $object.on('blur', () => {
-      if (!String($object.val() ?? '').length && shown) {
-        $wrapper.slideUp(plugin.animateSpeed, () => {
-          shown = false
-          $container.removeClass('pass-strength-visible')
-        })
-      }
-    })
-  }
+  // `input` and `change` cover what `keyup` misses: pasting with the mouse, autofill and password managers
+  $object.on('input', () => update('input'))
+  $object.on('keyup', () => update('keyup'))
+  $object.on('change', () => update('change'))
+  $object.on('focus', () => {
+    focused = true
+    sync()
+  })
+  $object.on('blur', () => {
+    focused = false
+    sync()
+  })
 }
 
 /**

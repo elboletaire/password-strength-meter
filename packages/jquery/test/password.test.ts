@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import ca from '../../../locales/ca.json'
 import '../src'
 
@@ -157,6 +157,106 @@ describe('$.fn.password', () => {
     it('inserts texts as text, not HTML', () => {
       $('#password').password({ translations: { empty: '<b>Type</b>' } })
       expect($('.pass-text').html()).toBe('&lt;b&gt;Type&lt;/b&gt;')
+    })
+  })
+
+  // password managers (Bitwarden...) take the focus away with an overlay, then fill the field and refocus it
+  describe('visibility while the animations run', () => {
+    beforeEach(() => {
+      $.fx.off = false
+      vi.useFakeTimers()
+    })
+
+    afterEach(() => {
+      vi.useRealTimers()
+      $.fx.off = true
+    })
+
+    const input = () => $('#password')[0] as HTMLInputElement
+    const shown = () => $('.pass-wrapper').css('display') !== 'none' && $('.pass-strength-visible').length === 1
+    const settle = () => vi.advanceTimersByTime(1000)
+
+    it('shows the meter when the field is focused and hides it when it is left empty', () => {
+      $('#password').password()
+      expect($('.pass-wrapper').css('display')).toBe('none')
+
+      input().focus()
+      settle()
+      expect(shown()).toBe(true)
+
+      input().blur()
+      settle()
+      expect($('.pass-wrapper').css('display')).toBe('none')
+      expect($('.pass-strength-visible').length).toBe(0)
+    })
+
+    it('stays visible when the focus comes back while the meter is sliding up', () => {
+      $('#password').password()
+      input().focus()
+      settle()
+
+      input().blur()
+      vi.advanceTimersByTime(50)
+      // the overlay's fill: the value changes and the field is focused again, mid-animation
+      $('#password').val('k8#Qz!2mWp').trigger('input').trigger('change')
+      input().focus()
+      settle()
+
+      expect(shown()).toBe(true)
+    })
+
+    it('stays visible when the focus comes back before the meter finished sliding down', () => {
+      $('#password').password()
+      input().focus()
+      vi.advanceTimersByTime(50)
+      input().blur()
+      vi.advanceTimersByTime(50)
+      input().focus()
+      settle()
+
+      expect(shown()).toBe(true)
+    })
+
+    it('shows the meter when the field is filled without ever getting the focus', () => {
+      $('#password').password()
+      $('#password').val('k8#Qz!2mWp').trigger('input')
+      settle()
+
+      expect(shown()).toBe(true)
+      expect($('.pass-text').text()).toBe('Good password')
+    })
+
+    it('does not hide the meter on blur while the field has a value', () => {
+      $('#password').password()
+      input().focus()
+      $('#password').val('abc').trigger('input')
+      settle()
+      input().blur()
+      settle()
+
+      expect(shown()).toBe(true)
+    })
+
+    it('shows the meter from the start when the field is already filled', () => {
+      $('#password').val('Tester23$').password()
+      settle()
+
+      expect(shown()).toBe(true)
+    })
+  })
+
+  describe('autofill that only fires change', () => {
+    it('updates the meter once, without repeating what an input event already did', () => {
+      const scores: number[] = []
+      $('#password').password({ animate: false }).on('password.score', (e, percent: number) => scores.push(percent))
+
+      $('#password').val('k8#Qz!2mWp').trigger('change')
+      expect($('.pass-text').text()).toBe('Good password')
+      expect(scores).toEqual([66])
+
+      // the usual order for a typed value: input, keyup, then change when the field is left
+      $('#password').val('k8#Qz!2mWpx').trigger('input').trigger('keyup').trigger('change')
+      expect(scores).toHaveLength(2)
     })
   })
 

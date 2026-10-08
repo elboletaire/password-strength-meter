@@ -2,6 +2,8 @@
 
 An accessible password strength meter for React: a hook and a component, built on [`@passcore/core`](../core). Requires React 18 or later.
 
+[Try it in the playground](https://elboletaire.github.io/password-strength-meter/react.html).
+
 ```bash
 pnpm add @passcore/react
 ```

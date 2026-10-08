@@ -2,6 +2,8 @@
 
 Framework-agnostic password strength estimation and rules. It has no dependencies, no DOM access and no texts: it returns data and message keys that bindings render and translate.
 
+[Try it in the playground](https://elboletaire.github.io/password-strength-meter/inspector.html).
+
 ```bash
 pnpm add @passcore/core
 ```
@@ -40,6 +42,31 @@ Use `createMeter()` when evaluating repeatedly (on every keystroke): it prepares
 The message is `empty` for an empty password; otherwise the first failing rule (`rule.<id>`, with its params); otherwise the level (`level.<level>`).
 
 Message keys: `empty`, `level.very-weak`, `level.weak`, `level.fair`, `level.good`, `level.strong`, `rule.minLength` (`{ min }`), `rule.maxLength` (`{ max }`), `rule.notCommon`, `rule.notUserInputs`, `rule.lowercase`, `rule.uppercase`, `rule.numbers`, `rule.symbols` (`{ min }`).
+
+## Showing every requirement
+
+`result.rules` has one entry per enabled rule, in a fixed order, with whether it passed and its parameters. That is all you need for the checklist many sign-up forms show, each condition in red or green:
+
+```ts
+const result = meter.evaluate(password, userInputs)
+
+// your own wording: the rule messages (`rule.*`) are phrased as instructions ("Add a number")
+const labels: Record<string, (params: Record<string, number>) => string> = {
+  minLength: ({ min }) => `At least ${min} characters`,
+  lowercase: () => 'A lowercase letter',
+  uppercase: () => 'An uppercase letter',
+  numbers: () => 'A number',
+  symbols: () => 'A symbol',
+  notCommon: () => 'Not a common password',
+  notUserInputs: () => 'No personal details',
+}
+
+for (const rule of result.rules) {
+  render(labels[rule.id]?.(rule.params), rule.passed)   // met: green, not met: red
+}
+```
+
+Enable the rules you want to show (`rules: { minLength: 8, lowercase: 1, uppercase: 1, numbers: 1, symbols: 1 }`); disabled ones are not in the list. While the password is empty, show every item neutral instead of red or green: rules such as `notCommon` pass trivially on an empty password. `result.valid` is true when every rule passes. The [playground](https://elboletaire.github.io/password-strength-meter/) has a live checklist for each package.
 
 ## Translating messages
 

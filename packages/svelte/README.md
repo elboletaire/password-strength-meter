@@ -2,6 +2,8 @@
 
 An accessible password strength meter for Svelte 5, built on [`@passcore/core`](../core). It ships a `<PasswordStrengthMeter>` component and a rune-based helper, `passwordStrength()`, to build your own markup.
 
+[Try it in the playground](https://elboletaire.github.io/password-strength-meter/svelte.html).
+
 ```bash
 pnpm add @passcore/svelte
 ```

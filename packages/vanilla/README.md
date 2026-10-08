@@ -2,6 +2,8 @@
 
 An accessible password strength meter for any page, with no framework and no jQuery: a function, and a `<password-meter>` custom element. Built on [`@passcore/core`](../core).
 
+[Try it in the playground](https://elboletaire.github.io/password-strength-meter/vanilla.html).
+
 ```bash
 pnpm add @passcore/vanilla
 ```

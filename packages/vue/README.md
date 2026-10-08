@@ -2,6 +2,8 @@
 
 An accessible password strength meter for Vue 3, built on [`@passcore/core`](../core): a composable (`usePasswordStrength`) and a component (`PasswordStrengthMeter`).
 
+[Try it in the playground](https://elboletaire.github.io/password-strength-meter/vue.html).
+
 ```bash
 pnpm add @passcore/vue
 ```

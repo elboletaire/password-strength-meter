@@ -2,6 +2,8 @@
 
 An accessible password strength meter plugin for jQuery, built on [`@passcore/core`](../core).
 
+[Try it in the playground](https://elboletaire.github.io/password-strength-meter/jquery.html).
+
 ```bash
 pnpm add @passcore/jquery jquery
 ```

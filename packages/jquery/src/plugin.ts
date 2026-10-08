@@ -1,5 +1,15 @@
-import { createMeter, mergeDeep, type Level, type MeterResult, type PartialOptions } from '@passcore/core'
-import { defaultMessages, formatMessage, type Messages } from './messages'
+import {
+  createMeter,
+  createTranslator,
+  mergeDeep,
+  translationParams,
+  type Level,
+  type MeterResult,
+  type PartialOptions,
+  type Translate,
+  type Translations,
+} from '@passcore/core'
+import en from '../../../locales/en.json'
 
 /** A field: selector, element or jQuery object. */
 export type FieldRef = JQuery.Selector | Element | JQuery
@@ -7,8 +17,12 @@ export type FieldRef = JQuery.Selector | Element | JQuery
 export interface PluginOptions {
   /** Fields whose values the password must not contain (username, email...), read on every keyup. */
   userInputs: FieldRef[]
-  /** Message overrides, keyed by message key. */
-  messages: Partial<Messages>
+  /** Translations in i18next's JSON format, deep-merged over the bundled English ones. */
+  translations: Translations
+  /** Locale used to pick plural forms. */
+  locale: string
+  /** Translates a message key with its params (e.g. i18next's `t`); replaces `translations` and `locale`. */
+  translate?: Translate
   /** Show the score percentage. */
   showPercent: boolean
   /** Show the message. */
@@ -26,7 +40,8 @@ export type PasswordOptions = PartialOptions & Partial<PluginOptions>
 
 export const defaults: PluginOptions = {
   userInputs: [],
-  messages: {},
+  translations: {},
+  locale: 'en',
   showPercent: false,
   showText: true,
   animate: true,
@@ -51,7 +66,7 @@ declare global {
 
 let uid = 0
 
-function attach($: JQueryStatic, $object: JQuery, plugin: PluginOptions, messages: Messages, core: PartialOptions): void {
+function attach($: JQueryStatic, $object: JQuery, plugin: PluginOptions, translate: Translate, core: PartialOptions): void {
   const meter = createMeter(core)
   const $container = $object.closest(plugin.closestSelector)
   let shown = true
@@ -102,11 +117,11 @@ function attach($: JQueryStatic, $object: JQuery, plugin: PluginOptions, message
       .toggleClass('pass-invalid', !result.valid)
     $meter.attr({
       'aria-valuenow': result.percent,
-      'aria-valuetext': formatMessage(messages, levelKey, {}),
+      'aria-valuetext': translate(levelKey),
     })
     $bar.css('width', result.percent + '%')
     $percent?.text(result.percent + '%')
-    return formatMessage(messages, result.message.key, result.message.params)
+    return translate(result.message.key, translationParams(result.message))
   }
 
   const evaluate = (): MeterResult => meter.evaluate(String($object.val() ?? ''), userInputs())
@@ -150,12 +165,12 @@ function attach($: JQueryStatic, $object: JQuery, plugin: PluginOptions, message
  */
 export function install($: JQueryStatic): void {
   $.fn.password = function (this: JQuery, options: PasswordOptions = {}) {
-    const { userInputs, messages, showPercent, showText, animate, animateSpeed, closestSelector, ...core } = options
-    const plugin = mergeDeep(defaults, { userInputs, messages, showPercent, showText, animate, animateSpeed, closestSelector })
-    const resolvedMessages = mergeDeep(defaultMessages, plugin.messages)
+    const { userInputs, translations, locale, translate, showPercent, showText, animate, animateSpeed, closestSelector, ...core } = options
+    const plugin = mergeDeep(defaults, { userInputs, translations, locale, translate, showPercent, showText, animate, animateSpeed, closestSelector })
+    const translator = plugin.translate ?? createTranslator(mergeDeep<Translations>(en, plugin.translations), plugin.locale)
 
     return this.each(function () {
-      attach($, $(this), plugin, resolvedMessages, core)
+      attach($, $(this), plugin, translator, core)
     })
   }
 }

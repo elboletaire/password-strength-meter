@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import { beforeEach, describe, expect, it } from 'vitest'
+import ca from '../../../locales/ca.json'
 import '../src'
 
 beforeEach(() => {
@@ -154,29 +155,48 @@ describe('$.fn.password', () => {
     })
 
     it('inserts texts as text, not HTML', () => {
-      $('#password').password({ messages: { empty: '<b>Type</b>' } })
+      $('#password').password({ translations: { empty: '<b>Type</b>' } })
       expect($('.pass-text').html()).toBe('&lt;b&gt;Type&lt;/b&gt;')
     })
   })
 
-  describe('messages', () => {
-    it('overrides messages with {param} placeholders', () => {
-      $('#password').password({ messages: { 'rule.minLength': 'Min {min}!' } })
+  describe('translations', () => {
+    it('overrides texts partially, with {{count}} placeholders', () => {
+      $('#password').password({ translations: { rule: { minLength_other: 'Min {{count}}!' } } })
       type('abc')
       expect($('.pass-text').text()).toBe('Min 8!')
-    })
-
-    it('overrides messages with functions', () => {
-      $('#password').password({ messages: { 'level.good': () => 'Bona contrasenya' } })
-      type('k8#Qz!2mWp')
-      expect($('.pass-text').text()).toBe('Bona contrasenya')
-      expect($('.pass-meter').attr('aria-valuetext')).toBe('Bona contrasenya')
-    })
-
-    it('keeps the defaults for keys that are not overridden', () => {
-      $('#password').password({ messages: { 'rule.minLength': 'Min {min}!' } })
       type('k8#Qz!2mWp')
       expect($('.pass-text').text()).toBe('Good password')
+    })
+
+    it('picks plural forms', () => {
+      $('#password').password({ rules: { minLength: 0, numbers: 1 } })
+      type('abc')
+      expect($('.pass-text').text()).toBe('Add a number')
+    })
+
+    it('renders a bundled language', () => {
+      $('#password').password({ translations: ca, locale: 'ca' })
+      expect($('.pass-text').text()).toBe('Escriu la teva contrasenya')
+      type('abc')
+      expect($('.pass-text').text()).toBe('Fes servir almenys 8 caràcters')
+      type('k8#Qz!2mWp')
+      expect($('.pass-text').text()).toBe('Contrasenya bona')
+      expect($('.pass-meter').attr('aria-valuetext')).toBe('Contrasenya bona')
+    })
+
+    it('uses a translate function, such as i18next\'s t, with count', () => {
+      const calls: Array<[string, unknown]> = []
+      $('#password').password({
+        translate: (key, params) => {
+          calls.push([key, params])
+          return `t(${key})`
+        },
+      })
+      type('abc')
+      expect($('.pass-text').text()).toBe('t(rule.minLength)')
+      expect($('.pass-meter').attr('aria-valuetext')).toBe('t(level.very-weak)')
+      expect(calls).toContainEqual(['rule.minLength', { min: 8, count: 8 }])
     })
   })
 

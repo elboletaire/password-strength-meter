@@ -1,6 +1,6 @@
 import { defineConfig } from 'tsdown'
 
-const assets = ['src/styles.css']
+const assets = ['src/styles.css', { from: '../../locales/*.json', to: 'dist/locales' }]
 
 export default defineConfig([
   {

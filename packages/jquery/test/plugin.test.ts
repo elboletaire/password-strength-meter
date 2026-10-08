@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { defaultMessages, defaults, install } from '../src'
+import { defaults, install } from '../src'
 
 beforeEach(() => {
   $.fx.off = true
@@ -21,17 +21,17 @@ describe('install', () => {
 })
 
 describe('exports', () => {
-  it('exposes the plugin defaults and the default messages', () => {
+  it('exposes the plugin defaults', () => {
     expect(defaults).toEqual({
       userInputs: [],
-      messages: {},
+      translations: {},
+      locale: 'en',
       showPercent: false,
       showText: true,
       animate: true,
       animateSpeed: 'fast',
       closestSelector: 'div',
     })
-    expect(defaultMessages.empty).toBe('Type your password')
   })
 })
 
@@ -51,9 +51,10 @@ describe('$.fn.password', () => {
   })
 
   it('does not change the defaults when options are given', () => {
-    $('#password').password({ showPercent: true, messages: { empty: 'x' } })
+    $('#password').password({ showPercent: true, translations: { empty: 'x' } })
     expect(defaults.showPercent).toBe(false)
-    expect(defaults.messages).toEqual({})
-    expect(defaultMessages.empty).toBe('Type your password')
+    expect(defaults.translations).toEqual({})
+    $('#other').password({ animate: false })
+    expect($('#other').parent().find('.pass-text').text()).toBe('Type your password')
   })
 })

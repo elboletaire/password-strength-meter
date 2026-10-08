@@ -1,8 +1,8 @@
 name: Pages
 
-# Manual for now: the repository still serves the old demo from the gh-pages branch. To switch, set
-# Settings > Pages > Source to "GitHub Actions", then add `push: { branches: [master] }` here.
 on:
+  push:
+    branches: [master]
   workflow_dispatch:
 
 # one deployment at a time; a queued one is not cancelled by a newer push

@@ -45,7 +45,7 @@ function attach(mount: Mount): void {
 
 function detach({ input, closest }: Mount): void {
   const container = input.closest(closest)
-  input.off('input keyup focus blur')
+  input.off('input keyup change focus blur')
   container.children('.pass-wrapper').remove()
   container.removeClass('pass-strength-visible')
   // the plugin appends its text id on every mount: take it out again

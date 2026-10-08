@@ -117,7 +117,7 @@ mount()
 
 // the plugin has no refresh(): mount it again with the new language
 i18next.on('languageChanged', () => {
-  $input.off('input keyup focus blur').closest('div').children('.pass-wrapper').remove()
+  $input.off('input keyup change focus blur').closest('div').children('.pass-wrapper').remove()
   mount()
 })`,
     },

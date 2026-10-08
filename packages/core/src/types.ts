@@ -62,28 +62,28 @@ export type EvaluateOptions = MeterOptions & {
 }
 
 export interface RuleResult {
-  id: RuleId
-  passed: boolean
-  params: Params
+  readonly id: RuleId
+  readonly passed: boolean
+  readonly params: Params
 }
 
 export interface Message {
-  key: MessageKey
-  params: Params
+  readonly key: MessageKey
+  readonly params: Params
 }
 
 export interface Result {
   /** Estimated strength in bits. */
-  bits: number
+  readonly bits: number
   /** Integer from 0 to 100: bits relative to targetBits. */
-  percent: number
-  level: Level
+  readonly percent: number
+  readonly level: Level
   /** Whether every enabled rule passes. */
-  valid: boolean
+  readonly valid: boolean
   /** Enabled rules, in rule order. */
-  rules: RuleResult[]
+  readonly rules: readonly RuleResult[]
   /** What to show: an empty password, the first failing rule, or the level. */
-  message: Message
+  readonly message: Message
 }
 
 export interface Meter {

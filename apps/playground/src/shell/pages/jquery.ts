@@ -115,11 +115,8 @@ const mount = () => $input.password({
 
 mount()
 
-// the texts are read when the meter is mounted: destroy it and mount it again in the new language
-i18next.on('languageChanged', () => {
-  $input.password('destroy')
-  mount()
-})`,
+// the texts are translated on every update: refresh the meter after changing language
+i18next.on('languageChanged', () => $input.password('refresh'))`,
     },
     {
       id: 'events',

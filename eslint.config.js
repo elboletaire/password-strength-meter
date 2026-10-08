@@ -36,11 +36,14 @@ export default tseslint.config(
   },
   {
     // these run on the server, at build time (Vike pre-rendering): no DOM, no framework runtimes, nothing from the browser entries
-    files: ['apps/playground/pages/**/+Page.ts', 'apps/playground/pages/**/+onRenderHtml.ts', 'apps/playground/src/shell/**/*.ts'],
+    // every Vike file but the +client entries, the shell, and the build plugins next to vite.config.ts
+    files: ['apps/playground/pages/**/+*.ts', 'apps/playground/src/shell/**/*.ts', 'apps/playground/*.ts'],
+    ignores: ['apps/playground/pages/**/+client.ts'],
     rules: {
       'no-restricted-imports': ['error', {
         patterns: [
-          { group: ['jquery', 'react-dom/client', 'vue', 'svelte', 'svelte/*'], message: 'Server-side code can\'t import client runtimes: mount them from the page\'s +client file.' },
+          // `jquery` also matches `@passcore/jquery`; `@passcore/vanilla/element` defines a custom element on import
+          { group: ['jquery', 'react-dom/client', 'vue', 'svelte', 'svelte/*', '@passcore/vanilla/element'], message: 'Server-side code can\'t import client runtimes: mount them from the page\'s +client file.' },
           { group: ['**/lib/**'], message: 'src/lib holds the browser code: import it from a +client file.' },
         ],
       }],

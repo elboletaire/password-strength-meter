@@ -1,6 +1,6 @@
 import { iconSvg } from '../common/icons.ts'
 import { commandLine, demoSection, type Demo } from './components.ts'
-import { REPO } from './layout.ts'
+import { REPO } from './site.ts'
 import { attrs, rich, tAttrs, text } from './t.ts'
 
 export interface BindingPage {

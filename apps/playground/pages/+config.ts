@@ -22,7 +22,7 @@ declare global {
  * routing, so every link is a full page load, which the DOM-mutating demos (jQuery, vanilla) assume.
  */
 export default {
-  // the legacy `*.html` URLs have their own stubs (pages/legacy), which keep the #hash
+  // the legacy `*.html` URLs have their own stubs (legacy-stubs.ts), which keep the #hash
   prerender: { redirects: false },
   meta: {
     Page: { env: { server: true, client: false } },

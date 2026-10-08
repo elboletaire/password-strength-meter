@@ -1,5 +1,6 @@
-import { logoSvg } from '../common/icons.ts'
-import { LANG_NAMES, LANGS, type Lang } from '../common/langs.ts'
+import { escapeHtml } from '../common/escape.ts'
+import { faviconHref, logoSvg } from '../common/icons.ts'
+import { LANG_NAMES, LANGS, THEME_STORAGE_KEY, type Lang } from '../common/langs.ts'
 import { url } from './routes.ts'
 import { attrs, tr, withLang } from './t.ts'
 
@@ -13,13 +14,14 @@ const strings = (code: Lang) => withLang(code, () => ({ title: tr('notFound.titl
 export function notFoundPage(): string {
   const texts = Object.fromEntries(LANGS.map((code) => [code, strings(code)]))
   const english = strings('en')
+  const title = escapeHtml(english.title)
   const base = import.meta.env.BASE_URL
   const swap = `(function () {
   var texts = ${JSON.stringify(texts).replace(/</g, '\\u003c')}
   var path = location.pathname
   var base = ${JSON.stringify(base)}
   var first = path.indexOf(base) === 0 ? path.slice(base.length).split('/')[0] : ''
-  var lang = texts[first] && first !== 'en' ? first : 'en'
+  var lang = Object.prototype.hasOwnProperty.call(texts, first) ? first : 'en'
   if (lang === 'en') return
   var root = document.documentElement
   var set = function (selector, value) { document.querySelector(selector).textContent = value }
@@ -41,7 +43,8 @@ export function notFoundPage(): string {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="robots" content="noindex">
-    <title>${english.title}</title>
+    <title>${title}</title>
+    <link rel="icon" href="${faviconHref()}">
     <style>
       .not-found { display: grid; justify-items: center; gap: 1rem; min-height: 100vh; align-content: center; padding: 2rem; text-align: center }
       .not-found p { margin: 0; color: var(--ink-2) }
@@ -49,16 +52,16 @@ export function notFoundPage(): string {
     </style>
     <script>(function () {
   var theme = null
-  try { theme = localStorage.getItem('passcore-playground-theme') } catch (e) {}
+  try { theme = localStorage.getItem('${THEME_STORAGE_KEY}') } catch (e) {}
   if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme
 })()</script>
   </head>
   <body>
     <main class="not-found">
       ${logoSvg(56)}
-      <h1>${english.title}</h1>
-      <p class="not-found__message">${english.message}</p>
-      <a class="btn btn--primary not-found__back" href="${url('index', 'en')}">${english.back}</a>
+      <h1>${title}</h1>
+      <p class="not-found__message">${escapeHtml(english.message)}</p>
+      <a class="btn btn--primary not-found__back" href="${url('index', 'en')}">${escapeHtml(english.back)}</a>
       <p class="not-found__langs">${links}</p>
     </main>
     <script>${swap}</script>

@@ -23,7 +23,6 @@
     rules: REQUIREMENT_RULES,
   }))
   const typed = $derived(password !== '')
-  // the labels and the summary are site texts: they follow the language too
   const items = $derived(strength.result.rules.map((rule) => {
     const state = requirementState(typed, rule.passed)
     return { id: rule.id, state, label: requirementLabel(rule), stateText: requirementStateText(state) }

@@ -1,4 +1,5 @@
 import type { Plugin } from 'vite'
+import { LANG_STORAGE_KEY } from './src/common/langs.ts'
 import { PAGE_IDS } from './src/shell/routes.ts'
 import { absolute } from './src/shell/site.ts'
 
@@ -6,7 +7,9 @@ import { absolute } from './src/shell/site.ts'
  * A stub for each URL of the former site (`/jquery.html`, ...): it sends the visitor to the page's new URL
  * (`/jquery/`). Vike pre-renders every document as `<url>/index.html`, so these are emitted with the client
  * build instead. The script runs first, so the `#hash` (`jquery.html#demo-checklist`) survives, which a meta
- * refresh would drop; the refresh is for clients without JavaScript. `/index.html` is the home page itself.
+ * refresh would drop; the refresh is for clients without JavaScript. The script also goes straight to the
+ * stored language (`/es/jquery/`): the English page doesn't redirect visitors who come from the site, and the
+ * stub is the referrer. `/index.html` is the home page itself.
  */
 export function legacyStubs(): Plugin {
   let base = '/'
@@ -35,7 +38,12 @@ export function legacyStubs(): Plugin {
     <meta name="robots" content="noindex">
     <link rel="canonical" href="${canonical}">
     <meta http-equiv="refresh" content="0; url=${target}">
-    <script>location.replace(${JSON.stringify(target)} + location.hash)</script>
+    <script>(function () {
+      var lang = null
+      try { lang = localStorage.getItem('${LANG_STORAGE_KEY}') } catch (e) {}
+      var prefix = lang === 'es' || lang === 'ca' ? lang + '/' : ''
+      location.replace(${JSON.stringify(base)} + prefix + ${JSON.stringify(`${id}/`)} + location.search + location.hash)
+    })()</script>
   </head>
   <body>
     <a href="${target}">${target}</a>

@@ -17,10 +17,11 @@ const fail = (where: string, message: string): void => {
   errors.push(`${where}: ${message}`)
 }
 
-type Locale = { meta: Record<string, { title: string }> }
+type Locale = { meta: Record<string, { title: string, description: string }> }
 
 const locale = (lang: string): Locale => JSON.parse(readFileSync(join(root, `src/locales/site.${lang}.json`), 'utf8')) as Locale
 const titleOf = (lang: string, page: string): string => locale(lang).meta[page]?.title ?? ''
+const descriptionOf = (lang: string, page: string): string => locale(lang).meta[page]?.description ?? ''
 
 const pagePath = (page: string, lang: string): string => `${lang === 'en' ? '' : `${lang}/`}${page === 'index' ? '' : `${page}/`}`
 const pageUrl = (page: string, lang: string): string => `${ORIGIN}${BASE}${pagePath(page, lang)}`
@@ -109,13 +110,19 @@ for (const lang of LANGS) {
     else if (title !== titleOf(lang, page)) {
       fail(file, `title "${title}" is not the ${lang} one ("${titleOf(lang, page)}")`)
     }
-    if (lang !== 'en' && title === titleOf('en', page) && titleOf(lang, page) !== title) {
-      fail(file, 'English title on a translated page')
-    }
-
+    // some titles are the same in every language (`React · Passcore`): the description tells the languages apart
     const [description] = metas(html, 'name', 'description')
     if (!description?.trim()) {
       fail(file, 'empty description')
+    }
+    else if (description !== descriptionOf(lang, page)) {
+      fail(file, `description is not the ${lang} one`)
+    }
+
+    for (const image of [...metas(html, 'property', 'og:image'), ...metas(html, 'name', 'twitter:image')]) {
+      if (!image.startsWith(`${ORIGIN}${BASE}`) || !resolves(image.slice(ORIGIN.length))) {
+        fail(file, `${image} is not a file of the site`)
+      }
     }
 
     const canonical = links(html, 'canonical')
@@ -190,6 +197,24 @@ if (existsSync(join(dist, 'sitemap.xml'))) {
   }
   if (new Set(locs).size !== locs.length) {
     fail('sitemap.xml', 'duplicated <loc>')
+  }
+  // every <url> lists the alternates of its page, like the hreflang links of the page itself
+  for (const block of sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)) {
+    const loc = decode(block[1]?.match(/<loc>([^<]*)<\/loc>/)?.[1] ?? '')
+    const page = PAGES.find((id) => LANGS.some((lang) => pageUrl(id, lang) === loc))
+    if (!page) {
+      continue
+    }
+    const alternates = tags(block[1] ?? '', 'xhtml:link')
+    for (const hreflang of [...LANGS, 'x-default']) {
+      const expected = pageUrl(page, hreflang === 'x-default' ? 'en' : hreflang)
+      if (alternates.filter((link) => link.hreflang === hreflang && link.href === expected).length !== 1) {
+        fail('sitemap.xml', `${loc}: hreflang ${hreflang} is not ${expected}`)
+      }
+    }
+    if (alternates.length !== LANGS.length + 1) {
+      fail('sitemap.xml', `${loc}: ${alternates.length} alternates, expected ${LANGS.length + 1}`)
+    }
   }
 }
 

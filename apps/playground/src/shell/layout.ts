@@ -5,8 +5,6 @@ import { seo } from './seo.ts'
 import { REPO } from './site.ts'
 import { attrs, lang, tAttrs, text, tr } from './t.ts'
 
-export type { PageId } from './routes.ts'
-
 const NAV: Array<{ id: PageId, nav: string }> = [
   { id: 'index', nav: 'nav.home' },
   { id: 'inspector', nav: 'nav.inspector' },
@@ -16,8 +14,6 @@ const NAV: Array<{ id: PageId, nav: string }> = [
   { id: 'vue', nav: 'nav.vue' },
   { id: 'svelte', nav: 'nav.svelte' },
 ]
-
-export { REPO }
 
 /** Runs before the first paint: the theme, so the page doesn't flash. The language is the page's own (`<html lang>`). */
 const BOOT = `(function () {

@@ -5,33 +5,33 @@ import en from '@passcore/vue/locales/en.json'
 import es from '@passcore/vue/locales/es.json'
 import { computed, ref } from 'vue'
 import { REQUIREMENT_RULES, requirementLabel, requirementState, requirementStateText, requirementsSummary } from '../lib/checklist'
+import { meterTexts, t } from '../lib/i18n'
+import { currentLang } from '../lib/lang'
 import Icon from './Icon.vue'
 import PasswordField from './PasswordField.vue'
-import { useMeterTexts, useT } from './use-lang'
 
 const STATE_ICONS = { idle: 'dash', met: 'check', unmet: 'cross' } as const
 
 const bundled = { en, es, ca }
 const username = ref('')
 const password = ref('')
-const texts = useMeterTexts()
-const { lang, t } = useT()
+const texts = meterTexts()
+const lang = currentLang()
 
 // the composable drives your own UI: a checklist of `result.rules`, next to the meter of the component
 const { result } = usePasswordStrength(password, () => ({
-  translations: bundled[lang.value],
-  locale: lang.value,
+  translations: bundled[lang],
+  locale: lang,
   userInputs: [username.value],
   rules: REQUIREMENT_RULES,
 }))
 const typed = computed(() => password.value !== '')
-// the labels and the summary are site texts: they follow the language too
 const items = computed(() => result.value.rules.map((rule) => {
   const state = requirementState(typed.value, rule.passed)
-  return { id: rule.id, state, label: lang.value ? requirementLabel(rule) : '', stateText: requirementStateText(state) }
+  return { id: rule.id, state, label: requirementLabel(rule), stateText: requirementStateText(state) }
 }))
 // a live region: Vue only touches the text when it changes, so it is heard once per change
-const summary = computed(() => (lang.value ? requirementsSummary(result.value.rules, typed.value) : ''))
+const summary = computed(() => requirementsSummary(result.value.rules, typed.value))
 </script>
 
 <template>

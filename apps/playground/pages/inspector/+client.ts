@@ -2,7 +2,6 @@ import '../../src/lib/site'
 import '@passcore/vanilla/styles.css'
 import { commonPasswords, createMeter, translationParams, type MeterOptions, type Result } from '@passcore/core'
 import { formatNumber, meterLabel, t, translate } from '../../src/lib/i18n'
-import { onLanguageChange } from '../../src/lib/lang'
 
 const byId = <T extends HTMLElement>(id: string): T => {
   const element = document.getElementById(id)
@@ -170,8 +169,5 @@ resetButton.addEventListener('click', () => {
   meter = createMeterFromForm()
   render()
 })
-
-// the i18n module changes the language on the same event, before this listener runs
-onLanguageChange(render)
 
 render()

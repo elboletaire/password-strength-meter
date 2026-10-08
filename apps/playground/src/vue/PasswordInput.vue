@@ -2,16 +2,14 @@
 import { computed, nextTick, ref } from 'vue'
 import { keepFocus, revealLabel } from '../lib/reveal'
 import Icon from './Icon.vue'
-import { useLang } from './use-lang'
 
 /** A password input with the playground's show/hide button inside it (see src/lib/reveal.ts). */
 defineProps<{ id: string, describedBy?: string }>()
 const model = defineModel<string>({ required: true })
 
-const lang = useLang()
 const shown = ref(false)
 const input = ref<HTMLInputElement | null>(null)
-const label = computed(() => (lang.value ? revealLabel(shown.value) : ''))
+const label = computed(() => revealLabel(shown.value))
 
 async function toggle(): Promise<void> {
   const element = input.value

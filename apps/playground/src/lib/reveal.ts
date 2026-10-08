@@ -1,5 +1,4 @@
 import { t } from './i18n'
-import { onLanguageChange } from './lang'
 
 /**
  * The show/hide button inside every password field. The markup is `src/shell/components.ts`
@@ -52,14 +51,4 @@ export function initReveal(): void {
     setRevealed(input, shown)
     update(button, shown)
   })
-
-  const refresh = (): void => {
-    document.querySelectorAll<HTMLButtonElement>('[data-reveal]').forEach((button) => {
-      update(button, button.getAttribute('aria-pressed') === 'true')
-    })
-  }
-
-  onLanguageChange(refresh)
-  // the build writes the English names: name them in the stored language at load too, not only on a switch
-  refresh()
 }

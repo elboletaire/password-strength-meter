@@ -1,20 +1,7 @@
-import { useEffect, useLayoutEffect, useRef, useState, type ChangeEvent, type ReactNode } from 'react'
+import { useLayoutEffect, useRef, useState, type ChangeEvent, type ReactNode } from 'react'
 import { ICONS, type IconName } from '../common/icons'
-import { locales, meterLabel, t } from '../lib/i18n'
-import { currentLang, onLanguageChange, type Lang } from '../lib/lang'
+import { t } from '../lib/i18n'
 import { keepFocus, revealLabel } from '../lib/reveal'
-
-/** The language of the header, as state: a change renders the demo again. */
-export function useLang(): Lang {
-  const [lang, setLang] = useState(currentLang)
-  useEffect(() => onLanguageChange(setLang), [])
-  return lang
-}
-
-/** The texts and the accessible name of the meter in the current language, for every demo. */
-export function meterTexts(lang: Lang) {
-  return { translations: locales[lang], locale: lang, label: meterLabel() }
-}
 
 export function Icon({ name, size = 20, className = 'icon' }: { name: IconName, size?: number, className?: string }) {
   return (
@@ -33,7 +20,6 @@ interface PasswordInputProps {
 
 /** A password input with the playground's show/hide button inside it (see src/lib/reveal.ts). */
 export function PasswordInput({ id, value, onChange, describedBy }: PasswordInputProps) {
-  useLang()
   const [shown, setShown] = useState(false)
   const input = useRef<HTMLInputElement>(null)
   const selection = useRef<[number, number] | null>(null)
@@ -87,7 +73,6 @@ export function PasswordInput({ id, value, onChange, describedBy }: PasswordInpu
 
 /** A label and a password input; the meter goes in `children`. */
 export function PasswordField({ id, value, onChange, describedBy, children }: PasswordInputProps & { children?: ReactNode }) {
-  useLang()
   return (
     <div className="field">
       <label className="field__label" htmlFor={id}>{t('field.password')}</label>

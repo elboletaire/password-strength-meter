@@ -5,7 +5,8 @@
   import es from '@passcore/svelte/locales/es.json'
   import { REQUIREMENT_RULES, requirementLabel, requirementState, requirementStateText, requirementsSummary } from '../lib/checklist'
   import Icon from './Icon.svelte'
-  import { lang } from './lang.svelte'
+  import { meterTexts, t } from '../lib/i18n'
+  import { currentLang } from '../lib/lang'
   import PasswordField from './PasswordField.svelte'
 
   const STATE_ICONS = { idle: 'dash', met: 'check', unmet: 'cross' } as const
@@ -16,8 +17,8 @@
 
   // the helper drives your own UI: a checklist of `result.rules`, next to the meter of the component
   const strength = passwordStrength(() => password, () => ({
-    translations: bundled[lang.current],
-    locale: lang.current,
+    translations: bundled[currentLang()],
+    locale: currentLang(),
     userInputs: [username],
     rules: REQUIREMENT_RULES,
   }))
@@ -25,14 +26,14 @@
   // the labels and the summary are site texts: they follow the language too
   const items = $derived(strength.result.rules.map((rule) => {
     const state = requirementState(typed, rule.passed)
-    return { id: rule.id, state, label: lang.current ? requirementLabel(rule) : '', stateText: requirementStateText(state) }
+    return { id: rule.id, state, label: requirementLabel(rule), stateText: requirementStateText(state) }
   }))
   // a live region: Svelte only touches the text when it changes, so it is heard once per change
-  const summary = $derived(lang.current ? requirementsSummary(strength.result.rules, typed) : '')
+  const summary = $derived(requirementsSummary(strength.result.rules, typed))
 </script>
 
 <div class="field">
-  <label class="field__label" for="svelte-signup-username">{lang.t('field.username')}</label>
+  <label class="field__label" for="svelte-signup-username">{t('field.username')}</label>
   <input
     id="svelte-signup-username"
     class="input"
@@ -40,15 +41,15 @@
     autocomplete="username"
     autocapitalize="off"
     spellcheck="false"
-    placeholder={lang.t('field.usernamePlaceholder')}
+    placeholder={t('field.usernamePlaceholder')}
     bind:value={username}
   />
 </div>
 <PasswordField id="svelte-signup" bind:value={password} describedBy="svelte-signup-strength svelte-checklist-summary">
-  <PasswordStrengthMeter id="svelte-signup-strength" {password} userInputs={[username]} rules={REQUIREMENT_RULES} {...lang.meterTexts} />
+  <PasswordStrengthMeter id="svelte-signup-strength" {password} userInputs={[username]} rules={REQUIREMENT_RULES} {...meterTexts()} />
 </PasswordField>
 <div class="reqs">
-  <p id="svelte-checklist-title" class="reqs__title">{lang.t('requirements.title')}</p>
+  <p id="svelte-checklist-title" class="reqs__title">{t('requirements.title')}</p>
   <ul class="reqs__list" aria-labelledby="svelte-checklist-title">
     {#each items as item (item.id)}
       <li class="req" data-rule={item.id} data-state={item.state}>

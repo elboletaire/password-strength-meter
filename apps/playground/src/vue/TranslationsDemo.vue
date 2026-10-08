@@ -4,12 +4,13 @@ import ca from '@passcore/vue/locales/ca.json'
 import en from '@passcore/vue/locales/en.json'
 import es from '@passcore/vue/locales/es.json'
 import { ref } from 'vue'
+import { t } from '../lib/i18n'
+import { currentLang } from '../lib/lang'
 import PasswordField from './PasswordField.vue'
-import { useT } from './use-lang'
 
 const bundled = { en, es, ca }
 const password = ref('')
-const { lang, t } = useT()
+const lang = currentLang()
 </script>
 
 <template>

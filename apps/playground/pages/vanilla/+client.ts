@@ -9,25 +9,17 @@ import es from '@passcore/vanilla/locales/es.json'
 import type { Result } from '@passcore/core'
 import { REQUIREMENT_RULES, requirementState, requirementsSummary, setLiveText } from '../../src/lib/checklist'
 import { meterLabel, t, translate } from '../../src/lib/i18n'
-import { currentLang, onLanguageChange } from '../../src/lib/lang'
+import { currentLang } from '../../src/lib/lang'
 import { initStudio } from '../../src/lib/studio'
 
 const bundled = { en, es, ca }
 
-/** The texts and the accessible name in the current language, for every demo. */
+/** The texts and the accessible name in the page's language, for every demo. */
 const texts = (): PasswordMeterOptions => ({ translations: bundled[currentLang()], locale: currentLang(), label: meterLabel() })
 
-/**
- * The options are read once, so the demos are created through this helper, which creates them again
- * when the language changes. The i18next demo doesn't need it: it refreshes instead (see below).
- */
-function mount(input: string | HTMLInputElement, options: () => PasswordMeterOptions): () => PasswordMeter {
-  let meter: PasswordMeter = createPasswordMeter(input, options())
-  onLanguageChange(() => {
-    meter.destroy()
-    meter = createPasswordMeter(input, options())
-  })
-  return () => meter
+/** The options are read when the meter is created: the page's language never changes, so that is once. */
+function mount(input: string | HTMLInputElement, options: PasswordMeterOptions): PasswordMeter {
+  return createPasswordMeter(input, options)
 }
 
 function byId<T extends HTMLElement>(id: string): T {
@@ -39,7 +31,7 @@ function byId<T extends HTMLElement>(id: string): T {
 }
 
 // default: hidden until the field gets focus
-mount('#default-password', () => ({ ...texts(), hideUntilFocus: true }))
+mount('#default-password', { ...texts(), hideUntilFocus: true })
 
 // requirements checklist: every rule of `result.rules`, neutral until something is typed
 const signupInput = byId<HTMLInputElement>('signup-password')
@@ -57,49 +49,43 @@ function check(result: Result): void {
   setLiveText(summary, requirementsSummary(result.rules, typed))
 }
 
-const signupMeter = mount(signupInput, () => ({
+const signupMeter = mount(signupInput, {
   ...texts(),
   userInputs: ['#signup-username'],
   rules: REQUIREMENT_RULES,
   onScore: (_percent, result) => check(result),
-}))
+})
 
 // the username is read on each update: refresh when it changes
-byId('signup-username').addEventListener('input', () => signupMeter().refresh())
+byId('signup-username').addEventListener('input', () => signupMeter.refresh())
 
-// callbacks fire on updates, not on creation: render the first result, and the one of every new meter
-check(signupMeter().result)
-onLanguageChange(() => check(signupMeter().result))
+// callbacks fire on updates, not on creation: render the first result
+check(signupMeter.result)
 
-mount('#always-password', () => ({ ...texts(), showPercent: true }))
+mount('#always-password', { ...texts(), showPercent: true })
 
-mount('#linked-password', () => ({ ...texts(), userInputs: ['#username'], showPercent: true }))
+mount('#linked-password', { ...texts(), userInputs: ['#username'], showPercent: true })
 
-mount('#translations-password', () => ({
+mount('#translations-password', {
   translations: bundled[currentLang()],
   locale: currentLang(),
   label: meterLabel(),
   showPercent: true,
-}))
-
-// i18next: the texts are translated on every update, so a refresh is enough. The accessible name is
-// an option, read once: the playground renames the meter itself, so this demo shows refresh() alone.
-const i18nMeter = createPasswordMeter('#i18next-password', { translate, label: meterLabel(), showPercent: true })
-onLanguageChange(() => {
-  i18nMeter.refresh()
-  document.querySelector('#i18next-password ~ .pass-wrapper .pass-meter')?.setAttribute('aria-label', meterLabel())
 })
+
+// i18next: the texts are translated on every update, with the playground's instance
+mount('#i18next-password', { translate, label: meterLabel(), showPercent: true })
 
 // events: the callback and the DOM event both see every update
 const sendButton = byId<HTMLButtonElement>('send')
 const eventsInput = byId<HTMLInputElement>('events-password')
 
-mount(eventsInput, () => ({
+mount(eventsInput, {
   ...texts(),
   onScore: (percent) => {
     sendButton.disabled = percent <= 75
   },
-}))
+})
 
 eventsInput.addEventListener('passcore:score', (event) => {
   byId('events-score').textContent = `${(event as CustomEvent<{ percent: number }>).detail.percent}%`
@@ -110,14 +96,9 @@ byId('events-form').addEventListener('submit', (event) => {
   event.preventDefault()
   sendStatus.textContent = t('events.sent')
 })
-onLanguageChange(() => {
-  if (sendStatus.textContent) {
-    sendStatus.textContent = t('events.sent')
-  }
-})
 
 // a custom container: below the whole input group
-mount('#group-password', () => ({ ...texts(), container: '#group-field' }))
+mount('#group-password', { ...texts(), container: '#group-field' })
 
 // the custom element: attributes in the markup; the language as attributes and the texts as options
 const elementMeter = document.querySelector<PasscoreMeterElement>('passcore-meter[for="element-password"]')
@@ -126,26 +107,17 @@ if (!elementMeter || !optionsMeter) {
   throw new Error('Missing the passcore-meter elements of the page')
 }
 
-function localizeElements(): void {
-  elementMeter?.setAttribute('locale', currentLang())
-  elementMeter?.setAttribute('label', meterLabel())
-  if (elementMeter) {
-    elementMeter.options = { translations: bundled[currentLang()] }
-  }
-  // options from script: merged over the attributes, so show-percent still applies
-  if (optionsMeter) {
-    optionsMeter.options = {
-      translations: bundled[currentLang()],
-      locale: currentLang(),
-      label: meterLabel(),
-      rules: { numbers: 1, symbols: 1 },
-    }
-  }
+elementMeter.setAttribute('locale', currentLang())
+elementMeter.setAttribute('label', meterLabel())
+elementMeter.options = { translations: bundled[currentLang()] }
+// options from script: merged over the attributes, so show-percent still applies
+optionsMeter.options = {
+  translations: bundled[currentLang()],
+  locale: currentLang(),
+  label: meterLabel(),
+  rules: { numbers: 1, symbols: 1 },
 }
-
-localizeElements()
-onLanguageChange(localizeElements)
 
 // theming: the sample meters and the typed password use the same custom properties
 initStudio()
-mount('#theme-password', () => ({ ...texts(), showPercent: true }))
+mount('#theme-password', { ...texts(), showPercent: true })

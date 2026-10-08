@@ -6,8 +6,8 @@ import en from '../locales/site.en.json' with { type: 'json' }
 import es from '../locales/site.es.json' with { type: 'json' }
 
 /**
- * Build-time texts: every page is written in its own language from the same resource files the browser
- * uses. A text still carries its key (`data-i18n`) until the browser no longer translates the shell.
+ * Build-time texts: every page is written in its own language, and that is the final text: the browser
+ * doesn't translate the shell, it only reads `<html lang>` for the demos' own texts.
  */
 
 const site: Record<Lang, object> = { en, es, ca }
@@ -71,24 +71,21 @@ export function attrs(values: Attrs = {}): string {
     .join('')
 }
 
-const paramsAttr = (params?: Params): Attrs => (params ? { 'data-i18n-params': JSON.stringify(params) } : {})
-
 /** An element whose text is the translation of `key`. */
 export function text(tag: string, key: string, extra: Attrs = {}, params?: Params): string {
-  return `<${tag}${attrs({ ...extra, 'data-i18n': key, ...paramsAttr(params) })}>${escapeHtml(tr(key, params))}</${tag}>`
+  return `<${tag}${attrs(extra)}>${escapeHtml(tr(key, params))}</${tag}>`
 }
 
 /** An element whose content is the translation of `key`, as trusted HTML (our own resource files: `<code>`, `<strong>`). */
 export function rich(tag: string, key: string, extra: Attrs = {}, params?: Params): string {
-  return `<${tag}${attrs({ ...extra, 'data-i18n-html': key, ...paramsAttr(params) })}>${tr(key, params)}</${tag}>`
+  return `<${tag}${attrs(extra)}>${tr(key, params)}</${tag}>`
 }
 
-/** Translated attributes, e.g. `{ placeholder: 'fields.username.placeholder' }`, rendered in English with their keys. */
+/** Translated attributes, e.g. `{ placeholder: 'fields.username.placeholder' }`. */
 export function tAttrs(map: Record<string, string>): Attrs {
   const result: Attrs = {}
   for (const [name, key] of Object.entries(map)) {
     result[name] = tr(key)
   }
-  result['data-i18n-attr'] = Object.entries(map).map(([name, key]) => `${name}:${key}`).join(';')
   return result
 }

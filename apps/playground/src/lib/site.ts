@@ -1,11 +1,11 @@
 import '../style.css'
 import { LANG_STORAGE_KEY, PM_STORAGE_KEY, THEME_STORAGE_KEY } from '../common/langs'
-import { applyTranslations, t } from './i18n'
-import { currentLang, onLanguageChange } from './lang'
+import { t } from './i18n'
+import { currentLang } from './lang'
 import { initReveal } from './reveal'
 
 /**
- * What every page shares: the texts in the chosen language, the language switcher, the theme toggle,
+ * What every page shares: the language switcher, the theme toggle,
  * the show/hide buttons, the copy buttons and the tabs. Each page's entry imports this module first.
  */
 
@@ -47,11 +47,6 @@ langLinks.forEach((link) => {
       // not remembered, but the link still works
     }
   })
-})
-
-onLanguageChange(() => {
-  applyTranslations()
-  updateThemeToggle()
 })
 
 // theme: follows the system until the visitor picks one
@@ -106,11 +101,9 @@ document.addEventListener('click', (event) => {
   void navigator.clipboard.writeText(source?.textContent ?? '').then(() => {
     if (label) {
       label.textContent = t('code.copied')
-      label.removeAttribute('data-i18n')
       button.classList.add('copy--done')
       window.setTimeout(() => {
         label.textContent = t('code.copy')
-        label.setAttribute('data-i18n', 'code.copy')
         button.classList.remove('copy--done')
       }, 1800)
     }

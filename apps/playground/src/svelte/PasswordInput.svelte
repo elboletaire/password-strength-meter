@@ -2,14 +2,13 @@
   import { tick } from 'svelte'
   import { keepFocus, revealLabel } from '../lib/reveal'
   import Icon from './Icon.svelte'
-  import { lang } from './lang.svelte'
 
   /** A password input with the playground's show/hide button inside it (see src/lib/reveal.ts). */
   let { id, value = $bindable(''), describedBy }: { id: string, value?: string, describedBy?: string } = $props()
 
   let shown = $state(false)
   let input: HTMLInputElement | undefined = $state()
-  const label = $derived(lang.current ? revealLabel(shown) : '')
+  const label = $derived(revealLabel(shown))
 
   async function toggle(): Promise<void> {
     const selection = input && input.selectionStart !== null && input.selectionEnd !== null

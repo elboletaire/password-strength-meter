@@ -87,7 +87,7 @@ export function eventsForm(inputId: string): string {
 /** The score, the Send button and the status of the events demo. */
 export function eventsFooter(inputId: string, scoreId = 'events-score', sendId = 'send', statusId = 'send-status'): string {
   return `<div class="events__bar">
-    <p class="events__score"><span data-i18n="events.score">${escapeHtml(tr('events.score'))}</span> <output id="${scoreId}" for="${inputId}">0%</output></p>
+    <p class="events__score"><span>${escapeHtml(tr('events.score'))}</span> <output id="${scoreId}" for="${inputId}">0%</output></p>
     <button type="submit" id="${sendId}" class="btn btn--primary" disabled>${text('span', 'events.send')}${iconSvg('arrowRight', 18)}</button>
   </div>
   ${text('p', 'events.hint', { class: 'hint' })}

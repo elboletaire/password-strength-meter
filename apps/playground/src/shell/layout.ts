@@ -66,7 +66,7 @@ function header(page: PageId): string {
   const current = lang()
   const langs = LANGS.map((code) => `<a${attrs({ 'class': 'lang-switch__button', 'href': url(page, code), 'hreflang': code, 'lang': code, 'data-lang': code, 'aria-label': LANG_NAMES[code], 'aria-current': code === current ? 'true' : undefined })}>${code.toUpperCase()}</a>`).join('')
 
-  return `<a class="skip-link" href="#main" data-i18n="a11y.skip">${tr('a11y.skip')}</a>
+  return `<a class="skip-link" href="#main">${tr('a11y.skip')}</a>
     <header class="site-header">
       <div class="site-header__inner">
         <a class="brand" href="${url('index', lang())}">

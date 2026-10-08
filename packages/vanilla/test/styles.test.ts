@@ -13,4 +13,13 @@ describe('styles.css', () => {
     expect(css).toMatch(/@media \(forced-colors: active\) \{[\s\S]*\.pass-meter \{\s*border: 1px solid CanvasText;/)
     expect(css).toMatch(/\.pass-bar \{\s*background-color: Highlight;\s*forced-color-adjust: none;/)
   })
+
+  it('has the same forced colors block as the other packages', () => {
+    const block = (text: string): string => text.slice(text.indexOf('@media (forced-colors')).trim()
+    expect(block(css)).toMatch(/^@media/)
+    for (const other of ['jquery/src/styles.css', 'react/src/styles.css', 'vue/src/styles.css', 'svelte/src/lib/styles.css']) {
+      const text = readFileSync(join(import.meta.dirname, '../..', other), 'utf8')
+      expect(block(text), other).toBe(block(css))
+    }
+  })
 })

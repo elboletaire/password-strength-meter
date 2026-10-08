@@ -73,7 +73,10 @@ declare global {
      * `password.text` (text, result) when the message changes.
      */
     password(options?: PasswordOptions): this
-    /** Re-evaluates the meters now, e.g. after another field changed or the language did. */
+    /**
+     * `'refresh'` re-evaluates the meters now (after another field or the language changed);
+     * `'destroy'` removes them. Does nothing on an element without a meter.
+     */
     password(command: 'refresh' | 'destroy'): this
   }
 }
@@ -240,8 +243,11 @@ function attach($: JQueryStatic, element: HTMLElement, plugin: PluginOptions, tr
     // every listener of this meter is in the `passcore` namespace
     $object.off('.passcore')
     $wrapper.stop(true, true)
-    $container.removeClass('pass-strength-visible')
     $wrapper.remove()
+    // a container shared with another meter (password and confirmation) keeps its class
+    if (!$container.find('.pass-wrapper').length) {
+      $container.removeClass('pass-strength-visible')
+    }
     if (textId) {
       const ids = ($object.attr('aria-describedby') ?? '').split(' ').filter((id) => id && id !== textId)
       if (ids.length) {

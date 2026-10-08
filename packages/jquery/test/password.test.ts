@@ -506,6 +506,27 @@ describe('$.fn.password', () => {
       expect($('#username').parent().find('.pass-text').text()).toBe('Type your password')
     })
 
+    it('clears the instance, so a refresh afterwards does nothing', () => {
+      $('#password').password({ animate: false })
+      $('#password').password('destroy')
+      expect($.data($('#password').get(0) as HTMLElement, 'passcore')).toBeUndefined()
+      const scores: number[] = []
+      $('#password').on('password.score', (e, percent: number) => scores.push(percent))
+      $('#password').password('refresh')
+      expect(scores).toEqual([])
+    })
+
+    it('keeps the container class while another meter is in the same container', () => {
+      $('#password').parent().append('<input id="confirm" type="password">')
+      $('#password').password({ animate: false })
+      $('#confirm').password({ animate: false })
+      expect($('.pass-strength-visible').length).toBe(1)
+      $('#password').password('destroy')
+      expect($('.pass-strength-visible').length).toBe(1)
+      $('#confirm').password('destroy')
+      expect($('.pass-strength-visible').length).toBe(0)
+    })
+
     it('returns the jQuery object and allows a new meter afterwards', () => {
       const $input = $('#password').password({ animate: false })
       expect($input.password('destroy')).toBe($input)

@@ -90,7 +90,7 @@ describe('<passcore-meter>', () => {
   })
 
   it('reads user-inputs as one selector list, with every match', () => {
-    page('<passcore-meter for="password" user-inputs="#username, #email"></passcore-meter>'
+    page('<passcore-meter for="password" user-inputs="input:is(#username, #email)"></passcore-meter>'
       + '<input type="text" id="email" value="jane@example.com">')
     ;(document.querySelector('#username') as HTMLInputElement).value = 'johndoe'
     type('johndoe99')

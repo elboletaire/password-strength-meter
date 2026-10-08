@@ -11,7 +11,7 @@ import {
 import en from '../../../locales/en.json'
 
 /**
- * A user input: a selector (every match contributes its value), an element, or a function returning the value.
+ * A user input: a selector (every match contributes its value) or an element. `userInputs` also takes functions.
  * Selectors are read on every evaluation.
  */
 export type FieldRef = string | Element

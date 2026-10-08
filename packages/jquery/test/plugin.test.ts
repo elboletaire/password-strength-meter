@@ -28,6 +28,7 @@ describe('exports', () => {
       locale: 'en',
       showPercent: false,
       showText: true,
+      label: 'Password strength',
       animate: true,
       animateSpeed: 'fast',
       closestSelector: 'div',

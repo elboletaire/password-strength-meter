@@ -27,6 +27,8 @@ export interface PluginOptions {
   showPercent: boolean
   /** Show the message. */
   showText: boolean
+  /** Accessible name of the meter (its `aria-label`). */
+  label: string
   /** Hide the meter until the input is focused, and slide it in and out. */
   animate: boolean
   /** Speed of the slide animation. */
@@ -44,6 +46,7 @@ export const defaults: PluginOptions = {
   locale: 'en',
   showPercent: false,
   showText: true,
+  label: 'Password strength',
   animate: true,
   animateSpeed: 'fast',
   closestSelector: 'div',
@@ -75,7 +78,7 @@ function attach($: JQueryStatic, $object: JQuery, plugin: PluginOptions, transla
   const $bar = $('<div>').addClass('pass-bar')
   const $meter = $('<div>').addClass('pass-meter').attr({
     'role': 'meter',
-    'aria-label': 'Password strength',
+    'aria-label': plugin.label,
     'aria-valuemin': 0,
     'aria-valuemax': 100,
   }).append($bar)
@@ -147,8 +150,11 @@ function attach($: JQueryStatic, $object: JQuery, plugin: PluginOptions, transla
     const result = evaluate()
     const text = render(result)
     $object.trigger('password.score', [result.percent, result])
+    // the text is written whenever it differs (also after a language change), the event only for a new message
+    if ($text && $text.text() !== text) {
+      $text.text(text)
+    }
     if (result.messageChanged) {
-      $text?.text(text)
       $object.trigger('password.text', [text, result])
     }
   }
@@ -183,8 +189,8 @@ function attach($: JQueryStatic, $object: JQuery, plugin: PluginOptions, transla
  */
 export function install($: JQueryStatic): void {
   $.fn.password = function (this: JQuery, options: PasswordOptions = {}) {
-    const { userInputs, translations, locale, translate, showPercent, showText, animate, animateSpeed, closestSelector, ...core } = options
-    const plugin = mergeDeep(defaults, { userInputs, translations, locale, translate, showPercent, showText, animate, animateSpeed, closestSelector })
+    const { userInputs, translations, locale, translate, showPercent, showText, label, animate, animateSpeed, closestSelector, ...core } = options
+    const plugin = mergeDeep(defaults, { userInputs, translations, locale, translate, showPercent, showText, label, animate, animateSpeed, closestSelector })
     const translator = plugin.translate ?? createTranslator(mergeDeep<Translations>(en, plugin.translations), plugin.locale)
 
     return this.each(function () {

@@ -160,6 +160,38 @@ describe('$.fn.password', () => {
     })
   })
 
+  describe('label', () => {
+    it('names the meter for screen readers, in English by default', () => {
+      $('#password').password()
+      expect($('.pass-meter').attr('aria-label')).toBe('Password strength')
+    })
+
+    it('takes the name from the label option', () => {
+      $('#password').password({ label: 'Fuerza de la contraseña' })
+      expect($('.pass-meter').attr('aria-label')).toBe('Fuerza de la contraseña')
+    })
+  })
+
+  describe('changing the language', () => {
+    it('rewrites the text on the next update, even with a stable translate function', () => {
+      let language = 'en'
+      const stable = (key: string) => `${language}:${key}`
+      const texts: string[] = []
+      $('#password').password({ translate: stable }).on('password.text', (e, text: string) => texts.push(text))
+
+      type('abc')
+      expect($('.pass-text').text()).toBe('en:rule.minLength')
+      expect($('.pass-meter').attr('aria-valuetext')).toBe('en:level.very-weak')
+
+      language = 'es'
+      $('#password').trigger('input')
+      expect($('.pass-text').text()).toBe('es:rule.minLength')
+      expect($('.pass-meter').attr('aria-valuetext')).toBe('es:level.very-weak')
+      // the message itself did not change, so there is no password.text event for it
+      expect(texts).toEqual(['en:rule.minLength'])
+    })
+  })
+
   describe('translations', () => {
     it('overrides texts partially, with {{count}} placeholders', () => {
       $('#password').password({ translations: { rule: { minLength_other: 'Min {{count}}!' } } })

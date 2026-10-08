@@ -10,7 +10,7 @@ Accessible password strength meters for every framework, built on one small core
 |---|---|
 | [`@passcore/core`](packages/core) | Strength estimation and password rules. No dependencies, no DOM, no texts: use it to build your own UI or to validate on the server |
 | [`@passcore/jquery`](packages/jquery) | `$.fn.password`: a jQuery plugin with an accessible meter |
-| [`@passcore/vanilla`](packages/vanilla) | `createPasswordMeter()` for any page, and a `<password-meter>` custom element |
+| [`@passcore/vanilla`](packages/vanilla) | `createPasswordMeter()` for any page, and a `<passcore-meter>` custom element |
 | [`@passcore/react`](packages/react) | A hook and a component for React |
 | [`@passcore/vue`](packages/vue) | A composable and a component for Vue 3 |
 | [`@passcore/svelte`](packages/svelte) | A component and a rune-based helper for Svelte 5 |
@@ -54,7 +54,7 @@ const meter = createMeter({ rules: { minLength: 10 } })
 const { percent, level, valid, message } = meter.evaluate('correct horse battery staple', ['johndoe'])
 ```
 
-Each package's README has its options, events, translations and styling. The [playground](apps/playground) (`pnpm dev`) shows every package running, with the code for each case.
+Each package's README has its options, events, translations and styling; the [core's Stability section](packages/core#stability) lists what changes only in a major release. The [playground](apps/playground) (`pnpm dev`) shows every package running, with the code for each case.
 
 ## Looking for the old plugin?
 

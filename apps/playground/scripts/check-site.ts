@@ -65,7 +65,6 @@ function resolves(path: string): boolean {
 const files = [
   '404.html',
   'sitemap.xml',
-  ...PAGES.filter((page) => page !== 'index').map((page) => `${page}.html`),
   ...LANGS.flatMap((lang) => PAGES.map((page) => `${pagePath(page, lang)}index.html`)),
 ]
 for (const file of files) {
@@ -164,17 +163,15 @@ for (const lang of LANGS) {
   }
 }
 
-for (const file of ['404.html', ...PAGES.filter((page) => page !== 'index').map((page) => `${page}.html`)]) {
-  if (existsSync(join(dist, file))) {
-    checkHrefs(file, read(file))
-    if (!/<meta name="robots" content="noindex">/.test(read(file))) {
-      fail(file, 'not noindex')
-    }
+if (existsSync(join(dist, '404.html'))) {
+  const notFound = read('404.html')
+  checkHrefs('404.html', notFound)
+  if (!/<meta name="robots" content="noindex">/.test(notFound)) {
+    fail('404.html', 'not noindex')
   }
-}
-for (const page of PAGES.filter((id) => id !== 'index')) {
-  if (existsSync(join(dist, `${page}.html`)) && !read(`${page}.html`).includes(`href="${pageUrl(page, 'en')}"`)) {
-    fail(`${page}.html`, 'does not point to the new URL')
+  // the old `<page>.html` URLs are redirected by this page
+  if (!notFound.includes('.html')) {
+    fail('404.html', 'does not redirect the former *.html URLs')
   }
 }
 

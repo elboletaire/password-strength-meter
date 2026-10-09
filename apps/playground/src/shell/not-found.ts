@@ -1,7 +1,7 @@
 import { escapeHtml } from '../common/escape.ts'
 import { faviconHref, logoSvg } from '../common/icons.ts'
 import { LANG_NAMES, LANGS, THEME_STORAGE_KEY, type Lang } from '../common/langs.ts'
-import { url } from './routes.ts'
+import { PAGE_IDS, url } from './routes.ts'
 import { attrs, tr, withLang } from './t.ts'
 
 const strings = (code: Lang) => withLang(code, () => ({ title: tr('notFound.title'), message: tr('notFound.message'), back: tr('notFound.back') }))
@@ -9,7 +9,8 @@ const strings = (code: Lang) => withLang(code, () => ({ title: tr('notFound.titl
 /**
  * The 404 page. It is served at any depth (`/es/nope/deeper`), so every URL in it is absolute. The text is in
  * English, and a small script swaps it for the language in the URL (`/es/`, `/ca/`) from the strings embedded
- * below: no crawler indexes this page (`noindex`, no canonical, no hreflang).
+ * below: no crawler indexes this page (`noindex`, no canonical, no hreflang). It also redirects the former `*.html`
+ * URLs (`/react.html#demo`) to the page (`/react/#demo`), keeping the hash.
  */
 export function notFoundPage(): string {
   const texts = Object.fromEntries(LANGS.map((code) => [code, strings(code)]))
@@ -20,6 +21,12 @@ export function notFoundPage(): string {
   var texts = ${JSON.stringify(texts).replace(/</g, '\\u003c')}
   var path = location.pathname
   var base = ${JSON.stringify(base)}
+  var old = ${JSON.stringify(PAGE_IDS.filter((id) => id !== 'index'))}
+  var page = path.indexOf(base) === 0 ? path.slice(base.length) : ''
+  if (page.slice(-5) === '.html' && old.indexOf(page.slice(0, -5)) !== -1) {
+    location.replace(base + page.slice(0, -5) + '/' + location.search + location.hash)
+    return
+  }
   var first = path.indexOf(base) === 0 ? path.slice(base.length).split('/')[0] : ''
   var lang = Object.prototype.hasOwnProperty.call(texts, first) ? first : 'en'
   if (lang === 'en') return

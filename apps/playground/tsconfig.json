@@ -26,5 +26,5 @@
       "@passcore/svelte/locales/*": ["../../locales/*"]
     }
   },
-  "include": ["src", "pages", "scripts", "*.config.ts", "legacy-stubs.ts", "sitemap.ts"]
+  "include": ["src", "pages", "scripts", "*.config.ts", "sitemap.ts"]
 }

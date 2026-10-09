@@ -1,5 +1,5 @@
 // Serves dist/client the way GitHub Pages does, so the built site can be tried locally.
-// `vike preview` can't be used: it serves a legacy stub (`react.html`) for `/react/` and the stub redirects back, in a loop.
+// Unlike `vike preview`, it serves unknown URLs with the styled 404.html, as Pages does.
 import { createServer } from 'node:http'
 import { existsSync, readFileSync, statSync } from 'node:fs'
 import { extname, join, normalize, resolve, sep } from 'node:path'

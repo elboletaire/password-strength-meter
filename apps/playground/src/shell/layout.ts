@@ -2,7 +2,7 @@ import { iconSvg, faviconHref, logoSvg } from '../common/icons.ts'
 import { LANG_NAMES, LANG_STORAGE_KEY, LANGS, THEME_STORAGE_KEY } from '../common/langs.ts'
 import { url, type PageId } from './routes.ts'
 import { seo } from './seo.ts'
-import { REPO } from './site.ts'
+import { REPO, SITE_ORIGIN } from './site.ts'
 import { attrs, lang, tAttrs, text, tr } from './t.ts'
 
 const NAV: Array<{ id: PageId, nav: string }> = [
@@ -37,13 +37,16 @@ const redirectScript = (): string => `(function () {
   location.replace(base + lang + '/' + location.pathname.slice(base.length) + location.search + location.hash)
 })()`
 
-const GA_ID = 'G-STPVDBEE54'
+const GA_ID = 'G-VQSPD1PYNY'
 
-/** Google Analytics, in production builds only, so `pnpm dev` doesn't count as a visit. */
+/**
+ * Google Analytics, in production builds only, so `pnpm dev` doesn't count as a visit. It only reports from the site's
+ * own host: the ID is public, and copies of the snippet on other sites would otherwise pollute the stats.
+ */
 const analytics = () => process.env.NODE_ENV === 'production'
   ? `
     <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
-    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${GA_ID}')</script>`
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());if(location.hostname==='${new URL(SITE_ORIGIN).hostname}')gtag('config','${GA_ID}')</script>`
   : ''
 
 export function head(page: PageId): string {

@@ -1,14 +1,23 @@
 # @passcore/vue
 
+[![npm version](https://img.shields.io/npm/v/@passcore/vue)](https://www.npmjs.com/package/@passcore/vue)
+[![npm downloads](https://img.shields.io/npm/dm/@passcore/vue)](https://www.npmjs.com/package/@passcore/vue)
+[![CI](https://img.shields.io/github/actions/workflow/status/elboletaire/password-strength-meter/ci.yml?branch=master)](https://github.com/elboletaire/password-strength-meter/actions/workflows/ci.yml)
+[![minzipped size](https://img.shields.io/bundlephobia/minzip/@passcore/vue)](https://bundlephobia.com/package/@passcore/vue)
+[![license](https://img.shields.io/npm/l/@passcore/vue)](https://github.com/elboletaire/password-strength-meter/blob/master/LICENSE)
+[![types](https://img.shields.io/npm/types/@passcore/vue)](https://www.npmjs.com/package/@passcore/vue)
+
 An accessible password strength meter for Vue 3, built on [`@passcore/core`](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core): a composable (`usePasswordStrength`) and a component (`PasswordStrengthMeter`).
 
-[Try it in the playground](https://elboletaire.github.io/password-strength-meter/vue.html).
+[Live demo](https://elboletaire.github.io/password-strength-meter/vue/) in the playground.
+
+## Install
 
 ```bash
 pnpm add @passcore/vue
 ```
 
-Requires Vue 3.5 or later.
+Requires Vue 3.5 or later (`vue@^3.5`). ESM and CommonJS builds, with TypeScript types.
 
 ## Usage
 
@@ -28,7 +37,8 @@ const password = ref('')
 </template>
 ```
 
-The component is a plain render function (no SFC compiler needed), so it works in any Vue setup. Its root element is a `div.pass-wrapper`; `class` and other attributes are added to it.
+> [!NOTE]
+> The component is a plain render function (no SFC compiler needed), so it works in any Vue setup. Its root element is a `div.pass-wrapper`; `class` and other attributes are added to it. Link the input to the text with `aria-describedby` and the `id` prop.
 
 ### Composable
 
@@ -49,33 +59,36 @@ The first argument takes a ref, a getter or a plain string; the options take the
 
 ## Options
 
-The component takes them as props, and the composable as its second argument:
+The composable takes the options in the first table as its second argument. The component takes the same options as props, plus the ones in the second table.
 
-```ts
-{
-  // binding
-  userInputs: [],          // values the password must not contain (username, email...), e.g. ['johndoe']
-  translations: {},        // texts in i18next's JSON format, merged over the English defaults (see Translations)
-  locale: 'en',            // used to pick plural forms
-  translate: undefined,    // (key, params) => string, e.g. i18next's t; replaces translations and locale
-  showPercent: false,      // component only: render the percentage
-  showText: true,          // component only: render the message
-  label: 'Password strength', // component only: aria-label of the meter
+| Option | Default | Description |
+|---|---|---|
+| `userInputs` | `[]` | Values the password must not contain (usernames, emails...), e.g. `['johndoe']`. |
+| `translations` | `{}` | Texts in i18next's JSON format, merged over the English ones (see [Translations](#translations)). |
+| `locale` | `'en'` | Locale used to pick plural forms. |
+| `translate` | `undefined` | `(key, params) => string`, e.g. i18next's `t`. Replaces `translations` and `locale`. |
+| `targetBits` | `100` | Estimated bits that count as 100%. |
+| `estimator` | `undefined` | `(password, userInputs) => bits`, replaces the built-in estimate. |
+| `commonPasswords` | `undefined` | Common passwords, replacing the built-in list. |
+| `rules` | `{ minLength: 8, ... }` | Rules, merged with the defaults (see the [`@passcore/core` README](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core#options)). |
+| `levels` | `{ 'very-weak': 0, ... }` | Lower bound of each level, merged with the defaults (e.g. `{ strong: 80 }`). |
 
-  // passed to @passcore/core
-  targetBits: 100,
-  estimator: undefined,
-  commonPasswords: undefined, // replaces the common-password list
-  rules: { minLength: 8 }, // merged with the default rules
-  levels: { strong: 80 },  // merged with the default levels
-}
-```
+The component also takes these props:
 
-The component also takes `password` (required, a string) and `id`, the id of the text element for `aria-describedby`.
+| Prop | Default | Description |
+|---|---|---|
+| `password` | | The password to evaluate (required, a string). |
+| `id` | `undefined` | `id` of the text element, for `aria-describedby` on the input. |
+| `showPercent` | `false` | Show the score percentage. |
+| `showText` | `true` | Show the message. |
+| `label` | `'Password strength'` | `aria-label` of the meter. |
 
-Core options are memoized: the meter is only recreated when `targetBits`, `estimator`, `commonPasswords`, `rules` or `levels` change, so typing does not rebuild the word list. `rules`, `levels` and `commonPasswords` are compared by value, so inline objects and arrays are fine; `estimator` is a function and is compared by identity, so define it outside the template.
+Core options are memoized: the meter is only recreated when `targetBits`, `estimator`, `commonPasswords`, `rules` or `levels` change, so typing does not rebuild the word list.
 
-See the [`@passcore/core` README](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core#options) for the core options, and its [stability section](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core#stability) for what may change in minor releases.
+> [!TIP]
+> `rules`, `levels` and `commonPasswords` are compared by value, so inline objects and arrays are fine. `estimator` is a function and is compared by identity, so define it outside the template.
+
+See the [`@passcore/core` stability section](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core#stability) for what may change in minor releases.
 
 ## Events
 
@@ -160,7 +173,30 @@ const translate = (key: string, params: Record<string, number> = {}) =>
 
 When you use `translate`, pass the current language as `locale` too: changing `locale` refreshes the texts, even if your `translate` function keeps the same identity when the language changes.
 
-## Markup and styling
+## Styling
+
+Import the stylesheet once (`@passcore/vue/styles.css`) and customize the meter with CSS custom properties, on `.pass-wrapper` or any ancestor (e.g. `:root`):
+
+| Property | Default | Applies to |
+|---|---|---|
+| `--pass-height` | `4px` | Height of the bar |
+| `--pass-track` | `#e5e7eb` | Background of the bar |
+| `--pass-color-very-weak` | `#dc2626` | Bar color, very weak level |
+| `--pass-color-weak` | `#ea580c` | Bar color, weak level |
+| `--pass-color-fair` | `#ca8a04` | Bar color, fair level |
+| `--pass-color-good` | `#65a30d` | Bar color, good level |
+| `--pass-color-strong` | `#16a34a` | Bar color, strong level |
+
+```css
+:root {
+  --pass-height: 6px;
+  --pass-color-strong: #0d9488;
+}
+```
+
+The stylesheet also follows the forced colors mode: in Windows High Contrast and similar modes, the meter gets a border and the bar uses the system highlight color.
+
+The markup, identical to the other `@passcore/*` packages, is:
 
 ```html
 <div class="pass-wrapper pass-level-weak">
@@ -172,16 +208,4 @@ When you use `translate`, pass the current language as `locale` too: changing `l
 </div>
 ```
 
-The wrapper has a `pass-level-*` class and, while a rule fails, `pass-invalid`. Link the input to the text with `aria-describedby`, as in the usage example. The stylesheet (`@passcore/vue/styles.css`) colors levels through custom properties you can set on any ancestor:
-
-```css
-:root {
-  --pass-height: 6px;
-  --pass-track: #eee;
-  --pass-color-very-weak: #b91c1c;
-  --pass-color-weak: #c2410c;
-  --pass-color-fair: #a16207;
-  --pass-color-good: #4d7c0f;
-  --pass-color-strong: #15803d;
-}
-```
+The wrapper has a `pass-level-<level>` class and, while a rule fails, `pass-invalid`. The percent is only rendered with `showPercent`, and the text unless `showText` is `false`.

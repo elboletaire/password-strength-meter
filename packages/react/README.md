@@ -1,12 +1,23 @@
 # @passcore/react
 
+[![npm version](https://img.shields.io/npm/v/@passcore/react)](https://www.npmjs.com/package/@passcore/react)
+[![npm downloads](https://img.shields.io/npm/dm/@passcore/react)](https://www.npmjs.com/package/@passcore/react)
+[![CI](https://img.shields.io/github/actions/workflow/status/elboletaire/password-strength-meter/ci.yml?branch=master)](https://github.com/elboletaire/password-strength-meter/actions/workflows/ci.yml)
+[![minzipped size](https://img.shields.io/bundlephobia/minzip/@passcore/react)](https://bundlephobia.com/package/@passcore/react)
+[![license](https://img.shields.io/npm/l/@passcore/react)](https://github.com/elboletaire/password-strength-meter/blob/master/LICENSE)
+[![types](https://img.shields.io/npm/types/@passcore/react)](https://www.npmjs.com/package/@passcore/react)
+
 An accessible password strength meter for React: a hook and a component, built on [`@passcore/core`](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core). Works with React 18 and 19.
 
-[Try it in the playground](https://elboletaire.github.io/password-strength-meter/react.html).
+[Live demo](https://elboletaire.github.io/password-strength-meter/react/) in the playground.
+
+## Install
 
 ```bash
 pnpm add @passcore/react
 ```
+
+Requires React 18 or 19 (`react@^18 || ^19`). ESM and CommonJS builds, with TypeScript types.
 
 ## Usage
 
@@ -34,9 +45,10 @@ export function SignUp() {
 }
 ```
 
-The input is controlled: the component receives the password as a prop and never listens to DOM events on the input. Link the input to the text with `aria-describedby` and the `id` prop.
+> [!NOTE]
+> The input is controlled: the component receives the password as a prop and never listens to DOM events on the input. Link the input to the text with `aria-describedby` and the `id` prop.
 
-The meter is rendered next to your input, wherever you put it. The wrapper is a `div` with the `pass-wrapper` class.
+The meter is rendered wherever you put it. The wrapper is a `div` with the `pass-wrapper` class. It renders fine on the server (`renderToString`), with no browser-only APIs involved.
 
 ### Hook
 
@@ -80,7 +92,8 @@ The component also takes these props:
 | `onScore` | `undefined` | `(percent, result) => void`, see [Events](#events). |
 | `onText` | `undefined` | `(text, result) => void`, see [Events](#events). |
 
-`rules`, `levels` and `commonPasswords` are compared by value, so inline objects and arrays are fine. `estimator` is a function and is compared by identity: define it outside the component, or memoize it, to avoid recreating the meter on every render.
+> [!TIP]
+> `rules`, `levels` and `commonPasswords` are compared by value, so inline objects and arrays are fine. `estimator` is a function and is compared by identity: define it outside the component, or memoize it, to avoid recreating the meter on every render.
 
 ## Events
 
@@ -185,4 +198,4 @@ The markup, identical to `@passcore/jquery` and `@passcore/vanilla`, is:
 
 The wrapper has a `pass-level-<level>` class and `pass-invalid` while the password does not pass every rule (a weak password can still be valid, with the default rules). Add your own class with `className`.
 
-The [stability policy](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core#stability) describes what may change in minor releases.
+The [`@passcore/core` stability policy](https://github.com/elboletaire/password-strength-meter/blob/master/packages/core#stability) describes what may change in minor releases.

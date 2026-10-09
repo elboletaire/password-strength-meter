@@ -408,5 +408,10 @@
       "symbols_many": "Almenys {{count}} símbols",
       "symbols_other": "Almenys {{count}} símbols"
     }
+  },
+  "notFound": {
+    "title": "Pàgina no trobada",
+    "message": "No hem trobat la pàgina que busques. Potser l'adreça ha canviat.",
+    "back": "Torna a l'inici"
   }
 }

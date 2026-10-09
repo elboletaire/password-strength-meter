@@ -4,35 +4,33 @@ import en from '@passcore/react/locales/en.json'
 import es from '@passcore/react/locales/es.json'
 import { useState, type FormEvent } from 'react'
 import { REQUIREMENT_RULES, requirementLabel, requirementState, requirementStateText, requirementsSummary } from '../lib/checklist'
-import { meterLabel, t, translate } from '../lib/i18n'
-import { Icon, meterTexts, PasswordField, PasswordInput, useLang } from './shared'
+import { meterLabel, meterTexts, t, translate } from '../lib/i18n'
+import { currentLang } from '../lib/lang'
+import { Icon, PasswordField, PasswordInput } from './shared'
 
 const bundled = { en, es, ca }
 
 export function DefaultDemo() {
-  const lang = useLang()
   const [password, setPassword] = useState('')
 
   return (
     <PasswordField id="react-default" value={password} onChange={setPassword} describedBy="react-default-strength">
-      <PasswordStrengthMeter id="react-default-strength" password={password} {...meterTexts(lang)} />
+      <PasswordStrengthMeter id="react-default-strength" password={password} {...meterTexts()} />
     </PasswordField>
   )
 }
 
 export function PercentDemo() {
-  const lang = useLang()
   const [password, setPassword] = useState('')
 
   return (
     <PasswordField id="react-percent" value={password} onChange={setPassword} describedBy="react-percent-strength">
-      <PasswordStrengthMeter id="react-percent-strength" password={password} showPercent {...meterTexts(lang)} />
+      <PasswordStrengthMeter id="react-percent-strength" password={password} showPercent {...meterTexts()} />
     </PasswordField>
   )
 }
 
 export function LinkedDemo() {
-  const lang = useLang()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -53,14 +51,13 @@ export function LinkedDemo() {
         />
       </div>
       <PasswordField id="react-linked" value={password} onChange={setPassword} describedBy="react-linked-strength">
-        <PasswordStrengthMeter id="react-linked-strength" password={password} userInputs={[username]} showPercent {...meterTexts(lang)} />
+        <PasswordStrengthMeter id="react-linked-strength" password={password} userInputs={[username]} showPercent {...meterTexts()} />
       </PasswordField>
     </>
   )
 }
 
 export function TranslationsDemo() {
-  const lang = useLang()
   const [password, setPassword] = useState('')
 
   return (
@@ -68,8 +65,8 @@ export function TranslationsDemo() {
       <PasswordStrengthMeter
         id="react-translations-strength"
         password={password}
-        translations={bundled[lang]}
-        locale={lang}
+        translations={bundled[currentLang()]}
+        locale={currentLang()}
         label={meterLabel()}
         showPercent
       />
@@ -78,17 +75,15 @@ export function TranslationsDemo() {
 }
 
 export function I18nDemo() {
-  const lang = useLang()
   const [password, setPassword] = useState('')
 
-  // `translate` keeps its identity in every language: `locale` tells the component to translate again
   return (
     <PasswordField id="react-i18next" value={password} onChange={setPassword} describedBy="react-i18next-strength">
       <PasswordStrengthMeter
         id="react-i18next-strength"
         password={password}
         translate={translate}
-        locale={lang}
+        locale={currentLang()}
         label={meterLabel()}
         showPercent
       />
@@ -97,7 +92,6 @@ export function I18nDemo() {
 }
 
 export function EventsDemo() {
-  const lang = useLang()
   const [password, setPassword] = useState('')
   const [percent, setPercent] = useState(0)
   const [sent, setSent] = useState(false)
@@ -110,7 +104,7 @@ export function EventsDemo() {
   return (
     <form className="events" onSubmit={submit} noValidate>
       <PasswordField id="react-events" value={password} onChange={setPassword} describedBy="react-events-strength">
-        <PasswordStrengthMeter id="react-events-strength" password={password} onScore={setPercent} {...meterTexts(lang)} />
+        <PasswordStrengthMeter id="react-events-strength" password={password} onScore={setPercent} {...meterTexts()} />
       </PasswordField>
       <div className="events__bar">
         <p className="events__score">
@@ -130,7 +124,6 @@ export function EventsDemo() {
 }
 
 export function GroupDemo() {
-  const lang = useLang()
   const [password, setPassword] = useState('')
 
   return (
@@ -140,7 +133,7 @@ export function GroupDemo() {
         <span className="input-group__addon" aria-hidden="true"><Icon name="lock" size={18} /></span>
         <PasswordInput id="react-group" value={password} onChange={setPassword} describedBy="react-group-strength" />
       </div>
-      <PasswordStrengthMeter id="react-group-strength" password={password} {...meterTexts(lang)} />
+      <PasswordStrengthMeter id="react-group-strength" password={password} {...meterTexts()} />
     </div>
   )
 }
@@ -149,12 +142,11 @@ const STATE_ICONS = { idle: 'dash', met: 'check', unmet: 'cross' } as const
 
 /** The hook drives your own UI: a checklist of `result.rules`, next to the meter of the component. */
 export function ChecklistDemo() {
-  const lang = useLang()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const { result } = usePasswordStrength(password, {
-    translations: bundled[lang],
-    locale: lang,
+    translations: bundled[currentLang()],
+    locale: currentLang(),
     userInputs: [username],
     rules: REQUIREMENT_RULES,
   })
@@ -177,7 +169,7 @@ export function ChecklistDemo() {
         />
       </div>
       <PasswordField id="react-signup" value={password} onChange={setPassword} describedBy="react-signup-strength react-checklist-summary">
-        <PasswordStrengthMeter id="react-signup-strength" password={password} userInputs={[username]} rules={REQUIREMENT_RULES} {...meterTexts(lang)} />
+        <PasswordStrengthMeter id="react-signup-strength" password={password} userInputs={[username]} rules={REQUIREMENT_RULES} {...meterTexts()} />
       </PasswordField>
       <div className="reqs">
         <p className="reqs__title" id="react-checklist-title">{t('requirements.title')}</p>
@@ -203,12 +195,11 @@ export function ChecklistDemo() {
 }
 
 export function ThemeDemo() {
-  const lang = useLang()
   const [password, setPassword] = useState('')
 
   return (
     <PasswordField id="react-theme" value={password} onChange={setPassword} describedBy="react-theme-strength">
-      <PasswordStrengthMeter id="react-theme-strength" password={password} showPercent {...meterTexts(lang)} />
+      <PasswordStrengthMeter id="react-theme-strength" password={password} showPercent {...meterTexts()} />
     </PasswordField>
   )
 }

@@ -2,7 +2,7 @@ import { escapeHtml } from '../common/escape.ts'
 import { highlight } from '../common/highlight.ts'
 import { iconSvg } from '../common/icons.ts'
 import { REQUIREMENTS, requirementKey } from '../common/requirements.ts'
-import { attrs, en, rich, tAttrs, text, type Attrs } from './t.ts'
+import { attrs, tr, rich, tAttrs, text, type Attrs } from './t.ts'
 
 /**
  * The building blocks of the pages, rendered at build time. The browser only binds them (see src/lib/).
@@ -23,7 +23,7 @@ export interface PasswordFieldOptions {
 
 /** The show/hide button of a password field: the browser side is `src/lib/reveal.ts`. */
 export function revealButton(inputId: string): string {
-  return `<button${attrs({ 'type': 'button', 'class': 'reveal', 'data-reveal': true, 'aria-controls': inputId, 'aria-pressed': 'false', 'aria-label': en('reveal.show') })}>`
+  return `<button${attrs({ 'type': 'button', 'class': 'reveal', 'data-reveal': true, 'aria-controls': inputId, 'aria-pressed': 'false', 'aria-label': tr('reveal.show') })}>`
     + iconSvg('eye', 20, 'icon reveal__show')
     + iconSvg('eyeOff', 20, 'icon reveal__hide')
     + '</button>'
@@ -87,7 +87,7 @@ export function eventsForm(inputId: string): string {
 /** The score, the Send button and the status of the events demo. */
 export function eventsFooter(inputId: string, scoreId = 'events-score', sendId = 'send', statusId = 'send-status'): string {
   return `<div class="events__bar">
-    <p class="events__score"><span data-i18n="events.score">${escapeHtml(en('events.score'))}</span> <output id="${scoreId}" for="${inputId}">0%</output></p>
+    <p class="events__score"><span>${escapeHtml(tr('events.score'))}</span> <output id="${scoreId}" for="${inputId}">0%</output></p>
     <button type="submit" id="${sendId}" class="btn btn--primary" disabled>${text('span', 'events.send')}${iconSvg('arrowRight', 18)}</button>
   </div>
   ${text('p', 'events.hint', { class: 'hint' })}
@@ -194,6 +194,6 @@ export function checklistHtml(id: string): string {
   <ul class="reqs__list" aria-labelledby="${id}-title">
     ${items}
   </ul>
-  <p class="reqs__summary" id="${id}-summary" aria-live="polite">${escapeHtml(en('requirements.summaryIdle', { total: REQUIREMENTS.length }))}</p>
+  <p class="reqs__summary" id="${id}-summary" aria-live="polite">${escapeHtml(tr('requirements.summaryIdle', { total: REQUIREMENTS.length }))}</p>
 </div>`
 }

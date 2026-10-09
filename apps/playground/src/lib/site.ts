@@ -1,11 +1,11 @@
 import '../style.css'
-import { isLang, PM_STORAGE_KEY, THEME_STORAGE_KEY } from '../common/langs'
-import { applyTranslations, t } from './i18n'
-import { currentLang, onLanguageChange, setLang } from './lang'
+import { LANG_STORAGE_KEY, PM_STORAGE_KEY, THEME_STORAGE_KEY } from '../common/langs'
+import { t } from './i18n'
+import { currentLang } from './lang'
 import { initReveal } from './reveal'
 
 /**
- * What every page shares: the texts in the chosen language, the language switcher, the theme toggle,
+ * What every page shares: the language switcher, the theme toggle,
  * the show/hide buttons, the copy buttons and the tabs. Each page's entry imports this module first.
  */
 
@@ -23,25 +23,30 @@ export function announce(message: string): void {
   }
 }
 
-// language
-function markLangButtons(): void {
-  document.querySelectorAll<HTMLButtonElement>('[data-lang]').forEach((button) => {
-    button.setAttribute('aria-pressed', String(button.dataset.lang === currentLang()))
-  })
+// language: the switcher is a set of links to the same page in the other languages
+const langLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('a[data-lang]'))
+
+/** The links keep the `#hash` of the page, so `#demo-checklist` survives a language switch. */
+function syncLangLinks(): void {
+  for (const link of langLinks) {
+    link.hash = location.hash
+  }
 }
 
-document.querySelectorAll<HTMLButtonElement>('[data-lang]').forEach((button) => {
-  button.addEventListener('click', () => {
-    if (isLang(button.dataset.lang)) {
-      setLang(button.dataset.lang)
+syncLangLinks()
+window.addEventListener('hashchange', syncLangLinks)
+
+langLinks.forEach((link) => {
+  link.addEventListener('click', () => {
+    syncLangLinks()
+    // the last explicit choice: English pages send the visitor to it (see the head script in src/shell/layout.ts)
+    try {
+      localStorage.setItem(LANG_STORAGE_KEY, link.dataset.lang ?? currentLang())
+    }
+    catch {
+      // not remembered, but the link still works
     }
   })
-})
-
-onLanguageChange(() => {
-  applyTranslations()
-  markLangButtons()
-  updateThemeToggle()
 })
 
 // theme: follows the system until the visitor picks one
@@ -96,11 +101,9 @@ document.addEventListener('click', (event) => {
   void navigator.clipboard.writeText(source?.textContent ?? '').then(() => {
     if (label) {
       label.textContent = t('code.copied')
-      label.removeAttribute('data-i18n')
       button.classList.add('copy--done')
       window.setTimeout(() => {
         label.textContent = t('code.copy')
-        label.setAttribute('data-i18n', 'code.copy')
         button.classList.remove('copy--done')
       }, 1800)
     }
@@ -207,11 +210,4 @@ if (tocLinks.length && 'IntersectionObserver' in window) {
 
 initReveal()
 
-// the texts of the chosen language, then show the page (see the boot script in src/shell/layout.ts)
-if (currentLang() !== 'en') {
-  applyTranslations()
-}
-root.lang = currentLang()
-markLangButtons()
 updateThemeToggle()
-root.classList.remove('i18n-pending')

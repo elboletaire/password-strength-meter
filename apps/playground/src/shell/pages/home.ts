@@ -1,7 +1,8 @@
 import { escapeHtml } from '../../common/escape.ts'
 import { iconSvg, type IconName } from '../../common/icons.ts'
 import { checklistHtml, codeBlock, commandLine, passwordField, usernameField, type CodeLang } from '../components.ts'
-import { attrs, rich, tAttrs, text } from '../t.ts'
+import { url } from '../routes.ts'
+import { attrs, lang, rich, tAttrs, text } from '../t.ts'
 
 const SAMPLES = ['123456', 'qwerty123', 'P@ssw0rd!', 'Tr0ub4dor&3', 'correct horse battery staple']
 
@@ -24,12 +25,12 @@ interface Binding {
   code: string
 }
 
-const BINDINGS: Binding[] = [
+const bindingList = (): Binding[] => [
   {
     id: 'core',
     monogram: '{}',
     name: '@passcore/core',
-    href: './inspector.html',
+    href: url('inspector', lang()),
     install: '@passcore/core',
     lang: 'ts',
     code: `import { createMeter } from '@passcore/core'
@@ -44,7 +45,7 @@ result.message // { key: 'rule.minLength', params: { min: 10 } }`,
     id: 'jquery',
     monogram: '$',
     name: '@passcore/jquery',
-    href: './jquery.html',
+    href: url('jquery', lang()),
     install: '@passcore/jquery jquery',
     lang: 'js',
     code: `import $ from 'jquery'
@@ -57,7 +58,7 @@ $('#password').password({ userInputs: ['#username'] })`,
     id: 'vanilla',
     monogram: 'JS',
     name: '@passcore/vanilla',
-    href: './vanilla.html',
+    href: url('vanilla', lang()),
     install: '@passcore/vanilla',
     lang: 'js',
     code: `import { createPasswordMeter } from '@passcore/vanilla'
@@ -69,7 +70,7 @@ createPasswordMeter('#password', { showPercent: true })`,
     id: 'react',
     monogram: '</>',
     name: '@passcore/react',
-    href: './react.html',
+    href: url('react', lang()),
     install: '@passcore/react',
     lang: 'tsx',
     code: `import { PasswordStrengthMeter } from '@passcore/react'
@@ -81,7 +82,7 @@ import '@passcore/react/styles.css'
     id: 'vue',
     monogram: 'V',
     name: '@passcore/vue',
-    href: './vue.html',
+    href: url('vue', lang()),
     install: '@passcore/vue',
     lang: 'vue',
     code: `<script setup>
@@ -97,7 +98,7 @@ import '@passcore/vue/styles.css'
     id: 'svelte',
     monogram: 'S',
     name: '@passcore/svelte',
-    href: './svelte.html',
+    href: url('svelte', lang()),
     install: '@passcore/svelte',
     lang: 'svelte',
     code: `<script>
@@ -120,7 +121,7 @@ function hero(): string {
             ${rich('h1', 'home.title', { id: 'hero-title', class: 'hero__title' })}
             ${text('p', 'home.lead', { class: 'lead hero__lead' })}
             <div class="hero__actions">
-              <a class="btn btn--primary btn--large" href="./inspector.html">${text('span', 'home.ctaInspector')}${iconSvg('arrowRight', 18)}</a>
+              <a class="btn btn--primary btn--large" href="${url('inspector', lang())}">${text('span', 'home.ctaInspector')}${iconSvg('arrowRight', 18)}</a>
               <a class="btn btn--quiet btn--large" href="#bindings">${text('span', 'home.ctaBindings')}</a>
             </div>
           </div>
@@ -157,17 +158,17 @@ function hero(): string {
       </section>`
 }
 
-const CHECKLIST_PAGES = [
-  { href: './jquery.html#demo-checklist', nav: 'nav.jquery' },
-  { href: './vanilla.html#demo-checklist', nav: 'nav.vanilla' },
-  { href: './react.html#demo-checklist', nav: 'nav.react' },
-  { href: './vue.html#demo-checklist', nav: 'nav.vue' },
-  { href: './svelte.html#demo-checklist', nav: 'nav.svelte' },
+const checklistPages = () => [
+  { href: url('jquery', lang(), 'demo-checklist'), nav: 'nav.jquery' },
+  { href: url('vanilla', lang(), 'demo-checklist'), nav: 'nav.vanilla' },
+  { href: url('react', lang(), 'demo-checklist'), nav: 'nav.react' },
+  { href: url('vue', lang(), 'demo-checklist'), nav: 'nav.vue' },
+  { href: url('svelte', lang(), 'demo-checklist'), nav: 'nav.svelte' },
 ]
 
 /** The requirements checklist, live, with links to the same demo on every binding page. */
 function requirements(): string {
-  const links = CHECKLIST_PAGES.map(({ href, nav }) => `<li><a class="chip chip--link" href="${href}">${text('span', nav)}${iconSvg('arrowRight', 16)}</a></li>`).join('\n              ')
+  const links = checklistPages().map(({ href, nav }) => `<li><a class="chip chip--link" href="${href}">${text('span', nav)}${iconSvg('arrowRight', 16)}</a></li>`).join('\n              ')
   return `<section class="section" aria-labelledby="reqs-title">
         <div class="reqs-feature">
           <div class="reqs-feature__copy">
@@ -207,7 +208,7 @@ function features(): string {
 }
 
 function bindings(): string {
-  const cards = BINDINGS.map((binding) => `<li>
+  const cards = bindingList().map((binding) => `<li>
             <a class="binding-card" href="${binding.href}">
               <span class="binding-card__mono" aria-hidden="true">${escapeHtml(binding.monogram)}</span>
               ${text('span', `home.bindings.${binding.id}.title`, { class: 'binding-card__title' })}
@@ -229,8 +230,8 @@ function bindings(): string {
 }
 
 function install(): string {
-  const tabs = BINDINGS.map((binding, index) => `<button${attrs({ 'type': 'button', 'role': 'tab', 'class': 'tabs__tab', 'id': `tab-${binding.id}`, 'aria-controls': `panel-${binding.id}`, 'aria-selected': index === 0 ? 'true' : 'false', 'tabindex': index === 0 ? undefined : '-1' })}>${binding.name.replace('@passcore/', '')}</button>`).join('\n              ')
-  const panels = BINDINGS.map((binding, index) => `<div${attrs({ 'role': 'tabpanel', 'class': 'tabs__panel', 'id': `panel-${binding.id}`, 'aria-labelledby': `tab-${binding.id}`, 'hidden': index !== 0 })}>
+  const tabs = bindingList().map((binding, index) => `<button${attrs({ 'type': 'button', 'role': 'tab', 'class': 'tabs__tab', 'id': `tab-${binding.id}`, 'aria-controls': `panel-${binding.id}`, 'aria-selected': index === 0 ? 'true' : 'false', 'tabindex': index === 0 ? undefined : '-1' })}>${binding.name.replace('@passcore/', '')}</button>`).join('\n              ')
+  const panels = bindingList().map((binding, index) => `<div${attrs({ 'role': 'tabpanel', 'class': 'tabs__panel', 'id': `panel-${binding.id}`, 'aria-labelledby': `tab-${binding.id}`, 'hidden': index !== 0 })}>
               ${commandLine(`pnpm add ${binding.install}`, { 'class': 'command', 'data-install': binding.install })}
               ${codeBlock(binding.code, binding.lang)}
             </div>`).join('\n            ')

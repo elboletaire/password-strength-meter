@@ -1,10 +1,10 @@
-import '../lib/site'
+import '../../src/lib/site'
 import '@passcore/vanilla/styles.css'
 import type { Result } from '@passcore/core'
-import { createPasswordMeter, type PasswordMeter } from '@passcore/vanilla'
-import { REQUIREMENT_RULES, renderChecklist } from '../lib/checklist'
-import { formatNumber, locales, meterLabel, t } from '../lib/i18n'
-import { currentLang, onLanguageChange } from '../lib/lang'
+import { createPasswordMeter } from '@passcore/vanilla'
+import { REQUIREMENT_RULES, renderChecklist } from '../../src/lib/checklist'
+import { formatNumber, locales, meterLabel, t } from '../../src/lib/i18n'
+import { currentLang } from '../../src/lib/lang'
 
 /**
  * The "try it" panel of the home page: @passcore/vanilla on a real input, with a readout of the result.
@@ -31,7 +31,7 @@ function show(result: Result): void {
   rules.textContent = result.level === 'empty' ? '—' : t('home.try.rulesValue', { passed, total: result.rules.length })
 }
 
-const create = (): PasswordMeter => createPasswordMeter(input, {
+const meter = createPasswordMeter(input, {
   translations: locales[currentLang()],
   locale: currentLang(),
   label: meterLabel(),
@@ -39,14 +39,7 @@ const create = (): PasswordMeter => createPasswordMeter(input, {
   onScore: (_percent, result) => show(result),
 })
 
-let meter = create()
 show(meter.result)
-
-onLanguageChange(() => {
-  meter.destroy()
-  meter = create()
-  show(meter.result)
-})
 
 document.querySelectorAll<HTMLButtonElement>('[data-sample]').forEach((button) => {
   button.addEventListener('click', () => {
@@ -58,7 +51,7 @@ document.querySelectorAll<HTMLButtonElement>('[data-sample]').forEach((button) =
 // the requirements checklist: @passcore/vanilla again, its `result.rules` drawn as a checklist
 const signupInput = byId<HTMLInputElement>('home-password')
 
-const createSignup = (): PasswordMeter => createPasswordMeter(signupInput, {
+const signup = createPasswordMeter(signupInput, {
   translations: locales[currentLang()],
   locale: currentLang(),
   label: meterLabel(),
@@ -67,14 +60,7 @@ const createSignup = (): PasswordMeter => createPasswordMeter(signupInput, {
   onScore: (_percent, result) => renderChecklist('home-checklist', result.rules, signupInput.value !== ''),
 })
 
-let signup = createSignup()
 renderChecklist('home-checklist', signup.result.rules, signupInput.value !== '')
 
 // the username is read on each update: refresh when it changes
 byId('home-username').addEventListener('input', () => signup.refresh())
-
-onLanguageChange(() => {
-  signup.destroy()
-  signup = createSignup()
-  renderChecklist('home-checklist', signup.result.rules, signupInput.value !== '')
-})

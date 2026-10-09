@@ -1,62 +1,28 @@
-import '../lib/site'
+import '../../src/lib/site'
 import $ from 'jquery'
 import '@passcore/jquery'
 import '@passcore/jquery/styles.css'
 import type { Result } from '@passcore/core'
 import type { PasswordOptions } from '@passcore/jquery'
-import { REQUIREMENT_RULES, requirementState, requirementsSummary, setLiveText } from '../lib/checklist'
-import { locales, meterLabel, t, translate } from '../lib/i18n'
-import { currentLang, onLanguageChange } from '../lib/lang'
-import { initStudio } from '../lib/studio'
+import { REQUIREMENT_RULES, requirementState, requirementsSummary, setLiveText } from '../../src/lib/checklist'
+import { locales, meterLabel, t, translate } from '../../src/lib/i18n'
+import { currentLang } from '../../src/lib/lang'
+import { initStudio } from '../../src/lib/studio'
 
 // respect the reduced motion preference: jQuery's slides complete at once
 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   $.fx.off = true
 }
 
-/**
- * The bundled texts are read when a meter is created, so each demo is mounted through this helper, which
- * destroys it and mounts it again in the new language. Every demo gets the texts of the current language.
- */
-interface Mount {
-  input: JQuery<HTMLElement>
-  closest: string
-  options: () => PasswordOptions
-}
-
-const mounts: Mount[] = []
-
-/** The bundled texts of the current language, for the demos that are not about translations. */
+/** The bundled texts of the page's language, for the demos that are not about translations. */
 const texts = (): PasswordOptions => ({ translations: locales[currentLang()], locale: currentLang() })
 
-function attach(mount: Mount): void {
-  mount.input.password({ closestSelector: mount.closest, label: meterLabel(), ...mount.options() })
-  const container = mount.input.closest(mount.closest)
-  const wrapper = container.children('.pass-wrapper')
-  // mounted again over a typed password: keep the meter in sight
-  if (String(mount.input.val() ?? '') !== '' && wrapper.css('display') === 'none') {
-    wrapper.show()
-    container.addClass('pass-strength-visible')
-  }
-}
-
-function detach({ input }: Mount): void {
-  input.password('destroy')
-}
-
+/** The texts are read when a meter is created: the page's language never changes, so that is once. */
 function mount(selector: string, options: () => PasswordOptions, closest = 'div'): JQuery<HTMLElement> {
-  const entry: Mount = { input: $<HTMLElement>(selector), closest, options }
-  mounts.push(entry)
-  attach(entry)
-  return entry.input
+  const input = $<HTMLElement>(selector)
+  input.password({ closestSelector: closest, label: meterLabel(), ...options() })
+  return input
 }
-
-onLanguageChange(() => {
-  for (const entry of mounts) {
-    detach(entry)
-    attach(entry)
-  }
-})
 
 // default: hidden until the field gets focus
 mount('#default-password', () => texts())
@@ -79,10 +45,8 @@ mount('#signup-password', () => ({ ...texts(), userInputs: ['#signup-username'],
 // the plugin reads the username when the password changes: update on its changes too
 $('#signup-username').on('input', () => $('#signup-password').trigger('input'))
 
-// the summary is written by this script, in the page's language: render it now, and again after the
-// language change has mounted the meter again
+// the summary is written by this script, in the page's language: render it now
 $('#signup-password').trigger('input')
-onLanguageChange(() => $('#signup-password').trigger('input'))
 
 mount('#always-password', () => ({ ...texts(), animate: false, showPercent: true }))
 
@@ -111,12 +75,6 @@ mount('#events-password', () => ({ ...texts(), animate: false }))
 $('#events-form').on('submit', (event) => {
   event.preventDefault()
   $('#send-status').text(t('events.sent'))
-})
-
-onLanguageChange(() => {
-  if ($('#send-status').text()) {
-    $('#send-status').text(t('events.sent'))
-  }
 })
 
 // input group: the meter goes below the whole group

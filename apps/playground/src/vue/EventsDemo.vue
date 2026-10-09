@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { PasswordStrengthMeter } from '@passcore/vue'
 import { ref } from 'vue'
+import { meterTexts, t } from '../lib/i18n'
 import Icon from './Icon.vue'
 import PasswordField from './PasswordField.vue'
-import { useMeterTexts, useT } from './use-lang'
 
 const password = ref('')
 const percent = ref(0)
 const sent = ref(false)
-const texts = useMeterTexts()
-const { t } = useT()
+const texts = meterTexts()
 
 const onScore = (value: number): void => {
   percent.value = value

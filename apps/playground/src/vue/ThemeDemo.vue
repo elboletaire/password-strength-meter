@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { PasswordStrengthMeter } from '@passcore/vue'
 import { ref } from 'vue'
+import { meterTexts } from '../lib/i18n'
 import PasswordField from './PasswordField.vue'
-import { useMeterTexts } from './use-lang'
 
 const password = ref('')
-const texts = useMeterTexts()
+const texts = meterTexts()
 </script>
 
 <template>

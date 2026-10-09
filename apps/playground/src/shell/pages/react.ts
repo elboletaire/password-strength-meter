@@ -7,7 +7,7 @@ export const reactPage: BindingPage = {
   pkg: '@passcore/react',
   folder: 'packages/react',
   install: 'pnpm add @passcore/react',
-  demos: [
+  demos: () => [
     {
       id: 'default',
       title: 'demo.default.title',

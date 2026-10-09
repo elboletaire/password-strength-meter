@@ -27,10 +27,11 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter playground build
+      - run: pnpm --filter playground check
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/playground/dist
+          path: apps/playground/dist/client
 
   deploy:
     needs: build

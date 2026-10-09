@@ -19,5 +19,7 @@ jobs:
       - run: pnpm lint
       - run: pnpm build
       - run: pnpm typecheck
+      - run: pnpm --filter playground build
+      - run: pnpm --filter playground check
       - run: pnpm test:coverage
       - run: pnpm check:packages

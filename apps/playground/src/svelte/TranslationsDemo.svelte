@@ -3,7 +3,8 @@
   import ca from '@passcore/svelte/locales/ca.json'
   import en from '@passcore/svelte/locales/en.json'
   import es from '@passcore/svelte/locales/es.json'
-  import { lang } from './lang.svelte'
+  import { t } from '../lib/i18n'
+  import { currentLang } from '../lib/lang'
   import PasswordField from './PasswordField.svelte'
 
   const bundled = { en, es, ca }
@@ -14,9 +15,9 @@
   <PasswordStrengthMeter
     id="svelte-translations-strength"
     {password}
-    translations={bundled[lang.current]}
-    locale={lang.current}
-    label={lang.t('meter.label')}
+    translations={bundled[currentLang()]}
+    locale={currentLang()}
+    label={t('meter.label')}
     showPercent
   />
 </PasswordField>

@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { PasswordStrengthMeter } from '@passcore/vue'
 import { ref } from 'vue'
-import { translate } from '../lib/i18n'
+import { t, translate } from '../lib/i18n'
+import { currentLang } from '../lib/lang'
 import PasswordField from './PasswordField.vue'
-import { useT } from './use-lang'
 
 const password = ref('')
-// `translate` keeps its identity in every language: `locale` tells the component to translate again
-const { lang, t } = useT()
+const lang = currentLang()
 </script>
 
 <template>

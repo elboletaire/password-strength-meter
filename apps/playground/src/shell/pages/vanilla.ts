@@ -7,7 +7,7 @@ export const vanillaPage: BindingPage = {
   pkg: '@passcore/vanilla',
   folder: 'packages/vanilla',
   install: 'pnpm add @passcore/vanilla',
-  demos: [
+  demos: () => [
     {
       id: 'default',
       title: 'demo.default.title',

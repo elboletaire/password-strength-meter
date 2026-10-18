@@ -1,11 +1,30 @@
-# Passcore
+<p align="center">
+  <a href="https://elboletaire.github.io/password-strength-meter/">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="brand/banner-dark.svg">
+      <img alt="Passcore: password strength meters for any stack. jQuery, JavaScript, React, Vue and Svelte." src="brand/banner-light.svg" width="100%">
+    </picture>
+  </a>
+</p>
 
-[![CI](https://img.shields.io/github/actions/workflow/status/elboletaire/password-strength-meter/ci.yml?branch=master)](https://github.com/elboletaire/password-strength-meter/actions/workflows/ci.yml)
-[![license](https://img.shields.io/github/license/elboletaire/password-strength-meter)](LICENSE)
+<p align="center">
+  <a href="https://github.com/elboletaire/password-strength-meter/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/elboletaire/password-strength-meter/ci.yml?branch=master&style=flat-square&labelColor=15171b"></a>
+  <a href="https://www.npmjs.com/package/@passcore/core"><img alt="@passcore/core on npm" src="https://img.shields.io/npm/v/@passcore/core?style=flat-square&label=%40passcore%2Fcore&labelColor=15171b&color=2a43c9"></a>
+  <a href="https://bundlephobia.com/package/@passcore/core"><img alt="minzipped size" src="https://img.shields.io/bundlephobia/minzip/@passcore/core?style=flat-square&labelColor=15171b&color=22a35a"></a>
+  <a href="LICENSE"><img alt="MIT licence" src="https://img.shields.io/github/license/elboletaire/password-strength-meter?style=flat-square&labelColor=15171b&color=2a43c9"></a>
+</p>
 
-Accessible password strength meters for every framework, built on one small core.
+<p align="center">
+  <b>Accessible password strength meters for every framework, built on one small core.</b>
+</p>
 
-[Live demo](https://elboletaire.github.io/password-strength-meter/)
+<p align="center">
+  <a href="https://elboletaire.github.io/password-strength-meter/">Live demo</a> ·
+  <a href="#packages">Packages</a> ·
+  <a href="#quick-start">Quick start</a> ·
+  <a href="https://elboletaire.github.io/password-strength-meter/inspector/">Core inspector</a> ·
+  <a href="brand">Brand</a>
+</p>
 
 > [!NOTE]
 > **About the name.** *Passcore* is the name of the packages (`@passcore/*`). It plays on *pass score* (the score of a password, written with one `s` because "passscore" repeated too many letters) and on *core* (the small core every package shares). This repository is still called `password-strength-meter` because that is how it started: as a jQuery plugin with that name. The original `password-strength-meter` package on npm is now a compatibility release; see [Looking for the old plugin?](#looking-for-the-old-plugin).
@@ -14,16 +33,21 @@ Accessible password strength meters for every framework, built on one small core
 
 | Package | Version | For |
 |---|---|---|
-| [`@passcore/core`](packages/core) | [![npm](https://img.shields.io/npm/v/@passcore/core)](https://www.npmjs.com/package/@passcore/core) | Strength estimation and password rules. No dependencies, no DOM, no texts: use it to build your own UI or to validate on the server |
-| [`@passcore/jquery`](packages/jquery) | [![npm](https://img.shields.io/npm/v/@passcore/jquery)](https://www.npmjs.com/package/@passcore/jquery) | `$.fn.password`: a jQuery plugin with an accessible meter |
-| [`@passcore/vanilla`](packages/vanilla) | [![npm](https://img.shields.io/npm/v/@passcore/vanilla)](https://www.npmjs.com/package/@passcore/vanilla) | `createPasswordMeter()` for any page, and a `<passcore-meter>` custom element |
-| [`@passcore/react`](packages/react) | [![npm](https://img.shields.io/npm/v/@passcore/react)](https://www.npmjs.com/package/@passcore/react) | A hook and a component for React |
-| [`@passcore/vue`](packages/vue) | [![npm](https://img.shields.io/npm/v/@passcore/vue)](https://www.npmjs.com/package/@passcore/vue) | A composable and a component for Vue 3 |
-| [`@passcore/svelte`](packages/svelte) | [![npm](https://img.shields.io/npm/v/@passcore/svelte)](https://www.npmjs.com/package/@passcore/svelte) | A component and a rune-based helper for Svelte 5 |
+| [`@passcore/core`](packages/core) | [![npm](https://img.shields.io/npm/v/@passcore/core?style=flat-square&label=&color=2a43c9)](https://www.npmjs.com/package/@passcore/core) | Strength estimation and password rules. No dependencies, no DOM, no texts: use it to build your own UI or to validate on the server |
+| [`@passcore/jquery`](packages/jquery) | [![npm](https://img.shields.io/npm/v/@passcore/jquery?style=flat-square&label=&color=2a43c9)](https://www.npmjs.com/package/@passcore/jquery) | `$.fn.password`: a jQuery plugin with an accessible meter |
+| [`@passcore/vanilla`](packages/vanilla) | [![npm](https://img.shields.io/npm/v/@passcore/vanilla?style=flat-square&label=&color=2a43c9)](https://www.npmjs.com/package/@passcore/vanilla) | `createPasswordMeter()` for any page, and a `<passcore-meter>` custom element |
+| [`@passcore/react`](packages/react) | [![npm](https://img.shields.io/npm/v/@passcore/react?style=flat-square&label=&color=2a43c9)](https://www.npmjs.com/package/@passcore/react) | A hook and a component for React |
+| [`@passcore/vue`](packages/vue) | [![npm](https://img.shields.io/npm/v/@passcore/vue?style=flat-square&label=&color=2a43c9)](https://www.npmjs.com/package/@passcore/vue) | A composable and a component for Vue 3 |
+| [`@passcore/svelte`](packages/svelte) | [![npm](https://img.shields.io/npm/v/@passcore/svelte?style=flat-square&label=&color=2a43c9)](https://www.npmjs.com/package/@passcore/svelte) | A component and a rune-based helper for Svelte 5 |
 
 Pick the one for your stack: each binding depends on `@passcore/core` and renders the same markup, so they all behave and look alike.
 
 ## Why Passcore
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="brand/levels-dark.svg">
+  <img alt="The five strength levels, from very weak to strong, each a longer masked password with a fuller meter" src="brand/levels-light.svg" width="100%">
+</picture>
 
 - **Length first.** The estimate counts how hard a password is to guess, and discounts repeats, sequences, keyboard runs, common passwords and personal details such as the username. Adding characters never makes a password look weaker, unless they complete a known weak word.
 - **Rules are separate from strength.** Minimum length, required character types, "no personal details" and "not a common password" are configurable and reported on their own, so a long passphrase that misses one rule still shows its real strength.
@@ -78,3 +102,16 @@ pnpm build       # the packages (the playground has its own build)
 ```
 
 Releases are managed with [changesets](.changeset/README.md).
+
+## Brand
+
+The logo, colours, type and ready-to-use banners live in [`brand/`](brand), with a short guide on how to use them.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="brand/logo/mark-inverse.svg">
+    <img alt="" src="brand/logo/mark.svg" width="40">
+  </picture>
+  <br>
+  <sub>MIT · Made by <a href="https://github.com/elboletaire">Òscar Casajuana</a> and contributors.</sub>
+</p>

@@ -1,0 +1,9 @@
+# Config for the Stats workflow (elboletaire/github-stats-action).
+npm:
+  - password-strength-meter
+  - "@passcore/core"
+  - "@passcore/jquery"
+  - "@passcore/react"
+  - "@passcore/svelte"
+  - "@passcore/vanilla"
+  - "@passcore/vue"

@@ -1,0 +1,23 @@
+name: Stats
+
+# Keeps a daily snapshot of stars (and release downloads, if any) on the
+# `stats-data` branch, and rebuilds the dashboard there.
+on:
+  schedule:
+    - cron: "53 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stats
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: elboletaire/github-stats-action@v1

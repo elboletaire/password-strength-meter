@@ -5,7 +5,7 @@
 <rect x="0.5" y="0.5" width="799" height="299" rx="12" fill="#1a1a19" stroke="#33343a"/>
 <g font-family='"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif' font-size="11" fill="#c3c2b7" style="font-variant-numeric:tabular-nums">
 <text x="24" y="32" fill="#f0efec" font-size="16" font-weight="600">npm downloads per week</text>
-<text x="24.0" y="50.0" fill="#a09f98" font-size="12">Weekly sums of npm&apos;s daily counts, 80 weeks to 2026-10-23</text>
+<text x="24.0" y="50.0" fill="#a09f98" font-size="12">Weekly sums of npm&apos;s daily counts, 80 weeks to 2026-10-24</text>
 <circle cx="28" cy="64" r="4" fill="#4189ea"/>
 <text x="38.0" y="68.0" fill="#c3c2b7" font-size="12">password-strength-meter</text>
 <circle cx="225.6" cy="64" r="4" fill="#dd5f2f"/>
@@ -33,65 +33,65 @@
 <text x="422.5" y="272.0" fill="#a09f98" text-anchor="middle">Jan 2026</text>
 <text x="592.5" y="272.0" fill="#a09f98" text-anchor="middle">Jun 2026</text>
 <text x="771.5" y="272.0" fill="#a09f98" text-anchor="end">Oct 2026</text>
-<g class="gs-rise"><path d="M61.0 252.0V251.8Q61.0 248.3 64.5 248.3H64.5Q68.0 248.3 68.0 251.8V252.0ZM70.0 252.0V210.9Q70.0 207.4 73.4 207.4H73.4Q76.9 207.4 76.9 210.9V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:13ms"><path d="M78.9 252.0V220.0Q78.9 216.5 82.4 216.5H82.4Q85.9 216.5 85.9 220.0V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:19ms"><path d="M87.8 252.0V223.4Q87.8 219.9 91.3 219.9H91.3Q94.8 219.9 94.8 223.4V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:25ms"><path d="M96.8 252.0V226.1Q96.8 222.6 100.3 222.6H100.3Q103.8 222.6 103.8 226.1V252.0ZM105.8 252.0V234.4Q105.8 230.9 109.2 230.9H109.2Q112.7 230.9 112.7 234.4V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:38ms"><path d="M114.7 252.0V227.7Q114.7 224.3 118.2 224.3H118.2Q121.6 224.3 121.6 227.7V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:44ms"><path d="M123.6 252.0V229.7Q123.6 226.2 127.1 226.2H127.1Q130.6 226.2 130.6 229.7V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:50ms"><path d="M132.6 252.0V237.9Q132.6 234.4 136.1 234.4H136.1Q139.5 234.4 139.5 237.9V252.0ZM141.6 252.0V226.7Q141.6 223.2 145.0 223.2H145.0Q148.5 223.2 148.5 226.7V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise"><path d="M61.0 252.0V250.7Q61.0 247.2 64.5 247.2H64.5Q68.0 247.2 68.0 250.7V252.0ZM70.0 252.0V211.7Q70.0 208.2 73.4 208.2H73.4Q76.9 208.2 76.9 211.7V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:13ms"><path d="M78.9 252.0V219.6Q78.9 216.1 82.4 216.1H82.4Q85.9 216.1 85.9 219.6V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:19ms"><path d="M87.8 252.0V221.8Q87.8 218.3 91.3 218.3H91.3Q94.8 218.3 94.8 221.8V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:25ms"><path d="M96.8 252.0V227.9Q96.8 224.4 100.3 224.4H100.3Q103.8 224.4 103.8 227.9V252.0ZM105.8 252.0V234.5Q105.8 231.0 109.2 231.0H109.2Q112.7 231.0 112.7 234.5V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:38ms"><path d="M114.7 252.0V227.9Q114.7 224.5 118.2 224.5H118.2Q121.6 224.5 121.6 227.9V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:44ms"><path d="M123.6 252.0V229.6Q123.6 226.1 127.1 226.1H127.1Q130.6 226.1 130.6 229.6V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:50ms"><path d="M132.6 252.0V237.7Q132.6 234.2 136.1 234.2H136.1Q139.5 234.2 139.5 237.7V252.0ZM141.6 252.0V226.8Q141.6 223.3 145.0 223.3H145.0Q148.5 223.3 148.5 226.8V252.0Z" fill="#4189ea"/></g>
 <g class="gs-rise" style="animation-delay:63ms"><path d="M150.5 252.0V226.9Q150.5 223.5 154.0 223.5H154.0Q157.4 223.5 157.4 226.9V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:69ms"><path d="M159.4 252.0V230.1Q159.4 226.6 162.9 226.6H162.9Q166.4 226.6 166.4 230.1V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:75ms"><path d="M168.4 252.0V234.0Q168.4 230.6 171.9 230.6H171.9Q175.3 230.6 175.3 234.0V252.0ZM177.3 252.0V232.5Q177.3 229.0 180.8 229.0H180.8Q184.3 229.0 184.3 232.5V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:88ms"><path d="M186.3 252.0V232.1Q186.3 228.6 189.8 228.6H189.8Q193.2 228.6 193.2 232.1V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:94ms"><path d="M195.3 252.0V206.4Q195.3 202.9 198.7 202.9H198.7Q202.2 202.9 202.2 206.4V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:100ms"><path d="M204.2 252.0V233.4Q204.2 229.9 207.7 229.9H207.7Q211.1 229.9 211.1 233.4V252.0ZM213.1 252.0V231.2Q213.1 227.7 216.6 227.7H216.6Q220.1 227.7 220.1 231.2V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:113ms"><path d="M222.1 252.0V224.0Q222.1 220.5 225.6 220.5H225.6Q229.0 220.5 229.0 224.0V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:119ms"><path d="M231.0 252.0V226.1Q231.0 222.7 234.5 222.7H234.5Q238.0 222.7 238.0 226.1V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:125ms"><path d="M240.0 252.0V226.6Q240.0 223.1 243.5 223.1H243.5Q246.9 223.1 246.9 226.6V252.0ZM248.9 252.0V214.6Q248.9 211.1 252.4 211.1H252.4Q255.9 211.1 255.9 214.6V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:69ms"><path d="M159.4 252.0V230.0Q159.4 226.5 162.9 226.5H162.9Q166.4 226.5 166.4 230.0V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:75ms"><path d="M168.4 252.0V234.1Q168.4 230.7 171.9 230.7H171.9Q175.3 230.7 175.3 234.1V252.0ZM177.3 252.0V232.1Q177.3 228.7 180.8 228.7H180.8Q184.3 228.7 184.3 232.1V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:88ms"><path d="M186.3 252.0V232.4Q186.3 228.9 189.8 228.9H189.8Q193.2 228.9 193.2 232.4V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:94ms"><path d="M195.3 252.0V206.1Q195.3 202.7 198.7 202.7H198.7Q202.2 202.7 202.2 206.1V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:100ms"><path d="M204.2 252.0V233.7Q204.2 230.3 207.7 230.3H207.7Q211.1 230.3 211.1 233.7V252.0ZM213.1 252.0V229.8Q213.1 226.3 216.6 226.3H216.6Q220.1 226.3 220.1 229.8V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:113ms"><path d="M222.1 252.0V225.4Q222.1 221.9 225.6 221.9H225.6Q229.0 221.9 229.0 225.4V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:119ms"><path d="M231.0 252.0V225.3Q231.0 221.8 234.5 221.8H234.5Q238.0 221.8 238.0 225.3V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:125ms"><path d="M240.0 252.0V226.5Q240.0 223.0 243.5 223.0H243.5Q246.9 223.0 246.9 226.5V252.0ZM248.9 252.0V215.4Q248.9 211.9 252.4 211.9H252.4Q255.9 211.9 255.9 215.4V252.0Z" fill="#4189ea"/></g>
 <g class="gs-rise" style="animation-delay:138ms"><path d="M257.9 252.0V217.1Q257.9 213.6 261.4 213.6H261.4Q264.8 213.6 264.8 217.1V252.0Z" fill="#4189ea"/></g>
 <g class="gs-rise" style="animation-delay:144ms"><path d="M266.9 252.0V229.6Q266.9 226.1 270.3 226.1H270.3Q273.8 226.1 273.8 229.6V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:150ms"><path d="M275.8 252.0V224.0Q275.8 220.5 279.3 220.5H279.3Q282.7 220.5 282.7 224.0V252.0ZM284.8 252.0V238.3Q284.8 234.8 288.2 234.8H288.2Q291.7 234.8 291.7 238.3V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:163ms"><path d="M293.7 252.0V238.6Q293.7 235.2 297.2 235.2H297.2Q300.6 235.2 300.6 238.6V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:169ms"><path d="M302.6 252.0V234.6Q302.6 231.1 306.1 231.1H306.1Q309.6 231.1 309.6 234.6V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:175ms"><path d="M311.6 252.0V219.8Q311.6 216.3 315.1 216.3H315.1Q318.5 216.3 318.5 219.8V252.0ZM320.5 252.0V216.6Q320.5 213.2 324.0 213.2H324.0Q327.5 213.2 327.5 216.6V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:188ms"><path d="M329.5 252.0V227.0Q329.5 223.5 333.0 223.5H333.0Q336.4 223.5 336.4 227.0V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:194ms"><path d="M338.4 252.0V231.5Q338.4 228.0 341.9 228.0H341.9Q345.4 228.0 345.4 231.5V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:200ms"><path d="M347.4 252.0V223.6Q347.4 220.1 350.9 220.1H350.9Q354.3 220.1 354.3 223.6V252.0ZM356.3 252.0V231.5Q356.3 228.0 359.8 228.0H359.8Q363.3 228.0 363.3 231.5V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:213ms"><path d="M365.3 252.0V222.2Q365.3 218.8 368.8 218.8H368.8Q372.2 218.8 372.2 222.2V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:219ms"><path d="M374.3 252.0V224.9Q374.3 221.5 377.7 221.5H377.7Q381.2 221.5 381.2 224.9V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:225ms"><path d="M383.2 252.0V241.1Q383.2 237.6 386.7 237.6H386.7Q390.1 237.6 390.1 241.1V252.0ZM392.1 252.0V239.7Q392.1 236.3 395.6 236.3H395.6Q399.1 236.3 399.1 239.7V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:238ms"><path d="M401.1 252.0V230.5Q401.1 227.0 404.6 227.0H404.6Q408.0 227.0 408.0 230.5V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:244ms"><path d="M410.0 252.0V230.7Q410.0 227.2 413.5 227.2H413.5Q417.0 227.2 417.0 230.7V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:250ms"><path d="M419.0 252.0V229.0Q419.0 225.5 422.5 225.5H422.5Q425.9 225.5 425.9 229.0V252.0ZM427.9 252.0V232.2Q427.9 228.7 431.4 228.7H431.4Q434.9 228.7 434.9 232.2V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:263ms"><path d="M436.9 252.0V225.5Q436.9 222.0 440.4 222.0H440.4Q443.8 222.0 443.8 225.5V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:269ms"><path d="M445.8 252.0V224.8Q445.8 221.3 449.3 221.3H449.3Q452.8 221.3 452.8 224.8V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:275ms"><path d="M454.8 252.0V221.1Q454.8 217.6 458.3 217.6H458.3Q461.7 217.6 461.7 221.1V252.0ZM463.7 252.0V221.0Q463.7 217.5 467.2 217.5H467.2Q470.7 217.5 470.7 221.0V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:288ms"><path d="M472.7 252.0V227.0Q472.7 223.5 476.2 223.5H476.2Q479.6 223.5 479.6 227.0V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:294ms"><path d="M481.6 252.0V216.1Q481.6 212.6 485.1 212.6H485.1Q488.6 212.6 488.6 216.1V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:300ms"><path d="M490.6 252.0V221.1Q490.6 217.6 494.1 217.6H494.1Q497.5 217.6 497.5 221.1V252.0ZM499.5 252.0V216.3Q499.5 212.8 503.0 212.8H503.0Q506.5 212.8 506.5 216.3V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:313ms"><path d="M508.5 252.0V226.1Q508.5 222.7 512.0 222.7H512.0Q515.4 222.7 515.4 226.1V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:319ms"><path d="M517.5 252.0V220.1Q517.5 216.6 520.9 216.6H520.9Q524.4 216.6 524.4 220.1V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:325ms"><path d="M526.4 252.0V220.6Q526.4 217.1 529.9 217.1H529.9Q533.4 217.1 533.4 220.6V252.0ZM535.3 252.0V220.9Q535.3 217.4 538.8 217.4H538.8Q542.3 217.4 542.3 220.9V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:338ms"><path d="M544.3 252.0V228.7Q544.3 225.2 547.8 225.2H547.8Q551.3 225.2 551.3 228.7V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:344ms"><path d="M553.3 252.0V213.6Q553.3 210.1 556.7 210.1H556.7Q560.2 210.1 560.2 213.6V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:350ms"><path d="M562.2 252.0V221.7Q562.2 218.2 565.7 218.2H565.7Q569.1 218.2 569.1 221.7V252.0ZM571.1 252.0V218.0Q571.1 214.5 574.6 214.5H574.6Q578.1 214.5 578.1 218.0V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:363ms"><path d="M580.1 252.0V221.0Q580.1 217.5 583.6 217.5H583.6Q587.0 217.5 587.0 221.0V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:369ms"><path d="M589.0 252.0V221.4Q589.0 217.9 592.5 217.9H592.5Q596.0 217.9 596.0 221.4V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:375ms"><path d="M598.0 252.0V210.5Q598.0 207.0 601.5 207.0H601.5Q605.0 207.0 605.0 210.5V252.0ZM606.9 252.0V181.8Q606.9 178.3 610.4 178.3H610.4Q613.9 178.3 613.9 181.8V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:388ms"><path d="M615.9 252.0V210.2Q615.9 206.7 619.4 206.7H619.4Q622.9 206.7 622.9 210.2V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:394ms"><path d="M624.8 252.0V211.6Q624.8 208.2 628.3 208.2H628.3Q631.8 208.2 631.8 211.6V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:400ms"><path d="M633.8 252.0V207.7Q633.8 204.3 637.3 204.3H637.3Q640.8 204.3 640.8 207.7V252.0ZM642.8 252.0V203.6Q642.8 200.1 646.2 200.1H646.2Q649.7 200.1 649.7 203.6V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:413ms"><path d="M651.7 252.0V204.9Q651.7 201.5 655.2 201.5H655.2Q658.6 201.5 658.6 204.9V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:419ms"><path d="M660.6 252.0V203.8Q660.6 200.4 664.1 200.4H664.1Q667.6 200.4 667.6 203.8V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:425ms"><path d="M669.6 252.0V198.7Q669.6 195.2 673.1 195.2H673.1Q676.5 195.2 676.5 198.7V252.0ZM678.5 252.0V214.8Q678.5 211.3 682.0 211.3H682.0Q685.5 211.3 685.5 214.8V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:438ms"><path d="M687.5 252.0V201.6Q687.5 198.1 691.0 198.1H691.0Q694.5 198.1 694.5 201.6V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:444ms"><path d="M696.4 252.0V193.5Q696.4 190.1 699.9 190.1H699.9Q703.4 190.1 703.4 193.5V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:450ms"><path d="M705.4 252.0V208.4Q705.4 205.0 708.9 205.0H708.9Q712.4 205.0 712.4 208.4V252.0ZM714.3 252.0V224.6Q714.3 221.1 717.8 221.1H717.8Q721.3 221.1 721.3 224.6V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:463ms"><path d="M723.3 252.0V208.5Q723.3 205.0 726.8 205.0H726.8Q730.3 205.0 730.3 208.5V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:469ms"><path d="M732.3 252.0V191.8Q732.3 188.3 735.7 188.3H735.7Q739.2 188.3 739.2 191.8V252.0Z" fill="#4189ea"/></g>
-<g class="gs-rise" style="animation-delay:475ms"><path d="M741.2 252.0V184.0Q741.2 180.6 744.7 180.6H744.7Q748.1 180.6 748.1 184.0V252.0ZM750.1 252.0V204.3H757.1V252.0Z" fill="#4189ea"/><path d="M750.1 202.3V184.9H757.1V202.3Z" fill="#dd5f2f"/><path d="M750.1 182.9V168.7H757.1V182.9Z" fill="#1c9f74"/><path d="M750.1 166.7V160.3H757.1V166.7Z" fill="#c4860f"/><path d="M750.1 158.3V151.6H757.1V158.3Z" fill="#d45287"/><path d="M750.1 149.6V143.2H757.1V149.6Z" fill="#2b962b"/><path d="M750.1 141.2V137.1Q750.1 133.6 753.6 133.6H753.6Q757.1 133.6 757.1 137.1V141.2Z" fill="#9085e9"/></g>
-<g class="gs-rise" style="animation-delay:488ms"><path d="M759.1 252.0V228.2H766.0V252.0Z" fill="#4189ea"/><path d="M759.1 226.2V225.2H766.0V226.2Z" fill="#dd5f2f"/><path d="M759.1 223.5V222.5H766.0V223.5Z" fill="#1c9f74"/><path d="M759.1 221.4V220.4H766.0V221.4Z" fill="#c4860f"/><path d="M759.1 220.0V219.0H766.0V220.0Z" fill="#d45287"/><path d="M759.1 218.5V217.5H766.0V218.5Z" fill="#2b962b"/><path d="M759.1 217.5V217.5Q759.1 216.5 760.1 216.5H765.0Q766.0 216.5 766.0 217.5V217.5Z" fill="#9085e9"/></g>
-<g class="gs-rise" style="animation-delay:494ms"><path d="M768.0 252.0V234.2H775.0V252.0Z" fill="#4189ea"/><path d="M768.0 232.2V231.2H775.0V232.2Z" fill="#dd5f2f"/><path d="M768.0 231.8V230.8H775.0V231.8Z" fill="#1c9f74"/><path d="M768.0 231.2V230.2H775.0V231.2Z" fill="#c4860f"/><path d="M768.0 231.0V230.0H775.0V231.0Z" fill="#d45287"/><path d="M768.0 230.8V229.8H775.0V230.8Z" fill="#2b962b"/><path d="M768.0 230.6V230.6Q768.0 229.6 769.0 229.6H774.0Q775.0 229.6 775.0 230.6V230.6Z" fill="#9085e9"/></g>
+<g class="gs-rise" style="animation-delay:150ms"><path d="M275.8 252.0V224.3Q275.8 220.8 279.3 220.8H279.3Q282.7 220.8 282.7 224.3V252.0ZM284.8 252.0V238.1Q284.8 234.7 288.2 234.7H288.2Q291.7 234.7 291.7 238.1V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:163ms"><path d="M293.7 252.0V237.5Q293.7 234.1 297.2 234.1H297.2Q300.6 234.1 300.6 237.5V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:169ms"><path d="M302.6 252.0V234.9Q302.6 231.5 306.1 231.5H306.1Q309.6 231.5 309.6 234.9V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:175ms"><path d="M311.6 252.0V220.3Q311.6 216.9 315.1 216.9H315.1Q318.5 216.9 318.5 220.3V252.0ZM320.5 252.0V216.4Q320.5 212.9 324.0 212.9H324.0Q327.5 212.9 327.5 216.4V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:188ms"><path d="M329.5 252.0V227.1Q329.5 223.7 333.0 223.7H333.0Q336.4 223.7 336.4 227.1V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:194ms"><path d="M338.4 252.0V231.5Q338.4 228.1 341.9 228.1H341.9Q345.4 228.1 345.4 231.5V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:200ms"><path d="M347.4 252.0V223.7Q347.4 220.2 350.9 220.2H350.9Q354.3 220.2 354.3 223.7V252.0ZM356.3 252.0V231.5Q356.3 228.0 359.8 228.0H359.8Q363.3 228.0 363.3 231.5V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:213ms"><path d="M365.3 252.0V222.3Q365.3 218.8 368.8 218.8H368.8Q372.2 218.8 372.2 222.3V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:219ms"><path d="M374.3 252.0V224.8Q374.3 221.3 377.7 221.3H377.7Q381.2 221.3 381.2 224.8V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:225ms"><path d="M383.2 252.0V241.3Q383.2 237.9 386.7 237.9H386.7Q390.1 237.9 390.1 241.3V252.0ZM392.1 252.0V239.4Q392.1 236.0 395.6 236.0H395.6Q399.1 236.0 399.1 239.4V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:238ms"><path d="M401.1 252.0V230.6Q401.1 227.1 404.6 227.1H404.6Q408.0 227.1 408.0 230.6V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:244ms"><path d="M410.0 252.0V230.9Q410.0 227.4 413.5 227.4H413.5Q417.0 227.4 417.0 230.9V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:250ms"><path d="M419.0 252.0V229.0Q419.0 225.5 422.5 225.5H422.5Q425.9 225.5 425.9 229.0V252.0ZM427.9 252.0V231.6Q427.9 228.1 431.4 228.1H431.4Q434.9 228.1 434.9 231.6V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:263ms"><path d="M436.9 252.0V225.7Q436.9 222.2 440.4 222.2H440.4Q443.8 222.2 443.8 225.7V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:269ms"><path d="M445.8 252.0V224.4Q445.8 221.0 449.3 221.0H449.3Q452.8 221.0 452.8 224.4V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:275ms"><path d="M454.8 252.0V221.8Q454.8 218.3 458.3 218.3H458.3Q461.7 218.3 461.7 221.8V252.0ZM463.7 252.0V220.7Q463.7 217.3 467.2 217.3H467.2Q470.7 217.3 470.7 220.7V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:288ms"><path d="M472.7 252.0V226.7Q472.7 223.2 476.2 223.2H476.2Q479.6 223.2 479.6 226.7V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:294ms"><path d="M481.6 252.0V215.2Q481.6 211.8 485.1 211.8H485.1Q488.6 211.8 488.6 215.2V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:300ms"><path d="M490.6 252.0V220.8Q490.6 217.3 494.1 217.3H494.1Q497.5 217.3 497.5 220.8V252.0ZM499.5 252.0V217.9Q499.5 214.4 503.0 214.4H503.0Q506.5 214.4 506.5 217.9V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:313ms"><path d="M508.5 252.0V224.5Q508.5 221.0 512.0 221.0H512.0Q515.4 221.0 515.4 224.5V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:319ms"><path d="M517.5 252.0V221.2Q517.5 217.7 520.9 217.7H520.9Q524.4 217.7 524.4 221.2V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:325ms"><path d="M526.4 252.0V220.7Q526.4 217.2 529.9 217.2H529.9Q533.4 217.2 533.4 220.7V252.0ZM535.3 252.0V220.4Q535.3 217.0 538.8 217.0H538.8Q542.3 217.0 542.3 220.4V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:338ms"><path d="M544.3 252.0V229.4Q544.3 226.0 547.8 226.0H547.8Q551.3 226.0 551.3 229.4V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:344ms"><path d="M553.3 252.0V213.4Q553.3 209.9 556.7 209.9H556.7Q560.2 209.9 560.2 213.4V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:350ms"><path d="M562.2 252.0V221.7Q562.2 218.2 565.7 218.2H565.7Q569.1 218.2 569.1 221.7V252.0ZM571.1 252.0V217.1Q571.1 213.6 574.6 213.6H574.6Q578.1 213.6 578.1 217.1V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:363ms"><path d="M580.1 252.0V221.7Q580.1 218.2 583.6 218.2H583.6Q587.0 218.2 587.0 221.7V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:369ms"><path d="M589.0 252.0V221.1Q589.0 217.6 592.5 217.6H592.5Q596.0 217.6 596.0 221.1V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:375ms"><path d="M598.0 252.0V209.5Q598.0 206.0 601.5 206.0H601.5Q605.0 206.0 605.0 209.5V252.0ZM606.9 252.0V182.8Q606.9 179.4 610.4 179.4H610.4Q613.9 179.4 613.9 182.8V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:388ms"><path d="M615.9 252.0V210.6Q615.9 207.1 619.4 207.1H619.4Q622.9 207.1 622.9 210.6V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:394ms"><path d="M624.8 252.0V211.8Q624.8 208.4 628.3 208.4H628.3Q631.8 208.4 631.8 211.8V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:400ms"><path d="M633.8 252.0V207.3Q633.8 203.8 637.3 203.8H637.3Q640.8 203.8 640.8 207.3V252.0ZM642.8 252.0V203.1Q642.8 199.6 646.2 199.6H646.2Q649.7 199.6 649.7 203.1V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:413ms"><path d="M651.7 252.0V205.8Q651.7 202.3 655.2 202.3H655.2Q658.6 202.3 658.6 205.8V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:419ms"><path d="M660.6 252.0V202.1Q660.6 198.6 664.1 198.6H664.1Q667.6 198.6 667.6 202.1V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:425ms"><path d="M669.6 252.0V200.2Q669.6 196.8 673.1 196.8H673.1Q676.5 196.8 676.5 200.2V252.0ZM678.5 252.0V215.0Q678.5 211.5 682.0 211.5H682.0Q685.5 211.5 685.5 215.0V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:438ms"><path d="M687.5 252.0V200.8Q687.5 197.3 691.0 197.3H691.0Q694.5 197.3 694.5 200.8V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:444ms"><path d="M696.4 252.0V193.2Q696.4 189.7 699.9 189.7H699.9Q703.4 189.7 703.4 193.2V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:450ms"><path d="M705.4 252.0V208.3Q705.4 204.8 708.9 204.8H708.9Q712.4 204.8 712.4 208.3V252.0ZM714.3 252.0V225.7Q714.3 222.2 717.8 222.2H717.8Q721.3 222.2 721.3 225.7V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:463ms"><path d="M723.3 252.0V208.4Q723.3 204.9 726.8 204.9H726.8Q730.3 204.9 730.3 208.4V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:469ms"><path d="M732.3 252.0V191.3Q732.3 187.8 735.7 187.8H735.7Q739.2 187.8 739.2 191.3V252.0Z" fill="#4189ea"/></g>
+<g class="gs-rise" style="animation-delay:475ms"><path d="M741.2 252.0V183.8Q741.2 180.3 744.7 180.3H744.7Q748.1 180.3 748.1 183.8V252.0ZM750.1 252.0V203.8H757.1V252.0Z" fill="#4189ea"/><path d="M750.1 201.8V182.3H757.1V201.8Z" fill="#dd5f2f"/><path d="M750.1 180.3V164.6H757.1V180.3Z" fill="#1c9f74"/><path d="M750.1 162.6V155.2H757.1V162.6Z" fill="#c4860f"/><path d="M750.1 153.2V145.5H757.1V153.2Z" fill="#d45287"/><path d="M750.1 143.5V136.5H757.1V143.5Z" fill="#2b962b"/><path d="M750.1 134.5V129.7Q750.1 126.2 753.6 126.2H753.6Q757.1 126.2 757.1 129.7V134.5Z" fill="#9085e9"/></g>
+<g class="gs-rise" style="animation-delay:488ms"><path d="M759.1 252.0V229.5H766.0V252.0Z" fill="#4189ea"/><path d="M759.1 227.5V226.5H766.0V227.5Z" fill="#dd5f2f"/><path d="M759.1 226.7V225.7H766.0V226.7Z" fill="#1c9f74"/><path d="M759.1 225.9V224.9H766.0V225.9Z" fill="#c4860f"/><path d="M759.1 225.5V224.5H766.0V225.5Z" fill="#d45287"/><path d="M759.1 224.9V223.9H766.0V224.9Z" fill="#2b962b"/><path d="M759.1 224.6V224.6Q759.1 223.6 760.1 223.6H765.0Q766.0 223.6 766.0 224.6V224.6Z" fill="#9085e9"/></g>
+<g class="gs-rise" style="animation-delay:494ms"><path d="M768.0 252.0V235.2H775.0V252.0Z" fill="#4189ea"/><path d="M768.0 233.2V232.2H775.0V233.2Z" fill="#dd5f2f"/><path d="M768.0 232.8V231.8H775.0V232.8Z" fill="#1c9f74"/><path d="M768.0 232.5V231.5H775.0V232.5Z" fill="#c4860f"/><path d="M768.0 232.3V231.3H775.0V232.3Z" fill="#d45287"/><path d="M768.0 232.1V231.1H775.0V232.1Z" fill="#2b962b"/><path d="M768.0 231.9V231.9Q768.0 230.9 769.0 230.9H774.0Q775.0 230.9 775.0 231.9V231.9Z" fill="#9085e9"/></g>
 </g>
 </svg>

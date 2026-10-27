@@ -1,0 +1,121 @@
+{
+  "schema": 1,
+  "date": "2026-10-27",
+  "takenAt": "2026-10-27T10:04:46.111Z",
+  "repo": {
+    "stars": 107,
+    "forks": 42,
+    "watchers": 3,
+    "openIssues": 0
+  },
+  "releases": [
+    {
+      "tag": "@passcore/vue@1.0.0",
+      "publishedAt": "2026-10-08T22:19:47Z",
+      "prerelease": false,
+      "assets": []
+    },
+    {
+      "tag": "@passcore/vue@0.1.0",
+      "publishedAt": "2026-10-08T20:43:58Z",
+      "prerelease": false,
+      "assets": []
+    },
+    {
+      "tag": "@passcore/vanilla@1.0.0",
+      "publishedAt": "2026-10-08T22:19:44Z",
+      "prerelease": false,
+      "assets": []
+    },
+    {
+      "tag": "@passcore/vanilla@0.1.0",
+      "publishedAt": "2026-10-08T20:43:56Z",
+      "prerelease": false,
+      "assets": []
+    },
+    {
+      "tag": "@passcore/svelte@1.0.0",
+      "publishedAt": "2026-10-08T22:19:41Z",
+      "prerelease": false,
+      "assets": []
+    },
+    {
+      "tag": "@passcore/svelte@0.1.0",
+      "publishedAt": "2026-10-08T20:44:00Z",
+      "prerelease": false,
+      "assets": []
+    },
+    {
+      "tag": "@passcore/react@1.0.0",
+      "publishedAt": "2026-10-08T22:19:38Z",
+      "prerelease": false,
+      "assets": []
+    },
+    {
+      "tag": "@passcore/react@0.1.0",
+      "publishedAt": "2026-10-08T20:43:57Z",
+      "prerelease": false,
+      "assets": []
+    },
+    {
+      "tag": "@passcore/jquery@1.0.0",
+      "publishedAt": "2026-10-08T22:15:15Z",
+      "prerelease": false,
+      "assets": []
+    },
+    {
+      "tag": "@passcore/jquery@0.3.0",
+      "publishedAt": "2026-10-08T20:12:58Z",
+      "prerelease": false,
+      "assets": []
+    },
+    {
+      "tag": "@passcore/jquery@0.2.0",
+      "publishedAt": "2026-10-08T17:52:45Z",
+      "prerelease": false,
+      "assets": []
+    },
+    {
+      "tag": "@passcore/core@1.0.0",
+      "publishedAt": "2026-10-08T22:15:12Z",
+      "prerelease": false,
+      "assets": []
+    },
+    {
+      "tag": "@passcore/core@0.2.1",
+      "publishedAt": "2026-10-08T20:12:55Z",
+      "prerelease": false,
+      "assets": []
+    },
+    {
+      "tag": "@passcore/core@0.2.0",
+      "publishedAt": "2026-10-08T17:52:44Z",
+      "prerelease": false,
+      "assets": []
+    },
+    {
+      "tag": "v2.1.0",
+      "publishedAt": "2020-03-30T12:57:12Z",
+      "prerelease": false,
+      "assets": []
+    },
+    {
+      "tag": "v2.0.0",
+      "publishedAt": "2020-03-30T12:56:43Z",
+      "prerelease": false,
+      "assets": []
+    },
+    {
+      "tag": "1.1.0",
+      "publishedAt": "2017-03-12T23:27:13Z",
+      "prerelease": false,
+      "assets": []
+    },
+    {
+      "tag": "1.0.0",
+      "publishedAt": "2017-03-12T14:04:55Z",
+      "prerelease": false,
+      "assets": []
+    }
+  ]
+}

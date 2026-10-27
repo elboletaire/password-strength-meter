@@ -555,8 +555,9 @@
   {"date":"2026-10-20","downloads":0},
   {"date":"2026-10-21","downloads":0},
   {"date":"2026-10-22","downloads":2},
-  {"date":"2026-10-23","downloads":0},
-  {"date":"2026-10-24","downloads":0},
-  {"date":"2026-10-25","downloads":0}
+  {"date":"2026-10-23","downloads":2},
+  {"date":"2026-10-24","downloads":1},
+  {"date":"2026-10-25","downloads":1},
+  {"date":"2026-10-26","downloads":0}
 ]
 }
